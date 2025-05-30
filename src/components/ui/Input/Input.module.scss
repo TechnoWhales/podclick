@@ -1,6 +1,5 @@
 .container {
   width: 330px;
-  height: 60px;
 }
 
 .label {
@@ -10,8 +9,47 @@
   line-height: 24px;
   color: var(--color-dark-100);
 }
+.searchIcon {
+  position: relative;
+  & svg {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 15px;
+    height: 15px;
+    fill: var(--color-light-900);
+  }
+  &.disabled {
+    & svg {
+      fill: var(--color-dark-100);
+    }
+  }
+}
 
-.inputWrapper {
+.iconEye {
+  position: relative;
+  .eyeBtn {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    top: -30px;
+    right: 10px;
+    cursor: pointer;
+    & svg {
+      fill: var(--color-light-900);
+    }
+
+  }
+  &.disabled {
+    & svg {
+      fill: var(--color-dark-100);
+    }
+  }
+
 }
 
 .input {
@@ -23,19 +61,15 @@
   background-color: transparent;
   outline: none;
   font-size: var(--font-size-s);
-  &.horizontalBorders {
-    border-left: none;
-    border-right: none;
+  color: var(--color-light-100);
+  &::placeholder {
+    color: var(--color-dark-100);
   }
   &.iconStart {
-    padding-left: 36px;
+    padding-left: 32px;
   }
   &.iconEnd {
-    padding-right: 25px;
-  }
-  &::placeholder {
-    font-weight: var(--font-weight-400);
-    color: var(--color-light-900);
+    padding-right: 36px;
   }
   &:hover {
     border-color: var(--color-light-900);
@@ -54,18 +88,44 @@
   }
   &.error {
     border-color: var(--color-danger-500);
-    color: var(--color-dark-100);
     &::placeholder {
       color: var(--color-light-100);
+    }
+  }
+  &.horizontalBorders {
+    border-left: none;
+    border-right: none;
+    &:focus {
+      border: 1px solid var(--color-accent-500);
+      border-top-width: 2px;
+    }
+  }
+  &.disabled {
+    &::placeholder {
+      color: var(--color-dark-100);
+    }
+    &:hover {
+      border-color: var(--color-dark-100);
+    }
+    &:active {
+      border-color: var(--color-dark-100);
+      border-radius: 2px;
+      background: transparent;
+      caret-color: var(--color-light-100);
     }
   }
 }
 
 .errorText {
-  height: 24px;
+  max-height: 48px;
+  display: inline-block;
+  word-break: break-word;
+  width: 330px;
+  min-height: 24px;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-400);
   line-height: 24px;
   color: var(--color-danger-500);
+  overflow: hidden;
 }
 
