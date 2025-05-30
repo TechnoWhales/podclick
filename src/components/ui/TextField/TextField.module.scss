@@ -1,5 +1,8 @@
 .container {
   width: 330px;
+  &.fullWidth {
+    width: 100%;
+  }
 }
 
 .label {
@@ -26,7 +29,7 @@
   }
 }
 
-.iconEye {
+.eyeIcon {
   position: relative;
   .eyeBtn {
     position: absolute;
@@ -52,7 +55,7 @@
 
 }
 
-.input {
+.textField {
   width: 100%;
   height: 36px;
   padding: 6px 12px;
@@ -114,13 +117,31 @@
       caret-color: var(--color-light-100);
     }
   }
+  &.multiline {
+    height: auto;
+    resize: none;
+    border-top: none;
+    border-width: 1px;
+    overflow: hidden;
+    overflow-y: auto;
+    background: var(--color-dark-500);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &:focus {
+      border-top: 2px solid var(--color-accent-500);
+    }
+  }
+
 }
 
 .errorText {
   max-height: 48px;
   display: inline-block;
   word-break: break-word;
-  width: 330px;
+  width: 100%;
   min-height: 24px;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-400);
