@@ -6,13 +6,15 @@ import clsx from 'clsx'
 import s from './TextField.module.scss'
 
 type InputVariant = 'fullBorders' | 'horizontalBorders'
+
 type InputMode = 'default' | 'search' | 'password'
 
 type BaseTextField = {
   value: string
   label?: string
   error?: string
-  fullWidth?: boolean
+  margin?: string // margin контейнера
+  fullWidth?: boolean // занимает всю ширину контейнера
 }
 
 type InputProps = BaseTextField & {
@@ -35,13 +37,25 @@ export const TextField = (props: TextFieldProps) => {
   const { error, fullWidth, disabled } = props
   const containerStyle = clsx(s.container, fullWidth && s.fullWidth)
 
+  // Если передан multiline рендерим textarea
   if (props.multiline) {
-    const { onChange, className, label, value, multiline, fullWidth, rows = 4, ...rest } = props
+    const {
+      onChange,
+      className,
+      label,
+      value,
+      multiline,
+      fullWidth,
+      rows = 4,
+      disabled,
+      margin,
+      ...rest
+    } = props
 
     const textAreaStyle = clsx(s.textField, s.multiline, error && s.error, disabled && s.disabled)
 
     return (
-      <div className={containerStyle}>
+      <div className={containerStyle} style={{ margin: margin && margin }}>
         {label && (
           <label className={clsx(s.label)} htmlFor={inputId}>
             {label}
@@ -68,6 +82,7 @@ export const TextField = (props: TextFieldProps) => {
     variant = 'fullBorders',
     mode = 'default',
     value,
+    margin,
     ...rest
   } = props
 
@@ -81,7 +96,7 @@ export const TextField = (props: TextFieldProps) => {
   )
 
   return (
-    <div className={containerStyle}>
+    <div className={containerStyle} style={{ margin: margin && margin }}>
       {label && (
         <label className={clsx(s.label)} htmlFor={inputId}>
           {label}
