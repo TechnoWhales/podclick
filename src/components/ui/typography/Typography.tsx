@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+
 import s from './Typography.module.scss'
 
 export type TypographyVariant =

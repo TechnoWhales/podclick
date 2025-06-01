@@ -1,11 +1,12 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { Typography, TypographyVariant } from './Typography'
 import { ElementType } from 'react'
 
+import { Meta, StoryObj } from '@storybook/react'
+
+import { Typography, TypographyVariant } from './Typography'
+
 const meta = {
-  title: "Components/Typography",
+  title: 'Components/Typography',
   component: Typography,
-  
 } satisfies Meta<typeof Typography>
 
 export default meta
@@ -79,7 +80,7 @@ export const Heading1: Story = {
   args: {
     children: 'I am Heading Level 1',
     variant: 'h1',
-    as: 'h1'
+    as: 'h1',
   },
 }
 
@@ -87,7 +88,7 @@ export const Heading2: Story = {
   args: {
     children: 'I am Heading Level 2',
     variant: 'h2',
-    as: 'h2'
+    as: 'h2',
   },
 }
 
@@ -95,7 +96,7 @@ export const Heading3: Story = {
   args: {
     children: 'I am Heading Level 3',
     variant: 'h3',
-    as: 'h3'
+    as: 'h3',
   },
 }
 
@@ -153,8 +154,8 @@ export const RegularLink: Story = {
     children: 'I am 14px regular link',
     variant: 'regular_link',
     as: 'a',
-    href: '/', 
-    target: '_blank'
+    href: '/',
+    target: '_blank',
   },
 }
 
@@ -163,8 +164,8 @@ export const SmallLink: Story = {
     children: 'I am 12px small link',
     variant: 'small_link',
     as: 'a',
-    href: '/', 
-    target: '_blank'
+    href: '/',
+    target: '_blank',
   },
 }
 
