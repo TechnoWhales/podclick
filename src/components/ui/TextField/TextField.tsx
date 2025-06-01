@@ -10,6 +10,7 @@ type InputVariant = 'fullBorders' | 'horizontalBorders'
 type InputMode = 'default' | 'search' | 'password'
 
 type BaseTextField = {
+  /** Render the Button using any element if asChild true */
   value: string
   label?: string
   error?: string
