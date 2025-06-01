@@ -11,7 +11,6 @@ type InputVariant = 'fullBorders' | 'horizontalBorders'
 type InputMode = 'default' | 'search' | 'password'
 
 type BaseTextField = {
-  /** Render the Button using any element if asChild true */
   value: string
   label?: string
   error?: string
@@ -59,9 +58,14 @@ export const TextField = (props: TextFieldProps) => {
     return (
       <div className={containerStyle} style={{ margin: margin && margin }}>
         {label && (
-          <label className={clsx(s.label)} htmlFor={inputId}>
+          <Typography
+            variant={'regular_text_14'}
+            as={'label'}
+            className={clsx(s.label)}
+            htmlFor={inputId}
+          >
             {label}
-          </label>
+          </Typography>
         )}
         <textarea
           id={inputId}
@@ -72,7 +76,11 @@ export const TextField = (props: TextFieldProps) => {
           rows={rows}
           {...rest}
         />
-        {error && <span className={clsx(s.errorText)}>{error}</span>}
+        {error && (
+          <Typography as={'span'} className={clsx(s.errorText)}>
+            {error}
+          </Typography>
+        )}
       </div>
     )
   }
@@ -101,7 +109,7 @@ export const TextField = (props: TextFieldProps) => {
     <div className={containerStyle} style={{ margin: margin && margin }}>
       {label && (
         <Typography
-          variant={'regular_text_16'}
+          variant={'regular_text_14'}
           as={'label'}
           className={clsx(s.label)}
           htmlFor={inputId}
@@ -143,7 +151,11 @@ export const TextField = (props: TextFieldProps) => {
           </button>
         </div>
       )}
-      {error && <span className={clsx(s.errorText)}>{error}</span>}
+      {error && (
+        <Typography as={'span'} className={clsx(s.errorText)}>
+          {error}
+        </Typography>
+      )}
     </div>
   )
 }

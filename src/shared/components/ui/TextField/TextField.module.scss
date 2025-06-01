@@ -15,9 +15,6 @@
 
 .label {
   height: 24px;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-400);
-  line-height: var(--line-height-l);
   color: var(--color-dark-100);
 }
 
@@ -117,6 +114,7 @@
     }
   }
   &.disabled {
+    color: var(--color-dark-100);;
     &::placeholder {
       color: var(--color-dark-100);
     }
@@ -151,6 +149,13 @@
     }
   }
 }
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  overflow: hidden;
+  word-break: break-word;
+}
 
 .errorText {
   width: 100%;
@@ -162,6 +167,8 @@
   line-height: var(--line-height-l);
   color: var(--color-danger-500);
   word-break: break-word;
-  overflow: hidden;
 }
 
+.errorText {
+  @include line-clamp(2);
+}
