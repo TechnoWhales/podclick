@@ -73,3 +73,7 @@
 .error {
   @include typography(var(--font-size-xs), var(--line-height-xl), _, var(--color-danger-500));
 }
+
+.caption {
+  @include typography(var(--font-size-xxs), var(--line-height-2xl), _, var(--color-accent-500));
+}

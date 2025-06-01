@@ -16,6 +16,7 @@ export type TypographyVariant =
   | 'regular_link'
   | 'small_link'
   | 'error'
+  | 'caption'
 
 export type TypographyProps<T extends ElementType = 'p'> = {
   as?: T
