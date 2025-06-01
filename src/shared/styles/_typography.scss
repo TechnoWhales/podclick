@@ -1,17 +1,15 @@
 :root {
+  --font-family-primary: 'Inter', sans-serif;
   font-size: 16px;
 
   // line-height
-  --line-height-xs: 1; 
+  --line-height-xs: 1;
   --line-height-s: 1.33;
   --line-height-m: 1.385;
-  --line-height-l: 1.5; 
+  --line-height-l: 1.5;
   --line-height-xl: 1.71;
   --line-height-xxl: 1.8;
-
-  // --line-height-s: 16px;
-  // --line-height-m: 24px;
-  // --line-height-l: 36px;
+  --line-height-2xl: 2;
 
   // font-size
   --font-size-xxs: 0.75rem; /* 12px */
