@@ -1,5 +1,5 @@
-import { TextField } from '@/components/ui/TextField/TextField'
 import { Meta, StoryObj } from '@storybook/react'
+import { TextField } from '@/shared/components/ui/TextField/TextField'
 
 const meta = {
   component: TextField,

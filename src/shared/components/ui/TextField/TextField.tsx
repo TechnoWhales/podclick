@@ -1,6 +1,7 @@
 import { ChangeEvent, ComponentPropsWithoutRef, useId, useState } from 'react'
 
-import Icon from '@/components/ui/Icon/Icon'
+import { Typography } from '@/shared/components/ui'
+import Icon from '@/shared/components/ui/Icon/Icon'
 import clsx from 'clsx'
 
 import s from './TextField.module.scss'
@@ -99,9 +100,14 @@ export const TextField = (props: TextFieldProps) => {
   return (
     <div className={containerStyle} style={{ margin: margin && margin }}>
       {label && (
-        <label className={clsx(s.label)} htmlFor={inputId}>
+        <Typography
+          variant={'regular_text_16'}
+          as={'label'}
+          className={clsx(s.label)}
+          htmlFor={inputId}
+        >
           {label}
-        </label>
+        </Typography>
       )}
       {mode === 'search' && (
         <div className={clsx(s.searchIcon, disabled && s.disabled)}>
