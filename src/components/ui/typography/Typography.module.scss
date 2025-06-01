@@ -62,12 +62,22 @@
 
 .regular_link {
   @include typography(var(--font-size-xs), var(--line-height-xl), _, var(--color-accent-500));
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .small_link {
   @include typography(var(--font-size-xxs), var(--line-height-s), _, var(--color-accent-500));
   text-decoration: underline;
   text-decoration-skip-ink: none;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .error {
