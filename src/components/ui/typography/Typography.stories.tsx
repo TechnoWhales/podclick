@@ -27,6 +27,7 @@ const TypographyAll = () => {
     { name: 'Regular Link', variant: 'regular_link' },
     { name: 'Small Link', variant: 'small_link' },
     { name: 'Error', variant: 'error' },
+    { name: 'Caption', variant: 'caption' },
   ] satisfies Array<{ name: string; variant: TypographyVariant; as?: ElementType }>
 
   return (
@@ -171,5 +172,12 @@ export const Error: Story = {
   args: {
     children: 'Oh no! I am Error',
     variant: 'error',
+  },
+}
+
+export const Caption: Story = {
+  args: {
+    children: 'I am caption',
+    variant: 'caption',
   },
 }
