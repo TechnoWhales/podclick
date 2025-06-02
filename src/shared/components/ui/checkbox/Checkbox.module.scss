@@ -1,0 +1,115 @@
+.checkboxWrapper {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  width: fit-content;
+}
+
+.checkboxRoot {
+  all: unset;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  border: 2px solid var(--color-light-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &[data-state='checked'] {
+    background: var(--color-light-100);
+    border-color: transparent;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    z-index: -1;
+    opacity: 0;
+    transition:
+      opacity 0.1s,
+      background 0.1s;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover:not([disabled])::before {
+    background: var(--color-dark-300);
+    opacity: 1;
+  }
+
+  &:focus:not([disabled])::before {
+    background: var(--color-dark-500);
+    opacity: 1;
+  }
+
+  &:active:not([disabled]):hover::before {
+    background: var(--color-dark-100);
+    opacity: 1;
+  }
+
+  &:not(:hover)::before {
+    opacity: 0 !important;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+
+    &[data-state='checked'] {
+      background: var(--color-dark-100);
+      border-color: transparent;
+
+      .checkboxIndicator .checkmark {
+        background: var(--color-light-700);
+      }
+    }
+
+    &[data-state='unchecked'] {
+      background: transparent;
+      border-color: var(--color-light-900);
+    }
+  }
+}
+
+.checkboxIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  .checkmark {
+    width: 16px;
+    height: 12px;
+    background: var(--color-dark-900);
+    clip-path: polygon(10% 50%, 0% 65%, 40% 100%, 100% 15%, 90% 0%, 38% 75%);
+    margin-top: -1px;
+  }
+}
+
+.label {
+  margin-left: 10px;
+  color: var(--color-light-100);
+  font-family: Inter, sans-serif;
+  font-size: var(--font-size-xs); /* 14px */
+  font-weight: var(--font-weight-400);
+  line-height: var(--line-height-m); /* 24px */
+  letter-spacing: 0%;
+  text-align: left;
+  cursor: pointer;
+
+  .checkboxRoot[disabled] + & {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
