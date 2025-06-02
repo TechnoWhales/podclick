@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react'
 import { TextField } from '@/shared/components/ui/TextField/TextField'
+import { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   component: TextField,
@@ -124,6 +124,14 @@ export const Default: Story = {
   },
 }
 
+export const Controled: Story = {
+  args: {
+    value: '',
+    label: 'Email',
+    placeholder: 'Epam@epam.com',
+  },
+}
+
 export const HorizontalBorders: Story = {
   args: {
     value: '',
@@ -170,10 +178,3 @@ export const Fullwidth: Story = {
     fullWidth: true,
   },
 }
-
-// export const Multiline: Story = {
-//   args: {
-//     ...Default.args,
-//     multiline: true,
-//   },
-// }
