@@ -14,8 +14,8 @@ type BaseTextField = {
   value: string
   label?: string
   error?: string
-  margin?: string // margin контейнера
-  fullWidth?: boolean // занимает всю ширину контейнера
+  margin?: string
+  fullWidth?: boolean
 }
 
 type InputProps = BaseTextField & {
@@ -35,38 +35,33 @@ type TextFieldProps = InputProps | TextAreaProps
 export const TextField = (props: TextFieldProps) => {
   const [hidePassword, setHidePassword] = useState(false)
   const inputId = useId()
-  const { error, fullWidth, disabled } = props
+  const { error, fullWidth, disabled, label, margin } = props
   const containerStyle = clsx(s.container, fullWidth && s.fullWidth)
+  const marginContainer = margin ? { margin } : undefined
+  const labelComponent = label && (
+    <Typography
+      variant={'regular_text_14'}
+      as={'label'}
+      className={clsx(s.label)}
+      htmlFor={inputId}
+    >
+      {label}
+    </Typography>
+  )
+  const errorComponent = error && (
+    <Typography as={'span'} className={clsx(s.errorText)}>
+      {error}
+    </Typography>
+  )
 
-  // Если передан multiline рендерим textarea
   if (props.multiline) {
-    const {
-      onChange,
-      className,
-      label,
-      value,
-      multiline,
-      fullWidth,
-      rows = 4,
-      disabled,
-      margin,
-      ...rest
-    } = props
+    const { onChange, className, value, multiline, rows = 4, ...rest } = props
 
     const textAreaStyle = clsx(s.textField, s.multiline, error && s.error, disabled && s.disabled)
 
     return (
-      <div className={containerStyle} style={{ margin: margin && margin }}>
-        {label && (
-          <Typography
-            variant={'regular_text_14'}
-            as={'label'}
-            className={clsx(s.label)}
-            htmlFor={inputId}
-          >
-            {label}
-          </Typography>
-        )}
+      <div className={containerStyle} style={marginContainer}>
+        {labelComponent}
         <textarea
           id={inputId}
           onChange={onChange}
@@ -76,25 +71,12 @@ export const TextField = (props: TextFieldProps) => {
           rows={rows}
           {...rest}
         />
-        {error && (
-          <Typography as={'span'} className={clsx(s.errorText)}>
-            {error}
-          </Typography>
-        )}
+        {errorComponent}
       </div>
     )
   }
 
-  const {
-    onChange,
-    className,
-    label,
-    variant = 'fullBorders',
-    mode = 'default',
-    value,
-    margin,
-    ...rest
-  } = props
+  const { onChange, className, variant = 'fullBorders', mode = 'default', value, ...rest } = props
 
   const inputStyle = clsx(
     s.textField,
@@ -106,17 +88,8 @@ export const TextField = (props: TextFieldProps) => {
   )
 
   return (
-    <div className={containerStyle} style={{ margin: margin && margin }}>
-      {label && (
-        <Typography
-          variant={'regular_text_14'}
-          as={'label'}
-          className={clsx(s.label)}
-          htmlFor={inputId}
-        >
-          {label}
-        </Typography>
-      )}
+    <div className={containerStyle} style={marginContainer}>
+      {labelComponent}
       {mode === 'search' && (
         <div className={clsx(s.searchIcon, disabled && s.disabled)}>
           {<Icon iconId={'search'} width={'18px'} height={'18px'} viewBox={'0 0 18 18'} />}
@@ -138,7 +111,6 @@ export const TextField = (props: TextFieldProps) => {
             disabled={disabled}
             className={clsx(s.eyeBtn)}
             onClick={() => setHidePassword(!hidePassword)}
-            // aria-label={language === 'ru' ? 'Показать/скрыть пароль' : 'Show/hide password'}
           >
             {
               <Icon
@@ -151,11 +123,7 @@ export const TextField = (props: TextFieldProps) => {
           </button>
         </div>
       )}
-      {error && (
-        <Typography as={'span'} className={clsx(s.errorText)}>
-          {error}
-        </Typography>
-      )}
+      {errorComponent}
     </div>
   )
 }

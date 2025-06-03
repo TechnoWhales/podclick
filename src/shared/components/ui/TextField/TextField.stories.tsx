@@ -1,4 +1,4 @@
-import { TextField } from '@/shared/components/ui/TextField/TextField'
+import { TextField } from '@/shared/components/ui'
 import { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
@@ -117,14 +117,6 @@ export default meta
 type Story = StoryObj<typeof TextField>
 
 export const Default: Story = {
-  args: {
-    value: '',
-    label: 'Email',
-    placeholder: 'Epam@epam.com',
-  },
-}
-
-export const Controled: Story = {
   args: {
     value: '',
     label: 'Email',
