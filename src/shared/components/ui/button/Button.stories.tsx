@@ -50,7 +50,7 @@ export const Link: Story = {
 
 export const AsLink: Story = {
   args: {
-    asChild: true,
+    as: true,
     children: <a href={'https://it-incubator.by/'}>Link that looks like a button</a>,
     variant: 'primary',
   },
