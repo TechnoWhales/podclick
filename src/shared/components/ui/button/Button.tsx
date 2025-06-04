@@ -13,6 +13,7 @@ export type ButtonProps<T extends ElementType = 'button'> = {
   fullwidth?: boolean
   className?: string
   disabled?: boolean
+  onClick?: () => void
 } & ComponentPropsWithoutRef<T>
 
 export const Button = <T extends ElementType = 'button'>(props: ButtonProps<T>) => {
@@ -22,6 +23,7 @@ export const Button = <T extends ElementType = 'button'>(props: ButtonProps<T>) 
     disabled,
     className,
     children,
+    onClick,
     as: Component = 'button',
     ...rest
   } = props
@@ -36,15 +38,7 @@ export const Button = <T extends ElementType = 'button'>(props: ButtonProps<T>) 
   )
 
   return (
-    <Component
-      className={styles}
-      {...rest}
-      onClick={e => {
-        if (disabled) {
-          e.preventDefault()
-        }
-      }}
-    >
+    <Component className={styles} disabled={disabled} onClick={onClick} {...rest}>
       {children}
     </Component>
   )

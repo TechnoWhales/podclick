@@ -77,3 +77,11 @@ export const Fullwidth: Story = {
     ),
   ],
 }
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled Button',
+    variant: 'primary',
+  },
+}
