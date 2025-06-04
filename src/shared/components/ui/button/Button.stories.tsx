@@ -47,7 +47,7 @@ export const Link: Story = {
 
 export const AsLink: Story = {
   args: {
-    as: true,
+    as: 'a',
     children: <a href={'https://it-incubator.by/'}>Link that looks like a button</a>,
     variant: 'primary',
   },
@@ -55,6 +55,7 @@ export const AsLink: Story = {
 
 export const Icon: Story = {
   args: {
+    as: 'button',
     children: (
       <img src={'https://img.icons8.com/?size=120&id=VdhZFoOECtgD&format=png'} alt={'Icon'} />
     ),
