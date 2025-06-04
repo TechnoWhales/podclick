@@ -7,11 +7,20 @@ import s from './Button.module.scss'
 
 type Props = {
   as?: boolean
+  fullwidth?: boolean
   variant?: 'icon' | 'link' | 'outlined' | 'primary' | 'secondary'
 } & ComponentPropsWithoutRef<'button'>
 
-export const Button = ({ variant = 'primary', as, className, ...rest }: Props) => {
+export const Button = ({ variant = 'primary', as, fullwidth, className, ...rest }: Props) => {
   const Component = as ? Slot : 'button'
+  const styles = clsx(
+    s.button,
+    {
+      [s.fullwidth]: fullwidth,
+    },
+    s[variant],
+    className
+  )
 
-  return <Component className={clsx(s.button, s[variant], className)} {...rest} />
+  return <Component className={styles} {...rest} />
 }

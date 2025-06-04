@@ -10,10 +10,7 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
 
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>
 
@@ -62,5 +59,13 @@ export const Icon: Story = {
       <img src={'https://img.icons8.com/?size=120&id=VdhZFoOECtgD&format=png'} alt={'Icon'} />
     ),
     variant: 'icon',
+  },
+}
+
+export const Fullwidth: Story = {
+  args: {
+    children: 'Fullwidth button',
+    fullwidth: true,
+    variant: 'primary',
   },
 }
