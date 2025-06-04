@@ -69,4 +69,11 @@ export const Fullwidth: Story = {
     fullwidth: true,
     variant: 'primary',
   },
+  decorators: [
+    Story => (
+      <div style={{ width: '500px', border: '1px dashed #ccc', padding: '16px' }}>
+        <Story />
+      </div>
+    ),
+  ],
 }
