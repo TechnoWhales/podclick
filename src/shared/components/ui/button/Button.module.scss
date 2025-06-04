@@ -33,7 +33,7 @@
     color: var(--color-light-100);
   }
 
-  &:focus {
+  &:focus-visible {
     background-color: var(--color-accent-700);
     color: var(--color-light-100);
     outline: 2px solid var(--color-accent-700);
@@ -60,7 +60,7 @@
     color: var(--color-light-100);
   }
 
-  &:focus {
+  &:focus-visible {
     border-color: var(--color-accent-300);
     color: var(--color-light-100);
   }
@@ -86,7 +86,7 @@
     color: var(--color-accent-100);
   }
 
-  &:focus {
+  &:focus-visible {
     border-color: transparent;
     color: var(--color-accent-700);
     outline: 2px solid var(--color-accent-700);
@@ -113,7 +113,7 @@
     color: var(--color-accent-100);
   }
 
-  &:focus {
+  &:focus-visible {
     border: 2px solid var(--color-accent-700);
     color: var(--color-accent-100);
   }
