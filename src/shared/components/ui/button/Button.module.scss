@@ -113,8 +113,8 @@
   }
 
   &:focus-visible {
-    border: 2px solid var(--color-accent-700);
     color: var(--color-accent-100);
+    outline: 2px solid var(--color-accent-700);
   }
 
   &:active {
