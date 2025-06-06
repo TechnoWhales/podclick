@@ -1,3 +1,5 @@
+'use client'
+
 import { ChangeEvent, ComponentPropsWithoutRef, useId, useState } from 'react'
 
 import { Typography } from '@/shared/components/ui'
@@ -35,7 +37,7 @@ type TextFieldProps = InputProps | TextAreaProps
 export const TextField = (props: TextFieldProps) => {
   const [hidePassword, setHidePassword] = useState(false)
   const inputId = useId()
-  const { error, fullWidth, disabled, label, margin } = props
+  const { error, fullWidth, disabled, label, margin, className } = props
   const containerStyle = clsx(s.container, fullWidth && s.fullWidth)
   const marginContainer = margin ? { margin } : undefined
   const labelComponent = label && (
@@ -55,9 +57,9 @@ export const TextField = (props: TextFieldProps) => {
   )
 
   if (props.multiline) {
-    const { onChange, className, value, multiline, rows = 4, ...rest } = props
+    const { onChange, value, multiline, rows = 4, ...rest } = props
 
-    const textAreaStyle = clsx(s.textField, s.multiline, error && s.error, disabled && s.disabled)
+    const textAreaStyle = clsx(s.textField, s.multiline, error && s.error, disabled && s.disabled, className)
 
     return (
       <div className={containerStyle} style={marginContainer}>
@@ -76,7 +78,7 @@ export const TextField = (props: TextFieldProps) => {
     )
   }
 
-  const { onChange, className, variant = 'fullBorders', mode = 'default', value, ...rest } = props
+  const { onChange, variant = 'fullBorders', mode = 'default', value, ...rest } = props
 
   const inputStyle = clsx(
     s.textField,
@@ -84,7 +86,8 @@ export const TextField = (props: TextFieldProps) => {
     disabled && s.disabled,
     variant === 'horizontalBorders' && s.horizontalBorders,
     mode === 'search' && s.iconStart,
-    mode === 'password' && s.iconEnd
+    mode === 'password' && s.iconEnd,
+    className
   )
 
   return (
