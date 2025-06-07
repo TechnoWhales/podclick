@@ -10,7 +10,6 @@ import perfectionist from 'eslint-plugin-perfectionist'
 import * as tseslint from 'typescript-eslint'
 import nextPlugin from '@next/eslint-plugin-next'
 
-// Получаем __dirname в ESM
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
