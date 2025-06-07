@@ -23,11 +23,11 @@
   background-color: var(--background);
 
   & > span:first-child {
-    color: var(--color-light-900);
+    color: var(--color-light-100);
   }
 
   &[data-placeholder] > span:first-child {
-    color: var(--color-light-100);
+    color: var(--color-light-900);
   }
 
   &:hover span:not(:last-child) {
