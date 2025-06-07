@@ -6,7 +6,7 @@ import { clsx } from 'clsx'
 
 import s from './Select.module.scss'
 
-type Option = {
+export type Option = {
   value: string
   label: string
 }
