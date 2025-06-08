@@ -1,17 +1,11 @@
 // components/Checkbox/Checkbox.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react'
-import { CheckboxUni } from './Checkbox'
+import { Checkbox } from './Checkbox'
 import { useState } from 'react'
 
 const styles = `
   :root {
     /* Цветовые переменные */
-    --color-accent-100: #73A5FF;
-    --color-accent-300: #4C8DFF;
-    --color-accent-500: #397DF6;
-    --color-accent-700: #2F68CC;
-    --color-accent-900: #234E99;
-
     --color-light-100: #FFFFFF;
     --color-light-500: #EDF3FA;
     --color-light-700: #D5DAE0;
@@ -30,131 +24,17 @@ const styles = `
     --line-height-m: 1.385;
   }
 
-  .checkboxWrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    user-select: none;
-    width: fit-content;
-  }
-
-  .checkboxRoot {
-    all: unset;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: transparent;
-    border: 2px solid var(--color-light-500);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    /* Checked state */
-    &[data-state='checked'] {
-      background: var(--color-accent-500);
-      border-color: var(--color-accent-500);
-    }
-
-    /* Circle effect */
-    &::before {
-      content: '';
-      position: absolute;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: transparent;
-      z-index: -1;
-      opacity: 0;
-      transition: all 0.2s ease;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    /* Hover state - light gray circle */
-    &:hover:not([disabled])::before {
-      background: var(--color-dark-300);
-      opacity: 0.1;
-    }
-
-    /* Focus state - medium gray circle */
-    &:focus-visible::before {
-      background: var(--color-dark-300);
-      opacity: 0.3;
-      outline: none;
-    }
-
-    /* Active state - dark gray circle */
-    &:active:not([disabled])::before {
-      background: var(--color-dark-100);
-      opacity: 0.3;
-    }
-
-    /* Checked hover state */
-    &[data-state='checked']:hover:not([disabled]) {
-      background: var(--color-accent-300);
-      border-color: var(--color-accent-300);
-    }
-
-    /* Disabled states */
-    &[disabled] {
-      cursor: not-allowed;
-      
-      &[data-state='checked'] {
-        background: var(--color-dark-300);
-        border-color: var(--color-dark-300);
-      }
-      
-      &[data-state='unchecked'] {
-        border-color: var(--color-light-900);
-      }
-    }
-  }
-
-  .checkboxIndicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-
-    .checkmark {
-      width: 16px;
-      height: 12px;
-      background: var(--color-light-100);
-      clip-path: polygon(
-        10% 50%,
-        0% 65%,
-        40% 100%,
-        100% 15%,
-        90% 0%,
-        38% 75%
-      );
-      transform: translateY(-1px);
-    }
-  }
-
-  .label {
+  body {
+    background: var(--color-dark-500);
     color: var(--color-light-100);
     font-family: var(--font-family-primary);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-400);
-    line-height: var(--line-height-m);
-    cursor: pointer;
-
-    .checkboxRoot[disabled] + & {
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
+    padding: 20px;
   }
 `
 
-const meta: Meta<typeof CheckboxUni> = {
+const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
-  component: CheckboxUni,
+  component: Checkbox,
   tags: ['autodocs'],
   argTypes: {
     checked: { control: 'boolean' },
@@ -166,7 +46,7 @@ const meta: Meta<typeof CheckboxUni> = {
     Story => (
       <>
         <style>{styles}</style>
-        <div style={{ padding: '24px' }}>
+        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <Story />
         </div>
       </>
@@ -176,13 +56,59 @@ const meta: Meta<typeof CheckboxUni> = {
 
 export default meta
 
-type Story = StoryObj<typeof CheckboxUni>
+type Story = StoryObj<typeof Checkbox>
 
 // Базовые сторисы
-export const Default: Story = { args: { label: 'Default checkbox' } }
-export const Checked: Story = { args: { label: 'Checked', checked: true } }
-export const Disabled: Story = { args: { label: 'Disabled', disabled: true } }
+export const Default: Story = {
+  args: { label: 'Default checkbox' },
+  render: args => {
+    const [checked, setChecked] = useState(false)
+    return <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
+  },
+}
+
+export const Checked: Story = {
+  args: { label: 'Checked' },
+  render: args => {
+    const [checked, setChecked] = useState(true)
+    return <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    label: 'Disabled',
+    disabled: true,
+  },
+  render: args => <Checkbox {...args} />,
+}
+
 export const CheckedDisabled: Story = {
   name: 'Checked & Disabled',
-  args: { label: 'Checked & Disabled', checked: true, disabled: true },
+  args: {
+    label: 'Checked & Disabled',
+    checked: true,
+    disabled: true,
+  },
+  render: args => <Checkbox {...args} />,
+}
+
+export const InteractiveDemo = {
+  render: () => {
+    const [checked1, setChecked1] = useState(false)
+    const [checked2, setChecked2] = useState(true)
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <Checkbox
+          label="Uncontrolled checkbox"
+          onCheckedChange={checked => console.log('Checked:', checked)}
+        />
+        <Checkbox label="Controlled checkbox" checked={checked1} onCheckedChange={setChecked1} />
+        <Checkbox label="Checked by default" checked={checked2} onCheckedChange={setChecked2} />
+        <Checkbox label="Disabled unchecked" disabled />
+        <Checkbox label="Disabled checked" checked disabled />
+      </div>
+    )
+  },
 }

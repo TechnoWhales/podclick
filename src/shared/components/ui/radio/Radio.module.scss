@@ -1,36 +1,5 @@
-.radioGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.radioWrapper {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  position: relative;
-  user-select: none;
-  width: fit-content;
-}
-
-.radioRoot {
-  all: unset;
-  position: relative;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: transparent;
-  border: 2px solid var(--color-light-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &[data-state='checked'] {
-    border-color: var(--color-light-100);
-  }
-
+// Общие миксины для интерактивных элементов
+@mixin interaction-ring {
   &::before {
     content: '';
     position: absolute;
@@ -66,14 +35,58 @@
   &:not(:hover)::before {
     opacity: 0 !important;
   }
+}
+
+@mixin disabled-styles {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+// Стили компонента
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  width: fit-content;
+  margin: 2px;
+}
+
+.root {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  border: 1px solid var(--color-light-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include interaction-ring;
+
+  &[data-state='checked'] {
+    border-color: var(--color-light-100);
+  }
 
   &[disabled] {
-    cursor: not-allowed;
+    @include disabled-styles;
 
     &[data-state='checked'] {
       border-color: var(--color-light-900);
 
-      .radioIndicator {
+      .indicator {
         background: var(--color-light-700);
       }
     }
@@ -84,7 +97,7 @@
   }
 }
 
-.radioIndicator {
+.indicator {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,15 +111,14 @@
   margin-left: 10px;
   color: var(--color-light-100);
   font-family: Inter, sans-serif;
-  font-size: var(--font-size-xs); /* 14px */
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-400);
-  line-height: var(--line-height-m); /* 24px */
+  line-height: var(--line-height-m);
   letter-spacing: 0%;
   text-align: left;
   cursor: pointer;
 
-  .radioRoot[disabled] + & {
-    cursor: not-allowed;
-    opacity: 0.7;
+  .root[disabled] + & {
+    @include disabled-styles;
   }
 }

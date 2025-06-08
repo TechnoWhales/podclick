@@ -1,31 +1,4 @@
-.checkboxWrapper {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  position: relative;
-  user-select: none;
-  width: fit-content;
-}
-
-.checkboxRoot {
-  all: unset;
-  position: relative;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: transparent;
-  border: 2px solid var(--color-light-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &[data-state='checked'] {
-    background: var(--color-light-100);
-    border-color: transparent;
-  }
-
+@mixin interaction-ring {
   &::before {
     content: '';
     position: absolute;
@@ -61,6 +34,39 @@
   &:not(:hover)::before {
     opacity: 0 !important;
   }
+}
+
+.wrapper {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  width: fit-content;
+  margin: 3px;
+}
+
+.root {
+  all: unset;
+  box-sizing: border-box; // Явно устанавливаем border-box
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  border: 1px solid var(--color-light-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include interaction-ring;
+
+  &[data-state='checked'] {
+    background: var(--color-light-100);
+    border-color: transparent;
+  }
 
   &[disabled] {
     cursor: not-allowed;
@@ -69,7 +75,7 @@
       background: var(--color-dark-100);
       border-color: transparent;
 
-      .checkboxIndicator .checkmark {
+      .indicator .checkmark {
         background: var(--color-light-700);
       }
     }
@@ -81,7 +87,7 @@
   }
 }
 
-.checkboxIndicator {
+.indicator {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +98,7 @@
     width: 16px;
     height: 12px;
     background: var(--color-dark-900);
-    clip-path: polygon(10% 50%, 0% 65%, 40% 100%, 100% 15%, 90% 0%, 38% 75%);
+    clip-path: polygon(13% 50%, 5% 64%, 41% 95%, 95% 19%, 86% 5%, 39% 73%);
     margin-top: -1px;
   }
 }
@@ -101,14 +107,14 @@
   margin-left: 10px;
   color: var(--color-light-100);
   font-family: Inter, sans-serif;
-  font-size: var(--font-size-xs); /* 14px */
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-400);
-  line-height: var(--line-height-m); /* 24px */
+  line-height: var(--line-height-m);
   letter-spacing: 0%;
   text-align: left;
   cursor: pointer;
 
-  .checkboxRoot[disabled] + & {
+  .root[disabled] + & {
     cursor: not-allowed;
     opacity: 0.7;
   }

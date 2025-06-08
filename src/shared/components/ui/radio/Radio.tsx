@@ -1,4 +1,3 @@
-// components/Radio/Radio.tsx
 'use client'
 
 import * as RadioPrimitive from '@radix-ui/react-radio-group'
@@ -19,10 +18,10 @@ type RadioItemProps = {
   className?: string
 }
 
-const RadioGroupRoot = ({ value, onValueChange, children, className }: RadioGroupProps) => {
+const Group = ({ value, onValueChange, children, className }: RadioGroupProps) => {
   return (
     <RadioPrimitive.Root
-      className={`${s.radioGroup} ${className || ''}`}
+      className={`${s.group} ${className || ''}`}
       value={value}
       onValueChange={onValueChange}
     >
@@ -31,12 +30,12 @@ const RadioGroupRoot = ({ value, onValueChange, children, className }: RadioGrou
   )
 }
 
-const RadioItem = ({ value, label, disabled, className }: RadioItemProps) => {
+const Item = ({ value, label, disabled, className }: RadioItemProps) => {
   const radioId = useId()
   return (
-    <div className={`${s.radioWrapper} ${className || ''}`}>
-      <RadioPrimitive.Item id={radioId} value={value} disabled={disabled} className={s.radioRoot}>
-        <RadioPrimitive.Indicator className={s.radioIndicator} />
+    <div className={`${s.wrapper} ${className || ''}`}>
+      <RadioPrimitive.Item id={radioId} value={value} disabled={disabled} className={s.root}>
+        <RadioPrimitive.Indicator className={s.indicator} />
       </RadioPrimitive.Item>
 
       {label && (
@@ -49,6 +48,6 @@ const RadioItem = ({ value, label, disabled, className }: RadioItemProps) => {
 }
 
 export const Radio = {
-  Group: RadioGroupRoot,
-  Item: RadioItem,
+  Group,
+  Item,
 }

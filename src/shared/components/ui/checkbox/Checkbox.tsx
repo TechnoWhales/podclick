@@ -4,7 +4,7 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import React, { useId } from 'react'
 import s from './Checkbox.module.scss'
-//styles на s
+
 interface CheckboxProps {
   label?: string
   checked: boolean
@@ -12,26 +12,25 @@ interface CheckboxProps {
   disabled?: boolean
 }
 
-export const CheckboxUni = ({
+export const Checkbox = ({
   label,
   checked,
   onCheckedChange,
   disabled,
-
   ...props
 }: CheckboxProps) => {
   const checkboxId = useId()
   return (
-    <div className={`${s.checkboxWrapper}`}>
+    <div className={s.wrapper}>
       <CheckboxPrimitive.Root
         id={checkboxId}
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
-        className={s.checkboxRoot}
+        className={s.root}
         {...props}
       >
-        <CheckboxPrimitive.Indicator className={s.checkboxIndicator}>
+        <CheckboxPrimitive.Indicator className={s.indicator}>
           <div className={s.checkmark} />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
