@@ -4,7 +4,8 @@
     "src/**/*",
     "next.config.ts",
     "vitest.config.ts",
-    ".storybook/**/*"
+    ".storybook/**/*",
+    "next-env.d.ts"
   ],
   "exclude": [
     "node_modules",

@@ -19,6 +19,7 @@ export default [
       '.storybook/**',
       'vitest.config.ts',
       'next.config.ts',
+      '.next/**'
     ],
   },
 
