@@ -9,7 +9,7 @@ type IconProps = {
   gradient?: string
 }
 
-const Icon = ({ iconId, fill, height, viewBox, width }: IconProps) => {
+export const Icon = ({ iconId, fill, height, viewBox, width }: IconProps) => {
   return (
     <svg
       width={width || '24'}
@@ -22,5 +22,3 @@ const Icon = ({ iconId, fill, height, viewBox, width }: IconProps) => {
     </svg>
   )
 }
-
-export default Icon
