@@ -1,40 +1,4 @@
-@mixin interaction-ring {
-  &::before {
-    content: '';
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: transparent;
-    z-index: -1;
-    opacity: 0;
-    transition:
-      opacity 0.1s,
-      background 0.1s;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  &:hover:not([disabled])::before {
-    background: var(--color-dark-300);
-    opacity: 1;
-  }
-
-  &:focus:not([disabled])::before {
-    background: var(--color-dark-500);
-    opacity: 1;
-  }
-
-  &:active:not([disabled]):hover::before {
-    background: var(--color-dark-100);
-    opacity: 1;
-  }
-
-  &:not(:hover)::before {
-    opacity: 0 !important;
-  }
-}
+@use "@/shared/styles/mixins/interaction-ring" as *;
 
 .wrapper {
   box-sizing: border-box;
@@ -48,7 +12,7 @@
 
 .root {
   all: unset;
-  box-sizing: border-box; // Явно устанавливаем border-box
+  box-sizing: border-box;
   position: relative;
   width: 18px;
   height: 18px;
@@ -110,7 +74,7 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-400);
   line-height: var(--line-height-m);
-  letter-spacing: 0%;
+  letter-spacing: 0;
   text-align: left;
   cursor: pointer;
 
