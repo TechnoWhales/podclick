@@ -1,32 +1,31 @@
+// components/Checkbox/Checkbox.tsx
 'use client'
 
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import React, { useId } from 'react'
-
 import s from './Checkbox.module.scss'
 
 interface CheckboxProps {
   label?: string
   checked: boolean
-  onCheckedChangeAction: (checked: boolean) => void
+  onCheckedChange: (checked: boolean) => void
   disabled?: boolean
 }
 
 export const Checkbox = ({
   label,
   checked,
-  onCheckedChangeAction,
+  onCheckedChange,
   disabled,
   ...props
 }: CheckboxProps) => {
   const checkboxId = useId()
-
   return (
     <div className={s.wrapper}>
       <CheckboxPrimitive.Root
         id={checkboxId}
         checked={checked}
-        onCheckedChange={onCheckedChangeAction}
+        onCheckedChange={onCheckedChange}
         disabled={disabled}
         className={s.root}
         {...props}
