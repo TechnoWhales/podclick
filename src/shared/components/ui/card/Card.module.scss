@@ -1,43 +1,40 @@
-.box {
-  color: white;
-  background-color: #333333;
-  border: 1px solid black;
+.card {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-dark-500);
+  border: 2px solid var(--color-dark-300);
 
-  &.info {
-    background-color: var(--color-b g-info);
-    border-color: var(--color-info-400);
-  }
-}
-
-.title {
-  display: flex;
-  gap: 13px;
-  align-items: center;
-
-  margin: 0;
-  padding: 7px 24px 5px;
-
-  font-size: var(--font-size-m);
-  font-weight: 500;
-  line-height: var(--line-height-m);
-
-  background-color: gold;
-
-  @media screen and (width <= 768px) {
-    padding: 6px 12px;
-  }
-}
-
-.content {
-  padding: 18px 24px;
-  font-size: var(--font-size-m);
-  line-height: var(--line-height-m);
-
-  .info & {
-    padding: 6px 24px;
+  &.sm {
+    max-height: 72px;
   }
 
-  @media screen and (width <= 768px) {
-    padding: 19px 12px 17px;
+  &.md {
+    max-height: 96px;
+  }
+
+  &.lg {
+    max-height: 120px;
+  }
+
+  &.flex {
+    display: flex;
+
+    &.center {
+      justify-content: center;
+    }
+
+    &.columnCenter {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &.spaceBetween {
+      justify-content: space-between;
+    }
+
+    &.spaceBetweenCenter {
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 }
