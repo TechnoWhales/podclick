@@ -1,7 +1,7 @@
-// components/Checkbox/Checkbox.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react'
-import { Checkbox } from './Checkbox'
 import { useState } from 'react'
+
+import { Checkbox } from './Checkbox'
 
 const styles = `
   :root {
@@ -40,7 +40,7 @@ const meta: Meta<typeof Checkbox> = {
     checked: { control: 'boolean' },
     disabled: { control: 'boolean' },
     label: { control: 'text' },
-    onCheckedChange: { action: 'checked' },
+    onCheckedChangeAction: { action: 'checked' },
   },
   decorators: [
     Story => (
@@ -63,7 +63,8 @@ export const Default: Story = {
   args: { label: 'Default checkbox' },
   render: args => {
     const [checked, setChecked] = useState(false)
-    return <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
+
+    return <Checkbox {...args} checked={checked} onCheckedChangeAction={setChecked} />
   },
 }
 
@@ -71,7 +72,8 @@ export const Checked: Story = {
   args: { label: 'Checked' },
   render: args => {
     const [checked, setChecked] = useState(true)
-    return <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
+
+    return <Checkbox {...args} checked={checked} onCheckedChangeAction={setChecked} />
   },
 }
 
@@ -101,13 +103,21 @@ export const InteractiveDemo = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <Checkbox
-          label="Uncontrolled checkbox"
-          onCheckedChange={checked => console.log('Checked:', checked)}
+          label={'Uncontrolled checkbox'}
+          onCheckedChangeAction={checked => console.log('Checked:', checked)}
         />
-        <Checkbox label="Controlled checkbox" checked={checked1} onCheckedChange={setChecked1} />
-        <Checkbox label="Checked by default" checked={checked2} onCheckedChange={setChecked2} />
-        <Checkbox label="Disabled unchecked" disabled />
-        <Checkbox label="Disabled checked" checked disabled />
+        <Checkbox
+          label={'Controlled checkbox'}
+          checked={checked1}
+          onCheckedChangeAction={setChecked1}
+        />
+        <Checkbox
+          label={'Checked by default'}
+          checked={checked2}
+          onCheckedChangeAction={setChecked2}
+        />
+        <Checkbox label={'Disabled unchecked'} disabled />
+        <Checkbox label={'Disabled checked'} checked disabled />
       </div>
     )
   },
