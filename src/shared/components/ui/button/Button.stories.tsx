@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { fn } from '@storybook/test'
+import Image from 'next/image'
 
 import { Button } from './Button'
 
@@ -48,7 +49,7 @@ export const Link: Story = {
 export const AsLink: Story = {
   args: {
     as: 'a',
-    children: <a href={'https://it-incubator.by/'}>Link that looks like a button</a>,
+    children: 'Link that looks like a button',
     variant: 'primary',
   },
 }
@@ -57,7 +58,12 @@ export const Icon: Story = {
   args: {
     as: 'button',
     children: (
-      <img src={'https://img.icons8.com/?size=120&id=VdhZFoOECtgD&format=png'} alt={'Icon'} />
+      <Image
+        width={24}
+        height={24}
+        src={'https://img.icons8.com/?size=120&id=VdhZFoOECtgD&format=png'}
+        alt={'Icon'}
+      />
     ),
     variant: 'icon',
   },
