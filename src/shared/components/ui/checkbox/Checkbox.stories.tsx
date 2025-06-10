@@ -105,6 +105,7 @@ export const InteractiveDemo = {
         <Checkbox
           label={'Uncontrolled checkbox'}
           onCheckedChangeAction={checked => console.log('Checked:', checked)}
+          checked={false}
         />
         <Checkbox
           label={'Controlled checkbox'}
@@ -116,8 +117,22 @@ export const InteractiveDemo = {
           checked={checked2}
           onCheckedChangeAction={setChecked2}
         />
-        <Checkbox label={'Disabled unchecked'} disabled />
-        <Checkbox label={'Disabled checked'} checked disabled />
+        <Checkbox
+          label={'Disabled unchecked'}
+          disabled
+          checked={false}
+          onCheckedChangeAction={function (checked: boolean): void {
+            throw new Error('Function not implemented.')
+          }}
+        />
+        <Checkbox
+          label={'Disabled checked'}
+          checked
+          disabled
+          onCheckedChangeAction={function (checked: boolean): void {
+            throw new Error('Function not implemented.')
+          }}
+        />
       </div>
     )
   },
