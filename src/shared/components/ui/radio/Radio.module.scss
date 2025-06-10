@@ -1,4 +1,4 @@
-@use "@/shared/styles/mixins/interaction-ring" as *;
+@use '@/shared/styles/mixins/interaction-ring' as *;
 
 @mixin disabled-styles {
   cursor: not-allowed;

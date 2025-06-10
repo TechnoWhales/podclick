@@ -2,6 +2,7 @@
 
 import * as RadioPrimitive from '@radix-ui/react-radio-group'
 import React, { useId } from 'react'
+
 import s from './Radio.module.scss'
 
 type RadioGroupProps = {
@@ -32,6 +33,7 @@ const Group = ({ value, onValueChange, children, className }: RadioGroupProps) =
 
 const Item = ({ value, label, disabled, className }: RadioItemProps) => {
   const radioId = useId()
+
   return (
     <div className={`${s.wrapper} ${className || ''}`}>
       <RadioPrimitive.Item id={radioId} value={value} disabled={disabled} className={s.root}>
