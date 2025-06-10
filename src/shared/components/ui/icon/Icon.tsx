@@ -1,4 +1,4 @@
-import { IconsId } from '@/types/Icons'
+import { IconsId } from '@/shared/types/Icons'
 
 type IconProps = {
   iconId: IconsId
