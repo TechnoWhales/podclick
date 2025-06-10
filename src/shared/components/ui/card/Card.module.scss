@@ -1,0 +1,43 @@
+.box {
+  color: white;
+  background-color: #333333;
+  border: 1px solid black;
+
+  &.info {
+    background-color: var(--color-b g-info);
+    border-color: var(--color-info-400);
+  }
+}
+
+.title {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+
+  margin: 0;
+  padding: 7px 24px 5px;
+
+  font-size: var(--font-size-m);
+  font-weight: 500;
+  line-height: var(--line-height-m);
+
+  background-color: gold;
+
+  @media screen and (width <= 768px) {
+    padding: 6px 12px;
+  }
+}
+
+.content {
+  padding: 18px 24px;
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
+
+  .info & {
+    padding: 6px 24px;
+  }
+
+  @media screen and (width <= 768px) {
+    padding: 19px 12px 17px;
+  }
+}
