@@ -26,14 +26,14 @@ export const Modal = ({
 }: Props) => (
   <Dialog.Root open={open} onOpenChange={onClose} {...rest}>
     <Dialog.Portal>
-      <Dialog.Overlay className={s.Overlay} />
-      <Dialog.Content className={clsx(s.Content, s[size], className)}>
-        <Dialog.Title className={s.Title}>{modalTitle}</Dialog.Title>
+      <Dialog.Overlay className={s.overlay} />
+      <Dialog.Content className={clsx(s.content, s[size], className)}>
+        <Dialog.Title className={s.title}>{modalTitle}</Dialog.Title>
         <hr />
         {children}
         <Dialog.Close asChild>
           {/* eslint-disable-next-line react/button-has-type */}
-          <button className={s.IconButton} aria-label={'Close'}>
+          <button className={s.iconButton} aria-label={'Close'}>
             <Cross2Icon />
           </button>
         </Dialog.Close>
