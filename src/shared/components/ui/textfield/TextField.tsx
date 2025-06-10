@@ -13,7 +13,7 @@ type InputVariant = 'fullBorders' | 'horizontalBorders'
 type InputMode = 'default' | 'search' | 'password'
 
 type BaseTextField = {
-  value: string
+  value?: string
   label?: string
   error?: string
   margin?: string
@@ -24,12 +24,12 @@ type InputProps = BaseTextField & {
   variant?: InputVariant
   mode?: InputMode
   multiline?: false
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 } & ComponentPropsWithoutRef<'input'>
 
 type TextAreaProps = BaseTextField & {
   multiline: true
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
+  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void
 } & ComponentPropsWithoutRef<'textarea'>
 
 type TextFieldProps = InputProps | TextAreaProps
