@@ -1,0 +1,124 @@
+// Общие миксины для интерактивных элементов
+@mixin interaction-ring {
+  &::before {
+    content: '';
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    z-index: -1;
+    opacity: 0;
+    transition:
+      opacity 0.1s,
+      background 0.1s;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover:not([disabled])::before {
+    background: var(--color-dark-300);
+    opacity: 1;
+  }
+
+  &:focus:not([disabled])::before {
+    background: var(--color-dark-500);
+    opacity: 1;
+  }
+
+  &:active:not([disabled]):hover::before {
+    background: var(--color-dark-100);
+    opacity: 1;
+  }
+
+  &:not(:hover)::before {
+    opacity: 0 !important;
+  }
+}
+
+@mixin disabled-styles {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+// Стили компонента
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+  width: fit-content;
+  margin: 2px;
+}
+
+.root {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  border: 1px solid var(--color-light-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include interaction-ring;
+
+  &[data-state='checked'] {
+    border-color: var(--color-light-100);
+  }
+
+  &[disabled] {
+    @include disabled-styles;
+
+    &[data-state='checked'] {
+      border-color: var(--color-light-900);
+
+      .indicator {
+        background: var(--color-light-700);
+      }
+    }
+
+    &[data-state='unchecked'] {
+      border-color: var(--color-light-900);
+    }
+  }
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-light-100);
+}
+
+.label {
+  margin-left: 10px;
+  color: var(--color-light-100);
+  font-family: Inter, sans-serif;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-400);
+  line-height: var(--line-height-m);
+  letter-spacing: 0%;
+  text-align: left;
+  cursor: pointer;
+
+  .root[disabled] + & {
+    @include disabled-styles;
+  }
+}
