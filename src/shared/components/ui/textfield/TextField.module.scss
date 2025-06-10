@@ -141,6 +141,9 @@
     background: var(--color-dark-500);
     scrollbar-width: none;
     -ms-overflow-style: none;
+    &.error {
+      border-top: none
+    }
     &::-webkit-scrollbar {
       display: none;
     }
@@ -150,6 +153,11 @@
     &:active {
       border-top: none
     }
+  }
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+    -webkit-text-fill-color: var(--color-light-100);
+    transition: background-color 5000s ease-in-out 0s;
   }
 }
 @mixin line-clamp($lines) {
