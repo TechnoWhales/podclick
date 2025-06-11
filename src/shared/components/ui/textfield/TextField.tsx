@@ -118,6 +118,7 @@ export const TextField = (props: TextFieldProps) => {
       {mode === 'password' && (
         <div className={clsx(s.eyeIcon, disabled && s.disabled)}>
           <Button
+            type={'button'}
             disabled={disabled}
             className={clsx(s.eyeBtn)}
             onClick={() => setHidePassword(!hidePassword)}
