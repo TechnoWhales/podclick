@@ -1,0 +1,135 @@
+.button {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 24px;
+  border-style: none;
+  border-radius: 2px;
+
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-m);
+  color: inherit;
+
+  background-color: transparent;
+
+  transition: 0.3s;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.fullwidth {
+  width: 100%;
+}
+
+.primary {
+  min-width: 96px;
+  color: var(--color-light-100);
+  background-color: var(--color-accent-500);
+
+  &:hover {
+    color: var(--color-light-100);
+    background-color: var(--color-accent-100);
+  }
+
+  &:focus-visible {
+    color: var(--color-light-100);
+    background-color: var(--color-accent-700);
+    outline: 2px solid var(--color-accent-700);
+  }
+
+  &:active {
+    color: var(--color-light-500);
+    background-color: var(--color-accent-700);
+  }
+
+  &:disabled {
+    color: var(--color-light-900);
+    background-color: var(--color-accent-900);
+  }
+}
+
+.secondary {
+  color: var(--color-light-100);
+  background-color: var(--color-dark-300);
+
+  &:hover {
+    color: var(--color-light-100);
+    background-color: var(--color-dark-100);
+  }
+
+  &:focus-visible {
+    color: var(--color-light-100);
+    outline: 2px solid var(--color-accent-300);
+  }
+
+  &:active {
+    color: var(--color-light-100);
+    background-color: #212121;
+  }
+
+  &:disabled {
+    color: var(--color-light-900);
+    background-color: var(--color-dark-500);
+  }
+}
+
+.outlined {
+  border: 1px solid var(--color-accent-500);
+  color: var(--color-accent-500);
+
+  &:hover {
+    border: 1px solid var(--color-accent-100);
+    color: var(--color-accent-100);
+  }
+
+  &:focus-visible {
+    border-color: transparent;
+    color: var(--color-accent-700);
+    outline: 2px solid var(--color-accent-700);
+  }
+
+  &:active {
+    border: 1px solid var(--color-accent-700);
+    color: var(--color-accent-700);
+  }
+
+  &:disabled {
+    border: 1px solid var(--color-accent-900);
+    color: var(--color-accent-900);
+  }
+}
+
+.link {
+  color: var(--color-accent-500);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-accent-100);
+  }
+
+  &:focus-visible {
+    color: var(--color-accent-100);
+    outline: 2px solid var(--color-accent-700);
+  }
+
+  &:active {
+    color: var(--color-accent-700);
+  }
+
+  &:disabled {
+    color: var(--color-accent-900);
+  }
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
