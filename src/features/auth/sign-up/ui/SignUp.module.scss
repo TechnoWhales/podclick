@@ -1,0 +1,25 @@
+.card {
+  width: 378px;
+  min-height: 648px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.policyWrapper {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.policyText {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+
+  & a:first-of-type {
+    margin: 0 5px;
+  }
+
+  & a:last-of-type {
+    margin-left: 5px;
+  }
+}
