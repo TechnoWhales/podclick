@@ -12,6 +12,7 @@
   font-weight: var(--font-weight-semi-bold);
   line-height: var(--line-height-m);
   transition: .3s;
+  color: inherit;
 
 
   &:disabled {
@@ -130,7 +131,6 @@
   padding: 0;
   width: 24px;
   height: 24px;
-  color: var(--color-dark-900);
 }
 
 
