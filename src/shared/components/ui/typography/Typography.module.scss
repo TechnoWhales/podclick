@@ -1,4 +1,4 @@
-/// Миксин для типографики
+   /// Миксин для типографики
 /// @param {string} $fontSize - Размер шрифта (по умолчанию var(--font-size-xs))
 /// @param {string} $lineHeight - Межстрочный интервал (по умолчанию var(--line-height-xl))
 /// @param {string} $fontWeight - Насыщенность шрифта (по умолчанию var(--font-weight-400))
@@ -8,7 +8,7 @@
   $fontSize: var(--font-size-xs),
   $lineHeight: var(--line-height-xl),
   $fontWeight: var(--font-weight-400),
-  $color: var(--color-light-100)
+  $color: inherit
 ) {
   font-size: $fontSize;
   line-height: $lineHeight;
