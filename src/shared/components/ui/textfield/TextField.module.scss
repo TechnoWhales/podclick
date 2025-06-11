@@ -188,6 +188,13 @@
       border-top: none;
     }
   }
+
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+
+    -webkit-text-fill-color: var(--color-light-100);
+  }
 }
 
 @mixin line-clamp($lines) {
