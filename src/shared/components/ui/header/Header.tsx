@@ -1,8 +1,11 @@
-import Link from 'next/link'
-import { Select, type Option } from '@/shared/components/ui/select/Select'
 import { useState } from 'react'
+
+import Link from 'next/link'
+
+import { Button, Icon, Typography } from '@/shared/components/ui'
+import { Select, type Option } from '@/shared/components/ui/select/Select'
+
 import s from './Header.module.scss'
-import { Typography } from '@/shared/components/ui'
 
 type Props = {
   authorization: boolean
@@ -10,8 +13,24 @@ type Props = {
 
 export const Header = ({ authorization }: Props) => {
   const options: Option[] = [
-    { value: 'en', label: 'flag English' },
-    { value: 'ru', label: 'flag Russian' },
+    {
+      value: 'en',
+      label: (
+        <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Icon iconId={'flagUnitedKingdom'} />
+          English
+        </span>
+      ),
+    },
+    {
+      value: 'ru',
+      label: (
+        <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Icon iconId={'flagRussia'} />
+          Russia
+        </span>
+      ),
+    },
   ]
 
   const [value, setValue] = useState(options[0].value)
@@ -25,7 +44,9 @@ export const Header = ({ authorization }: Props) => {
           </Typography>
           {authorization ? (
             <div className={s.navbarControls}>
-              <button>Icon</button>
+              <Button variant={'icon'}>
+                <Icon iconId={'outlineBell'} fill={'red'} />
+              </Button>
               <Select
                 value={value}
                 onValueChange={newValue => setValue(newValue)}
@@ -40,8 +61,12 @@ export const Header = ({ authorization }: Props) => {
                 options={options}
               />
               <div className={s.wrapperButtons}>
-                <button>Log in</button>
-                <button>Log up</button>
+                <Button href={'#'} variant={'link'} as={'a'}>
+                  <Typography variant={'bold_text_16'}>Login in</Typography>
+                </Button>
+                <Button href={'#'} variant={'primary'} as={'a'}>
+                  <Typography variant={'bold_text_16'}>Sign up</Typography>
+                </Button>
               </div>
             </div>
           )}
