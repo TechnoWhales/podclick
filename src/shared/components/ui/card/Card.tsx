@@ -29,7 +29,7 @@ type Props = {
 } & ComponentPropsWithoutRef<'div'>
 
 export const Card = ({ children, size = 'md', flex, className, ...rest }: Props) => {
-  const cardStyles = clsx(s.card, flex && [s.flex, s[flex]], s[size])
+  const cardStyles = clsx(s.card, flex && [s.flex, s[flex]], size && s[size])
 
   return (
     <div className={clsx(cardStyles, className)} {...rest}>
