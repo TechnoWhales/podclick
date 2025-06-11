@@ -23,7 +23,9 @@ export const signUpSchema = z
           'Password must contain a-z, A-Z,  ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _` { | } ~',
       }),
     confirmPassword: z.string(),
-    agreePolicy: z.boolean(),
+    agreePolicy: z.boolean().refine(val => val === true, {
+      message: 'You must agree to the policy',
+    }),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: 'Passwords do not match',

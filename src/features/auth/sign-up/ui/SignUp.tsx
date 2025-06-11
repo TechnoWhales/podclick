@@ -8,6 +8,8 @@ import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 
 import s from './SignUp.module.scss'
+import clsx from 'clsx'
+import { boolean } from 'zod'
 
 export const SignUp = () => {
   const {
@@ -15,7 +17,7 @@ export const SignUp = () => {
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm<Inputs>({
     resolver: zodResolver(signUpSchema),
@@ -84,7 +86,8 @@ export const SignUp = () => {
             </Typography>
           </div>
         </div>
-        <Button className={s.signUpBtn} type={'submit'} fullwidth>
+
+        <Button className={s.signUpBtn} type={'submit'} fullwidth disabled={!isValid}>
           Sign up
         </Button>
         <Typography className={s.signInTitle} variant={'regular_text_16'}>
