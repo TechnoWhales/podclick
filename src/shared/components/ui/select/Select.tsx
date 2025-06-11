@@ -1,14 +1,15 @@
-import { forwardRef } from 'react'
-
-import { Typography } from '@/shared/components/ui'
 import * as SelectPrimitive from '@radix-ui/react-select'
+import { forwardRef, type ReactNode } from 'react'
+
 import { clsx } from 'clsx'
+
+import { Icon, Typography } from '@/shared/components/ui'
 
 import s from './Select.module.scss'
 
 export type Option = {
   value: string
-  label: string
+  label: string | ReactNode
 }
 
 type SelectProps = {
@@ -60,8 +61,8 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>((props, ref) =>
           {...rest}
         >
           <SelectPrimitive.Value placeholder={placeholder} />
-          <SelectPrimitive.Icon className={s.icon}>
-            <span>▼</span>
+          <SelectPrimitive.Icon>
+            <Icon iconId={'arrowIosDownOutline'} />
           </SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
 
