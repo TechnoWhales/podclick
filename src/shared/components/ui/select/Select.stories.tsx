@@ -1,8 +1,10 @@
 // Select.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
-import { Select } from './Select'
 import { useState } from 'react'
+
+import { fn } from '@storybook/test'
+
+import { Select } from './Select'
 
 const meta: Meta<typeof Select> = {
   title: 'Select',
@@ -100,6 +102,7 @@ export const LongList: Story = {
 export const Controlled: Story = {
   render: args => {
     const [value, setValue] = useState('')
+
     return <Select {...args} value={value} onValueChange={setValue} options={args.options} />
   },
   args: {

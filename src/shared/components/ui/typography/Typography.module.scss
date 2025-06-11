@@ -1,4 +1,4 @@
-   /// Миксин для типографики
+/// Миксин для типографики
 /// @param {string} $fontSize - Размер шрифта (по умолчанию var(--font-size-xs))
 /// @param {string} $lineHeight - Межстрочный интервал (по умолчанию var(--line-height-xl))
 /// @param {string} $fontWeight - Насыщенность шрифта (по умолчанию var(--font-weight-400))
@@ -11,8 +11,8 @@
   $color: inherit
 ) {
   font-size: $fontSize;
-  line-height: $lineHeight;
   font-weight: $fontWeight;
+  line-height: $lineHeight;
   color: $color;
 }
 
@@ -62,9 +62,10 @@
 
 .regular_link {
   @include typography(var(--font-size-xs), var(--line-height-xl), _, var(--color-accent-500));
+
   text-decoration: underline;
   text-decoration-skip-ink: none;
-  
+
   &:hover {
     text-decoration: none;
   }
@@ -72,6 +73,7 @@
 
 .small_link {
   @include typography(var(--font-size-xxs), var(--line-height-s), _, var(--color-accent-500));
+
   text-decoration: underline;
   text-decoration-skip-ink: none;
 

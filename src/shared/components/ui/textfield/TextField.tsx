@@ -2,9 +2,10 @@
 
 import { ChangeEvent, ComponentPropsWithoutRef, useId, useState } from 'react'
 
+import clsx from 'clsx'
+
 import { Button, Typography } from '@/shared/components/ui'
 import { Icon } from '@/shared/components/ui/icon/Icon'
-import clsx from 'clsx'
 
 import s from './TextField.module.scss'
 

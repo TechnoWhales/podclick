@@ -1,8 +1,8 @@
 .card {
   width: 100%;
   height: 100%;
-  background-color: var(--color-dark-500);
   border: 2px solid var(--color-dark-300);
+  background-color: var(--color-dark-500);
 
   &.sm {
     max-height: 72px;
@@ -33,8 +33,8 @@
     }
 
     &.spaceBetweenCenter {
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
   }
 }

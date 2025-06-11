@@ -1,5 +1,6 @@
-import { TabContent, Tabs } from '@/shared/components/ui/tabs/Tabs'
 import { Meta } from '@storybook/react'
+
+import { TabContent, Tabs } from '@/shared/components/ui/tabs/Tabs'
 
 export default {
   title: 'Components/Tabs',

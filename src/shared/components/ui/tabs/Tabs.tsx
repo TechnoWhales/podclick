@@ -1,6 +1,6 @@
+import * as TabsRadixUI from '@radix-ui/react-tabs'
 import { ComponentPropsWithoutRef, FC, ReactNode } from 'react'
 
-import * as TabsRadixUI from '@radix-ui/react-tabs'
 import { clsx } from 'clsx'
 
 import s from './Tabs.module.scss'

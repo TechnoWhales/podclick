@@ -1,6 +1,5 @@
-import { ElementType } from 'react'
-
 import { Meta, StoryObj } from '@storybook/react'
+import { ElementType } from 'react'
 
 import { Typography, TypographyVariant } from './Typography'
 
