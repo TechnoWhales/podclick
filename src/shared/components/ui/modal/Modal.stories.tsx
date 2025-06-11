@@ -1,48 +1,49 @@
+import { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 
-import { Modal } from '@/shared/components/ui/modal/Modal'
-import { Meta } from '@storybook/react'
+import { Button } from '@/shared/components/ui'
 
-export default {
+import { Modal } from './Modal'
+
+const meta: Meta<typeof Modal> = {
   title: 'Modal',
   component: Modal,
-} as Meta<typeof Modal>
-
-const commonArgs = {
-  children: (
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci atque blanditiis
-      consequatur corporis culpa, eligendi et excepturi fugit iure laboriosam laborum laudantium
-      modi molestias odio quas rem voluptatum. Dolores?
-    </p>
-  ),
-  open: true,
-  title: 'Что то',
+  tags: ['autodocs'],
 }
 
-export const Open = {
-  render: args => {
-    const [open, setOpen] = useState(false)
+export default meta
+type Story = StoryObj<typeof Modal>
 
-    function handleModalClosed() {
-      setOpen(false)
-    }
-    function handleModalOpened() {
-      setOpen(true)
-    }
+const ModalWrapper = ({
+  modalTitle,
+  size = 'sm',
+}: {
+  modalTitle: string
+  size?: 'sm' | 'md' | 'lg'
+}) => {
+  const [open, setOpen] = useState(false)
 
-    return (
-      <>
-        <span>
-          {/* eslint-disable-next-line react/button-has-type */}
-          <button onClick={handleModalOpened}>Open dialog</button>
-        </span>
-        <Modal {...args} open={open} onClose={handleModalClosed} />
-      </>
-    )
-  },
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open Modal</Button>
+      <Modal open={open} onClose={() => setOpen(false)} modalTitle={modalTitle} size={size}>
+        <div style={{ padding: '1rem' }}>
+          <p>This is the modal content.</p>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+        </div>
+      </Modal>
+    </>
+  )
+}
 
-  args: {
-    ...commonArgs,
-  },
+export const Small: Story = {
+  render: () => <ModalWrapper modalTitle={'Small Modal'} size={'sm'} />,
+}
+
+export const Medium: Story = {
+  render: () => <ModalWrapper modalTitle={'Medium Modal'} size={'md'} />,
+}
+
+export const Large: Story = {
+  render: () => <ModalWrapper modalTitle={'Large Modal'} size={'lg'} />,
 }

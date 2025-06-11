@@ -1,8 +1,9 @@
+import * as Dialog from '@radix-ui/react-dialog'
 import { ComponentPropsWithoutRef } from 'react'
 
-import * as Dialog from '@radix-ui/react-dialog'
-import { Cross2Icon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
+
+import { Button, Icon } from '@/shared/components/ui'
 
 import s from './Modal.module.scss'
 
@@ -32,10 +33,9 @@ export const Modal = ({
         <hr />
         {children}
         <Dialog.Close asChild>
-          {/* eslint-disable-next-line react/button-has-type */}
-          <button className={s.iconButton} aria-label={'Close'}>
-            <Cross2Icon />
-          </button>
+          <Button className={s.iconButton} variant={'icon'}>
+            <Icon iconId={'close'} />
+          </Button>
         </Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
