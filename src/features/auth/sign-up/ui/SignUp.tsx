@@ -12,6 +12,12 @@ import { ROUTES } from '@/shared/constans'
 
 import s from './SignUp.module.scss'
 
+const mokeData = {
+  username: 'test',
+  email: 'test@gmail.com',
+  password: 123456,
+}
+
 const inputMargin = '0 0 24px'
 
 export const SignUp = () => {
@@ -23,6 +29,7 @@ export const SignUp = () => {
     control,
     reset,
     trigger,
+    setError,
     formState: { errors, isValid },
   } = useForm<Inputs>({
     resolver: zodResolver(signUpSchema),
@@ -37,9 +44,21 @@ export const SignUp = () => {
   })
 
   const onSubmit: SubmitHandler<Inputs> = data => {
-    setEmail(data.email)
-    setIsOpened(true)
-    reset()
+    if (mokeData.username === data.username) {
+      setError('username', {
+        type: 'custom',
+        message: 'User with this username is already registered',
+      })
+    } else if (mokeData.email === data.email) {
+      setError('email', {
+        type: 'custom',
+        message: 'User with this email is already registered',
+      })
+    } else {
+      setEmail(data.email)
+      setIsOpened(true)
+      reset()
+    }
   }
 
   return (
