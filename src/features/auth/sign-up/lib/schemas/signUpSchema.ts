@@ -12,7 +12,7 @@ export const signUpSchema = z
     email: z
       .string()
       .min(1, { message: 'Email is required' })
-      .email({ message: 'Incorrect email address' }),
+      .email({ message: 'The email must match the format example@example.com' }),
     password: z
       .string()
       .min(1, { message: 'Password is required' })
