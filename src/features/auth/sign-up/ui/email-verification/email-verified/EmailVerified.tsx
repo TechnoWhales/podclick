@@ -1,7 +1,9 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Button, Container, Typography } from '@/shared/components/ui'
+import { ROUTES } from '@/shared/constans'
 
 import s from './EmailVerified.module.scss'
 
@@ -14,10 +16,15 @@ export const EmailVerified = () => {
       <Typography variant={'regular_text_16'} style={{ marginBottom: '54px' }}>
         Your email has been confirmed
       </Typography>
-      <Button style={{ marginBottom: '72px' }}>Sign in</Button>
+      <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
+        <Button style={{ marginBottom: '72px' }} as={'a'}>
+          Sign in
+        </Button>
+      </Link>
+
       <Image
         src={'/woman-leaning-against-the-wall.svg'}
-        alt={'woman leaning against the wall'}
+        alt={'Woman leaning against the wall'}
         width={432}
         height={300}
       />
