@@ -11,6 +11,8 @@ import { Modal } from '@/shared/components/ui/modal/Modal'
 
 import s from './SignUp.module.scss'
 
+const inputMargin = '0 0 24px'
+
 export const SignUp = () => {
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
@@ -32,8 +34,6 @@ export const SignUp = () => {
     mode: 'onBlur',
   })
 
-  const inputMargin = '0 0 24px'
-
   const onSubmit: SubmitHandler<Inputs> = data => {
     setEmail(data.email)
     setIsOpened(true)
@@ -54,19 +54,19 @@ export const SignUp = () => {
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-          margin={inputMargin}
+          margin={errors.username?.message ? '0' : inputMargin}
           label={'Username'}
           error={errors.username?.message}
           {...register('username')}
         />
         <TextField
-          margin={inputMargin}
+          margin={errors.email?.message ? '0' : inputMargin}
           label={'Email'}
           error={errors.email?.message}
           {...register('email')}
         />
         <TextField
-          margin={inputMargin}
+          margin={errors.password?.message ? '0' : inputMargin}
           label={'Password'}
           error={errors.password?.message}
           variant={errors.password?.message ? 'horizontalBorders' : 'fullBorders'}
@@ -74,7 +74,7 @@ export const SignUp = () => {
           {...register('password')}
         />
         <TextField
-          margin={'0, 0, 12px, 0'}
+          margin={errors.confirmPassword?.message ? '0' : inputMargin}
           label={'Password confirmation'}
           error={errors.confirmPassword?.message}
           variant={errors.confirmPassword?.message ? 'horizontalBorders' : 'fullBorders'}

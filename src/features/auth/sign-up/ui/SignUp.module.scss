@@ -1,6 +1,6 @@
 .card {
   width: 378px;
-  margin: 0 auto;
+  margin: 24px auto 0;
   padding: 24px;
 }
 
@@ -13,11 +13,11 @@
   margin-bottom: 12px;
 }
 
-
 .policyText {
   display: flex;
   align-items: center;
   margin-left: 4px;
+
   & a:first-of-type {
     margin: 0 5px;
   }
@@ -38,6 +38,5 @@
 
 .signInBtn {
   width: 100px;
-  margin: 0 auto;
-  margin-bottom: 30px;
+  margin: 0 auto 30px;
 }
