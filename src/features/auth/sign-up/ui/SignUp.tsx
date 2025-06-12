@@ -18,6 +18,7 @@ export const SignUp = () => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors, isValid },
   } = useForm<Inputs>({
     resolver: zodResolver(signUpSchema),
@@ -36,6 +37,7 @@ export const SignUp = () => {
   const onSubmit: SubmitHandler<Inputs> = data => {
     setEmail(data.email)
     setIsOpened(true)
+    reset()
   }
 
   return (
