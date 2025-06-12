@@ -8,9 +8,9 @@ import { Inputs, signUpSchema } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
+import { ROUTES } from '@/shared/constans'
 
 import s from './SignUp.module.scss'
-import { ROUTES } from '@/shared/constans'
 
 const inputMargin = '0 0 24px'
 
@@ -22,6 +22,7 @@ export const SignUp = () => {
     handleSubmit,
     control,
     reset,
+    trigger,
     formState: { errors, isValid },
   } = useForm<Inputs>({
     resolver: zodResolver(signUpSchema),
@@ -87,7 +88,13 @@ export const SignUp = () => {
             name={'agreePolicy'}
             control={control}
             render={({ field }) => (
-              <Checkbox checked={field.value} onCheckedChangeAction={field.onChange} />
+              <Checkbox
+                checked={field.value}
+                onCheckedChangeAction={value => {
+                  field.onChange(value)
+                  trigger('agreePolicy')
+                }}
+              />
             )}
           />
           <div className={s.policyText}>
