@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 
 import { Inputs, signUpSchema } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
@@ -122,13 +123,17 @@ export const SignUp = () => {
           />
           <div className={s.policyText}>
             <Typography variant={'small_text'}>I agree to the</Typography>
-            <Typography variant={'small_link'} as={'a'} href={ROUTES.AUTH.TERMS_OF_SERVICE}>
-              Terms of Service
-            </Typography>
+            <Link href={ROUTES.AUTH.TERMS_OF_SERVICE} passHref legacyBehavior>
+              <Typography variant={'small_link'} as={'a'}>
+                Terms of Service
+              </Typography>
+            </Link>
             <Typography variant={'small_text'}>and</Typography>
-            <Typography variant={'small_link'} as={'a'} href={ROUTES.AUTH.PRIVACY_POLICY}>
-              Privacy Policy
-            </Typography>
+            <Link href={ROUTES.AUTH.PRIVACY_POLICY} passHref legacyBehavior>
+              <Typography variant={'small_link'} as={'a'}>
+                Privacy Policy
+              </Typography>
+            </Link>
           </div>
         </div>
 
@@ -138,9 +143,11 @@ export const SignUp = () => {
         <Typography className={s.signInTitle} variant={'regular_text_16'}>
           Do you have an account?
         </Typography>
-        <Button className={s.signInBtn} as={'a'} variant={'link'} href={ROUTES.AUTH.SIGN_IN}>
-          Sign In
-        </Button>
+        <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
+          <Button className={s.signInBtn} as={'a'} variant={'link'}>
+            Sign In
+          </Button>
+        </Link>
       </form>
     </Card>
   )

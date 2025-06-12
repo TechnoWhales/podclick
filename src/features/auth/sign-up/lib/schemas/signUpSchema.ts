@@ -24,7 +24,7 @@ export const signUpSchema = z
       }),
     confirmPassword: z.string(),
     agreePolicy: z.boolean().refine(val => val === true, {
-      message: 'You must agree to the policy',
+      message: '',
     }),
   })
   .refine(data => data.password === data.confirmPassword, {
