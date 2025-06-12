@@ -10,6 +10,7 @@ import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 
 import s from './SignUp.module.scss'
+import { ROUTES } from '@/shared/constans'
 
 const inputMargin = '0 0 24px'
 
@@ -91,11 +92,11 @@ export const SignUp = () => {
           />
           <div className={s.policyText}>
             <Typography variant={'small_text'}>I agree to the</Typography>
-            <Typography variant={'small_link'} as={'a'} href={'/auth/TermsOfService'}>
+            <Typography variant={'small_link'} as={'a'} href={ROUTES.AUTH.TERMS_OF_SERVICE}>
               Terms of Service
             </Typography>
             <Typography variant={'small_text'}>and</Typography>
-            <Typography variant={'small_link'} as={'a'} href={'/auth/PrivacyPolicy'}>
+            <Typography variant={'small_link'} as={'a'} href={ROUTES.AUTH.PRIVACY_POLICY}>
               Privacy Policy
             </Typography>
           </div>
@@ -107,7 +108,7 @@ export const SignUp = () => {
         <Typography className={s.signInTitle} variant={'regular_text_16'}>
           Do you have an account?
         </Typography>
-        <Button className={s.signInBtn} as={'a'} variant={'link'} href={'/auth/sign-in'}>
+        <Button className={s.signInBtn} as={'a'} variant={'link'} href={ROUTES.AUTH.SIGN_IN}>
           Sign In
         </Button>
       </form>
