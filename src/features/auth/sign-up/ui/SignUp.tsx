@@ -75,18 +75,21 @@ export const SignUp = () => {
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
+          placeholder={'Username'}
           margin={errors.username?.message ? '0' : inputMargin}
           label={'Username'}
           error={errors.username?.message}
           {...register('username')}
         />
         <TextField
+          placeholder={'Email@gmail.com'}
           margin={errors.email?.message ? '0' : inputMargin}
           label={'Email'}
           error={errors.email?.message}
           {...register('email')}
         />
         <TextField
+          placeholder={'Password'}
           margin={errors.password?.message ? '0' : inputMargin}
           label={'Password'}
           error={errors.password?.message}
@@ -95,6 +98,7 @@ export const SignUp = () => {
           {...register('password')}
         />
         <TextField
+          placeholder={'Password confirmation'}
           margin={errors.confirmPassword?.message ? '0' : inputMargin}
           label={'Password confirmation'}
           error={errors.confirmPassword?.message}
