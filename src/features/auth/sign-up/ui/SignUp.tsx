@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -6,19 +7,18 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Inputs, signUpSchema } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
+import { Modal } from '@/shared/components/ui/modal/Modal'
 
 import s from './SignUp.module.scss'
-import clsx from 'clsx'
-import { boolean } from 'zod'
 
 export const SignUp = () => {
+  const [email, setEmail] = useState('')
+  const [isOpened, setIsOpened] = useState(false)
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isValid },
-    setValue,
   } = useForm<Inputs>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -28,16 +28,28 @@ export const SignUp = () => {
       confirmPassword: '',
       agreePolicy: false,
     },
+    mode: 'onBlur',
   })
 
   const inputMargin = '0 0 24px'
 
   const onSubmit: SubmitHandler<Inputs> = data => {
-    debugger
+    setEmail(data.email)
+    setIsOpened(true)
   }
 
   return (
     <Card flex={'columnCenter'} className={s.card}>
+      <Modal open={isOpened} onClose={() => setIsOpened(false)} modalTitle={'Email sent'}>
+        <div>
+          <Typography variant={'regular_text_16'}>
+            We have sent a link to confirm your email to {email}
+          </Typography>
+          <Button className={s.modalBtn} onClick={() => setIsOpened(false)}>
+            OK
+          </Button>
+        </div>
+      </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           margin={inputMargin}
