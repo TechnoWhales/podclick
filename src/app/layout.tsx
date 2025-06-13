@@ -4,6 +4,8 @@ import type { ReactNode } from 'react'
 
 import { Inter } from 'next/font/google'
 
+import { StoreWrapper } from '@/store/store-wrapper'
+
 import '@/shared/styles/index.scss'
 
 const inter = Inter({
@@ -25,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={'en'}>
-      <body className={`${inter.className}`}>{children}</body>
+      <body className={`${inter.className}`}>
+        <StoreWrapper>{children}</StoreWrapper>
+      </body>
     </html>
   )
 }
