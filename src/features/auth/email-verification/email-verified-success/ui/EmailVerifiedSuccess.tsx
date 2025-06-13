@@ -1,12 +1,34 @@
+'use client'
+import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Button, Container, Typography } from '@/shared/components/ui'
+import {
+  emailSchema,
+  Inputs,
+} from '@/features/auth/email-verification/email-verified-success/lib/schemas'
+import { Button, Container, TextField, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constans'
 
 import s from '@/features/auth/email-verification/email-verified-success/ui/EmailVerifiedSuccess.module.scss'
 
 export const EmailVerifiedSuccess = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: zodResolver(emailSchema),
+    defaultValues: {
+      email: '',
+    },
+    mode: 'onBlur',
+  })
+
+  const onSubmit: SubmitHandler<Inputs> = data => {}
+
   return (
     <Container className={s.container} width={432}>
       <Typography variant={'h1'} style={{ marginBottom: '20px' }}>
@@ -15,14 +37,26 @@ export const EmailVerifiedSuccess = () => {
       <Typography className={s.description} variant={'regular_text_16'}>
         Looks like the verification link has expired. Not to worry, we can send the link again
       </Typography>
-      <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
-        <Button style={{ marginBottom: '72px' }} as={'a'}>
-          Sign in
-        </Button>
-      </Link>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.emailWrapper}>
+          <TextField
+            placeholder={'Email@gmail.com'}
+            margin={errors.email?.message ? '0' : '0 0 24px'}
+            label={'Email'}
+            error={errors.email?.message}
+            fullWidth
+            {...register('email')}
+          />
+        </div>
+        <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
+          <Button style={{ marginBottom: '36px' }} as={'a'}>
+            Sign in
+          </Button>
+        </Link>
+      </form>
 
       <Image
-        src={'/woman-leaning-against-the-wall.svg'}
+        src={'/time-management.svg'}
         alt={'Woman leaning against the wall'}
         width={432}
         height={300}
