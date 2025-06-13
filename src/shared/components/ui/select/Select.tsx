@@ -9,7 +9,7 @@ import { Icon, Typography } from '@/shared/components/ui'
 
 import s from './Select.module.scss'
 
-export type Option = {
+export type SelectOption = {
   value: string
   label: string | ReactNode
 }
@@ -18,7 +18,7 @@ type SelectProps = {
   value: string
   onValueChange: (value: string) => void
   placeholder?: string
-  options: Option[]
+  options: SelectOption[]
   className?: string
   disabled?: boolean
   label?: string
