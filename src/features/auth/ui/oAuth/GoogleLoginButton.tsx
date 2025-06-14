@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/shared/components/ui'
+import { Button, Icon } from '@/shared/components/ui'
 
 import { useOAuth } from '../../libs/hooks'
 
@@ -12,5 +12,9 @@ import { useOAuth } from '../../libs/hooks'
 export const GoogleLoginButton = () => {
   const { loginWithGoogle } = useOAuth()
 
-  return <Button onClick={() => loginWithGoogle()}>Sign in with Google 🚀</Button>
+  return (
+    <Button variant={'icon'} aria-label={'Войти через Google'} onClick={() => loginWithGoogle()}>
+      <Icon iconId={'google'} width={'36px'} height={'36px'} />
+    </Button>
+  )
 }

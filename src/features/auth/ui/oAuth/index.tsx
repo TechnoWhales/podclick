@@ -1,18 +1,13 @@
+import s from './OAuth.module.scss'
+
 import { GithubLoginButton } from './GithubLoginButton'
 import { GoogleLoginButton } from './GoogleLoginButton'
 
-export const GoogleGithubAuth = () => {
+export const OAuth = () => {
   return (
-    <>
-      <br />
-      <br />
-      <h2>Авторизация</h2>
-      <br />
+    <div className={s.oauthWrapper}>
       <GoogleLoginButton />
-      <br />
-      <hr />
-      <br />
       <GithubLoginButton />
-    </>
+    </div>
   )
 }

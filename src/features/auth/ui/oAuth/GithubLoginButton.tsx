@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/shared/components/ui'
+import { Button, Icon } from '@/shared/components/ui'
 
 import { useOAuth } from '../../libs/hooks'
 
@@ -13,8 +13,8 @@ export const GithubLoginButton = () => {
   const { loginWithGithub } = useOAuth()
 
   return (
-    <Button variant={'secondary'} onClick={() => loginWithGithub()}>
-      Sign in with Github 🚀
+    <Button variant={'icon'} aria-label={'Войти через GitHub'} onClick={() => loginWithGithub()}>
+      <Icon iconId={'github'} width={'36px'} height={'36px'} />
     </Button>
   )
 }
