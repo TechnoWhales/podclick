@@ -2,27 +2,18 @@
 
 import { Button } from '@/shared/components/ui'
 
+import { useOAuth } from '../../libs/hooks'
+
 /**
  * A button component for signing in with Github.
  * When clicked, it initiates the Github OAuth login flow.
  */
 
 export const GithubLoginButton = () => {
-  const redirectUrl = encodeURIComponent(window.location.origin + '/auth/')
-
-  // eslint-disable-next-line no-console
-  console.log(redirectUrl)
+  const { loginWithGithub } = useOAuth()
 
   return (
-    <Button
-      variant={'secondary'}
-      onClick={() =>
-        window.location.assign(
-          // `https://inctagram.work/api/v1/auth/github/login?redirect_url=http://localhost:3000`
-          `https://inctagram.work/api/v1/auth/github/login?redirect_url=${redirectUrl}`
-        )
-      }
-    >
+    <Button variant={'secondary'} onClick={() => loginWithGithub()}>
       Sign in with Github 🚀
     </Button>
   )
