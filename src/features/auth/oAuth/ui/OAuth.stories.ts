@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 
-import { OAuth } from './'
+import { OAuth } from './ui'
 
 const meta = {
   title: 'Auth/OAuth',
