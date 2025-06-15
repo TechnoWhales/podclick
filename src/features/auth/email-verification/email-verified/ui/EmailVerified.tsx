@@ -5,16 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {
-  emailSchema,
-  Inputs,
-} from '@/features/auth/email-verification/email-verified-success/lib/schemas'
+import { emailSchema, Inputs } from '@/features/auth/email-verification/email-verified/lib/schemas'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constans'
 
-import s from '@/features/auth/email-verification/email-verified-success/ui/EmailVerifiedSuccess.module.scss'
+import s from './EmailVerified.module.scss'
 
-export const EmailVerifiedSuccess = () => {
+export const EmailVerified = () => {
   const {
     register,
     handleSubmit,
@@ -50,14 +47,14 @@ export const EmailVerifiedSuccess = () => {
         </div>
         <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
           <Button style={{ marginBottom: '36px' }} as={'a'}>
-            Sign in
+            Resend verification link
           </Button>
         </Link>
       </form>
 
       <Image
         src={'/time-management.svg'}
-        alt={'Woman leaning against the wall'}
+        alt={'Time management'}
         width={432}
         height={300}
       />

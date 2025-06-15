@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { Button, Container, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constans'
 
-import s from './EmailVerified.module.scss'
+import s from './EmailVerifiedSuccess.module.scss'
 
-export const EmailVerified = () => {
+export const EmailVerifiedSuccess = () => {
   return (
     <Container className={s.container} width={432}>
       <Typography variant={'h1'} style={{ marginBottom: '20px' }}>
