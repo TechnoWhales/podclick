@@ -12,6 +12,8 @@ import { ROUTES } from '@/shared/constans'
 
 import s from './SignIn.module.scss'
 
+import { OAuth } from '@/features/auth'
+
 const users = [
   { email: 'Epam@epam.com', password: 'Passw0rd!' },
   { email: 'user1@example.com', password: 'Test123!' },
@@ -52,10 +54,7 @@ export const SignIn = () => {
         <Typography className={s.title} variant={'h1'}>
           Sign In
         </Typography>
-        <div className={s.logoContainer}>
-          <div> Google</div>
-          <div> Github</div>
-        </div>
+        <OAuth />
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>

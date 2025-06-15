@@ -1,2 +1,2 @@
 export { OAuth } from './oAuth/ui/OAuth'
-export { SignIn } from 'src/features/auth/sign-in/ui/SignIn'
+export { SignIn } from './sign-in/ui/SignIn'
