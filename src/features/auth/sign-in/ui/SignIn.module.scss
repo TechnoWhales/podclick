@@ -1,0 +1,46 @@
+.card {
+  max-width: 378px;
+  margin: 24px auto;
+  padding: 24px;
+}
+
+.title {
+  width: 67px;
+  height: 36px;
+
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-700);
+  line-height: var(--line-height-l);
+  color: var(--color-light-100);
+}
+
+.containerButton {
+  display: flex;
+  flex-direction: column;
+}
+
+.forgotPasswordLink {
+  align-self: flex-end;
+
+  width: 120px;
+  height: 24px;
+  margin-bottom: 24px;
+
+  font-family: var(--font-family-primary), sans-serif;
+  line-height: var(--line-height-l);
+  color: var(--color-light-900);
+}
+
+.text {
+  margin-bottom: 6px;
+
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-l);
+  text-align: center;
+}
+
+.button {
+  width: 100%;
+  margin-bottom: 16px;
+}

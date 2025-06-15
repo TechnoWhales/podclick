@@ -1,4 +1,4 @@
 export { OAuth } from './oAuth/ui/OAuth'
-export { SignUp } from './sign-up/ui/SignUp'
+export { SignIn } from './sign-in/ui/SignIn'
 export { EmailVerifiedSuccess } from './email-verification/email-verified-success/EmailVerifiedSuccess'
 export { EmailVerified } from './email-verification/email-verified/ui/EmailVerified'

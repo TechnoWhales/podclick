@@ -1,3 +1,7 @@
+'use client'
+
+import { SignIn } from '@/features/auth'
+
 export default function SignInPage() {
-  return <div>SignInPage</div>
+  return <SignIn />
 }
