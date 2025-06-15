@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { OAuth } from '@/features/auth'
 import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
-import { Header } from '@/shared/components/ui/header/Header'
 import { ROUTES } from '@/shared/constans'
 
 import s from './SignIn.module.scss'
@@ -46,52 +45,50 @@ export const SignIn = () => {
   }
 
   return (
-    <div>
-      <Header authorization />
+    <Card flex={'columnCenter'} className={s.card}>
+      <Typography className={s.title} variant={'h1'}>
+        Sign In
+      </Typography>
+      <OAuth />
 
-      <Card flex={'columnCenter'} className={s.card}>
-        <Typography className={s.title} variant={'h1'}>
-          Sign In
-        </Typography>
-        <OAuth />
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <TextField
-              placeholder={'Email'}
-              variant={'fullBorders'}
-              label={'Email'}
-              {...register('email')}
-              error={errors.email?.message}
-            />
-            <TextField
-              placeholder={'Password'}
-              variant={errors.password ? 'horizontalBorders' : 'fullBorders'}
-              label={'Password'}
-              mode={'password'}
-              {...register('password')}
-              error={errors.password?.message}
-            />
-          </div>
-          <div className={s.containerButton}>
-            <Link href={ROUTES.AUTH.FORGOT_PASSWORD} passHref legacyBehavior>
-              <Typography as={'a'} className={s.forgotPasswordLink}>
-                Forgot Password
-              </Typography>
-            </Link>
-
-            <Button type={'submit'} variant={'primary'} disabled={!isValid} className={s.button}>
-              Sign In
-            </Button>
-            <Typography variant={'regular_text_16'} className={s.text}>
-              Don’t have an account?
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <TextField
+            placeholder={'Email'}
+            variant={'fullBorders'}
+            label={'Email'}
+            {...register('email')}
+            error={errors.email?.message}
+          />
+          <TextField
+            placeholder={'Password'}
+            variant={errors.password ? 'horizontalBorders' : 'fullBorders'}
+            label={'Password'}
+            mode={'password'}
+            {...register('password')}
+            error={errors.password?.message}
+          />
+        </div>
+        <div className={s.containerButton}>
+          <Link href={ROUTES.AUTH.FORGOT_PASSWORD} passHref legacyBehavior>
+            <Typography as={'a'} className={s.forgotPasswordLink}>
+              Forgot Password
             </Typography>
-            <Button variant={'link'} as={'a'} href={ROUTES.AUTH.SIGN_UP}>
+          </Link>
+
+          <Button type={'submit'} variant={'primary'} disabled={!isValid} className={s.button}>
+            Sign In
+          </Button>
+          <Typography variant={'regular_text_16'} className={s.text}>
+            Don’t have an account?
+          </Typography>
+          <Link href={ROUTES.AUTH.SIGN_UP} passHref legacyBehavior>
+            <Button variant={'link'} as={'a'}>
               Sign Up
             </Button>
-          </div>
-        </form>
-      </Card>
-    </div>
+          </Link>
+        </div>
+      </form>
+    </Card>
   )
 }
