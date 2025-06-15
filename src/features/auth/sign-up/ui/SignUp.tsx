@@ -5,6 +5,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
+import { OAuth } from '@/features/auth'
 import { Inputs, signUpSchema } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
@@ -75,6 +76,12 @@ export const SignUp = () => {
         </div>
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.oAuthWrapper}>
+          <Typography variant={'h1'} as={'h1'}>
+            Sign Up
+          </Typography>
+          <OAuth />
+        </div>
         <TextField
           placeholder={'Username'}
           margin={errors.username?.message ? '0' : inputMargin}
