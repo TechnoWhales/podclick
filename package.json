@@ -34,9 +34,10 @@
     "next": "15.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-redux": "^9.2.0",
     "react-router": "^7.6.2",
-    "zod": "^3.25.61"
+    "react-hook-form": "^7.58.0",
+    "react-redux": "^9.2.0",
+    "zod": "^3.25.64"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
