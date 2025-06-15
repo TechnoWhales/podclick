@@ -1,9 +1,7 @@
-import { useState } from 'react'
-
 import Link from 'next/link'
 
+import { LanguageSelect } from '@/shared/components'
 import { Button, Icon, Typography } from '@/shared/components/ui'
-import { Select, type Option } from '@/shared/components/ui/select/Select'
 
 import s from './Header.module.scss'
 
@@ -12,29 +10,6 @@ type Props = {
 }
 
 export const Header = ({ authorization }: Props) => {
-  const options: Option[] = [
-    {
-      value: 'en',
-      label: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Icon iconId={'flagUnitedKingdom'} />
-          English
-        </span>
-      ),
-    },
-    {
-      value: 'ru',
-      label: (
-        <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Icon iconId={'flagRussia'} />
-          Russia
-        </span>
-      ),
-    },
-  ]
-
-  const [value, setValue] = useState(options[0].value)
-
   return (
     <header>
       <div className={s.container}>
@@ -47,19 +22,11 @@ export const Header = ({ authorization }: Props) => {
               <Button variant={'icon'}>
                 <Icon iconId={'outlineBell'} fill={'red'} />
               </Button>
-              <Select
-                value={value}
-                onValueChange={newValue => setValue(newValue)}
-                options={options}
-              />
+              <LanguageSelect />
             </div>
           ) : (
             <div className={s.navbarControls}>
-              <Select
-                value={value}
-                onValueChange={newValue => setValue(newValue)}
-                options={options}
-              />
+              <LanguageSelect />
               <div className={s.wrapperButtons}>
                 <Button href={'#'} variant={'link'} as={'a'}>
                   <Typography variant={'bold_text_16'}>Login in</Typography>
