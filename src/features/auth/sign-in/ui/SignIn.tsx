@@ -1,12 +1,11 @@
 'use client'
 
-import { useId } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
-import { Inputs, signInSchema } from '@/features/auth/ui/sign-in/signInSchema'
+import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Header } from '@/shared/components/ui/header/Header'
 import { ROUTES } from '@/shared/constans'
@@ -25,8 +24,6 @@ export const SignIn = () => {
     handleSubmit,
     formState: { errors, isValid },
     setError,
-    trigger,
-    watch,
   } = useForm<Inputs>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -35,7 +32,6 @@ export const SignIn = () => {
     },
     mode: 'onBlur',
   })
-  const formId = useId()
 
   const onSubmit: SubmitHandler<Inputs> = data => {
     const user = users.find(user => user.email === data.email && user.password === data.password)
@@ -43,7 +39,7 @@ export const SignIn = () => {
     if (!user) {
       setError('password', {
         type: 'manual',
-        message: 'The email or password are incorrect. Try\n' + 'again please',
+        message: 'The email or password are incorrect. Try again please',
       })
     }
   }
