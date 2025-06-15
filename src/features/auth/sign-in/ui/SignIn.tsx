@@ -5,14 +5,13 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
+import { OAuth } from '@/features/auth'
 import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Header } from '@/shared/components/ui/header/Header'
 import { ROUTES } from '@/shared/constans'
 
 import s from './SignIn.module.scss'
-
-import { OAuth } from '@/features/auth'
 
 const users = [
   { email: 'Epam@epam.com', password: 'Passw0rd!' },
