@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 
 import { Inter } from 'next/font/google'
 
-import { Header } from '@/shared/components/ui/header/Header'
+import { Header } from '@/shared/components'
 
 import '@/shared/styles/index.scss'
 
