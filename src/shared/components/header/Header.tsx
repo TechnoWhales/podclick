@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { LanguageSelect } from '@/shared/components'
-import { Button, Icon, Typography } from '@/shared/components/ui'
+import { Button, Container, Icon, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constans'
 
 import s from './Header.module.scss'
@@ -46,14 +46,14 @@ const NotAuthorizedNavbarControls = () => {
 
 const AuthHeader = () => {
   return (
-    <div className={s.container}>
+    <Container width={1310} padding={'0 15px'}>
       <nav className={s.navbar}>
         <Typography className={s.logo} as={Link} href={'#'} variant={'large'}>
           Inctagram
         </Typography>
         <LanguageSelect />
       </nav>
-    </div>
+    </Container>
   )
 }
 
@@ -68,14 +68,14 @@ export const Header = ({ isAuthorized }: Props) => {
 
   return (
     <header>
-      <div className={s.container}>
+      <Container width={1310} padding={'0 15px'}>
         <nav className={s.navbar}>
           <Typography className={s.logo} as={Link} href={'#'} variant={'large'}>
             Inctagram
           </Typography>
           {isAuthorized ? <AuthorizedNavbarControls /> : <NotAuthorizedNavbarControls />}
         </nav>
-      </div>
+      </Container>
     </header>
   )
 }
