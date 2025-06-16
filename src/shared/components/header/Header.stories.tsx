@@ -11,6 +11,6 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    authorization: true,
+    isAuthorized: true,
   },
 }
