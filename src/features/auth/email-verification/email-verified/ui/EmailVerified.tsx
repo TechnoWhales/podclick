@@ -52,12 +52,7 @@ export const EmailVerified = () => {
         </Link>
       </form>
 
-      <Image
-        src={'/time-management.svg'}
-        alt={'Time management'}
-        width={432}
-        height={300}
-      />
+      <Image src={'/time-management.svg'} alt={'Time management'} width={432} height={300} />
     </Container>
   )
 }
