@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
 import { OAuth } from '@/features/auth'
+import { useRegistrationMutation } from '@/features/auth/sign-up/api/signUpApi'
 import { signUpSchema, SignUpType } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
@@ -15,7 +16,7 @@ import { ROUTES } from '@/shared/constans'
 import s from './SignUp.module.scss'
 
 const mokeData = {
-  username: 'test',
+  userName: 'test',
   email: 'test@gmail.com',
   password: 123456,
 }
@@ -25,6 +26,9 @@ const inputMargin = '0 0 24px'
 export const SignUp = () => {
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
+
+  const [registration, { error }] = useRegistrationMutation()
+
   const {
     register,
     handleSubmit,
@@ -36,7 +40,7 @@ export const SignUp = () => {
   } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: '',
+      userName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -45,22 +49,22 @@ export const SignUp = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<SignUpType> = data => {
-    if (mokeData.username === data.username) {
-      setError('username', {
-        type: 'custom',
-        message: 'User with this username is already registered',
-      })
-    } else if (mokeData.email === data.email) {
-      setError('email', {
-        type: 'custom',
-        message: 'User with this email is already registered',
-      })
-    } else {
-      setEmail(data.email)
-      setIsOpened(true)
-      reset()
-    }
+  const onSubmit: SubmitHandler<SignUpType> = async data => async () => {
+    // if (mokeData.username === data.username) {
+    //   setError('username', {
+    //     type: 'custom',
+    //     message: 'User with this username is already registered',
+    //   })
+    // } else if (mokeData.email === data.email) {
+    //   setError('email', {
+    //     type: 'custom',
+    //     message: 'User with this email is already registered',
+    //   })
+    // } else {
+    //   setEmail(data.email)
+    //   setIsOpened(true)
+    //   reset()
+    // }
   }
 
   return (
@@ -84,10 +88,10 @@ export const SignUp = () => {
         </div>
         <TextField
           placeholder={'Username'}
-          margin={errors.username?.message ? '0' : inputMargin}
+          margin={errors.userName?.message ? '0' : inputMargin}
           label={'Username'}
-          error={errors.username?.message}
-          {...register('username')}
+          error={errors.userName?.message}
+          {...register('userName')}
         />
         <TextField
           placeholder={'Email@gmail.com'}
