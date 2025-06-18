@@ -27,7 +27,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
 
-  const [registration, { error }] = useRegistrationMutation()
+  const [registration] = useRegistrationMutation()
 
   const {
     register,
@@ -40,31 +40,45 @@ export const SignUp = () => {
   } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      userName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      userName: '', // hhgtl66
+      email: '', // petrosahal66@gmail.com
+      password: '', // Test123!
+      confirmPassword: '', // Test123!
       agreePolicy: false,
     },
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<SignUpType> = async data => async () => {
-    // if (mokeData.username === data.username) {
-    //   setError('username', {
-    //     type: 'custom',
-    //     message: 'User with this username is already registered',
-    //   })
-    // } else if (mokeData.email === data.email) {
-    //   setError('email', {
-    //     type: 'custom',
-    //     message: 'User with this email is already registered',
-    //   })
-    // } else {
-    //   setEmail(data.email)
-    //   setIsOpened(true)
-    //   reset()
-    // }
+  const onSubmit: SubmitHandler<SignUpType> = data => {
+    const body = {
+      userName: data.userName,
+      email: data.email,
+      password: data.password,
+      baseUrl: 'http://localhost:3000',
+    }
+
+    registration(body)
+      .unwrap()
+      .then(res => {
+        setEmail(data.email)
+        setIsOpened(true)
+        reset()
+      })
+      .catch(err => {
+        if (mokeData.userName === data.userName) {
+          // Доделать
+          setError('userName', {
+            type: 'custom',
+            message: 'User with this username is already registered',
+          })
+        } else if (mokeData.email === data.email) {
+          // Доделать
+          setError('email', {
+            type: 'custom',
+            message: 'User with this email is already registered',
+          })
+        }
+      })
   }
 
   return (
