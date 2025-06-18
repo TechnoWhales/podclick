@@ -32,4 +32,4 @@ export const signUpSchema = z
     path: ['confirmPassword'],
   })
 
-export type Inputs = z.infer<typeof signUpSchema>
+export type SignUpType = z.infer<typeof signUpSchema>

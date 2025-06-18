@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
 import { OAuth } from '@/features/auth'
-import { Inputs, signUpSchema } from '@/features/auth/sign-up/lib/schemas'
+import { signUpSchema, SignUpType } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
@@ -33,7 +33,7 @@ export const SignUp = () => {
     trigger,
     setError,
     formState: { errors, isValid },
-  } = useForm<Inputs>({
+  } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       username: '',
@@ -45,7 +45,7 @@ export const SignUp = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
+  const onSubmit: SubmitHandler<SignUpType> = data => {
     if (mokeData.username === data.username) {
       setError('username', {
         type: 'custom',
