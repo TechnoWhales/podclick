@@ -1,12 +1,7 @@
 'use client'
 
-import { Logout } from '@/features/auth/log-out/Logout'
+import { LogoutButton } from '@/features/auth/log-out/LogoutButton'
 
 export default function Home() {
-  return (
-    <div>
-      Hello, TechnoWhales!
-      <Logout />
-    </div>
-  )
+  return <div>Hello, TechnoWhales!</div>
 }

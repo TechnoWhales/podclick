@@ -5,9 +5,11 @@ import { Modal } from '@/shared/components/ui/modal/Modal'
 import * as React from 'react'
 import s from './Logout.module.scss'
 import { useState } from 'react'
+import Link from 'next/link'
+import { ROUTES } from '@/shared/constans'
 
 type Props = {}
-export const Logout = (props: Props) => {
+export const LogOut = (props: Props) => {
   const [open, setOpen] = useState(true)
 
   return (
@@ -24,9 +26,12 @@ export const Logout = (props: Props) => {
           Are you really want to log out of your account <b>"Epam@epam.com"</b> ?
         </Typography>
         <div className={s.buttonsContainer}>
-          <Button variant="outlined" className={s.button}>
-            Yes
-          </Button>
+          <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
+            {/* Добавить логику логаута */}
+            <Button variant="outlined" className={s.button}>
+              Yes
+            </Button>
+          </Link>
           <Button
             className={s.button}
             onClick={() => {
