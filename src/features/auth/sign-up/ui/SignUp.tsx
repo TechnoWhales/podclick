@@ -15,12 +15,6 @@ import { ROUTES } from '@/shared/constans'
 
 import s from './SignUp.module.scss'
 
-const mokeData = {
-  userName: 'test',
-  email: 'test@gmail.com',
-  password: 123456,
-}
-
 const inputMargin = '0 0 24px'
 
 export const SignUp = () => {
@@ -65,17 +59,10 @@ export const SignUp = () => {
         reset()
       })
       .catch(err => {
-        if (mokeData.userName === data.userName) {
-          // Доделать
-          setError('userName', {
+        if (err.status === 400) {
+          setError(err.data.messages[0].field, {
             type: 'custom',
-            message: 'User with this username is already registered',
-          })
-        } else if (mokeData.email === data.email) {
-          // Доделать
-          setError('email', {
-            type: 'custom',
-            message: 'User with this email is already registered',
+            message: err.data.messages[0].message,
           })
         }
       })
