@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 
 import { Header } from '@/shared/components'
+import { Providers } from '@/shared/providers/Providers'
 
 import '@/shared/styles/index.scss'
 
@@ -28,8 +29,10 @@ export default function RootLayout({
   return (
     <html lang={'en'}>
       <body className={`${inter.className}`}>
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   )
