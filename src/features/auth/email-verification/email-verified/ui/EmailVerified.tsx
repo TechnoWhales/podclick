@@ -5,11 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 
 import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
-import {
-  emailSchema,
-  EmailVerifiedType,
-} from '@/features/auth/email-verification/email-verified/lib/schemas'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
+import { emailSchema, EmailType } from '@/shared/schemas'
 
 import s from './EmailVerified.module.scss'
 
@@ -20,7 +17,7 @@ export const EmailVerified = () => {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<EmailVerifiedType>({
+  } = useForm<EmailType>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
       email: '',
@@ -28,7 +25,7 @@ export const EmailVerified = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<EmailVerifiedType> = data => {
+  const onSubmit: SubmitHandler<EmailType> = data => {
     resendConfirmationEmail(data.email)
     reset()
   }
