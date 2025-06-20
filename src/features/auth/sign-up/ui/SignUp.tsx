@@ -34,10 +34,10 @@ export const SignUp = () => {
   } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      userName: '', // hhgtl66
-      email: '', // petrosahal66@gmail.com
-      password: '', // Test123!
-      confirmPassword: '', // Test123!
+      userName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       agreePolicy: false,
     },
     mode: 'onBlur',
