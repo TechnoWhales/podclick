@@ -23,6 +23,7 @@ export const EmailVerifiedPassword = () => {
           <Button style={{ marginBottom: '36px' }} as={'a'} fullwidth>
             Resend link
           </Button>
+          h
         </Link>
       </div>
 

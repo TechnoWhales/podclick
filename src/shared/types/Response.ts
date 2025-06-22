@@ -1,9 +1,12 @@
-export type Messages = { message: string; field: string }
+export type Message = { message: string; field: 'userName' | 'email' }
 
-export type BaseResponse<T = {}> =
-  | T
-  | {
-      statusCode: number
-      messages: Messages[]
-      error: string
-    }
+export type ApiErrorResponse = {
+  statusCode: number
+  messages: Message[]
+  error: string
+}
+
+export type RTKQueryError = {
+  data: ApiErrorResponse
+  status: number
+}

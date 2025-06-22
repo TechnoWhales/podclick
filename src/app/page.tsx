@@ -1,5 +1,6 @@
 'use client'
 
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import { useEffect } from 'react'
 
 import { redirect, useSearchParams } from 'next/navigation'
@@ -17,11 +18,11 @@ export default function Home() {
     const codeValidationResult = uuidCodeSchema.safeParse({ uuid: code })
     const emailValidationResult = emailSchema.safeParse({ email })
 
-    if (codeValidationResult.success && emailValidationResult.success) {
+    if (codeValidationResult.success && code && emailValidationResult.success && email) {
       registrationConfirmation(code).then(res => {
         if ('error' in res) {
           redirect('/auth/email-verified')
-        } else if ('data' in res) {
+        } else {
           redirect('/auth/email-verified-success')
         }
       })

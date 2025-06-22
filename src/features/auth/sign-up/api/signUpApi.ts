@@ -5,7 +5,7 @@ type Registration = Omit<SignUpType, 'confirmPassword' | 'agreePolicy'>
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
-    registration: build.mutation<unknown, Registration>({
+    registration: build.mutation<void, Registration>({
       query: body => ({
         url: 'auth/registration',
         method: 'POST',

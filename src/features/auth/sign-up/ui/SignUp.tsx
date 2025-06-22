@@ -12,6 +12,7 @@ import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constans'
+import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignUp.module.scss'
 
@@ -53,13 +54,13 @@ export const SignUp = () => {
 
     registration(body)
       .unwrap()
-      .then(res => {
-        setEmail(data.email)
+      .then(() => {
+        setEmail(body.email)
         setIsOpened(true)
         reset()
       })
-      .catch(err => {
-        if (err.status === 400) {
+      .catch((err: RTKQueryError) => {
+        if (err.data.statusCode === 400) {
           setError(err.data.messages[0].field, {
             type: 'custom',
             message: err.data.messages[0].message,
