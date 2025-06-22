@@ -3,7 +3,7 @@ import { baseApi } from '@/shared/api/baseApi'
 
 type Registration = Omit<SignUpType, 'confirmPassword' | 'agreePolicy'>
 
-export const authApi = baseApi.injectEndpoints({
+export const signUpApi = baseApi.injectEndpoints({
   endpoints: build => ({
     registration: build.mutation<void, Registration>({
       query: body => ({
@@ -15,4 +15,4 @@ export const authApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useRegistrationMutation } = authApi
+export const { useRegistrationMutation } = signUpApi
