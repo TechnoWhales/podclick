@@ -7,4 +7,4 @@ export const emailSchema = z.object({
     .email({ message: 'The email must match the format example@example.com' }),
 })
 
-export type Inputs = z.infer<typeof emailSchema>
+export type EmailType = z.infer<typeof emailSchema>
