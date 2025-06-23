@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 import { OAuth } from '@/features/auth'
@@ -22,6 +23,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
 
+  const t = useTranslations('SignUp')
   const [registration] = useRegistrationMutation()
 
   const {
@@ -84,7 +86,7 @@ export const SignUp = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={s.oAuthWrapper}>
           <Typography variant={'h1'} as={'h1'}>
-            Sign Up
+            {t('title')}
           </Typography>
           <OAuth />
         </div>
