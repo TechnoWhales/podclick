@@ -1,7 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { useLocale } from 'next-intl'
+
+import { useRouter } from '@/i18n/navigation'
 import { Icon } from '@/shared/components/ui'
 import { type SelectOption, Select } from '@/shared/components/ui/'
 
@@ -31,10 +34,23 @@ export const LanguageSelect = () => {
 
   const [value, setValue] = useState(options[0].value)
 
+  const router = useRouter()
+  const locale = useLocale()
+
+  useEffect(() => {
+    setValue(locale)
+  }, [])
+
+  const changeLang = (locale: string) => {
+    setValue(locale)
+    router.replace('/auth/sign-up', { locale })
+    router.refresh()
+  }
+
   return (
     <Select
       value={value}
-      onValueChange={newValue => setValue(newValue)}
+      onValueChange={newValue => changeLang(newValue)}
       options={options}
       size={'s'}
     />

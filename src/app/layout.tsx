@@ -35,8 +35,10 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${inter.className}`}>
         <Providers>
-          <Header />
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            <Header />
+            {children}
+          </NextIntlClientProvider>
         </Providers>
       </body>
     </html>
