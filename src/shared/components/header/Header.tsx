@@ -5,10 +5,9 @@ import { usePathname } from 'next/navigation'
 
 import { LanguageSelect } from '@/shared/components'
 import { Button, Container, Icon, Typography } from '@/shared/components/ui'
+import { ROUTES } from '@/shared/constants'
 
 import s from './Header.module.scss'
-
-import { ROUTES } from '../../constants'
 
 type Props = {
   isAuthorized?: boolean

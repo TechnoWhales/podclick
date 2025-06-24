@@ -4,10 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Button, Container, Typography } from '@/shared/components/ui'
+import { ROUTES } from '@/shared/constants'
 
 import s from './EmailVerifiedPassword.module.scss'
-
-import { ROUTES } from '../../../../shared/constants'
 
 export const EmailVerifiedPassword = () => {
   return (

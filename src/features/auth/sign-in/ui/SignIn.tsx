@@ -38,7 +38,7 @@ export const SignIn = () => {
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: 'Epam@epam.com',
-      password: 'Passw0rd!',
+      password: '',
     },
     mode: 'onBlur',
   })

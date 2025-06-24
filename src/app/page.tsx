@@ -32,5 +32,4 @@ export default function Home() {
   }, [code, email])
 
   return <ReduxProvider>Hello, TechnoWhales!</ReduxProvider>
-  // return <SignIn/>
 }
