@@ -7,16 +7,14 @@ import {
 
 import { Mutex } from 'async-mutex'
 
-export const SessionStorage = {
-  accessToken: 'podclick-access-token',
-}
+import { ACCESS_TOKEN } from '@/shared/constants'
 
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
   prepareHeaders: headers => {
-    const token = sessionStorage.getItem(SessionStorage.accessToken)
+    const token = sessionStorage.getItem(ACCESS_TOKEN)
 
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
@@ -47,7 +45,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     try {
       const refreshResult = await baseQuery(
         {
-          url: 'authupdate-tokens',
+          url: '/auth/update-tokens',
           method: 'POST',
           body: {}, // при необходимости { refreshToken: "…" }
         },
@@ -57,7 +55,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
       if (refreshResult.data) {
         // @ts-ignore — привести к вашему типу
-        sessionStorage.setItem(SessionStorage.accessToken, (refreshResult.data as any).accessToken)
+        sessionStorage.setItem(ACCESS_TOKEN, (refreshResult.data as any).accessToken)
         // повторяем исходный запрос
         result = await baseQuery(args, api, extraOptions)
       } else {

@@ -12,9 +12,10 @@ import {
 } from '@/features/auth/forgot-password/lib/schemas/forgotPasswordSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constans'
 
 import s from './ForgotPassword.module.scss'
+
+import { ROUTES } from '../../../../shared/constants'
 
 const mokeData = {
   email: 'test@gmail.com',

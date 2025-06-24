@@ -11,10 +11,11 @@ import { signUpSchema, SignUpType } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constans'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignUp.module.scss'
+
+import { ROUTES } from '../../../../shared/constants'
 
 const inputMargin = '0 0 24px'
 
