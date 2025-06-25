@@ -1,5 +1,9 @@
 {
-  "test": {
-    "button": "submit"
+  "common": {
+    "button": {
+      "signUp": "Sign up",
+      "logIn": "Log in",
+      "ok": "OK"
+    }
   }
 }

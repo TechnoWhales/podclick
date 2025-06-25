@@ -1,5 +1,28 @@
 {
   "signUp": {
-    "title": "Зарегистрироваться"
+    "title": "Регистрация",
+    "username": {
+      "label": "Имя пользователя",
+      "placeholder": "Введите имя пользователя"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Email@gmail.com"
+    },
+    "password": {
+      "label": "Пароль",
+      "placeholder": "Создайте пароль"
+    },
+    "confirmPassword": {
+      "label": "Подтверждение пароля",
+      "placeholder": "Повторите пароль"
+    },
+    "policy": "<small_text>Я соглашаюсь с</small_text> <terms_of_service>Условиями обслуживания</terms_of_service> <small_text>и</small_text> <privacy_policy>Политикой конфиденциальности</privacy_policy>",
+    "signUp": "Зарегистрироваться",
+    "haveAccount": "Уже есть аккаунт?",
+    "emailSent": {
+      "title": "Письмо отправлено",
+      "message": "Мы отправили ссылку для подтверждения email на {email}"
+    }
   }
 }
