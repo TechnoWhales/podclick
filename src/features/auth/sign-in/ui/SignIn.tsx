@@ -4,11 +4,13 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { z } from 'zod'
 
 import { OAuth } from '@/features/auth'
 import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constans'
+import { useMakeZodI18nMapForAuth } from '@/shared/hooks/useMakeZodI18nMapForAuth'
 
 import s from './SignIn.module.scss'
 
@@ -19,6 +21,9 @@ const users = [
 ]
 
 export const SignIn = () => {
+  const authZodErrors = useMakeZodI18nMapForAuth()
+
+  z.setErrorMap(authZodErrors) // Переопределяем сообщения об ошибках в Zod для этой компоненты
   const {
     register,
     handleSubmit,
