@@ -4,7 +4,9 @@ import { useEffect } from 'react'
 
 import { redirect, useSearchParams } from 'next/navigation'
 
+import { SignIn } from '@/features/auth'
 import { useConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified-success/api/emailVerifiedSuccessApi'
+import { SignUp } from '@/features/auth/sign-up/ui/SignUp'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
 import { emailSchema, uuidCodeSchema } from '@/shared/schemas'
 

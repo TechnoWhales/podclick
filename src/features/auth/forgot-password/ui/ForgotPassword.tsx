@@ -12,7 +12,7 @@ import {
 } from '@/features/auth/forgot-password/lib/schemas/forgotPasswordSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constans'
+import { ROUTES } from '@/shared/constants'
 
 import s from './ForgotPassword.module.scss'
 
