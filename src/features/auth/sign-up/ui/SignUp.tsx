@@ -5,16 +5,14 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { z } from 'zod'
 
 import { OAuth } from '@/features/auth'
 import { useRegistrationMutation } from '@/features/auth/sign-up/api/signUpApi'
-import { signUpSchema, SignUpType } from '@/features/auth/sign-up/lib/schemas'
+import { SignUpType, useSignUnSchema } from '@/features/auth/sign-up/hooks'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constans'
-import { useMakeZodI18nMapForAuth } from '@/shared/hooks/useMakeZodI18nMapForAuth'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignUp.module.scss'
@@ -22,9 +20,7 @@ import s from './SignUp.module.scss'
 const inputMargin = '0 0 24px'
 
 export const SignUp = () => {
-  const authZodErrors = useMakeZodI18nMapForAuth()
-
-  z.setErrorMap(authZodErrors) // Переопределяем сообщения об ошибках в Zod для этой компоненты
+  const signUnSchema = useSignUnSchema()
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
 
@@ -42,7 +38,7 @@ export const SignUp = () => {
     setError,
     formState: { errors, isValid },
   } = useForm<SignUpType>({
-    resolver: zodResolver(signUpSchema),
+    resolver: zodResolver(signUnSchema),
     defaultValues: {
       userName: '',
       email: '',
