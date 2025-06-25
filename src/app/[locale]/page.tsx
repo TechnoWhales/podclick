@@ -22,10 +22,11 @@ export default function Home() {
       registrationConfirmation(code).then(res => {
         if ('error' in res) {
           redirect('/auth/email-verified')
-        } else {
-          redirect('/auth/email-verified-success')
         }
       })
+    }
+    if (codeValidationResult.success && code && emailValidationResult.success && email) {
+      redirect('/auth/email-verified-success')
     }
   }, [code, email])
 
