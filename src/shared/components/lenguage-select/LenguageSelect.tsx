@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { useLocale } from 'next-intl'
 
-import { useRouter } from '@/i18n/navigation'
+import { usePathname, useRouter } from '@/i18n/navigation'
 import { Icon } from '@/shared/components/ui'
 import { type SelectOption, Select } from '@/shared/components/ui/'
 
@@ -36,15 +36,16 @@ export const LanguageSelect = () => {
 
   const router = useRouter()
   const locale = useLocale()
+  const path = usePathname()
 
   useEffect(() => {
     setValue(locale)
   }, [])
 
   const changeLang = (locale: string) => {
+    debugger
     setValue(locale)
-    router.replace('/auth/sign-up', { locale })
-    router.refresh()
+    router.replace(path, { locale })
   }
 
   return (
