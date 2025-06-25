@@ -24,7 +24,9 @@ export const useSignUnSchema = () => {
         .min(6, { message: t('password.min6') })
         .max(20, { message: t('password.max20') })
         .regex(/^[A-Za-z0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]+$/, {
-          message: t('password.regex'),
+          message: t('password.regex', {
+            regexText: 'A-Z, a-z, 0-9, !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
+          }),
         })
         .refine(value => /[A-Z]/.test(value), {
           message: t('password.uppercase'),
@@ -33,7 +35,9 @@ export const useSignUnSchema = () => {
           message: t('password.number'),
         })
         .refine(value => /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(value), {
-          message: t('password.special'),
+          message: t('password.special', {
+            regexText: '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
+          }),
         }),
       confirmPassword: z.string(),
       agreePolicy: z.boolean().refine(val => val === true),

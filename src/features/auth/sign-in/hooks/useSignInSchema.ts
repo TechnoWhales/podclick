@@ -14,7 +14,9 @@ export const useSignInSchema = () => {
       .min(1, { message: t('password.min1') })
       .max(20, { message: t('password.max20') })
       .regex(/^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,]).{6,20}$/, {
-        message: t('password.regex'),
+        message: t('password.regex', {
+          regexText: 'A-Z, a-z, 0-9, !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
+        }),
       }),
   })
 }
