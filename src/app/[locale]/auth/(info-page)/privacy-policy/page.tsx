@@ -1,10 +1,14 @@
+import { getTranslations } from 'next-intl/server'
+
 import { Typography } from '@/shared/components/ui'
 
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
+  const t = await getTranslations('privacyPolicy')
+
   return (
     <div style={{ textAlign: 'center' }}>
       <Typography variant={'h1'} as={'h1'} style={{ marginBottom: '20px' }}>
-        Privacy Policy
+        {t('title')}
       </Typography>
       <Typography variant={'regular_text_14'}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
