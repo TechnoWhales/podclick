@@ -9,7 +9,7 @@ import s from './EmailVerifiedSuccess.module.scss'
 
 export const EmailVerifiedSuccess = () => {
   return (
-    <Container className={s.container} width={432}>
+    <Container className={s.container} width={432} padding={'35px 0 0'}>
       <Typography variant={'h1'} style={{ marginBottom: '20px' }}>
         Congratulations!
       </Typography>
