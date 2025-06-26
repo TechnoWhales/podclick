@@ -10,7 +10,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const messages = {
     ...(await import(`../../messages/${locale}/auth/signUp.json`)).default,
     ...(await import(`../../messages/${locale}/auth/privacyPolicy.json`)).default,
-    ...(await import(`../../messages/${locale}/auth/emailVerifiedSuccess.json`)).default,
+    ...(await import(`../../messages/${locale}/auth/emailVerifiedPages.json`)).default,
     ...(await import(`../../messages/${locale}/auth/authZodError.json`)).default,
     ...(await import(`../../messages/${locale}/common.json`)).default,
   }
