@@ -2,5 +2,10 @@
   "emailVerifiedSuccess": {
       "title": "Congratulations!",
       "description": "Your email has been confirmed"
+  },
+  "emailVerified": {
+    "title": "Email verification link expired",
+    "description": "Looks like the verification link has expired. Not to worry, we can send the link again",
+    "resendLink": "Resend verification link"
   }
 }

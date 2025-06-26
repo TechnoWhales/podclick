@@ -2,15 +2,18 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
-import { emailSchema, EmailType } from '@/shared/schemas'
+import { EmailType, useEmailSchema } from '@/shared/hooks/useEmailSchema'
 
 import s from './EmailVerified.module.scss'
 
 export const EmailVerified = () => {
+  const t = useTranslations('emailVerified')
+  const emailSchema = useEmailSchema()
   const [resendConfirmationEmail] = useResendConfirmationEmailMutation()
   const {
     register,
@@ -32,25 +35,23 @@ export const EmailVerified = () => {
 
   return (
     <Container className={s.container} width={432} padding={'35px 0 0'}>
-      <Typography variant={'h1'} style={{ marginBottom: '20px' }}>
-        Email verification link expired
+      <Typography variant={'h1'} className={s.title}>
+        {t('title')}
       </Typography>
       <Typography className={s.description} variant={'regular_text_16'}>
-        Looks like the verification link has expired. Not to worry, we can send the link again
+        {t('description')}
       </Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={s.emailWrapper}>
-          <TextField
-            placeholder={'Email@gmail.com'}
-            margin={errors.email?.message ? '0' : '0 0 24px'}
-            label={'Email'}
-            error={errors.email?.message}
-            fullWidth
-            {...register('email')}
-          />
-        </div>
+      <form className={s.formWrapper} onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          placeholder={'Email@gmail.com'}
+          margin={errors.email?.message ? '0' : '0 0 24px'}
+          label={'Email'}
+          error={errors.email?.message}
+          className={s.email}
+          {...register('email')}
+        />
         <Button style={{ marginBottom: '36px' }} type={'submit'} disabled={!isValid}>
-          Resend verification link
+          {t('resendLink')}
         </Button>
       </form>
 

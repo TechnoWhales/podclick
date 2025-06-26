@@ -43,7 +43,6 @@ export const LanguageSelect = () => {
   }, [])
 
   const changeLang = (locale: string) => {
-    debugger
     setValue(locale)
     router.replace(path, { locale })
   }
