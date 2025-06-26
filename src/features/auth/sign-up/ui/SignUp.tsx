@@ -98,32 +98,32 @@ export const SignUp = () => {
           <OAuth />
         </div>
         <TextField
-          placeholder={tAuth('username.placeholder')}
+          placeholder={tCommon('form.username.placeholder')}
           margin={errors.userName?.message ? '0' : inputMargin}
-          label={tAuth('username.label')}
+          label={tCommon('form.username.label')}
           error={errors.userName?.message}
           {...register('userName')}
         />
         <TextField
-          placeholder={tAuth('email.placeholder')}
+          placeholder={tCommon('form.email.placeholder')}
           margin={errors.email?.message ? '0' : inputMargin}
-          label={tAuth('email.label')}
+          label={tCommon('form.email.label')}
           error={errors.email?.message}
           {...register('email')}
         />
         <TextField
-          placeholder={tAuth('password.placeholder')}
+          placeholder={tCommon('form.password.placeholder')}
           margin={errors.password?.message ? '0' : inputMargin}
-          label={tAuth('password.label')}
+          label={tCommon('form.password.label')}
           error={errors.password?.message}
           variant={errors.password?.message ? 'horizontalBorders' : 'fullBorders'}
           mode={'password'}
           {...register('password')}
         />
         <TextField
-          placeholder={tAuth('confirmPassword.placeholder')}
+          placeholder={tCommon('form.confirmPassword.placeholder')}
           margin={errors.confirmPassword?.message ? '0' : inputMargin}
-          label={tAuth('confirmPassword.label')}
+          label={tCommon('form.confirmPassword.label')}
           error={errors.confirmPassword?.message}
           variant={errors.confirmPassword?.message ? 'horizontalBorders' : 'fullBorders'}
           mode={'password'}

@@ -1,22 +1,6 @@
 {
   "signUp": {
     "title": "Sign up",
-    "username": {
-      "label": "Username",
-      "placeholder": "Username"
-    },
-    "email": {
-      "label": "Email",
-      "placeholder": "email@gmail.com"
-    },
-    "password": {
-      "label": "Password",
-      "placeholder": "Password"
-    },
-    "confirmPassword": {
-      "label": "Confirm password",
-      "placeholder": "Password confirmation"
-    },
     "policy": "<small_text>I agree to the</small_text> <terms_of_service>Terms of Service</terms_of_service> <small_text>and</small_text> <privacy_policy>Privacy Policy</privacy_policy>",
     "signUp": "Sign Up",
     "haveAccount": "Already have an account?",

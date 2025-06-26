@@ -1,1 +1,1 @@
-export * from './newPasswordSchema'
+export * from './useNewPasswordSchema'
