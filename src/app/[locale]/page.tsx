@@ -1,34 +1,39 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { redirect, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
-import { useConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified-success/api/emailVerifiedSuccessApi'
+import { TextField } from '@/shared/components/ui'
+import Ring from '@/shared/components/ui/loader/ring/Ring'
+import { useConfirmEmail } from '@/shared/hooks/useConfirmEmail'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
-import { emailSchema, uuidCodeSchema } from '@/shared/schemas'
+import { colors } from '@/shared/styles/colors'
+
+import s from './app.module.scss'
 
 export default function Home() {
+  const [isInitialized, setIsInitialized] = useState(false)
   const searchParams = useSearchParams()
-  const [registrationConfirmation] = useConfirmationEmailMutation()
   const code = searchParams.get('code')
   const email = searchParams.get('email')
 
-  useEffect(() => {
-    const codeValidationResult = uuidCodeSchema.safeParse({ uuid: code })
-    const emailValidationResult = emailSchema.safeParse({ email })
+  const { isConfirmed } = useConfirmEmail({ code, email })
 
-    if (codeValidationResult.success && code && emailValidationResult.success && email) {
-      registrationConfirmation(code).then(res => {
-        if ('error' in res) {
-          redirect('/auth/email-verified')
-        }
-      })
-    }
-    if (codeValidationResult.success && code && emailValidationResult.success && email) {
-      redirect('/auth/email-verified-success')
-    }
-  }, [code, email])
+  useEffect(() => {
+    // Заглушка для лоадера
+    const timeoutId = setTimeout(() => setIsInitialized(true), 1500)
+
+    return () => clearTimeout(timeoutId)
+  }, [])
+
+  if (!isInitialized || !isConfirmed) {
+    return (
+      <div className={s.circularProgressContainer}>
+        <Ring size={150} color={colors.accent['500']} />
+      </div>
+    )
+  }
 
   return <ReduxProvider>Hello, TechnoWhales!</ReduxProvider>
 }
