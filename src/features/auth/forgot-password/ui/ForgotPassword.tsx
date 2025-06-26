@@ -4,15 +4,13 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
-import {
-  forgotPasswordSchema,
-  type Inputs,
-} from '@/features/auth/forgot-password/lib/schemas/forgotPasswordSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constans'
+import { EmailType, useEmailSchema } from '@/shared/hooks/useEmailSchema'
 
 import s from './ForgotPassword.module.scss'
 
@@ -28,6 +26,9 @@ export const ForgotPassword = () => {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [recaptchaKey, setRecaptchaKey] = useState(Date.now())
+  const emailSchema = useEmailSchema()
+  const t = useTranslations('forgotPassword')
+  const tCommon = useTranslations('common')
 
   const {
     register,
@@ -35,15 +36,15 @@ export const ForgotPassword = () => {
     reset,
     setError,
     formState: { errors },
-  } = useForm<Inputs>({
-    resolver: zodResolver(forgotPasswordSchema),
+  } = useForm<EmailType>({
+    resolver: zodResolver(emailSchema),
     defaultValues: {
       email: '',
     },
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
+  const onSubmit: SubmitHandler<EmailType> = data => {
     if (!recaptchaToken) {
       setError('email', {
         type: 'custom',
@@ -75,19 +76,17 @@ export const ForgotPassword = () => {
 
   return (
     <Card flex={'columnCenter'} className={s.card}>
-      <Modal open={isOpened} onClose={() => setIsOpened(false)} modalTitle={'Email sent'}>
+      <Modal open={isOpened} onClose={() => setIsOpened(false)} modalTitle={t('emailSent.title')}>
         <div>
-          <Typography variant={'regular_text_16'}>
-            We have sent a link to confirm your email to {email}
-          </Typography>
+          <Typography variant={'regular_text_16'}>{t('emailSent.message', { email })}</Typography>
           <Button className={s.modalBtn} onClick={() => setIsOpened(false)}>
-            OK
+            {tCommon('button.ok')}
           </Button>
         </div>
       </Modal>
       <div className={s.forgotWrapper}>
         <Typography variant={'h1'} as={'h1'}>
-          Forgot password
+          {t('title')}
         </Typography>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -99,14 +98,12 @@ export const ForgotPassword = () => {
           {...register('email')}
         />
         <Typography variant={'regular_text_14'} className={s.text}>
-          Enter your email address and we will send you further instructions
+          {t('description')}
         </Typography>
         {isSubmitted ? (
           <>
-            <Typography variant={'regular_text_14'}>The link has been sent by email.</Typography>
-            <Typography variant={'regular_text_14'}>
-              If you don’t receive an email send link again
-            </Typography>
+            <Typography variant={'regular_text_14'}>{t('emailLinkSent')}</Typography>
+            <Typography variant={'regular_text_14'}>{t('emailLinkSentDescription')}</Typography>
             <Button
               className={s.sendBtn}
               type={'submit'}
@@ -114,29 +111,29 @@ export const ForgotPassword = () => {
               style={{ marginTop: '10px' }}
               onClick={handleSendAgain}
             >
-              Send Link Again
+              {t('sendLinkAgain')}
             </Button>
             <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
               <Button className={s.signInBtn} as={'a'} variant={'link'}>
-                Back to Sign In
+                {t('backToSignIn')}
               </Button>
             </Link>
           </>
         ) : (
           <>
             <Button className={s.sendBtn} type={'submit'} fullwidth>
-              Send Link
+              {t('sendLink')}
             </Button>
             <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
               <Button className={s.signInBtn} as={'a'} variant={'link'}>
-                Back to Sign In
+                {t('backToSignIn')}
               </Button>
             </Link>
             <div className={s.recaptcha}>
               <ReCAPTCHA
                 key={recaptchaKey}
                 size={'normal'}
-                sitekey={process.env.NEXT_PUBLIC_SITE_KEY as string}
+                sitekey={process.env.NEXT_PUBLIC_BASE_URL as string}
                 onChange={token => {
                   setRecaptchaToken(token)
                 }}
