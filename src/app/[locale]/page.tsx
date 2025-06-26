@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation'
 
 import Ring from '@/shared/components/ui/loader/ring/Ring'
 import { COLORS } from '@/shared/constans'
-import { useConfirmEmail } from '@/shared/hooks/useConfirmEmail'
+import { useCheckConfirmEmail } from '@/shared/hooks'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
 
 import s from './app.module.scss'
@@ -17,7 +17,7 @@ export default function Home() {
   const code = searchParams.get('code')
   const email = searchParams.get('email')
 
-  const { isConfirmed } = useConfirmEmail({ code, email })
+  const { isConfirmed } = useCheckConfirmEmail({ code, email })
 
   useEffect(() => {
     // Заглушка для лоадера

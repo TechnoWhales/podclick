@@ -27,7 +27,7 @@ type Props = {
  * }
  * ```
  */
-export function useConfirmEmail({ code, email }: Props) {
+export function useCheckConfirmEmail({ code, email }: Props) {
   const [isConfirmed, setIsConfirmed] = useState(false)
   const [registrationConfirmation] = useConfirmationEmailMutation()
   const router = useRouter()
