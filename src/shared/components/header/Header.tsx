@@ -9,9 +9,8 @@ import { usePathname } from 'next/navigation'
 import { LanguageSelect } from '@/shared/components'
 import { Button, Container, Icon, Typography } from '@/shared/components/ui'
 import Linear from '@/shared/components/ui/loader/linear/Linear'
-import { ROUTES } from '@/shared/constans'
+import { ROUTES, COLORS } from '@/shared/constans'
 import { selectAppStatus } from '@/shared/model/appSlice'
-import { colors } from '@/shared/styles/colors'
 import { RequestStatus } from '@/shared/types/Status'
 
 import s from './Header.module.scss'
@@ -52,7 +51,7 @@ const NotAuthorizedNavbarControls = () => {
 const AuthHeader = ({ status }: { status: RequestStatus }) => {
   return (
     <>
-      {status === 'loading' && <Linear color={colors.accent['500']} height={5} />}
+      {status === 'loading' && <Linear color={COLORS.accent['500']} height={5} />}
       <Container width={1310} padding={'0 15px'}>
         <nav className={s.navbar}>
           <Typography className={s.logo} as={Link} href={ROUTES.HOME} variant={'large'}>
