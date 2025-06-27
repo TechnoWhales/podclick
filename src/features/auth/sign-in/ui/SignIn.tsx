@@ -6,9 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
 import { OAuth } from '@/features/auth'
-import { type SignInType, useSignInSchema } from '@/features/auth/sign-in/hooks/useSignInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constans'
+import { SignInType, useSignInSchema } from '@/shared/hooks'
 
 import s from './SignIn.module.scss'
 

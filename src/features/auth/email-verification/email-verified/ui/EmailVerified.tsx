@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
-import { EmailType, useEmailSchema } from '@/shared/hooks/useEmailSchema'
+import { EmailType, useEmailSchema } from '@/shared/hooks'
 
 import s from './EmailVerified.module.scss'
 

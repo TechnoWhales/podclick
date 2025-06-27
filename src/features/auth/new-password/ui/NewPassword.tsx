@@ -4,11 +4,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 
-import {
-  type NewPasswordType,
-  useNewPasswordSchema,
-} from '@/features/auth/new-password/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
+import { NewPasswordType, useNewPasswordSchema } from '@/shared/hooks'
 
 import s from './NewPassword.module.scss'
 
