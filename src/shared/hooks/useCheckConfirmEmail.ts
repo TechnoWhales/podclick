@@ -37,13 +37,19 @@ export function useCheckConfirmEmail({ code, email }: Props) {
     const emailValidationResult = emailSchema.safeParse({ email })
 
     if (codeValidationResult.success && code && emailValidationResult.success && email) {
-      registrationConfirmation(code).then(res => {
-        if ('error' in res) {
-          router.replace('/auth/email-verified')
-        } else {
-          router.replace('/auth/email-verified-success')
-        }
-      })
+      registrationConfirmation(code)
+        .then(res => {
+          if ('error' in res) {
+            router.replace(`/auth/email-verified?code=${code}&email=${email}`)
+          } else {
+            router.replace(`/auth/email-verified-success?code=${code}&email=${email}`)
+          }
+        })
+        .finally(() => {
+          const emailVerifiedParams = { code, email }
+
+          sessionStorage.setItem('emailVerifiedParams', JSON.stringify(emailVerifiedParams))
+        })
     } else {
       setIsConfirmed(true)
     }

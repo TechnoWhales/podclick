@@ -7,7 +7,10 @@ import Image from 'next/image'
 
 import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
+import Ring from '@/shared/components/ui/loader/ring/Ring'
+import { COLORS } from '@/shared/constans'
 import { EmailType, useEmailSchema } from '@/shared/hooks'
+import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
 import s from './EmailVerified.module.scss'
 
@@ -31,6 +34,19 @@ export const EmailVerified = () => {
   const onSubmit: SubmitHandler<EmailType> = data => {
     resendConfirmationEmail(data.email)
     reset()
+  }
+
+  const { isChecked } = useCheckQueryParams({
+    queryParams: ['code', 'email'],
+    storeName: 'emailVerifiedParams',
+  })
+
+  if (!isChecked) {
+    return (
+      <div className={s.circularProgressContainer}>
+        <Ring size={150} color={COLORS.accent['500']} />
+      </div>
+    )
   }
 
   return (

@@ -4,13 +4,28 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Button, Container, Typography } from '@/shared/components/ui'
-import { ROUTES } from '@/shared/constans'
+import Ring from '@/shared/components/ui/loader/ring/Ring'
+import { COLORS, ROUTES } from '@/shared/constans'
+import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
 import s from './EmailVerifiedSuccess.module.scss'
 
 export const EmailVerifiedSuccess = () => {
   const t = useTranslations('emailVerifiedSuccess')
   const tCommon = useTranslations('common')
+
+  const { isChecked } = useCheckQueryParams({
+    queryParams: ['code', 'email'],
+    storeName: 'emailVerifiedParams',
+  })
+
+  if (!isChecked) {
+    return (
+      <div className={s.circularProgressContainer}>
+        <Ring size={150} color={COLORS.accent['500']} />
+      </div>
+    )
+  }
 
   return (
     <Container className={s.container} width={432} padding={'35px 0 0'}>
