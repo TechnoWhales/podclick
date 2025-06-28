@@ -7,7 +7,6 @@ import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { Icon } from '@/shared/components/ui'
 import { type SelectOption, Select } from '@/shared/components/ui/'
-import { useSearchParams } from 'next/navigation'
 import { useGetAllQueryParams } from '@/shared/hooks/useGetAllQueryParams'
 
 export const LanguageSelect = () => {
