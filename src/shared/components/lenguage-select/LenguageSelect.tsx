@@ -7,6 +7,8 @@ import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { Icon } from '@/shared/components/ui'
 import { type SelectOption, Select } from '@/shared/components/ui/'
+import { useSearchParams } from 'next/navigation'
+import { useGetAllQueryParams } from '@/shared/hooks/useGetAllQueryParams'
 
 export const LanguageSelect = () => {
   const labelStyle = { display: 'flex', alignItems: 'center', gap: '12px' }
@@ -42,9 +44,11 @@ export const LanguageSelect = () => {
     setValue(locale)
   }, [])
 
+  const query = useGetAllQueryParams()
+
   const changeLang = (locale: string) => {
     setValue(locale)
-    router.replace(path, { locale })
+    router.replace({ pathname: path, query }, { locale })
   }
 
   return (

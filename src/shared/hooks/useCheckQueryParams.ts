@@ -1,6 +1,8 @@
+'use client'
 import { useEffect, useState } from 'react'
 
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useGetAllQueryParams } from '@/shared/hooks/useGetAllQueryParams'
 
 type Props = {
   queryParams: string[]
@@ -19,15 +21,7 @@ export const useCheckQueryParams = ({
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const urlParams: Record<string, string> = {}
-
-  for (const key of searchParams.keys()) {
-    const value = searchParams.get(key)
-
-    if (value !== null) {
-      urlParams[key] = value
-    }
-  }
+  const allParams = useGetAllQueryParams()
 
   useEffect(() => {
     let storeItem
@@ -43,7 +37,7 @@ export const useCheckQueryParams = ({
     if (storeItem) {
       parsedStoreItem = JSON.parse(storeItem)
     }
-    const allParamsMatch = queryParams.every(param => urlParams[param] === parsedStoreItem[param])
+    const allParamsMatch = queryParams.every(param => allParams[param] === parsedStoreItem[param])
 
     if (parsedStoreItem === null || !allParamsMatch) {
       router.replace(redirectUrl)
