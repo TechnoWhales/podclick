@@ -25,7 +25,6 @@ export const SignIn = () => {
 
     if (token) {
       router.push(ROUTES.HOME)
-      router.refresh()
     }
   }, [router])
 
@@ -34,6 +33,7 @@ export const SignIn = () => {
     handleSubmit,
     formState: { errors, isValid },
     setError,
+    reset,
   } = useForm<Inputs>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -49,6 +49,7 @@ export const SignIn = () => {
       .then(res => {
         if ('accessToken' in res) {
           sessionStorage.setItem(ACCESS_TOKEN, res?.accessToken)
+          router.push(ROUTES.HOME)
         }
       })
       .catch((err: RTKQueryError) => {
