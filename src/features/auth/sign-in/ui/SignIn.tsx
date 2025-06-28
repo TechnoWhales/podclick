@@ -3,6 +3,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 import { OAuth } from '@/features/auth'
@@ -19,6 +20,8 @@ const users = [
 ]
 
 export const SignIn = () => {
+  const t = useTranslations('signIn')
+  const tCommon = useTranslations('common')
   const loginSchema = useSignInSchema()
 
   const {
@@ -49,7 +52,7 @@ export const SignIn = () => {
   return (
     <Card flex={'columnCenter'} className={s.card}>
       <Typography className={s.title} variant={'h1'}>
-        Sign In
+        {tCommon('button.logIn')}
       </Typography>
       <OAuth />
 
@@ -63,9 +66,9 @@ export const SignIn = () => {
             error={errors.email?.message}
           />
           <TextField
-            placeholder={'Password'}
+            placeholder={tCommon('form.password.placeholder')}
             variant={errors.password ? 'horizontalBorders' : 'fullBorders'}
-            label={'Password'}
+            label={tCommon('form.password.label')}
             mode={'password'}
             {...register('password')}
             error={errors.password?.message}
@@ -74,19 +77,19 @@ export const SignIn = () => {
         <div className={s.containerButton}>
           <Link href={ROUTES.AUTH.FORGOT_PASSWORD} passHref legacyBehavior>
             <Typography as={'a'} className={s.forgotPasswordLink}>
-              Forgot Password
+              {t('forgotPassword')}
             </Typography>
           </Link>
 
           <Button type={'submit'} variant={'primary'} disabled={!isValid} className={s.button}>
-            Sign In
+            {tCommon('button.logIn')}
           </Button>
           <Typography variant={'regular_text_16'} className={s.text}>
-            Don’t have an account?
+            {t('noAccount')}
           </Typography>
           <Link href={ROUTES.AUTH.SIGN_UP} passHref legacyBehavior>
             <Button variant={'link'} as={'a'}>
-              Sign Up
+              {tCommon('button.signUp')}
             </Button>
           </Link>
         </div>

@@ -1,7 +1,7 @@
 {
   "common": {
     "button": {
-      "signUp": "Sign up",
+      "signUp": "Sign Up",
       "logIn": "Log in",
       "ok": "OK"
     },
