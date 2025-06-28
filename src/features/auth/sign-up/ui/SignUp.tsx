@@ -13,6 +13,7 @@ import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constans'
 import { SignUpType, useSignUnSchema } from '@/shared/hooks'
+import { ROUTES } from '@/shared/constants'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignUp.module.scss'

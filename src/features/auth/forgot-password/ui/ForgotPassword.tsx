@@ -9,8 +9,8 @@ import Link from 'next/link'
 
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constans'
 import { EmailType, useEmailSchema } from '@/shared/hooks'
+import { ROUTES } from '@/shared/constants'
 
 import s from './ForgotPassword.module.scss'
 

@@ -9,9 +9,10 @@ import { usePathname } from 'next/navigation'
 import { LanguageSelect } from '@/shared/components'
 import { Button, Container, Icon, Typography } from '@/shared/components/ui'
 import Linear from '@/shared/components/ui/loader/linear/Linear'
-import { ROUTES, COLORS } from '@/shared/constans'
+import { COLORS } from '@/shared/constans'
 import { selectAppStatus } from '@/shared/model/appSlice'
 import { RequestStatus } from '@/shared/types/Status'
+import { ROUTES } from '@/shared/constants'
 
 import s from './Header.module.scss'
 
