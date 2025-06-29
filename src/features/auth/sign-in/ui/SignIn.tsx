@@ -9,9 +9,11 @@ import { useRouter } from 'next/navigation'
 
 import { OAuth } from '@/features/auth'
 import { useLoginMutation } from '@/features/auth/sign-in/api/signInApi'
+import { setIsLoggedInAC } from '@/features/auth/sign-in/app-slice'
 import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
+import { useAppDispatch } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignIn.module.scss'
@@ -25,7 +27,6 @@ export const SignIn = () => {
 
     if (token) {
       router.push(ROUTES.HOME)
-      router.refresh()
     }
   }, [router])
 
@@ -37,7 +38,7 @@ export const SignIn = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: 'Epam@epam.com',
+      email: '',
       password: '',
     },
     mode: 'onBlur',
@@ -49,6 +50,7 @@ export const SignIn = () => {
       .then(res => {
         if ('accessToken' in res) {
           sessionStorage.setItem(ACCESS_TOKEN, res?.accessToken)
+          router.push(ROUTES.HOME)
         }
       })
       .catch((err: RTKQueryError) => {
