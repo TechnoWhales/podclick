@@ -8,7 +8,7 @@ import {
   SPECIAL_PATTERN,
   UPPERCASE_PATTERN,
   USERNAME_PATTERN,
-} from '@/shared/constans/regex'
+} from '@/shared/constants/regex'
 
 export const useSignUnSchema = () => {
   const t = useTranslations('authZodError')

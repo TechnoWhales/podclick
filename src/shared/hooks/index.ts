@@ -1,5 +1,5 @@
 export { useAppSelector } from './useAppSelector'
 export { useAppDispatch } from './useAppDispatch'
 export { useAppStore } from './useAppStore'
-export { useCheckConfirmEmail } from './useCheckConfirmEmail'
+export { useCheckCodeConfirm } from './useCheckCodeConfirm'
 export * from './useValidationSchema'

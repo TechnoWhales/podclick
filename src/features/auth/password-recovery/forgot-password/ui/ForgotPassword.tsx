@@ -7,16 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
+import { usePasswordRecoveryMutation } from '@/features/auth/password-recovery/forgot-password/api/forgotPasswordApi'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { EmailType, useEmailSchema } from '@/shared/hooks'
 import { ROUTES } from '@/shared/constants'
+import { EmailType, useEmailSchema } from '@/shared/hooks'
+import { RTKQueryError } from '@/shared/types'
 
 import s from './ForgotPassword.module.scss'
-
-const mokeData = {
-  email: 'test@gmail.com',
-}
 
 const inputMargin = '0 0 24px'
 
@@ -29,6 +27,7 @@ export const ForgotPassword = () => {
   const emailSchema = useEmailSchema()
   const t = useTranslations('forgotPassword')
   const tCommon = useTranslations('common')
+  const [passwordRecovery] = usePasswordRecoveryMutation()
 
   const {
     register,
@@ -54,24 +53,48 @@ export const ForgotPassword = () => {
       return
     }
 
-    if (mokeData.email === data.email) {
-      setError('email', {
-        type: 'custom',
-        message: "User with this email doesn't exist",
-      })
-    } else {
-      setEmail(data.email)
-      setIsOpened(true)
-      setIsSubmitted(true)
-      reset()
-      setRecaptchaToken(null)
-      setRecaptchaKey(Date.now())
+    const body = {
+      email: data.email,
+      recaptcha: recaptchaToken,
     }
+
+    passwordRecovery(body)
+      .unwrap()
+      .then(res => {
+        setEmail(body.email)
+        setIsOpened(true)
+        setIsSubmitted(true)
+        reset()
+      })
+      .catch((err: RTKQueryError) => {
+        if (err.data.statusCode === 400 && err.data.messages[0].field === 'email') {
+          setError(err.data.messages[0].field, {
+            type: 'custom',
+            message: err.data.messages[0].message,
+          })
+        }
+      })
   }
 
   const handleSendAgain = () => {
-    setIsSubmitted(false)
-    setRecaptchaToken(null)
+    if (recaptchaToken) {
+      const body = {
+        email,
+        recaptcha: recaptchaToken,
+      }
+
+      passwordRecovery(body)
+        .unwrap()
+        .then(() => {
+          setEmail(body.email)
+          setIsOpened(true)
+          setIsSubmitted(true)
+          setIsSubmitted(false)
+          setRecaptchaToken(null)
+          setRecaptchaKey(Date.now())
+          reset()
+        })
+    }
   }
 
   return (
@@ -106,8 +129,8 @@ export const ForgotPassword = () => {
             <Typography variant={'regular_text_14'}>{t('emailLinkSentDescription')}</Typography>
             <Button
               className={s.sendBtn}
-              type={'submit'}
               fullwidth
+              type={'button'}
               style={{ marginTop: '10px' }}
               onClick={handleSendAgain}
             >

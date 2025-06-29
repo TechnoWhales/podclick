@@ -3,9 +3,11 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { useConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified-success/api/emailVerifiedSuccessApi'
 import { Button, Container, Typography } from '@/shared/components/ui'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { COLORS, ROUTES } from '@/shared/constans'
+import { COLORS, ROUTES } from '@/shared/constants'
+import { useCheckCodeConfirm } from '@/shared/hooks'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
 import s from './EmailVerifiedSuccess.module.scss'
@@ -14,12 +16,16 @@ export const EmailVerifiedSuccess = () => {
   const t = useTranslations('emailVerifiedSuccess')
   const tCommon = useTranslations('common')
 
-  const { isChecked } = useCheckQueryParams({
-    queryParams: ['code', 'email'],
-    storeName: 'emailVerifiedParams',
+  const [confirmEmail] = useConfirmationEmailMutation()
+
+  const { isChecked } = useCheckQueryParams({ redirectUrl: '/' })
+
+  const { isConfirmed } = useCheckCodeConfirm({
+    confirmAction: confirmEmail,
+    urlPath: 'email-verified',
   })
 
-  if (!isChecked) {
+  if (!isConfirmed || !isChecked) {
     return (
       <div className={s.circularProgressContainer}>
         <Ring size={150} color={COLORS.accent['500']} />

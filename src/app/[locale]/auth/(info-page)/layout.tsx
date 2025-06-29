@@ -3,8 +3,7 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 
 import { Container, Icon, Typography } from '@/shared/components/ui'
-
-import { ROUTES } from '../../../shared/constants'
+import { ROUTES } from '@/shared/constants'
 
 export default function InfoPageLayout({ children }: { children: ReactNode }) {
   return (

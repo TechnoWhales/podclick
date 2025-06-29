@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { COLORS } from '@/shared/constans'
+import { COLORS } from '@/shared/constants'
 import { EmailType, useEmailSchema } from '@/shared/hooks'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
@@ -36,10 +36,7 @@ export const EmailVerified = () => {
     reset()
   }
 
-  const { isChecked } = useCheckQueryParams({
-    queryParams: ['code', 'email'],
-    storeName: 'emailVerifiedParams',
-  })
+  const { isChecked } = useCheckQueryParams({ redirectUrl: '/' })
 
   if (!isChecked) {
     return (

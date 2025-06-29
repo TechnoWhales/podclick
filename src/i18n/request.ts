@@ -12,8 +12,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ...(await import(`../../messages/${locale}/auth/signIn.json`)).default,
     ...(await import(`../../messages/${locale}/auth/privacyPolicy.json`)).default,
     ...(await import(`../../messages/${locale}/auth/emailVerifiedPages.json`)).default,
-    ...(await import(`../../messages/${locale}/auth/newPassword.json`)).default,
-    ...(await import(`../../messages/${locale}/auth/forgotPassword.json`)).default,
+    ...(await import(`../../messages/${locale}/auth/passwordRecovery.json`)).default,
     ...(await import(`../../messages/${locale}/auth/authZodError.json`)).default,
     ...(await import(`../../messages/${locale}/common.json`)).default,
   }

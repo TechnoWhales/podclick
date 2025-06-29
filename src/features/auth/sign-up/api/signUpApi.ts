@@ -1,5 +1,5 @@
-import { SignUpType } from '@/features/auth/sign-up/hooks'
 import { baseApi } from '@/shared/api/baseApi'
+import { SignUpType } from '@/shared/hooks'
 
 type Registration = Omit<SignUpType, 'confirmPassword' | 'agreePolicy'>
 

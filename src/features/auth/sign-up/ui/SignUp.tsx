@@ -11,9 +11,8 @@ import { useRegistrationMutation } from '@/features/auth/sign-up/api/signUpApi'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constans'
-import { SignUpType, useSignUnSchema } from '@/shared/hooks'
 import { ROUTES } from '@/shared/constants'
+import { SignUpType, useSignUnSchema } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignUp.module.scss'
@@ -55,7 +54,7 @@ export const SignUp = () => {
       userName: data.userName,
       email: data.email,
       password: data.password,
-      baseUrl: 'http://localhost:3000',
+      baseUrl: 'http://localhost:3000/auth/email-verified-success',
     }
 
     registration(body)

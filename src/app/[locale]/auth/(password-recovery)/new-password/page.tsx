@@ -1,4 +1,4 @@
-import { NewPassword } from '@/features/auth/new-password/ui/NewPassword'
+import { NewPassword } from '@/features/auth/password-recovery/new-password/ui/NewPassword'
 
 export default function NewPasswordPage() {
   return (
