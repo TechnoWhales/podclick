@@ -9,13 +9,19 @@
   text-decoration: none;
 }
 
-.navbarControls {
+.bellIconWrapper {
   display: flex;
-  gap: 45px;
   align-items: center;
+  margin-right: 24px;
 }
 
-.wrapperButtons {
+.navbarControls {
   display: flex;
   gap: 24px;
+  align-items: center;
+  margin-left: 36px;
+}
+
+.authorizedWrapper {
+  display: flex;
 }

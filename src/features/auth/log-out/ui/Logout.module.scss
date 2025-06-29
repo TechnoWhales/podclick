@@ -1,0 +1,16 @@
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.button {
+  width: 96px;
+  height: 36px;
+}

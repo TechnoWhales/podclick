@@ -3,6 +3,7 @@ export const ROUTES = {
   AUTH: {
     SIGN_IN: '/auth/sign-in',
     SIGN_UP: '/auth/sign-up',
+    LOG_OUT: '/auth/log-out',
     FORGOT_PASSWORD: '/auth/forgot-password',
     NEW_PASSWORD: '/auth/new-password',
     TERMS_OF_SERVICE: '/auth/terms-of-service',

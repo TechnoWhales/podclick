@@ -19,29 +19,26 @@ type BaseTextField = {
   error?: string
   margin?: string
   fullWidth?: boolean
+  onChange?: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 type InputProps = BaseTextField & {
   variant?: InputVariant
   mode?: InputMode
   multiline?: false
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 } & ComponentPropsWithoutRef<'input'>
 
 type TextAreaProps = BaseTextField & {
   multiline: true
-  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void
 } & ComponentPropsWithoutRef<'textarea'>
 
 type TextFieldProps = InputProps | TextAreaProps
 
 export const TextField = (props: TextFieldProps) => {
-  const { error, fullWidth, disabled, label, margin, className, id } = props
+  const { error, disabled, label, id, onChange } = props
   const [hidePassword, setHidePassword] = useState(false)
   const generatedId = useId()
   const inputId = id || generatedId
-  const containerStyle = clsx(s.container, fullWidth && s.fullWidth)
-  const marginContainer = margin ? { margin } : undefined
   const labelComponent = label && (
     <Typography
       variant={'regular_text_14'}
@@ -59,15 +56,11 @@ export const TextField = (props: TextFieldProps) => {
   )
 
   if (props.multiline) {
-    const { onChange, value, multiline, rows = 4, ...rest } = props
+    const { value, rows = 4, fullWidth, margin, className, multiline, ...rest } = props
+    const containerStyle = clsx(s.container, fullWidth && s.fullWidth, className && className)
+    const marginContainer = margin ? { margin } : undefined
 
-    const textAreaStyle = clsx(
-      s.textField,
-      s.multiline,
-      error && s.error,
-      disabled && s.disabled,
-      className
-    )
+    const textAreaStyle = clsx(s.textField, s.multiline, error && s.error, disabled && s.disabled)
 
     return (
       <div className={containerStyle} style={marginContainer}>
@@ -86,16 +79,24 @@ export const TextField = (props: TextFieldProps) => {
     )
   }
 
-  const { onChange, variant = 'fullBorders', mode = 'default', value, ...rest } = props
-
+  const {
+    variant = 'fullBorders',
+    mode = 'default',
+    value,
+    fullWidth,
+    margin,
+    className,
+    ...rest
+  } = props
+  const containerStyle = clsx(s.container, fullWidth && s.fullWidth, className && className)
+  const marginContainer = margin ? { margin } : undefined
   const inputStyle = clsx(
     s.textField,
     error && s.error,
     disabled && s.disabled,
     variant === 'horizontalBorders' && s.horizontalBorders,
     mode === 'search' && s.iconStart,
-    mode === 'password' && s.iconEnd,
-    className
+    mode === 'password' && s.iconEnd
   )
 
   return (

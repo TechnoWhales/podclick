@@ -3,13 +3,30 @@
   flex-direction: column;
   align-items: center;
 }
+.title {
+  margin-bottom: 20px;
+  text-align: center;
+
+}
 
 .description {
   width: 294px;
   margin-bottom: 30px;
   text-align: center;
 }
-
-.emailWrapper {
-  width: 230px;
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &:lang(ru) {
+    width: 330px;
+  }
 }
+
+.email {
+  width: 230px;
+  &:lang(ru) {
+    width: 330px;
+  }
+}
+

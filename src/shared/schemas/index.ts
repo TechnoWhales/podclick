@@ -1,2 +1,2 @@
-export { emailSchema, EmailType } from './emailSchema'
-export { uuidCodeSchema, UUIDType } from './uuidCodeSchema'
+export { emailSchema, type EmailType } from './emailSchema'
+export { uuidCodeSchema } from './uuidCodeSchema'

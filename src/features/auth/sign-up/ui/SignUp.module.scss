@@ -30,7 +30,14 @@
 .policyText {
   display: flex;
   align-items: center;
-  margin-left: 4px;
+  flex-wrap: wrap;
+  margin: 0 4px;
+  p {
+    overflow-wrap: break-word;
+  }
+  a {
+    overflow-wrap: break-word;
+  }
 
   & a:first-of-type {
     margin: 0 5px;
@@ -38,6 +45,9 @@
 
   & a:last-of-type {
     margin-left: 5px;
+    &:lang(ru) {
+      margin-left: 0;
+    }
   }
 }
 
