@@ -13,6 +13,7 @@ const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+  credentials: 'include',
   prepareHeaders: headers => {
     const token = sessionStorage.getItem(ACCESS_TOKEN)
 

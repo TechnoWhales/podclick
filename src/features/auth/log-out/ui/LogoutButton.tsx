@@ -14,7 +14,7 @@ export const LogOutButton = () => {
       <Link href={ROUTES.AUTH.LOG_OUT} passHref legacyBehavior>
         <span className={s.container}>
           <Icon iconId={'logOut'} />
-          <Button className={s.size} variant="icon">
+          <Button className={s.size} variant={'icon'}>
             Log Out
           </Button>
         </span>

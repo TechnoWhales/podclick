@@ -2,7 +2,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 
 import { useRouter } from 'next/navigation'
 
-import { ACCESS_TOKEN, ROUTES } from '@/shared/constans'
+import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
 
 import { useGoogleLoginMutation } from '../../api/oAuthApi'
 

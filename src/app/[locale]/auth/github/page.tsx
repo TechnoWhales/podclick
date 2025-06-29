@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import { Container, Typography } from '@/shared/components/ui'
-import { ACCESS_TOKEN, ROUTES } from '@/shared/constans'
+import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
 
 export default function GithubOAuthRedirectPage() {
   const router = useRouter()

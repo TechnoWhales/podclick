@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
+import { LogOutButton } from '@/features/auth'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
 import { COLORS } from '@/shared/constants'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
@@ -26,5 +27,9 @@ export default function Home() {
     )
   }
 
-  return <ReduxProvider>Hello, TechnoWhales!</ReduxProvider>
+  return (
+    <ReduxProvider>
+      Hello, TechnoWhales! <LogOutButton />
+    </ReduxProvider>
+  )
 }

@@ -3,25 +3,25 @@
 import * as React from 'react'
 import { useState } from 'react'
 
-import { router } from 'next/client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { useLogoutMutation } from '@/features/auth/log-out/api/logoutApi'
-import { Button, Card, Typography } from '@/shared/components/ui'
+import { Button, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constants'
 
 import s from './Logout.module.scss'
 
-type Props = {}
-export const LogOut = (props: Props) => {
+export const LogOut = () => {
+  const router = useRouter()
   const [open, setOpen] = useState(true)
-  const [logout] = useLogoutMutation
+  const [logout] = useLogoutMutation()
 
   const handleLogout = async () => {
     try {
       await logout().unwrap()
-      router.replace('auth/login')
+      router.replace(ROUTES.AUTH.SIGN_IN)
     } catch (e) {
       console.error(e)
     }
@@ -43,7 +43,7 @@ export const LogOut = (props: Props) => {
         <div className={s.buttonsContainer}>
           <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
             {/* Добавить логику логаута */}
-            <Button variant={'outlined'} className={s.button} onclick={handleLogout}>
+            <Button variant={'outlined'} className={s.button} onClick={handleLogout}>
               Yes
             </Button>
           </Link>
