@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,18 +10,16 @@ import { useRouter } from 'next/navigation'
 
 import { OAuth } from '@/features/auth'
 import { useLoginMutation } from '@/features/auth/sign-in/api/signInApi'
-import { setIsLoggedInAC } from '@/features/auth/sign-in/app-slice'
-import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
-import { ROUTES } from '@/shared/constans'
+import Ring from '@/shared/components/ui/loader/ring/Ring'
+import { ACCESS_TOKEN, COLORS, ROUTES } from '@/shared/constants'
 import { SignInType, useSignInSchema } from '@/shared/hooks'
-import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
-import { useAppDispatch } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignIn.module.scss'
 
 export const SignIn = () => {
+  const [loader, setLoader] = useState(false)
   const t = useTranslations('signIn')
   const tCommon = useTranslations('common')
   const loginSchema = useSignInSchema()
@@ -34,6 +32,8 @@ export const SignIn = () => {
 
     if (token) {
       router.push(ROUTES.HOME)
+    } else {
+      setLoader(true)
     }
   }, [router])
 
@@ -51,7 +51,7 @@ export const SignIn = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
+  const onSubmit: SubmitHandler<SignInType> = data => {
     login(data)
       .unwrap()
       .then(res => {
@@ -68,6 +68,14 @@ export const SignIn = () => {
           })
         }
       })
+  }
+
+  if (!loader) {
+    return (
+      <div className={'circularProgressContainer'}>
+        <Ring size={150} color={COLORS.accent['500']} />
+      </div>
+    )
   }
 
   return (

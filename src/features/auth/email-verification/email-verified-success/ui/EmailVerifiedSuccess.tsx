@@ -27,7 +27,7 @@ export const EmailVerifiedSuccess = () => {
 
   if (!isConfirmed || !isChecked) {
     return (
-      <div className={s.circularProgressContainer}>
+      <div className={'circularProgressContainer'}>
         <Ring size={150} color={COLORS.accent['500']} />
       </div>
     )
