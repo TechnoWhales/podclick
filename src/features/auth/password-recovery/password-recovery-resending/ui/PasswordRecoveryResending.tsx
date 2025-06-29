@@ -19,6 +19,7 @@ export const PasswordRecoveryResending = () => {
   const [isOpened, setIsOpened] = useState(false)
   const [emailForModal, setEmailForModal] = useState('')
   const t = useTranslations('passwordRecoveryResending')
+  const tModal = useTranslations('forgotPassword')
   const tCommon = useTranslations('common')
   const [passwordRecoveryResending] = usePasswordRecoveryResendingMutation()
   const { isChecked } = useCheckQueryParams({ redirectUrl: '/' })
@@ -43,10 +44,14 @@ export const PasswordRecoveryResending = () => {
 
   return (
     <Container className={s.container} width={432}>
-      <Modal open={isOpened} onClose={() => setIsOpened(false)} modalTitle={t('emailSent.title')}>
+      <Modal
+        open={isOpened}
+        onClose={() => setIsOpened(false)}
+        modalTitle={tModal('emailSent.title')}
+      >
         <div>
           <Typography variant={'regular_text_16'}>
-            {t('emailSent.message', { email: emailForModal })}
+            {tModal('emailSent.message', { email: emailForModal })}
           </Typography>
           <Button className={s.modalBtn} onClick={() => setIsOpened(false)}>
             {tCommon('button.ok')}

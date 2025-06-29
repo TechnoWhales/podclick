@@ -156,7 +156,7 @@ export const ForgotPassword = () => {
               <ReCAPTCHA
                 key={recaptchaKey}
                 size={'normal'}
-                sitekey={process.env.NEXT_PUBLIC_SITE_KEY as string}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY as string}
                 onChange={token => {
                   setRecaptchaToken(token)
                 }}
