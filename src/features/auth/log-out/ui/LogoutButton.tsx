@@ -1,8 +1,11 @@
 'use client'
-import { Button, Icon, Typography } from '@/shared/components/ui'
-import { ROUTES } from '@/shared/constans'
-import Link from 'next/link'
 import * as React from 'react'
+
+import Link from 'next/link'
+
+import { Button, Icon } from '@/shared/components/ui'
+import { ROUTES } from '@/shared/constants'
+
 import s from './LogoutButton.module.scss'
 
 export const LogOutButton = () => {
