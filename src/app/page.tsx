@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 import { redirect, useSearchParams } from 'next/navigation'
 
-import { SignIn } from '@/features/auth'
+import { LogOutButton, SignIn } from '@/features/auth'
 import { useConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified-success/api/emailVerifiedSuccessApi'
 import { SignUp } from '@/features/auth/sign-up/ui/SignUp'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
@@ -31,5 +31,9 @@ export default function Home() {
     }
   }, [code, email])
 
-  return <ReduxProvider>Hello, TechnoWhales!</ReduxProvider>
+  return (
+    <ReduxProvider>
+      Hello, TechnoWhales! <LogOutButton />
+    </ReduxProvider>
+  )
 }
