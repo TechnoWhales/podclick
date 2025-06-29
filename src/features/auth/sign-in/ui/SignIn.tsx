@@ -1,24 +1,35 @@
 'use client'
 
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { OAuth } from '@/features/auth'
+import { useLoginMutation } from '@/features/auth/sign-in/api/signInApi'
+import { setIsLoggedInAC } from '@/features/auth/sign-in/app-slice'
 import { Inputs, signInSchema } from '@/features/auth/sign-in/lib/schemas/signInSchema'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
-import { ROUTES } from '@/shared/constans'
+import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
+import { useAppDispatch } from '@/shared/hooks'
+import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignIn.module.scss'
 
-const users = [
-  { email: 'Epam@epam.com', password: 'Passw0rd!' },
-  { email: 'user1@example.com', password: 'Test123!' },
-  { email: 'user2@example.com', password: 'Password2!' },
-]
-
 export const SignIn = () => {
+  const [login] = useLoginMutation()
+  const router = useRouter()
+
+  useEffect(() => {
+    const token = sessionStorage.getItem(ACCESS_TOKEN)
+
+    if (token) {
+      router.push(ROUTES.HOME)
+    }
+  }, [router])
+
   const {
     register,
     handleSubmit,
@@ -27,21 +38,29 @@ export const SignIn = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: 'Epam@epam.com',
+      email: '',
       password: '',
     },
     mode: 'onBlur',
   })
 
   const onSubmit: SubmitHandler<Inputs> = data => {
-    const user = users.find(user => user.email === data.email && user.password === data.password)
-
-    if (!user) {
-      setError('password', {
-        type: 'manual',
-        message: 'The email or password are incorrect. Try again please',
+    login(data)
+      .unwrap()
+      .then(res => {
+        if ('accessToken' in res) {
+          sessionStorage.setItem(ACCESS_TOKEN, res?.accessToken)
+          router.push(ROUTES.HOME)
+        }
       })
-    }
+      .catch((err: RTKQueryError) => {
+        if (err.data.statusCode === 400) {
+          setError('password', {
+            type: 'custom',
+            message: 'The email or password are incorrect. Try again please',
+          })
+        }
+      })
   }
 
   return (

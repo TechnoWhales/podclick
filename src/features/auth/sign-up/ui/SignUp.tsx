@@ -6,25 +6,24 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 
 import { OAuth } from '@/features/auth'
-import { Inputs, signUpSchema } from '@/features/auth/sign-up/lib/schemas'
+import { useRegistrationMutation } from '@/features/auth/sign-up/api/signUpApi'
+import { signUpSchema, SignUpType } from '@/features/auth/sign-up/lib/schemas'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constans'
+import { ROUTES } from '@/shared/constants'
+import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignUp.module.scss'
-
-const mokeData = {
-  username: 'test',
-  email: 'test@gmail.com',
-  password: 123456,
-}
 
 const inputMargin = '0 0 24px'
 
 export const SignUp = () => {
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
+
+  const [registration] = useRegistrationMutation()
+
   const {
     register,
     handleSubmit,
@@ -33,10 +32,10 @@ export const SignUp = () => {
     trigger,
     setError,
     formState: { errors, isValid },
-  } = useForm<Inputs>({
+  } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      username: '',
+      userName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -45,22 +44,29 @@ export const SignUp = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    if (mokeData.username === data.username) {
-      setError('username', {
-        type: 'custom',
-        message: 'User with this username is already registered',
-      })
-    } else if (mokeData.email === data.email) {
-      setError('email', {
-        type: 'custom',
-        message: 'User with this email is already registered',
-      })
-    } else {
-      setEmail(data.email)
-      setIsOpened(true)
-      reset()
+  const onSubmit: SubmitHandler<SignUpType> = data => {
+    const body = {
+      userName: data.userName,
+      email: data.email,
+      password: data.password,
+      baseUrl: 'http://localhost:3000',
     }
+
+    registration(body)
+      .unwrap()
+      .then(() => {
+        setEmail(body.email)
+        setIsOpened(true)
+        reset()
+      })
+      .catch((err: RTKQueryError) => {
+        if (err.data.statusCode === 400) {
+          setError(err.data.messages[0].field, {
+            type: 'custom',
+            message: err.data.messages[0].message,
+          })
+        }
+      })
   }
 
   return (
@@ -84,10 +90,10 @@ export const SignUp = () => {
         </div>
         <TextField
           placeholder={'Username'}
-          margin={errors.username?.message ? '0' : inputMargin}
+          margin={errors.userName?.message ? '0' : inputMargin}
           label={'Username'}
-          error={errors.username?.message}
-          {...register('username')}
+          error={errors.userName?.message}
+          {...register('userName')}
         />
         <TextField
           placeholder={'Email@gmail.com'}

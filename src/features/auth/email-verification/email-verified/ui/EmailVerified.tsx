@@ -3,20 +3,21 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
-import Link from 'next/link'
 
-import { emailSchema, Inputs } from '@/features/auth/email-verification/email-verified/lib/schemas'
+import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
-import { ROUTES } from '@/shared/constans'
+import { emailSchema, EmailType } from '@/shared/schemas'
 
 import s from './EmailVerified.module.scss'
 
 export const EmailVerified = () => {
+  const [resendConfirmationEmail] = useResendConfirmationEmailMutation()
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>({
+    reset,
+    formState: { errors, isValid },
+  } = useForm<EmailType>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
       email: '',
@@ -24,7 +25,10 @@ export const EmailVerified = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {}
+  const onSubmit: SubmitHandler<EmailType> = data => {
+    resendConfirmationEmail(data.email)
+    reset()
+  }
 
   return (
     <Container className={s.container} width={432}>
@@ -45,19 +49,12 @@ export const EmailVerified = () => {
             {...register('email')}
           />
         </div>
-        <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
-          <Button style={{ marginBottom: '36px' }} as={'a'}>
-            Resend verification link
-          </Button>
-        </Link>
+        <Button style={{ marginBottom: '36px' }} type={'submit'} disabled={!isValid}>
+          Resend verification link
+        </Button>
       </form>
 
-      <Image
-        src={'/time-management.svg'}
-        alt={'Time management'}
-        width={432}
-        height={300}
-      />
+      <Image src={'/time-management.svg'} alt={'Time management'} width={432} height={300} />
     </Container>
   )
 }
