@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 
 import { LogOutButton } from '@/features/auth'
+import { useMeQuery } from '@/shared/api'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
 import { COLORS } from '@/shared/constants'
 import ReduxProvider from '@/shared/providers/ReduxProvider'
@@ -11,6 +12,8 @@ import s from './app.module.scss'
 
 export default function Home() {
   const [isLoadingPage, setIsLoadingPage] = useState(false)
+  const { data: user, isError } = useMeQuery()
+  const isAuthorized = !!user && !isError
 
   useEffect(() => {
     // Заглушка для лоадера
@@ -29,7 +32,8 @@ export default function Home() {
 
   return (
     <ReduxProvider>
-      Hello, TechnoWhales! <LogOutButton />
+      Hello, TechnoWhales!
+      {isAuthorized && <LogOutButton />}
     </ReduxProvider>
   )
 }

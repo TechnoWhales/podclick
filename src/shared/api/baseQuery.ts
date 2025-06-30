@@ -48,7 +48,6 @@ export const baseQueryWithReauth: BaseQueryFn<
         {
           url: '/auth/update-tokens',
           method: 'POST',
-          body: {}, // при необходимости { refreshToken: "…" }
         },
         api,
         extraOptions
@@ -57,10 +56,9 @@ export const baseQueryWithReauth: BaseQueryFn<
       if (refreshResult.data) {
         // @ts-ignore — привести к вашему типу
         sessionStorage.setItem(ACCESS_TOKEN, (refreshResult.data as any).accessToken)
-        // повторяем исходный запрос
         result = await baseQuery(args, api, extraOptions)
       } else {
-        // здесь можно диспачить действия logout
+        sessionStorage.removeItem(ACCESS_TOKEN)
       }
     } catch (e) {
       console.error('Failed to refresh token:', e)

@@ -8,7 +8,8 @@ export const logoutApi = baseApi.injectEndpoints({
         url: 'auth/logout',
         method: 'POST',
       }),
-      async onQueryStarted(_) {
+      invalidatesTags: ['Me'],
+      async onQueryStarted() {
         sessionStorage.removeItem(ACCESS_TOKEN)
       },
     }),
