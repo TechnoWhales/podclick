@@ -9,7 +9,7 @@ export const passwordRecoveryResendingApi = baseApi.injectEndpoints({
         method: 'POST',
         body: {
           email: body.email,
-          baseUrl: 'http://localhost:3000/auth/new-password',
+          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/new-password`,
         },
       }),
     }),
