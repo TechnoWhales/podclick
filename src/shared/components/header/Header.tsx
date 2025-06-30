@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { useMeQuery } from '@/shared/api'
 import { LanguageSelect } from '@/shared/components'
 import { Button, Container, Icon, Typography } from '@/shared/components/ui'
 import Linear from '@/shared/components/ui/loader/linear/Linear'
@@ -14,10 +15,6 @@ import { selectAppStatus } from '@/shared/model/appSlice'
 import { RequestStatus } from '@/shared/types/Status'
 
 import s from './Header.module.scss'
-
-type Props = {
-  isAuthorized?: boolean
-}
 
 const BellIconBtn = () => {
   return (
@@ -64,11 +61,13 @@ const AuthHeader = ({ status }: { status: RequestStatus }) => {
   )
 }
 
-export const Header = ({ isAuthorized }: Props) => {
+export const Header = () => {
   const status = useSelector(selectAppStatus)
   const pathname = usePathname()
+  const { data: user, isError } = useMeQuery()
 
   const isAuthPage = pathname.includes('/auth')
+  const isAuthorized = !!user && !isError
 
   if (isAuthPage) {
     return <AuthHeader status={status} />

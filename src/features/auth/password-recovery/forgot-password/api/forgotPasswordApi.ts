@@ -10,7 +10,7 @@ export const forgotPasswordApi = baseApi.injectEndpoints({
         body: {
           email: body.email,
           recaptcha: body.recaptcha,
-          baseUrl: 'http://localhost:3000/auth/new-password',
+          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/new-password`,
         },
       }),
     }),

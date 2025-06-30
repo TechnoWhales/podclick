@@ -54,7 +54,7 @@ export const SignUp = () => {
       userName: data.userName,
       email: data.email,
       password: data.password,
-      baseUrl: 'http://localhost:3000/auth/email-verified-success',
+      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/email-verified-success`,
     }
 
     registration(body)
