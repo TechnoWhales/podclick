@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
-import { usePasswordRecoveryMutation } from '@/features/auth/password-recovery/forgot-password/api/forgotPasswordApi'
+import { usePasswordRecoveryMutation } from '@/features/auth/forgot-password/api/forgotPasswordApi'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constants'
@@ -60,7 +60,7 @@ export const ForgotPassword = () => {
 
     passwordRecovery(body)
       .unwrap()
-      .then(res => {
+      .then(() => {
         setEmail(body.email)
         setIsOpened(true)
         setIsSubmitted(true)
@@ -156,7 +156,7 @@ export const ForgotPassword = () => {
               <ReCAPTCHA
                 key={recaptchaKey}
                 size={'normal'}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY as string}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA as string}
                 onChange={token => {
                   setRecaptchaToken(token)
                 }}

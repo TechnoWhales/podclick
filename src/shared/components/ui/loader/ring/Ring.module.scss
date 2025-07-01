@@ -1,23 +1,25 @@
 .container {
-  flex-shrink: 0;
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
 }
 
 .inner {
-  transform-origin: center;
-  animation: rotate var(--uib-speed) linear infinite;
   will-change: transform;
+  transform-origin: center;
   overflow: visible;
+  animation: rotate var(--uib-speed) linear infinite;
 }
 
 .car {
+  will-change: stroke-dasharray, stroke-dashoffset;
+
   fill: none;
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
   stroke-linecap: round;
-  will-change: stroke-dasharray, stroke-dashoffset;
+
   transition: stroke 0.5s ease;
 }
 
@@ -37,10 +39,12 @@
     stroke-dasharray: 0, 150;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 75, 150;
     stroke-dashoffset: -25;
   }
+
   100% {
     stroke-dashoffset: -99;
   }

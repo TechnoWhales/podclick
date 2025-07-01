@@ -8,5 +8,7 @@ export const ROUTES = {
     NEW_PASSWORD: '/auth/new-password',
     TERMS_OF_SERVICE: '/auth/terms-of-service',
     PRIVACY_POLICY: '/auth/privacy-policy',
+    EMAIL_VERIFIED: '/auth/email-verified',
+    PASSWORD_RECOVERY_RESENDING: '/auth/password-recovery-resending',
   },
 }

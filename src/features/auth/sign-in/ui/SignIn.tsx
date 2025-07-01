@@ -19,7 +19,7 @@ import { RTKQueryError } from '@/shared/types/Response'
 import s from './SignIn.module.scss'
 
 export const SignIn = () => {
-  const [loader, setLoader] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations('signIn')
   const tCommon = useTranslations('common')
   const loginSchema = useSignInSchema()
@@ -33,7 +33,7 @@ export const SignIn = () => {
     if (token) {
       router.push(ROUTES.HOME)
     } else {
-      setLoader(true)
+      setIsLoading(false)
     }
   }, [router])
 
@@ -70,7 +70,7 @@ export const SignIn = () => {
       })
   }
 
-  if (!loader) {
+  if (isLoading) {
     return (
       <div className={'circularProgressContainer'}>
         <Ring size={150} color={COLORS.accent['500']} />

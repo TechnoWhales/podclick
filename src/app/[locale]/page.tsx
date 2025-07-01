@@ -6,7 +6,7 @@ import { LogOutButton } from '@/features/auth'
 import { useMeQuery } from '@/shared/api'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
 import { COLORS } from '@/shared/constants'
-import ReduxProvider from '@/shared/providers/ReduxProvider'
+import { Providers } from '@/shared/providers'
 
 import s from './app.module.scss'
 
@@ -31,9 +31,9 @@ export default function Home() {
   }
 
   return (
-    <ReduxProvider>
+    <Providers>
       Hello, TechnoWhales!
       {isAuthorized && <LogOutButton />}
-    </ReduxProvider>
+    </Providers>
   )
 }

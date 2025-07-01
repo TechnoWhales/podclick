@@ -18,11 +18,11 @@ export const EmailVerifiedSuccess = () => {
 
   const [confirmEmail] = useConfirmationEmailMutation()
 
-  const { isChecked } = useCheckQueryParams({ redirectUrl: '/' })
+  const { isChecked } = useCheckQueryParams({ redirectUrl: ROUTES.HOME })
 
   const { isConfirmed } = useCheckCodeConfirm({
     confirmAction: confirmEmail,
-    urlPath: 'email-verified',
+    urlPath: ROUTES.AUTH.EMAIL_VERIFIED,
   })
 
   if (!isConfirmed || !isChecked) {

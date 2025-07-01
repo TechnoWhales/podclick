@@ -1,7 +1,7 @@
 {
   "emailVerifiedSuccess": {
-      "title": "Congratulations!",
-      "description": "Your email has been confirmed"
+    "title": "Congratulations!",
+    "description": "Your email has been confirmed"
   },
   "emailVerified": {
     "title": "Email verification link expired",

@@ -8,10 +8,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import {
   useCheckRecoveryCodeMutation,
   useNewPasswordMutation,
-} from '@/features/auth/password-recovery/new-password/api/newPasswordApi'
+} from '@/features/auth/new-password/api/newPasswordApi'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { COLORS } from '@/shared/constants'
+import { COLORS, ROUTES } from '@/shared/constants'
 import { NewPasswordType, useCheckCodeConfirm, useNewPasswordSchema } from '@/shared/hooks'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
@@ -41,26 +41,28 @@ export const NewPassword = () => {
     mode: 'onBlur',
   })
 
-  const { isChecked } = useCheckQueryParams({ redirectUrl: '/' })
+  const { isChecked } = useCheckQueryParams({ redirectUrl: ROUTES.HOME })
 
   const { isConfirmed } = useCheckCodeConfirm({
     confirmAction: checkRecoveryCode,
-    urlPath: 'password-recovery-resending',
+    urlPath: ROUTES.AUTH.PASSWORD_RECOVERY_RESENDING,
   })
 
   const onSubmit: SubmitHandler<NewPasswordType> = data => {
-    if (code) {
-      const body = {
-        newPassword: data.password,
-        recoveryCode: code,
-      }
-
-      newPassword(body)
-        .unwrap()
-        .then(res => {
-          router.replace(`/auth/sign-in`)
-        })
+    if (!code) {
+      return
     }
+
+    const body = {
+      newPassword: data.password,
+      recoveryCode: code,
+    }
+
+    newPassword(body)
+      .unwrap()
+      .then(() => {
+        router.replace(ROUTES.AUTH.SIGN_IN)
+      })
   }
 
   if (!isConfirmed || !isChecked) {

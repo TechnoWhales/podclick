@@ -47,7 +47,7 @@ const NotAuthorizedNavbarControls = () => {
 
 const AuthHeader = ({ status }: { status: RequestStatus }) => {
   return (
-    <>
+    <header>
       {status === 'loading' && <Linear color={COLORS.accent['500']} height={5} />}
       <Container width={1310} padding={'0 15px'}>
         <nav className={s.navbar}>
@@ -57,7 +57,7 @@ const AuthHeader = ({ status }: { status: RequestStatus }) => {
           <LanguageSelect />
         </nav>
       </Container>
-    </>
+    </header>
   )
 }
 

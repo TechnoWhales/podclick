@@ -4,9 +4,10 @@ body {
   color: var(--color-light-100);
   background-color: var(--color-dark-700);
 }
+
 .circularProgressContainer {
   position: fixed;
   top: 30%;
-  text-align: center;
   width: 100%;
+  text-align: center;
 }

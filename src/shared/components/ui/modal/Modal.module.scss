@@ -1,8 +1,10 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: var(--color-dark-900); // Ваш текущий цвет
+
   opacity: 0.5; // 50% прозрачности
+  background-color: var(--color-dark-900); // Ваш текущий цвет
+
   animation: overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -29,11 +31,11 @@
   }
 
   hr {
-    margin: 10px 0 10px;
+    width: calc(100% + 40px);
+    margin: 10px 0;
+    margin-left: -20px;
     border: none;
     border-top: 1px solid var(--color-dark-100);
-    width: calc(100% + 40px);
-    margin-left: -20px;
   }
 }
 
@@ -51,7 +53,8 @@
 
 .title {
   margin: 0;
-  padding-top: 0px;
+  padding-top: 0;
+
   font-size: 17px;
   font-weight: 500;
   color: var(--color-light-100);

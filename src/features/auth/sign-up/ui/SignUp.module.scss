@@ -29,12 +29,14 @@
 
 .policyText {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
   margin: 0 4px;
+
   p {
     overflow-wrap: break-word;
   }
+
   a {
     overflow-wrap: break-word;
   }
@@ -45,6 +47,7 @@
 
   & a:last-of-type {
     margin-left: 5px;
+
     &:lang(ru) {
       margin-left: 0;
     }

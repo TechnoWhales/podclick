@@ -41,7 +41,6 @@ export const LogOut = () => {
         </Typography>
         <div className={s.buttonsContainer}>
           <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
-            {/* Добавить логику логаута */}
             <Button variant={'outlined'} className={s.button} onClick={handleLogout}>
               Yes
             </Button>

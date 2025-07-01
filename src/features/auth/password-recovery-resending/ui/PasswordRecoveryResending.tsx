@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 
-import { usePasswordRecoveryResendingMutation } from '@/features/auth/password-recovery/password-recovery-resending/api/emailVerefiedPasswordApi'
+import { usePasswordRecoveryResendingMutation } from '@/features/auth/password-recovery-resending/api/emailVerefiedPasswordApi'
 import { Button, Container, Typography } from '@/shared/components/ui'
 import Ring from '@/shared/components/ui/loader/ring/Ring'
 import { Modal } from '@/shared/components/ui/modal/Modal'

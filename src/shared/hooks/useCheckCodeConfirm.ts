@@ -24,7 +24,7 @@ export function useCheckCodeConfirm({ urlPath, confirmAction }: Props<any>) {
     if (codeValidationResult.success && code && emailValidationResult.success && email) {
       confirmAction(code).then(res => {
         if ('error' in res) {
-          router.replace(`/auth/${urlPath}?code=${code}&email=${email}`)
+          router.replace(`/${urlPath}?code=${code}&email=${email}`)
         } else if ('data' in res) {
           setIsConfirmed(true)
         }
