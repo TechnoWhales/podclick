@@ -17,7 +17,7 @@ export const useOAuth = () => {
       if (credentialResponse.code) {
         try {
           const result = await googleLogin({
-            redirectUrl: process.env.NEXT_PUBLIC_BASE_URL!,
+            redirectUrl: process.env.NEXT_PUBLIC_BASE_API!,
             code: credentialResponse.code,
           }).unwrap()
 
