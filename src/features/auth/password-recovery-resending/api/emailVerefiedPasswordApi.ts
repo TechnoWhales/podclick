@@ -1,5 +1,4 @@
 import { baseApi } from '@/shared/api/baseApi'
-import { ForgotPasswordType } from '@/shared/types'
 
 export const passwordRecoveryResendingApi = baseApi.injectEndpoints({
   endpoints: build => ({
