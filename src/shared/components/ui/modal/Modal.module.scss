@@ -1,0 +1,120 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  opacity: 0.5; // 50% прозрачности
+  background-color: var(--color-dark-900); // Ваш текущий цвет
+
+  animation: overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90vw;
+  max-height: 85vh;
+  padding: 20px;
+  border-radius: 6px;
+
+  background-color: var(--color-dark-300);
+  box-shadow:
+    hsl(206deg 22% 7% / 35%) 0 10px 38px -10px,
+    hsl(206deg 22% 7% / 20%) 0 10px 20px -15px;
+
+  animation: content-show 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    outline: none;
+  }
+
+  hr {
+    width: calc(100% + 40px);
+    margin: 10px 0;
+    margin-left: -20px;
+    border: none;
+    border-top: 1px solid var(--color-dark-100);
+  }
+}
+
+.sm {
+  max-width: 367px;
+}
+
+.md {
+  width: 532px;
+}
+
+.lg {
+  width: 764px;
+}
+
+.title {
+  margin: 0;
+  padding-top: 0;
+
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--color-light-100);
+}
+
+.description {
+  margin: 10px 0 20px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-light-100);
+}
+
+.iconButton {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+
+  &:hover {
+    background-color: var(--color-danger-100);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--color-light-100);
+  }
+}
+
+.fieldset {
+  all: unset;
+
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.label {
+  width: 90px;
+  font-size: 15px;
+  text-align: right;
+}
+
+@keyframes overlay-show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes content-show {
+  from {
+    transform: translate(-50%, -48%) scale(0.96);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}

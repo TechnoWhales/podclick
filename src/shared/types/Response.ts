@@ -1,0 +1,17 @@
+export type Message = { message: string; field: 'userName' | 'email' }
+
+export type ApiErrorResponse = {
+  statusCode: number
+  messages: Message[]
+  error: string
+}
+
+export type RTKQueryError = {
+  data: ApiErrorResponse
+  status: number
+}
+
+export type ForgotPasswordType = {
+  email: string
+  recaptcha: string
+}

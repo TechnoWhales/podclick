@@ -1,0 +1,91 @@
+/// Миксин для типографики
+/// @param {string} $fontSize - Размер шрифта (по умолчанию var(--font-size-xs))
+/// @param {string} $lineHeight - Межстрочный интервал (по умолчанию var(--line-height-xl))
+/// @param {string} $fontWeight - Насыщенность шрифта (по умолчанию var(--font-weight-400))
+/// @param {string} $color - Цвет текста (по умолчанию var(--color-light-100))
+
+@mixin typography(
+  $fontSize: var(--font-size-xs),
+  $lineHeight: var(--line-height-xl),
+  $fontWeight: var(--font-weight-400),
+  $color: inherit
+) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+  line-height: $lineHeight;
+  color: $color;
+}
+
+.large {
+  @include typography(var(--font-size-xxl), var(--line-height-m), var(--font-weight-600));
+}
+
+.h1 {
+  @include typography(var(--font-size-l), var(--line-height-xxl), var(--font-weight-700));
+}
+
+.h2 {
+  @include typography(var(--font-size-m), var(--line-height-s), var(--font-weight-700));
+}
+
+.h3 {
+  @include typography(var(--font-size-s), var(--line-height-l), var(--font-weight-600));
+}
+
+.regular_text_16 {
+  @include typography(var(--font-size-s), var(--line-height-l));
+}
+
+.bold_text_16 {
+  @include typography(var(--font-size-s), var(--line-height-l), var(--font-weight-700));
+}
+
+.regular_text_14 {
+  @include typography(var(--font-size-xs), var(--line-height-xl));
+}
+
+.medium_text_14 {
+  @include typography(var(--font-size-xs), var(--line-height-xl), var(--font-weight-500));
+}
+
+.bold_text_14 {
+  @include typography(var(--font-size-xs), var(--line-height-xl), var(--font-weight-700));
+}
+
+.small_text {
+  @include typography(var(--font-size-xxs), var(--line-height-s));
+}
+
+.semibold_small_text {
+  @include typography(var(--font-size-xxs), var(--line-height-s), var(--font-weight-600));
+}
+
+.regular_link {
+  @include typography(var(--font-size-xs), var(--line-height-xl), _, var(--color-accent-500));
+
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.small_link {
+  @include typography(var(--font-size-xxs), var(--line-height-s), _, var(--color-accent-500));
+
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.error {
+  @include typography(var(--font-size-xs), var(--line-height-xl), _, var(--color-danger-500));
+}
+
+.caption {
+  @include typography(var(--font-size-xxs), var(--line-height-2xl), _, var(--color-accent-500));
+}

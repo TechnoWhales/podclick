@@ -1,0 +1,69 @@
+.card {
+  width: 378px;
+  margin: 24px auto 0;
+  padding: 24px;
+}
+
+.modalBtn {
+  margin-left: auto;
+}
+
+.oAuthWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 130px;
+  height: 85px;
+  margin: 0 auto 24px;
+
+  h1 {
+    margin-bottom: 12px;
+  }
+}
+
+.policyWrapper {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.policyText {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 4px;
+
+  p {
+    overflow-wrap: break-word;
+  }
+
+  a {
+    overflow-wrap: break-word;
+  }
+
+  & a:first-of-type {
+    margin: 0 5px;
+  }
+
+  & a:last-of-type {
+    margin-left: 5px;
+
+    &:lang(ru) {
+      margin-left: 0;
+    }
+  }
+}
+
+.signUpBtn {
+  margin-bottom: 18px;
+}
+
+.signInTitle {
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.signInBtn {
+  width: 100px;
+  margin: 0 auto;
+}

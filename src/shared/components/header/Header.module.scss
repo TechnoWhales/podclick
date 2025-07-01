@@ -1,0 +1,27 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 60px;
+  border-bottom: 1px solid var(--color-dark-300);
+}
+
+.logo {
+  text-decoration: none;
+}
+
+.bellIconWrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+}
+
+.navbarControls {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-left: 36px;
+}
+
+.authorizedWrapper {
+  display: flex;
+}
