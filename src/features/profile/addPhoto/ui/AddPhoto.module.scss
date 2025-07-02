@@ -1,0 +1,21 @@
+.addPhoto {
+  width: 492px !important;
+  height: 564px ;
+  max-width: 100%;
+}
+.addPhotoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 72px;
+}
+.photoImg {
+  margin-bottom: 60px;
+}
+.selectBtn {
+  margin-bottom: 24px;
+}
+
+.draftBtn {
+  margin-bottom: 48px;
+}
