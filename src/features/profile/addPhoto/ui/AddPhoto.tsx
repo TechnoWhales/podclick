@@ -1,6 +1,7 @@
 "use client"
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
+import clsx from 'clsx'
 import Image from 'next/image'
 
 import { Button } from '@/shared/components/ui'
@@ -10,12 +11,30 @@ import s from './AddPhoto.module.scss'
 
 export const AddPhoto = () => {
   const [open, setOpen] = useState(false)
+  const fileInput = useRef<HTMLInputElement>(null)
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null)
+
+  const handleFileChange = () => {
+    const file = fileInput.current?.files?.[0]
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        if (typeof e.target?.result === 'string') {
+          setPhotoPreview(e.target?.result)
+        }
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   return <Modal className={s.addPhoto} modalTitle={'Add Photo'} open onClose={() => setOpen(!open)}>
-    <div className={s.addPhotoWrapper}>
-      <Image className={s.photoImg} src={"/empty-photo.svg"} alt={"Empty photo"} width={222} height={228}/>
-      <Button className={s.selectBtn}>Select from Computer</Button>
-      <Button className={s.draftBtn} variant={'outlined'}>Open Draft</Button>
+    <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
+      <Image className={clsx(s.photoImg, photoPreview && s.photoPreview)}  src={photoPreview || '/empty-photo.svg'} alt={"Empty photo"} width={222} height={228}/>
+      {!photoPreview && <Button className={s.selectBtn} onClick={() => fileInput.current.click()}>Select from Computer</Button>}
+      {!photoPreview && <input type={"file"} accept={"image/*"} style={{display:"none"}} ref={fileInput} onChange={handleFileChange}/>}
+      {!photoPreview && <Button className={s.draftBtn} variant={'outlined'}>Open Draft</Button>}
     </div>
   </Modal>
 }

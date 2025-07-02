@@ -2,15 +2,25 @@
   width: 492px !important;
   height: 564px ;
   max-width: 100%;
+  padding: 0;
 }
 .addPhotoWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 72px;
+  &.photoPreview {
+    margin-top: 0;
+  }
 }
 .photoImg {
   margin-bottom: 60px;
+  &.photoPreview {
+    margin-bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 .selectBtn {
   margin-bottom: 24px;
