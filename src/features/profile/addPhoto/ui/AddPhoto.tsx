@@ -5,6 +5,7 @@ import Cropper from "react-easy-crop";
 import clsx from 'clsx'
 import Image from 'next/image'
 
+import { Cropping } from '@/features/profile/addPhoto/ui/cropping/Cropping'
 import { Button, Icon, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 
@@ -34,38 +35,8 @@ export const AddPhoto = () => {
   }
 
   return <Modal className={clsx(s.addPhoto, photoPreview && s.cropping )} modalTitle={photoPreview ? '' : 'Add Photo'} open onClose={() => setOpen(!open)}>
-    {photoPreview && <div className={s.croppingTitleWrapper}>
-      <div className={s.arrowBack}><Icon iconId={'arrowIosBack'} /></div>
-      <Typography variant={'h1'}>Cropping</Typography>
-      <Button className={s.nextBtn} variant={'link'} >
-        {<Typography variant={'h3'} as={'h3'}>Next</Typography>}
-      </Button>
-    </div>}
     <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
-      {photoPreview ? <div className={s.cropContainer}> <Cropper
-              image={photoPreview}
-              crop={crop}
-              zoom={zoom}
-              minZoom={minZoom}
-              maxZoom={5}
-              zoomSpeed={0.5}
-              showGrid={false}
-              cropSize={{ width: 490, height: 500 }}
-              restrictPosition
-              onCropChange={setCrop}
-              onZoomChange={setZoom}
-              style={{cropAreaStyle: {border: 0, boxShadow: "none"}}}
-              onMediaLoaded={({ width, height }) => {
-                const cropWidth = 490
-                const cropHeight = 500
-                const zoomW = cropWidth / width
-                const zoomH = cropHeight / height
-                const requiredZoom = Math.max(zoomW, zoomH)
-
-                setMinZoom(requiredZoom)
-                setZoom(requiredZoom)
-              }}
-          /></div> :
+      {photoPreview ? <Cropping photoPreview={photoPreview}/> :
           <Image className={clsx(s.photoImg, photoPreview && s.photoPreview)}  src={photoPreview || '/empty-photo.svg'} alt={"Empty photo"} width={222} height={228}/>
       }
       {!photoPreview && <Button className={s.selectBtn} onClick={() => fileInput.current?.click()}>Select from Computer</Button>}
@@ -74,3 +45,29 @@ export const AddPhoto = () => {
     </div>
   </Modal>
 }
+
+
+// <div className={s.cropContainer}> <Cropper
+//   image={photoPreview}
+//   crop={crop}
+//   zoom={zoom}
+//   minZoom={minZoom}
+//   maxZoom={5}
+//   zoomSpeed={0.5}
+//   showGrid={false}
+//   cropSize={{ width: 490, height: 500 }}
+//   restrictPosition
+//   onCropChange={setCrop}
+//   onZoomChange={setZoom}
+//   style={{cropAreaStyle: {border: 0, boxShadow: "none"}}}
+//   onMediaLoaded={({ width, height }) => {
+//     const cropWidth = 490
+//     const cropHeight = 500
+//     const zoomW = cropWidth / width
+//     const zoomH = cropHeight / height
+//     const requiredZoom = Math.max(zoomW, zoomH)
+//
+//     setMinZoom(requiredZoom)
+//     setZoom(requiredZoom)
+//   }}
+// /></div>
