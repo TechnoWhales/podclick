@@ -12,10 +12,10 @@ import s from "./Popover.module.scss";
 type Props = {
   // Текст или элемент, который будет отображён внутри кнопки-триггера поповера.
   // Может быть строкой (например, "Открыть") или React-элементом (например, иконкой).
-  buttonText?: string | ReactNode;
+  buttonText: string | ReactNode;
 
   // Дочерние элементы, которые будут отображаться внутри самого поповера (его контент).
-  children?: ReactNode;
+  children: ReactNode;
 
   // Показывать ли иконку закрытия (крестик) внутри поповера.
   showCloseIcon?: boolean;
