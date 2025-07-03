@@ -1,0 +1,31 @@
+.publicPost {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 235px;
+  height: 100%;
+  max-height: 390px;
+  border: 1px solid blue;
+
+  @media (width <= 750px) {
+    max-width: 100%;
+  }
+}
+
+.publicPostArticle {
+  display: flex;
+  flex-direction: column;
+}
+
+.publicPostArticleHeader {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.publicPostUserAvatar {
+  object-fit: cover;
+  border-radius: 50%;
+}
