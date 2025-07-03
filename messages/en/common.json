@@ -1,0 +1,27 @@
+{
+  "common": {
+    "button": {
+      "signUp": "Sign Up",
+      "logIn": "Log in",
+      "ok": "OK"
+    },
+    "form": {
+      "username": {
+        "label": "Username",
+        "placeholder": "Username"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "email@gmail.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      },
+      "confirmPassword": {
+        "label": "Confirm password",
+        "placeholder": "Password confirmation"
+      }
+    }
+  }
+}

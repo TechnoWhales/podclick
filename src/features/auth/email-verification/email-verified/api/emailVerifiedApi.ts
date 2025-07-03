@@ -6,7 +6,7 @@ export const EmailVerifiedApi = baseApi.injectEndpoints({
       query: email => ({
         url: 'auth/registration-email-resending',
         method: 'POST',
-        body: { email, baseApi: 'http://localhost:3000' },
+        body: { email, baseApi: process.env.NEXT_PUBLIC_BASE_URL },
       }),
     }),
   }),

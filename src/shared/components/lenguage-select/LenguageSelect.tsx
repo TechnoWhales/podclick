@@ -1,9 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { useLocale } from 'next-intl'
+
+import { usePathname, useRouter } from '@/i18n/navigation'
 import { Icon } from '@/shared/components/ui'
 import { type SelectOption, Select } from '@/shared/components/ui/'
+import { useGetAllQueryParams } from '@/shared/hooks/useGetAllQueryParams'
 
 export const LanguageSelect = () => {
   const labelStyle = { display: 'flex', alignItems: 'center', gap: '12px' }
@@ -31,10 +35,25 @@ export const LanguageSelect = () => {
 
   const [value, setValue] = useState(options[0].value)
 
+  const router = useRouter()
+  const locale = useLocale()
+  const path = usePathname()
+
+  useEffect(() => {
+    setValue(locale)
+  }, [])
+
+  const query = useGetAllQueryParams()
+
+  const changeLang = (locale: string) => {
+    setValue(locale)
+    router.replace({ pathname: path, query }, { locale })
+  }
+
   return (
     <Select
       value={value}
-      onValueChange={newValue => setValue(newValue)}
+      onValueChange={newValue => changeLang(newValue)}
       options={options}
       size={'s'}
     />

@@ -1,0 +1,13 @@
+{
+  "signUp": {
+    "title": "Регистрация",
+
+    "policy": "<small_text>Я соглашаюсь с</small_text> <terms_of_service>Условиями обслуживания</terms_of_service> <small_text>и</small_text> <privacy_policy>Политикой конфиденциальности</privacy_policy>",
+    "signUp": "Зарегистрироваться",
+    "haveAccount": "Уже есть аккаунт?",
+    "emailSent": {
+      "title": "Письмо отправлено",
+      "message": "Мы отправили ссылку для подтверждения email на {email}"
+    }
+  }
+}

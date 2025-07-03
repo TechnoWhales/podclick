@@ -10,3 +10,8 @@ export type RTKQueryError = {
   data: ApiErrorResponse
   status: number
 }
+
+export type ForgotPasswordType = {
+  email: string
+  recaptcha: string
+}

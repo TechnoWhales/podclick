@@ -1,0 +1,27 @@
+{
+  "common": {
+    "button": {
+      "signUp": "Регистрация",
+      "logIn": "Войти",
+      "ok": "OK"
+    },
+    "form": {
+      "username": {
+        "label": "Имя пользователя",
+        "placeholder": "Введите имя пользователя"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Email@gmail.com"
+      },
+      "password": {
+        "label": "Пароль",
+        "placeholder": "Создайте пароль"
+      },
+      "confirmPassword": {
+        "label": "Подтверждение пароля",
+        "placeholder": "Повторите пароль"
+      }
+    }
+  }
+}
