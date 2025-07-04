@@ -1,39 +1,119 @@
 .title {
-  height: 60px;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 60px;
 }
 
 .arrowBack {
   margin-left: 32px;
 }
+
 .nextBtn {
-  padding: 0;
   margin-right: 36px;
+  padding: 0;
 }
+
 .cropWrapper {
   position: relative;
+
   display: flex;
-  height: 754px;
-  //width: 490px;
-  width: 100%;
   flex-direction: column;
   align-items: center;
+
+  // width: 490px;
+  width: 100%;
+  height: 754px;
   margin-top: 72px;
+
   &.photoPreview {
     margin-top: 0;
   }
 }
 
 .cropContainer {
+  position: absolute;
+  inset: 20px 0 0;
+
   width: 100%;
   height: 100%;
+
+  // bottom: 80px;
+}
+
+.popoversWrapper {
   position: absolute;
-  top: 20px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  //bottom: 80px;
+  z-index: 999;
+  bottom: -45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-top: 12px;
+  padding: 0 12px;
+}
+
+.controlsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > * + * {
+    margin-left: 24px;
+  }
+}
+
+.rangeInput {
+  display: flex;
+  width: 100px;
+  height: 4px;
+  margin: 4px;
+}
+
+.aspectRatioWrapper {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 130px;
+  margin-bottom: 12px;
+
+  color: var(--color-light-900);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  & svg {
+    stroke: var(--color-light-900);
+
+    &.active {
+      stroke: var(--color-light-100);
+    }
+  }
+
+  &.active {
+    color: var(--color-light-100);
+
+    svg {
+      stroke: var(--color-light-100);
+    }
+  }
+
+  &.imageOutline {
+    svg {
+      fill: var(--color-light-900);
+      stroke: none;
+    }
+
+    &.active svg {
+      fill: var(--color-light-100);
+    }
+  }
 }

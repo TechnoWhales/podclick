@@ -1,6 +1,6 @@
-"use client"
+'use client'
 import { useState, useRef } from 'react'
-import Cropper from "react-easy-crop";
+import Cropper from 'react-easy-crop'
 
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -25,7 +25,7 @@ export const AddPhoto = () => {
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader()
 
-      reader.onload = (e) => {
+      reader.onload = e => {
         if (typeof e.target?.result === 'string') {
           setPhotoPreview(e.target?.result)
         }
@@ -34,18 +34,48 @@ export const AddPhoto = () => {
     }
   }
 
-  return <Modal className={clsx(s.addPhoto, photoPreview && s.cropping )} modalTitle={photoPreview ? '' : 'Add Photo'} open onClose={() => setOpen(!open)}>
-    <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
-      {photoPreview ? <Cropping photoPreview={photoPreview}/> :
-          <Image className={clsx(s.photoImg, photoPreview && s.photoPreview)}  src={photoPreview || '/empty-photo.svg'} alt={"Empty photo"} width={222} height={228}/>
-      }
-      {!photoPreview && <Button className={s.selectBtn} onClick={() => fileInput.current?.click()}>Select from Computer</Button>}
-      {!photoPreview && <input type={"file"} accept={"image/*"} style={{display:"none"}} ref={fileInput} onChange={handleFileChange}/>}
-      {!photoPreview && <Button className={s.draftBtn} variant={'outlined'}>Open Draft</Button>}
-    </div>
-  </Modal>
+  return (
+    <Modal
+      className={clsx(s.addPhoto, photoPreview && s.cropping)}
+      modalTitle={photoPreview ? '' : 'Add Photo'}
+      open
+      onClose={() => setOpen(!open)}
+    >
+      <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
+        {photoPreview ? (
+          <Cropping photoPreview={photoPreview} />
+        ) : (
+          <Image
+            className={clsx(s.photoImg, photoPreview && s.photoPreview)}
+            src={photoPreview || '/empty-photo.svg'}
+            alt={'Empty photo'}
+            width={222}
+            height={228}
+          />
+        )}
+        {!photoPreview && (
+          <Button className={s.selectBtn} onClick={() => fileInput.current?.click()}>
+            Select from Computer
+          </Button>
+        )}
+        {!photoPreview && (
+          <input
+            type={'file'}
+            accept={'image/*'}
+            style={{ display: 'none' }}
+            ref={fileInput}
+            onChange={handleFileChange}
+          />
+        )}
+        {!photoPreview && (
+          <Button className={s.draftBtn} variant={'outlined'}>
+            Open Draft
+          </Button>
+        )}
+      </div>
+    </Modal>
+  )
 }
-
 
 // <div className={s.cropContainer}> <Cropper
 //   image={photoPreview}
