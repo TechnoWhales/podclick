@@ -33,15 +33,19 @@ export const Modal = ({
     <Dialog.Portal>
       <Dialog.Overlay className={s.overlay} />
       <Dialog.Content className={clsx(s.content, s[size], className)}>
-        <Dialog.Title className={clsx(s.title, !modalTitle && s.hideTitle)}>{modalTitle && modalTitle}</Dialog.Title>
-        {modalTitle && <>
-        <hr />
-        <Dialog.Close asChild>
-          <Button className={s.iconButton} variant={'icon'}>
-            <Icon iconId={'close'} />
-          </Button>
-        </Dialog.Close>
-        </>}
+        <Dialog.Title className={clsx(s.title, !modalTitle && s.hideTitle)}>
+          {modalTitle && modalTitle}
+        </Dialog.Title>
+        {modalTitle && (
+          <>
+            <hr />
+            <Dialog.Close asChild>
+              <Button className={s.iconButton} variant={'icon'}>
+                <Icon iconId={'close'} />
+              </Button>
+            </Dialog.Close>
+          </>
+        )}
         {children}
       </Dialog.Content>
     </Dialog.Portal>
