@@ -10,6 +10,7 @@ import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import { calculateCropSizeAndZoom } from '@/shared/utils/calculateAspectRatio'
 
 type PhotoItemProps = {
   img: string
@@ -39,6 +40,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [cropWidth, setCropWidth] = useState(0)
   const [cropHeight, setCropHeight] = useState(0)
   const [currentPhotoHeight, setCurrentPhotoHeight] = useState(504)
+  const [currentPhotoWidth, setCurrentPhotoWidth] = useState(492)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
@@ -58,24 +60,18 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
 
-debugger
   useEffect(() => {
-    // const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
-    //
-    // if (photoHeight) {
-    //   debugger
-    // }
-
-    const baseWidth = 490
-    const baseHeight = 500
-    const zoomW = baseWidth / cropWidth
-    const zoomH = baseHeight / cropHeight
-    const requiredZoom = Math.max(zoomW, zoomH)
+    // const baseWidth = 490
+    // const baseHeight = 500
+    // const zoomW = baseWidth / cropWidth
+    // const zoomH = baseHeight / cropHeight
+    // const requiredZoom = Math.max(zoomW, zoomH)
 
     switch (ratioMode) {
       case 'original': {
         const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
 
+        setCurrentPhotoWidth(492)
         if (photoHeight) {
           setCurrentPhotoHeight(photoHeight)
         }
@@ -83,11 +79,40 @@ debugger
         setZoom(1)
         break
       }
-      case '1:1':
+      case '1:1': {
+        const baseWidth = 490
+        const baseHeight = 500
+        const zoomW = baseWidth / cropWidth
+        const zoomH = baseHeight / cropHeight
+        const requiredZoom = Math.max(zoomW, zoomH)
+
         setCurrentPhotoHeight(500)
+        setCurrentPhotoWidth(492)
         setMinZoom(requiredZoom)
         setZoom(requiredZoom)
         break
+      }
+      case '4:5': {
+        const cropW = 394
+        const cropH = 500
+
+        setCurrentPhotoWidth(cropW)
+        setCurrentPhotoHeight(cropH)
+
+        const zoomW = cropW / cropWidth
+        const zoomH = cropH / cropHeight
+        let requiredZoom
+
+        if (cropHeight > 250) {
+          requiredZoom = Math.max(zoomW, zoomH)
+        } else {
+          requiredZoom = Math.max(zoomW, zoomH) * 1.25
+        }
+
+        setMinZoom(requiredZoom)
+        setZoom(requiredZoom)
+        break
+      }
     }
   }, [ratioMode, setCrop, setZoom])
 
@@ -119,7 +144,8 @@ debugger
                 showGrid={true}
                 // cropSize={{ width: 492, height: 504 }}
                 // cropSize={{ width: 492, height: 369 }}
-                cropSize={{ width: 492, height: currentPhotoHeight }}
+                // cropSize={{ width: 492, height: currentPhotoHeight }}
+                cropSize={{ width: currentPhotoWidth, height: currentPhotoHeight }}
                 restrictPosition
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
@@ -128,33 +154,21 @@ debugger
                   containerStyle: {
                     // height: '498px',
                     // height: '369px',
+                    left: ration4to5 ? '50px' : '0',
                     height: `${currentPhotoHeight}px`,
-                    borderBottomLeftRadius: '10px',
-                    borderBottomRightRadius: '10px',
+                    width: `${currentPhotoWidth}px`,
+                    borderBottomLeftRadius: ration4to5 ? "0" : '10px',
+                    borderBottomRightRadius: ration4to5 ? "0" : '10px',
                   },
                 }}
                 onMediaLoaded={({ width, height }) => {
+                  debugger
                   setCropWidth(width)
                   setCropHeight(height)
                   setCurrentPhotoHeight(height)
-
-                  const cropWidth = 490
-                  const cropHeight = 500
-                  const zoomW = cropWidth / width
-                  const zoomH = cropHeight / height
-                  const requiredZoom = Math.max(zoomW, zoomH)
-
-                  switch (ratioMode) {
-                    case 'original':
-                      setMinZoom(1)
-                      setZoom(1)
-                      break
-                    case '1:1':
-                      setMinZoom(requiredZoom)
-                      setZoom(requiredZoom)
-                      break
-                  }
-
+                  setCurrentPhotoWidth(width)
+                  setMinZoom(1)
+                  setZoom(1)
                 }}
             />
           </div>
