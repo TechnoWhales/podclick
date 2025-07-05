@@ -41,7 +41,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [currentPhotoHeight, setCurrentPhotoHeight] = useState(504)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
-  const [ratioMode, setRatioMode] = useState<RationMode>('1:1')
+  const [ratioMode, setRatioMode] = useState<RationMode>('original')
   const [photos, setPhotos] = useState<string[]>([photoPreview])
   const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
       if (base64) {
@@ -136,7 +136,7 @@ debugger
                 onMediaLoaded={({ width, height }) => {
                   setCropWidth(width)
                   setCropHeight(height)
-                  // setCurrentPhotoHeight(height)
+                  setCurrentPhotoHeight(height)
 
                   const cropWidth = 490
                   const cropHeight = 500
