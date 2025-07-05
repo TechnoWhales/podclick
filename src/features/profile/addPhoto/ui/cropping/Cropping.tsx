@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import { nanoid } from '@reduxjs/toolkit'
@@ -36,9 +36,12 @@ const PhotoItem = ({img, onClick, removePhoto}: PhotoItemProps) => {
 
 export const Cropping = ({ photoPreview }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [cropWidth, setCropWidth] = useState(0)
+  const [cropHeight, setCropHeight] = useState(0)
+  const [currentPhotoHeight, setСurrentPhotoHeight] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
-  const [ratioMode, setRatioMode] = useState<RationMode>('original')
+  const [ratioMode, setRatioMode] = useState<RationMode>('1:1')
   const [photos, setPhotos] = useState<string[]>([photoPreview])
   const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
       if (base64) {
@@ -54,6 +57,27 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration1to1 = ratioMode === '1:1'
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
+
+  useEffect(() => {
+
+    const baseWidth = 490
+    const baseHeight = 500
+    const zoomW = baseWidth / cropWidth
+    const zoomH = baseHeight / cropHeight
+    const requiredZoom = Math.max(zoomW, zoomH)
+
+    switch (ratioMode) {
+      case 'original':
+        setMinZoom(1)
+        setZoom(1)
+        break
+      case '1:1':
+        debugger
+        setMinZoom(requiredZoom)
+        setZoom(requiredZoom)
+        break
+    }
+  }, [ratioMode, setCrop, setZoom])
 
 
   return (
@@ -74,16 +98,15 @@ export const Cropping = ({ photoPreview }: Props) => {
       <div className={clsx(s.cropWrapper, photoPreview && s.photoPreview)}>
           <div className={s.cropContainer}>
             <Cropper
-                image={photos[currentPhotos]}
+                image={photos[currentPhotos] || photos[0]}
                 crop={crop}
                 zoom={zoom}
                 minZoom={minZoom}
                 maxZoom={maxZoom}
                 zoomSpeed={0.5}
-                showGrid={false}
+                showGrid={true}
                 cropSize={{ width: 492, height: 504 }}
                 restrictPosition
-                aspect={16 / 9}
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 style={{
@@ -95,14 +118,26 @@ export const Cropping = ({ photoPreview }: Props) => {
                   },
                 }}
                 onMediaLoaded={({ width, height }) => {
+                  setCropWidth(width)
+                  setCropHeight(height)
+
                   const cropWidth = 490
                   const cropHeight = 500
                   const zoomW = cropWidth / width
                   const zoomH = cropHeight / height
                   const requiredZoom = Math.max(zoomW, zoomH)
 
-                  setMinZoom(requiredZoom)
-                  setZoom(requiredZoom)
+                  switch (ratioMode) {
+                    case 'original':
+                      setMinZoom(1)
+                      setZoom(1)
+                      break
+                    case '1:1':
+                      setMinZoom(requiredZoom)
+                      setZoom(requiredZoom)
+                      break
+                  }
+
                 }}
             />
           </div>
