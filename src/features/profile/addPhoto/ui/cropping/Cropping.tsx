@@ -38,7 +38,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [cropWidth, setCropWidth] = useState(0)
   const [cropHeight, setCropHeight] = useState(0)
-  const [currentPhotoHeight, setСurrentPhotoHeight] = useState(0)
+  const [currentPhotoHeight, setCurrentPhotoHeight] = useState(504)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('1:1')
@@ -58,7 +58,13 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
 
+debugger
   useEffect(() => {
+    // const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
+    //
+    // if (photoHeight) {
+    //   debugger
+    // }
 
     const baseWidth = 490
     const baseHeight = 500
@@ -67,12 +73,18 @@ export const Cropping = ({ photoPreview }: Props) => {
     const requiredZoom = Math.max(zoomW, zoomH)
 
     switch (ratioMode) {
-      case 'original':
+      case 'original': {
+        const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
+
+        if (photoHeight) {
+          setCurrentPhotoHeight(photoHeight)
+        }
         setMinZoom(1)
         setZoom(1)
         break
+      }
       case '1:1':
-        debugger
+        setCurrentPhotoHeight(500)
         setMinZoom(requiredZoom)
         setZoom(requiredZoom)
         break
@@ -105,14 +117,18 @@ export const Cropping = ({ photoPreview }: Props) => {
                 maxZoom={maxZoom}
                 zoomSpeed={0.5}
                 showGrid={true}
-                cropSize={{ width: 492, height: 504 }}
+                // cropSize={{ width: 492, height: 504 }}
+                // cropSize={{ width: 492, height: 369 }}
+                cropSize={{ width: 492, height: currentPhotoHeight }}
                 restrictPosition
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 style={{
                   cropAreaStyle: { border: 0, boxShadow: 'none' },
                   containerStyle: {
-                    height: '498px',
+                    // height: '498px',
+                    // height: '369px',
+                    height: `${currentPhotoHeight}px`,
                     borderBottomLeftRadius: '10px',
                     borderBottomRightRadius: '10px',
                   },
@@ -120,6 +136,7 @@ export const Cropping = ({ photoPreview }: Props) => {
                 onMediaLoaded={({ width, height }) => {
                   setCropWidth(width)
                   setCropHeight(height)
+                  // setCurrentPhotoHeight(height)
 
                   const cropWidth = 490
                   const cropHeight = 500
