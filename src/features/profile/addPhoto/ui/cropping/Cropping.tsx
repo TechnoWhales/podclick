@@ -61,22 +61,18 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration16to9 = ratioMode === '16:9'
 
   useEffect(() => {
-    // const baseWidth = 490
-    // const baseHeight = 500
-    // const zoomW = baseWidth / cropWidth
-    // const zoomH = baseHeight / cropHeight
-    // const requiredZoom = Math.max(zoomW, zoomH)
-
     switch (ratioMode) {
       case 'original': {
         const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
 
-        setCurrentPhotoWidth(492)
         if (photoHeight) {
           setCurrentPhotoHeight(photoHeight)
         }
-        setMinZoom(1)
-        setZoom(1)
+
+        setCurrentPhotoWidth(492)
+        setMinZoom(2)
+        setZoom(2)
+
         break
       }
       case '1:1': {
@@ -95,26 +91,31 @@ export const Cropping = ({ photoPreview }: Props) => {
       case '4:5': {
         const cropW = 394
         const cropH = 500
+        const zoomW = cropW / cropWidth
+        const zoomH = cropH / cropHeight
+        const requiredZoom = Math.max(zoomW, zoomH) * 1.25
 
         setCurrentPhotoWidth(cropW)
         setCurrentPhotoHeight(cropH)
-
+        setMinZoom(requiredZoom)
+        setZoom(requiredZoom)
+        break
+      }
+      case '16:9': {
+        const cropW = 492
+        const cropH = 276
         const zoomW = cropW / cropWidth
         const zoomH = cropH / cropHeight
-        let requiredZoom
+        const requiredZoom = Math.max(zoomW, zoomH) * 1.25
 
-        if (cropHeight > 250) {
-          requiredZoom = Math.max(zoomW, zoomH)
-        } else {
-          requiredZoom = Math.max(zoomW, zoomH) * 1.25
-        }
-
+        setCurrentPhotoWidth(492)
+        setCurrentPhotoHeight(cropH)
         setMinZoom(requiredZoom)
         setZoom(requiredZoom)
         break
       }
     }
-  }, [ratioMode, setCrop, setZoom])
+  }, [ratioMode, setCrop, setZoom, currentPhotos])
 
 
   return (
