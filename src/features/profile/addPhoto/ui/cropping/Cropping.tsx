@@ -70,8 +70,10 @@ export const Cropping = ({ photoPreview }: Props) => {
 
     switch (ratioMode) {
       case 'original': {
-        setCropHeight(originalHeight)
-        setCropWidth(originalWidth)
+        if (originalHeight && originalWidth) {
+          setCurrentPhotoWidth(originalWidth)
+          setCurrentPhotoHeight(originalHeight)
+        }
         setMinZoom(1)
         setZoom(1)
         break
