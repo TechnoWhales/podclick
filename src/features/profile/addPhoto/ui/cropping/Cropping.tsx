@@ -38,7 +38,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [cropWidth, setCropWidth] = useState(0)
   const [cropHeight, setCropHeight] = useState(0)
-  const [currentPhotoHeight, setCurrentPhotoHeight] = useState(504)
+  const [currentPhotoHeight, setCurrentPhotoHeight] = useState(497)
   const [currentPhotoWidth, setCurrentPhotoWidth] = useState(492)
   const [originalHeight, setOriginalHeight] = useState(0)
   const [zoom, setZoom] = useState(1)
@@ -74,7 +74,7 @@ export const Cropping = ({ photoPreview }: Props) => {
           setCurrentPhotoHeight(originalHeight)
         }
 
-        setCurrentPhotoWidth(492)
+        setCurrentPhotoWidth(490)
         setMinZoom(2)
         setZoom(2)
 
@@ -82,20 +82,20 @@ export const Cropping = ({ photoPreview }: Props) => {
       }
       case '1:1': {
         const baseWidth = 490
-        const baseHeight = 500
+        const baseHeight = 497
         const zoomW = baseWidth / cropWidth
         const zoomH = baseHeight / cropHeight
         const requiredZoom = Math.max(zoomW, zoomH)
 
         setCurrentPhotoHeight(500)
-        setCurrentPhotoWidth(492)
+        setCurrentPhotoWidth(490)
         setMinZoom(requiredZoom)
         setZoom(requiredZoom)
         break
       }
       case '4:5': {
         const cropW = 394
-        const cropH = 500
+        const cropH = 497
         const zoomW = cropW / cropWidth
         const zoomH = cropH / cropHeight
         const requiredZoom = Math.max(zoomW, zoomH) * 1.25
@@ -113,7 +113,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoomH = cropH / cropHeight
         const requiredZoom = Math.max(zoomW, zoomH) * 1.35
 
-        setCurrentPhotoWidth(492)
+        setCurrentPhotoWidth(490)
         setCurrentPhotoHeight(cropH)
         setMinZoom(requiredZoom)
         setZoom(requiredZoom)
