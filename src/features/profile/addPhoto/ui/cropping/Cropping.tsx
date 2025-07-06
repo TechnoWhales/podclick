@@ -10,6 +10,8 @@ import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import {getZoomBoost} from "@/shared/utils/getZoomBoost";
+import {calculateZoom} from "@/shared/utils/calculateZoom";
 
 type PhotoItemProps = {
   img: string
@@ -64,61 +66,64 @@ export const Cropping = ({ photoPreview }: Props) => {
 
 
   useEffect(() => {
-    setCurrentPhotoWidth(490)
+    const { width: imageWidth, height: imageHeight } = { width: cropWidth, height: cropHeight }
 
     switch (ratioMode) {
       case 'original': {
-        const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
-
-        if (photoHeight) {
-          setCurrentPhotoHeight(photoHeight)
-        }
-        if (photoHeight && originalHeight && photoHeight !== originalHeight) {
-          setCurrentPhotoHeight(originalHeight)
-        }
-        setMinZoom(2)
-        setZoom(2)
-        if (originalWidth < 490) {
-          setMinZoom(1.5)
-          setZoom(1.5)
-        }
+        // const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
+        //
+        // if (photoHeight) {
+        //   setCurrentPhotoHeight(photoHeight)
+        // }
+        // if (photoHeight && originalHeight && photoHeight !== originalHeight) {
+        //   setCurrentPhotoHeight(originalHeight)
+        // }
+        // setMinZoom(2)
+        // setZoom(2)
+        // if (originalWidth < 490) {
+        //   setMinZoom(1.5)
+        //   setZoom(1.5)
+        // }
+        setMinZoom(1)
+        setZoom(1)
         break
       }
       case '1:1': {
-        const baseWidth = 490
-        const baseHeight = 497
-        const zoomW = baseWidth / cropWidth
-        const zoomH = baseHeight / cropHeight
-        const requiredZoom = Math.max(zoomW, zoomH)
+        const containerW = 490
+        const containerH = 497
+        const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
+        const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
-        setCurrentPhotoHeight(492)
-        setMinZoom(requiredZoom)
-        setZoom(requiredZoom)
+        setCurrentPhotoWidth(containerW)
+        setCurrentPhotoHeight(containerH)
+        setMinZoom(zoom)
+        setZoom(zoom)
         break
       }
+
       case '4:5': {
-        const cropW = 394
-        const cropH = 497
-        const zoomW = cropW / cropWidth
-        const zoomH = cropH / cropHeight
-        const requiredZoom = Math.max(zoomW, zoomH) * 1.25
+        const containerW = 394
+        const containerH = 497
+        const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
+        const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
-        setCurrentPhotoWidth(cropW)
-        setCurrentPhotoHeight(cropH)
-        setMinZoom(requiredZoom)
-        setZoom(requiredZoom)
+        setCurrentPhotoWidth(containerW)
+        setCurrentPhotoHeight(containerH)
+        setMinZoom(zoom)
+        setZoom(zoom)
         break
       }
-      case '16:9': {
-        const cropW = 492
-        const cropH = 276
-        const zoomW = cropW / cropWidth
-        const zoomH = cropH / cropHeight
-        const requiredZoom = Math.max(zoomW, zoomH) * (originalHeight < 365 ? 1.35 : 2)
 
-        setCurrentPhotoHeight(cropH)
-        setMinZoom(requiredZoom)
-        setZoom(requiredZoom)
+      case '16:9': {
+        const containerW = 492
+        const containerH = 276
+        const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
+        const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
+
+        setCurrentPhotoWidth(containerW)
+        setCurrentPhotoHeight(containerH)
+        setMinZoom(zoom)
+        setZoom(zoom)
         break
       }
     }
