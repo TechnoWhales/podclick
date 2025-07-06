@@ -41,6 +41,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [currentPhotoHeight, setCurrentPhotoHeight] = useState(497)
   const [currentPhotoWidth, setCurrentPhotoWidth] = useState(492)
   const [originalHeight, setOriginalHeight] = useState(0)
+  const [originalWidth, setOriginalWidth] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
@@ -73,11 +74,13 @@ export const Cropping = ({ photoPreview }: Props) => {
         if (photoHeight && originalHeight && photoHeight !== originalHeight) {
           setCurrentPhotoHeight(originalHeight)
         }
-
         setCurrentPhotoWidth(490)
         setMinZoom(2)
         setZoom(2)
-
+        if (originalWidth < 490) {
+          setMinZoom(1.5)
+          setZoom(1.5)
+        }
         break
       }
       case '1:1': {
@@ -120,7 +123,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         break
       }
     }
-  }, [ratioMode, setCrop, setZoom, currentPhotos])
+  }, [ratioMode, setCrop, setZoom, currentPhotos, originalWidth, photos[currentPhotos]])
 
 
   return (
@@ -162,15 +165,17 @@ export const Cropping = ({ photoPreview }: Props) => {
                     borderBottomLeftRadius: currentPhotoHeight < 490 || ration4to5 ? "0" : '10px',
                     borderBottomRightRadius: currentPhotoHeight < 490 || ration4to5? "0" : '10px',
                   },
+                  mediaStyle: {
+                    width: `490px`,
+                  }
                 }}
                 onMediaLoaded={({ width, height }) => {
                   setOriginalHeight(height)
-                  setCropWidth(width)
+                  setOriginalWidth(width)
                   setCropHeight(height)
+                  setCropWidth(width)
                   setCurrentPhotoHeight(height)
                   setCurrentPhotoWidth(width)
-                  setMinZoom(1)
-                  setZoom(1)
                 }}
             />
           </div>
