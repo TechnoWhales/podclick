@@ -28,10 +28,7 @@ export const AddPhoto = () => {
       open
       onClose={() => setOpen(!open)}
     >
-      <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
-        {photoPreview ? (
-          <Cropping photoPreview={photoPreview} />
-        ) : (
+      {!photoPreview && <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
           <Image
             className={clsx(s.photoImg, photoPreview && s.photoPreview)}
             src={photoPreview || '/empty-photo.svg'}
@@ -39,14 +36,14 @@ export const AddPhoto = () => {
             width={222}
             height={228}
           />
-        )}
         {!photoPreview && <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>}
         {!photoPreview && (
           <Button className={s.draftBtn} variant={'outlined'}>
             Open Draft
           </Button>
         )}
-      </div>
+      </div>}
+      {photoPreview && <Cropping photoPreview={photoPreview} />}
     </Modal>
   )
 }

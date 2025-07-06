@@ -127,7 +127,7 @@ export const Cropping = ({ photoPreview }: Props) => {
 
 
   return (
-    <>
+    <div className={s.cropping}>
       <div className={s.title}>
         <div className={s.arrowBack}>
           <Icon iconId={'arrowIosBack'} />
@@ -141,8 +141,8 @@ export const Cropping = ({ photoPreview }: Props) => {
           }
         </Button>
       </div>
-      <div className={clsx(s.cropWrapper, photoPreview && s.photoPreview)}>
-          <div className={s.cropContainer}>
+      <div className={clsx(s.container)}>
+          <div className={s.cropWrapper}>
             <Cropper
                 image={photos[currentPhotos] || photos[0]}
                 crop={crop}
@@ -158,16 +158,12 @@ export const Cropping = ({ photoPreview }: Props) => {
                 style={{
                   cropAreaStyle: { border: 0, boxShadow: 'none' },
                   containerStyle: {
-                    top: ration16to9 || currentPhotoHeight < 250 ? "25%" : "0",
-                    left: ration4to5 ? '50px' : '0',
+                    margin: 'auto',
                     height: `${currentPhotoHeight}px`,
                     width: `${currentPhotoWidth}px`,
                     borderBottomLeftRadius: currentPhotoHeight < 490 || ration4to5 ? "0" : '10px',
                     borderBottomRightRadius: currentPhotoHeight < 490 || ration4to5? "0" : '10px',
                   },
-                  mediaStyle: {
-                    width: `490px`,
-                  }
                 }}
                 onMediaLoaded={({ width, height }) => {
                   setOriginalHeight(height)
@@ -238,6 +234,6 @@ export const Cropping = ({ photoPreview }: Props) => {
           </Popover>
         </div>
       </div>
-    </>
+    </div>
   )
 }

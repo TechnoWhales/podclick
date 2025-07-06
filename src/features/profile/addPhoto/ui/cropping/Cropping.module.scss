@@ -1,3 +1,6 @@
+.cropping {
+height: 100%;
+}
 .title {
   display: flex;
   align-items: center;
@@ -5,142 +8,91 @@
 
   width: 100%;
   height: 60px;
+  .arrowBack {
+    margin-left: 32px;
+  }
+
+  .nextBtn {
+    margin-right: 36px;
+    padding: 0;
+  }
 }
 
-.arrowBack {
-  margin-left: 32px;
-}
-
-.nextBtn {
-  margin-right: 36px;
-  padding: 0;
-}
-
-.cropWrapper {
+.container {
   position: relative;
+  height: 496px;
+  .cropWrapper {}
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  .popoversWrapper {
+    position: absolute;
+    z-index: 999;
+    bottom: 10px;
 
-  width: 100%;
-  //height: 754px;
-  height: 450px;
-  margin-top: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  &.photoPreview {
-    margin-top: 0;
-  }
-}
-
-
-//.mySlick {
-//  width: 100%;
-//  height: 100%;
-//
-//  button {
-//      width: 36px;
-//      height: 36px;
-//      border-radius: 2px;
-//      background: var(--color-dark-500);
-//      opacity: 0.8;
-//      position: absolute;
-//      top: 250px;
-//  }
-//
-//}
+    width: 100%;
+    margin-top: 12px;
+    padding: 0 12px;
 
 
-.cropContainer {
-  position: absolute;
-  inset: -2px 0 0;
+    .controlsWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  width: 100%;
-  height: 100%;
+      & > * + * {
+        margin-left: 24px;
+      }
 
-  // bottom: 80px;
+      .aspectRatioWrapper {
+        cursor: pointer;
 
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-}
+        width: 130px;
+        margin-bottom: 12px;
 
-.popoversWrapper {
-  position: absolute;
-  z-index: 999;
-  bottom: -45px;
+        color: var(--color-light-900);
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+        &:last-child {
+          margin-bottom: 0;
+        }
 
-  width: 100%;
-  margin-top: 12px;
-  padding: 0 12px;
-}
+        & svg {
+          stroke: var(--color-light-900);
 
-.controlsWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+          &.active {
+            stroke: var(--color-light-100);
+          }
+        }
 
-  & > * + * {
-    margin-left: 24px;
-  }
-}
+        &.active {
+          color: var(--color-light-100);
 
-.rangeInput {
-  display: flex;
-  width: 100px;
-  height: 4px;
-  margin: 4px;
-}
+          svg {
+            stroke: var(--color-light-100);
+          }
+        }
 
-.aspectRatioWrapper {
-  cursor: pointer;
+        &.imageOutline {
+          svg {
+            fill: var(--color-light-900);
+            stroke: none;
+          }
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 130px;
-  margin-bottom: 12px;
-
-  color: var(--color-light-900);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  & svg {
-    stroke: var(--color-light-900);
-
-    &.active {
-      stroke: var(--color-light-100);
-    }
-  }
-
-  &.active {
-    color: var(--color-light-100);
-
-    svg {
-      stroke: var(--color-light-100);
-    }
-  }
-
-  &.imageOutline {
-    svg {
-      fill: var(--color-light-900);
-      stroke: none;
-    }
-
-    &.active svg {
-      fill: var(--color-light-100);
+          &.active svg {
+            fill: var(--color-light-100);
+          }
+        }
+      }
     }
   }
 }
 
-
-
-// PhotoItem
 .photoItemsWrapper {
   display: flex;
   flex-wrap: wrap;
@@ -164,3 +116,68 @@
   }
 
 }
+
+
+
+//.cropWrapper {
+//  position: relative;
+//
+//  display: flex;
+//  flex-direction: column;
+//  align-items: center;
+//
+//  width: 100%;
+//  //height: 754px;
+//  height: 450px;
+//  margin-top: 72px;
+//
+//  &.photoPreview {
+//    margin-top: 0;
+//  }
+//}
+
+
+//.mySlick {
+//  width: 100%;
+//  height: 100%;
+//
+//  button {
+//      width: 36px;
+//      height: 36px;
+//      border-radius: 2px;
+//      background: var(--color-dark-500);
+//      opacity: 0.8;
+//      position: absolute;
+//      top: 250px;
+//  }
+//
+//}
+
+//
+//.cropContainer {
+//  position: absolute;
+//  inset: -2px 0 0;
+//
+//  width: 100%;
+//  height: 100%;
+//
+//  // bottom: 80px;
+//
+//
+//}
+
+
+
+//
+//.rangeInput {
+//  display: flex;
+//  width: 100px;
+//  height: 4px;
+//  margin: 4px;
+//}
+//
+
+
+
+
+// PhotoItem
