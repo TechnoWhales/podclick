@@ -8,10 +8,10 @@ import Image from 'next/image'
 
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
+import {calculateZoom} from "@/shared/utils/calculateZoom";
+import {getZoomBoost} from "@/shared/utils/getZoomBoost";
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-import {getZoomBoost} from "@/shared/utils/getZoomBoost";
-import {calculateZoom} from "@/shared/utils/calculateZoom";
 
 type PhotoItemProps = {
   img: string
@@ -58,7 +58,7 @@ export const Cropping = ({ photoPreview }: Props) => {
     }})
   const [currentPhotos, setCurrentPhotos] = useState(0)
 
-  const maxZoom = 5
+  const maxZoom = 10
   const rationOriginal = ratioMode === 'original'
   const ration1to1 = ratioMode === '1:1'
   const ration4to5 = ratioMode === '4:5'
@@ -165,8 +165,8 @@ export const Cropping = ({ photoPreview }: Props) => {
                     margin: 'auto',
                     height: `${currentPhotoHeight}px`,
                     width: `${currentPhotoWidth}px`,
-                    borderBottomLeftRadius: currentPhotoHeight < 490 || ration4to5 ? "0" : '10px',
-                    borderBottomRightRadius: currentPhotoHeight < 490 || ration4to5? "0" : '10px',
+                    borderBottomLeftRadius: currentPhotoHeight < 490 || currentPhotoWidth < 490 || ration4to5 ? "0" : '10px',
+                    borderBottomRightRadius: currentPhotoHeight < 490 || currentPhotoWidth < 490 || ration4to5? "0" : '10px',
                   },
                 }}
                 onMediaLoaded={({ width, height }) => {
