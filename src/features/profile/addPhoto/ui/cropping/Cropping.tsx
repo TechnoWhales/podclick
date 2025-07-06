@@ -42,7 +42,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [cropWidth, setCropWidth] = useState(0)
   const [cropHeight, setCropHeight] = useState(0)
   const [currentPhotoHeight, setCurrentPhotoHeight] = useState(497)
-  const [currentPhotoWidth, setCurrentPhotoWidth] = useState(492)
+  const [currentPhotoWidth, setCurrentPhotoWidth] = useState(490)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
@@ -100,7 +100,7 @@ export const Cropping = ({ photoPreview }: Props) => {
       }
 
       case '16:9': {
-        const containerW = 492
+        const containerW = 490
         const containerH = 276
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
