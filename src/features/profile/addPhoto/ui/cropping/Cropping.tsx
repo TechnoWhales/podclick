@@ -111,7 +111,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const cropH = 276
         const zoomW = cropW / cropWidth
         const zoomH = cropH / cropHeight
-        const requiredZoom = Math.max(zoomW, zoomH) * 1.35
+        const requiredZoom = Math.max(zoomW, zoomH) * originalHeight < 365 ? 1.35 : 2
 
         setCurrentPhotoWidth(490)
         setCurrentPhotoHeight(cropH)
