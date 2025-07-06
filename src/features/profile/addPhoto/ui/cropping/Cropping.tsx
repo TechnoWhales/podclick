@@ -65,6 +65,8 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration16to9 = ratioMode === '16:9'
 
 
+
+
   useEffect(() => {
     const { width: imageWidth, height: imageHeight } = { width: cropWidth, height: cropHeight }
 
@@ -117,7 +119,14 @@ export const Cropping = ({ photoPreview }: Props) => {
         break
       }
     }
-  }, [ratioMode, setCrop, setZoom, currentPhotos, photos[currentPhotos]])
+  }, [ratioMode, setCrop, setZoom])
+
+  const setCurrentPhoto = (index: number) => {
+    if (index === currentPhotos) {return}
+    setCurrentPhotoHeight(497)
+    setCurrentPhotoWidth(490)
+    setCurrentPhotos(index)
+  }
 
 
   return (
@@ -160,12 +169,14 @@ export const Cropping = ({ photoPreview }: Props) => {
                   },
                 }}
                 onMediaLoaded={({ width, height }) => {
+                  debugger
                   setCropHeight(height)
                   setCropWidth(width)
                   setCurrentPhotoHeight(height)
                   setCurrentPhotoWidth(width)
                   setOriginalHeight(height)
                   setOriginalWidth(width)
+
                 }}
             />
           </div>
@@ -221,7 +232,7 @@ export const Cropping = ({ photoPreview }: Props) => {
               {photos.map((photo, index)  => {
                 const id = nanoid()
 
-                return <PhotoItem key={id} img={photo} onClick={() => setCurrentPhotos(index)} removePhoto={() => setPhotos(photos.filter((_, i) => i !== index))}/>
+                return <PhotoItem key={id} img={photo} onClick={() => setCurrentPhoto(index)} removePhoto={() => setPhotos(photos.filter((_, i) => i !== index))}/>
               })}
               <UploadButton className={s.plusBtn} variant={'icon'}><Icon iconId={'plusCircleOutline'} width={"30px"} height={'30px'} viewBox={'0 0 30 30'}/></UploadButton>
             </div>
