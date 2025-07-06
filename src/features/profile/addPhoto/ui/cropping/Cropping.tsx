@@ -67,7 +67,6 @@ export const Cropping = ({ photoPreview }: Props) => {
     switch (ratioMode) {
       case 'original': {
         const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
-
         if (photoHeight) {
           setCurrentPhotoHeight(photoHeight)
         }

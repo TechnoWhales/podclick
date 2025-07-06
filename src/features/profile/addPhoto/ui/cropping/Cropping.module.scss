@@ -20,7 +20,7 @@ height: 100%;
 
 .container {
   position: relative;
-  height: 496px;
+  height: 490px;
   .cropWrapper {}
 
   .popoversWrapper {
@@ -35,60 +35,57 @@ height: 100%;
     width: 100%;
     margin-top: 12px;
     padding: 0 12px;
-
-
     .controlsWrapper {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       & > * + * {
         margin-left: 24px;
       }
+    }
+  }
+}
 
-      .aspectRatioWrapper {
-        cursor: pointer;
+.aspectRatioWrapper {
+  cursor: pointer;
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-        width: 130px;
-        margin-bottom: 12px;
+  width: 130px;
+  margin-bottom: 12px;
 
-        color: var(--color-light-900);
+  color: var(--color-light-900);
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+  &:last-child {
+    margin-bottom: 0;
+  }
 
-        & svg {
-          stroke: var(--color-light-900);
+  & svg {
+    stroke: var(--color-light-900);
 
-          &.active {
-            stroke: var(--color-light-100);
-          }
-        }
+    &.active {
+      stroke: var(--color-light-100);
+    }
+  }
 
-        &.active {
-          color: var(--color-light-100);
+  &.active {
+    color: var(--color-light-100);
 
-          svg {
-            stroke: var(--color-light-100);
-          }
-        }
+    svg {
+      stroke: var(--color-light-100);
+    }
+  }
 
-        &.imageOutline {
-          svg {
-            fill: var(--color-light-900);
-            stroke: none;
-          }
+  &.imageOutline {
+    svg {
+      fill: var(--color-light-900);
+      stroke: none;
+    }
 
-          &.active svg {
-            fill: var(--color-light-100);
-          }
-        }
-      }
+    &.active svg {
+      fill: var(--color-light-100);
     }
   }
 }
@@ -117,67 +114,3 @@ height: 100%;
 
 }
 
-
-
-//.cropWrapper {
-//  position: relative;
-//
-//  display: flex;
-//  flex-direction: column;
-//  align-items: center;
-//
-//  width: 100%;
-//  //height: 754px;
-//  height: 450px;
-//  margin-top: 72px;
-//
-//  &.photoPreview {
-//    margin-top: 0;
-//  }
-//}
-
-
-//.mySlick {
-//  width: 100%;
-//  height: 100%;
-//
-//  button {
-//      width: 36px;
-//      height: 36px;
-//      border-radius: 2px;
-//      background: var(--color-dark-500);
-//      opacity: 0.8;
-//      position: absolute;
-//      top: 250px;
-//  }
-//
-//}
-
-//
-//.cropContainer {
-//  position: absolute;
-//  inset: -2px 0 0;
-//
-//  width: 100%;
-//  height: 100%;
-//
-//  // bottom: 80px;
-//
-//
-//}
-
-
-
-//
-//.rangeInput {
-//  display: flex;
-//  width: 100px;
-//  height: 4px;
-//  margin: 4px;
-//}
-//
-
-
-
-
-// PhotoItem
