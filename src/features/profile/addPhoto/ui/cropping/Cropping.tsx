@@ -8,10 +8,11 @@ import Image from 'next/image'
 
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
-import {calculateZoom} from "@/shared/utils/calculateZoom";
-import {getZoomBoost} from "@/shared/utils/getZoomBoost";
+
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import {getZoomBoost} from "@/features/profile/addPhoto/utils/getZoomBoost";
+import {calculateZoom} from "@/features/profile/addPhoto/utils/calculateZoom";
 
 type PhotoItemProps = {
   img: string
@@ -42,8 +43,6 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [cropHeight, setCropHeight] = useState(0)
   const [currentPhotoHeight, setCurrentPhotoHeight] = useState(497)
   const [currentPhotoWidth, setCurrentPhotoWidth] = useState(492)
-  const [originalHeight, setOriginalHeight] = useState(0)
-  const [originalWidth, setOriginalWidth] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
@@ -70,20 +69,6 @@ export const Cropping = ({ photoPreview }: Props) => {
 
     switch (ratioMode) {
       case 'original': {
-        // const photoHeight = document.querySelector('.reactEasyCrop_Image')?.clientHeight
-        //
-        // if (photoHeight) {
-        //   setCurrentPhotoHeight(photoHeight)
-        // }
-        // if (photoHeight && originalHeight && photoHeight !== originalHeight) {
-        //   setCurrentPhotoHeight(originalHeight)
-        // }
-        // setMinZoom(2)
-        // setZoom(2)
-        // if (originalWidth < 490) {
-        //   setMinZoom(1.5)
-        //   setZoom(1.5)
-        // }
         setMinZoom(1)
         setZoom(1)
         break
@@ -127,7 +112,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         break
       }
     }
-  }, [ratioMode, setCrop, setZoom, currentPhotos, originalWidth, photos[currentPhotos]])
+  }, [ratioMode, setCrop, setZoom, currentPhotos, photos[currentPhotos]])
 
 
   return (
@@ -170,8 +155,6 @@ export const Cropping = ({ photoPreview }: Props) => {
                   },
                 }}
                 onMediaLoaded={({ width, height }) => {
-                  setOriginalHeight(height)
-                  setOriginalWidth(width)
                   setCropHeight(height)
                   setCropWidth(width)
                   setCurrentPhotoHeight(height)
