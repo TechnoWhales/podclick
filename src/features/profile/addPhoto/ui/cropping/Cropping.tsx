@@ -12,17 +12,19 @@ import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 
-type PhotoItemProps = {
-  id: string
-  img: string
-  onClick: () =>  void
-  removePhoto: (id: string) => void
-}
+// type PhotoItemProps = {
+//   id: string
+//   img: string
+//   onClick: () =>  void
+//   removePhoto: (id: string, photo: PhotoType) => void
+//   photo: PhotoType
+// }
 
 type RationMode = '1:1' | '4:5' | '16:9' | 'original'
 
-type Photo = {
+export type PhotoType = {
   id: string
   img: string
   currentPhotoHeight: number
@@ -35,16 +37,16 @@ type Props = {
   photoPreview: string
 }
 
-const PhotoItem = ({img, onClick, removePhoto, id}: PhotoItemProps) => {
-  return (
-    <div className={s.photoItemWrapper}>
-      <Button className={s.removePhoto} variant={"icon"} onClick={() => removePhoto(id)}>
-        <Icon iconId={'close'} />
-      </Button>
-      <Image src={img} alt={'Empty photo'} width={82} height={82} onClick={onClick}/>
-    </div>
-  )
-}
+// const PhotoItem = ({img, onClick, removePhoto, id, photo}: PhotoItemProps) => {
+//   return (
+//     <div className={s.photoItemWrapper}>
+//       <Button className={s.removePhoto} variant={"icon"} onClick={() => removePhoto(id, photo)}>
+//         <Icon iconId={'close'} />
+//       </Button>
+//       <Image src={img} alt={'Empty photo'} width={82} height={82} onClick={onClick}/>
+//     </div>
+//   )
+// }
 
 export const Cropping = ({ photoPreview }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -59,7 +61,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
 
   const defaultPhoto = {id: nanoid(), img: photoPreview, currentPhotoHeight, currentPhotoWidth, crop: { x: 0, y: 0 } , ration: 'original' as RationMode}
-  const [photos, setPhotos] = useState<Photo[]>([defaultPhoto])
+  const [photos, setPhotos] = useState<PhotoType[]>([defaultPhoto])
 
   const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
       if (base64) {
@@ -133,18 +135,20 @@ export const Cropping = ({ photoPreview }: Props) => {
     }
   }, [ratioMode, setCrop, setZoom])
 
-  const setCurrentPhoto = (index: number) => {
+  const setCurrentPhoto = (index: number, photo: PhotoType) => {
     if (index === currentPhotos) {return}
-    setCurrentPhotoHeight(497)
-    setCurrentPhotoWidth(490)
+    setCurrentPhotoHeight(photo.currentPhotoHeight)
+    setCurrentPhotoWidth(photo.currentPhotoWidth)
+    setRatioMode(photo.ration)
     setCurrentPhotos(index)
   }
-  const removePhoto = (id: string) => {
+  const removePhoto = (id: string, photo: PhotoType) => {
     if (photos.length !== 1) {
       setPhotos(photos.filter((photo) => photo.id !== id))
       setCurrentPhotos(currentPhotos - 1)
       setCurrentPhotoHeight(497)
       setCurrentPhotoWidth(490)
+      setRatioMode(photo.ration)
     }
   }
 
@@ -254,7 +258,7 @@ export const Cropping = ({ photoPreview }: Props) => {
           <Popover buttonText={<Icon iconId={'image'}/>} opacity={0.8} align={'end'}>
             <div className={s.photoItemsWrapper}>
               {photos.map((photo, i)  => {
-                return <PhotoItem key={photo.id} img={photo.img} id={photo.id} onClick={() => setCurrentPhoto(i)} removePhoto={removePhoto}/>
+                return <PhotoItem key={photo.id}  photo={photo} onClick={() => setCurrentPhoto(i, photo)} removePhoto={removePhoto}/>
               })}
               <UploadButton className={s.plusBtn} variant={'icon'}><Icon iconId={'plusCircleOutline'} width={"30px"} height={'30px'} viewBox={'0 0 30 30'}/></UploadButton>
             </div>
