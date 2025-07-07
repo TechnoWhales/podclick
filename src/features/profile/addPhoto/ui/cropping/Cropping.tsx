@@ -18,8 +18,8 @@ type RationMode = '1:1' | '4:5' | '16:9' | 'original'
 export type PhotoType = {
   id: string
   img: string
-  currentPhotoHeight: number
-  currentPhotoWidth: number
+  currentHeightImage: number
+  currentWidthImage: number
   crop: { x: number, y: number }
   ration: RationMode
 }
@@ -41,8 +41,8 @@ export const Cropping = ({ photoPreview }: Props) => {
   const defaultPhoto = {
     id: nanoid(),
     img: photoPreview,
-    currentPhotoHeight: currentHeightImage,
-    currentPhotoWidth: currentWidthImage,
+    currentHeightImage,
+    currentWidthImage,
     crop: { x: 0, y: 0 },
     ration: 'original' as RationMode
   }
@@ -55,8 +55,8 @@ export const Cropping = ({ photoPreview }: Props) => {
         const photo = {
           id: nanoid(),
           img: base64,
-          currentPhotoHeight: 497,
-          currentPhotoWidth: 490,
+          currentHeightImage: 497,
+          currentWidthImage: 490,
           crop: { x: 0, y: 0 },
           ration: 'original' as RationMode
         }
@@ -133,8 +133,8 @@ export const Cropping = ({ photoPreview }: Props) => {
 
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
     if (index === currentPhotos) {return}
-    setCurrentHeightImage(photo.currentPhotoHeight)
-    setCurrentWidthImage(photo.currentPhotoWidth)
+    setCurrentHeightImage(photo.currentHeightImage)
+    setCurrentWidthImage(photo.currentWidthImage)
     setRatioMode(photo.ration)
     setCurrentPhotos(index)
   }
@@ -239,7 +239,7 @@ export const Cropping = ({ photoPreview }: Props) => {
                   {photos.map((photo, i) => (
                       <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhoto(i, photo)} removePhoto={removePhoto} />
                   ))}
-                  <UploadButton className={s.plusBtn} variant={'icon'}>
+                  <UploadButton className={s.plusBtn} disabled={photos.length >= 10} variant={'icon'}>
                     <Icon iconId={'plusCircleOutline'} width={'30px'} height={'30px'} viewBox={'0 0 30 30'} />
                   </UploadButton>
                 </div>
