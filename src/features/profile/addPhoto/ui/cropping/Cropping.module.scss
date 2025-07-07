@@ -90,6 +90,25 @@ height: 100%;
   }
 }
 
+
+.photoPanel {
+  display: flex;
+  .saveBtn {
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
+    width: 36px;
+    color: var(--color-light-100);
+    margin-right: 12px;
+    background-color: var(--color-dark-500);
+    opacity: 0.8;
+    &:hover {
+      color: var(--color-accent-500);
+    }
+  }
+}
+
 .photoItemsWrapper {
   display: flex;
   flex-wrap: wrap;

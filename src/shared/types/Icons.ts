@@ -94,3 +94,4 @@ export type IconsId =
   | 'square'
   | 'rectangleVertical'
   | 'rectangleHorizontal'
+  | 'save'

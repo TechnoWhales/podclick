@@ -4,23 +4,14 @@ import Cropper from 'react-easy-crop'
 
 import { nanoid } from '@reduxjs/toolkit'
 import clsx from 'clsx'
-import Image from 'next/image'
 
+import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import {calculateZoom} from "@/features/profile/addPhoto/utils/calculateZoom";
 import {getZoomBoost} from "@/features/profile/addPhoto/utils/getZoomBoost";
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
-
-// type PhotoItemProps = {
-//   id: string
-//   img: string
-//   onClick: () =>  void
-//   removePhoto: (id: string, photo: PhotoType) => void
-//   photo: PhotoType
-// }
 
 type RationMode = '1:1' | '4:5' | '16:9' | 'original'
 
@@ -36,17 +27,6 @@ export type PhotoType = {
 type Props = {
   photoPreview: string
 }
-
-// const PhotoItem = ({img, onClick, removePhoto, id, photo}: PhotoItemProps) => {
-//   return (
-//     <div className={s.photoItemWrapper}>
-//       <Button className={s.removePhoto} variant={"icon"} onClick={() => removePhoto(id, photo)}>
-//         <Icon iconId={'close'} />
-//       </Button>
-//       <Image src={img} alt={'Empty photo'} width={82} height={82} onClick={onClick}/>
-//     </div>
-//   )
-// }
 
 export const Cropping = ({ photoPreview }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -157,7 +137,6 @@ export const Cropping = ({ photoPreview }: Props) => {
     // croppedAreaPixels в пікселях — ці значення потрібні для справжнього обрізання
   }
 
-
   return (
     <div className={s.cropping}>
       <div className={s.title}>
@@ -255,14 +234,17 @@ export const Cropping = ({ photoPreview }: Props) => {
             </Popover>
           </div>
 
-          <Popover buttonText={<Icon iconId={'image'}/>} opacity={0.8} align={'end'}>
-            <div className={s.photoItemsWrapper}>
-              {photos.map((photo, i)  => {
-                return <PhotoItem key={photo.id}  photo={photo} onClick={() => setCurrentPhoto(i, photo)} removePhoto={removePhoto}/>
-              })}
-              <UploadButton className={s.plusBtn} variant={'icon'}><Icon iconId={'plusCircleOutline'} width={"30px"} height={'30px'} viewBox={'0 0 30 30'}/></UploadButton>
-            </div>
-          </Popover>
+          <div className={s.photoPanel}>
+            <Button className={s.saveBtn} variant={'icon'}><Icon iconId={'save'}/></Button>
+            <Popover buttonText={<Icon iconId={'image'}/>} opacity={0.8} align={'end'}>
+              <div className={s.photoItemsWrapper}>
+                {photos.map((photo, i)  => {
+                  return <PhotoItem key={photo.id}  photo={photo} onClick={() => setCurrentPhoto(i, photo)} removePhoto={removePhoto}/>
+                })}
+                <UploadButton className={s.plusBtn} variant={'icon'}><Icon iconId={'plusCircleOutline'} width={"30px"} height={'30px'} viewBox={'0 0 30 30'}/></UploadButton>
+              </div>
+            </Popover>
+          </div>
         </div>
       </div>
     </div>
