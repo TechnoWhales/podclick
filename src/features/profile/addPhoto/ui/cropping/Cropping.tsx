@@ -34,8 +34,6 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [cropHeight, setCropHeight] = useState(0)
   const [currentPhotoHeight, setCurrentPhotoHeight] = useState(497)
   const [currentPhotoWidth, setCurrentPhotoWidth] = useState(490)
-  const [originalHeight, setOriginalHeight] = useState(0)
-  const [originalWidth, setOriginalWidth] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
@@ -66,9 +64,9 @@ export const Cropping = ({ photoPreview }: Props) => {
 
     switch (ratioMode) {
       case 'original': {
-        if (originalHeight && originalWidth) {
-          setCurrentPhotoWidth(originalWidth)
-          setCurrentPhotoHeight(originalHeight)
+        if (cropWidth && cropHeight) {
+          setCurrentPhotoHeight(cropHeight)
+          setCurrentPhotoWidth(cropWidth)
         }
         setMinZoom(1)
         setZoom(1)
@@ -182,8 +180,6 @@ export const Cropping = ({ photoPreview }: Props) => {
                   setCropWidth(width)
                   setCurrentPhotoHeight(height)
                   setCurrentPhotoWidth(width)
-                  setOriginalHeight(height)
-                  setOriginalWidth(width)
                 }}
             />
           </div>
