@@ -14,21 +14,31 @@ import { useUploadFile } from '@/shared/hooks/useUploadFile'
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
 type PhotoItemProps = {
+  id: string
   img: string
   onClick: () =>  void
-  removePhoto: () => void
+  removePhoto: (id: string) => void
 }
 
 type RationMode = '1:1' | '4:5' | '16:9' | 'original'
+
+type Photo = {
+  id: string
+  img: string
+  currentPhotoHeight: number
+  currentPhotoWidth: number
+  crop: { x: number, y: number }
+  ration: RationMode
+}
 
 type Props = {
   photoPreview: string
 }
 
-const PhotoItem = ({img, onClick, removePhoto}: PhotoItemProps) => {
+const PhotoItem = ({img, onClick, removePhoto, id}: PhotoItemProps) => {
   return (
     <div className={s.photoItemWrapper}>
-      <Button className={s.removePhoto} variant={"icon"} onClick={removePhoto}>
+      <Button className={s.removePhoto} variant={"icon"} onClick={() => removePhoto(id)}>
         <Icon iconId={'close'} />
       </Button>
       <Image src={img} alt={'Empty photo'} width={82} height={82} onClick={onClick}/>
@@ -47,12 +57,17 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
-  const [photos, setPhotos] = useState<string[]>([photoPreview])
+
+  const defaultPhoto = {id: nanoid(), img: photoPreview, currentPhotoHeight, currentPhotoWidth, crop: { x: 0, y: 0 } , ration: 'original' as RationMode}
+  const [photos, setPhotos] = useState<Photo[]>([defaultPhoto])
+
   const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
       if (base64) {
+        const photo = {id: nanoid(), img: base64, currentPhotoHeight: 497, currentPhotoWidth: 490, crop: { x: 0, y: 0 }, ration: 'original' as RationMode}
+
         setPhotos(prevState => [
           ...prevState,
-          base64,
+          photo,
         ])
       }
     }})
@@ -63,9 +78,6 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration1to1 = ratioMode === '1:1'
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
-
-
-
 
   useEffect(() => {
     const { width: imageWidth, height: imageHeight } = { width: cropWidth, height: cropHeight }
@@ -127,6 +139,19 @@ export const Cropping = ({ photoPreview }: Props) => {
     setCurrentPhotoWidth(490)
     setCurrentPhotos(index)
   }
+  const removePhoto = (id: string) => {
+    if (photos.length !== 1) {
+      setPhotos(photos.filter((photo) => photo.id !== id))
+      setCurrentPhotos(currentPhotos - 1)
+      setCurrentPhotoHeight(497)
+      setCurrentPhotoWidth(490)
+    }
+  }
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    // croppedArea в % (відносно розміру зображення)
+    // croppedAreaPixels в пікселях — ці значення потрібні для справжнього обрізання
+  }
 
 
   return (
@@ -147,7 +172,7 @@ export const Cropping = ({ photoPreview }: Props) => {
       <div className={clsx(s.container)}>
           <div className={s.cropWrapper}>
             <Cropper
-                image={photos[currentPhotos] || photos[0]}
+                image={photos[currentPhotos]?.img || photos[0].img}
                 crop={crop}
                 zoom={zoom}
                 minZoom={minZoom}
@@ -168,15 +193,14 @@ export const Cropping = ({ photoPreview }: Props) => {
                     borderBottomRightRadius: currentPhotoHeight < 490 || currentPhotoWidth < 490 || ration4to5? "0" : '10px',
                   },
                 }}
+                onCropComplete={onCropComplete}
                 onMediaLoaded={({ width, height }) => {
-                  debugger
                   setCropHeight(height)
                   setCropWidth(width)
                   setCurrentPhotoHeight(height)
                   setCurrentPhotoWidth(width)
                   setOriginalHeight(height)
                   setOriginalWidth(width)
-
                 }}
             />
           </div>
@@ -229,10 +253,8 @@ export const Cropping = ({ photoPreview }: Props) => {
 
           <Popover buttonText={<Icon iconId={'image'}/>} opacity={0.8} align={'end'}>
             <div className={s.photoItemsWrapper}>
-              {photos.map((photo, index)  => {
-                const id = nanoid()
-
-                return <PhotoItem key={id} img={photo} onClick={() => setCurrentPhoto(index)} removePhoto={() => setPhotos(photos.filter((_, i) => i !== index))}/>
+              {photos.map((photo, i)  => {
+                return <PhotoItem key={photo.id} img={photo.img} id={photo.id} onClick={() => setCurrentPhoto(i)} removePhoto={removePhoto}/>
               })}
               <UploadButton className={s.plusBtn} variant={'icon'}><Icon iconId={'plusCircleOutline'} width={"30px"} height={'30px'} viewBox={'0 0 30 30'}/></UploadButton>
             </div>
