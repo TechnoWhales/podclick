@@ -43,8 +43,9 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
 
   console.log(zoom, minZoom)
-  console.log("currentHeightImage:",currentHeightImage,"currentWidthImage:", currentWidthImage)
+  console.log("currentWidthImage:", currentWidthImage, "currentHeightImage:",currentHeightImage)
   console.log("originalWidthImage:",originalWidthImage,"originalHeightImage:", originalHeightImage)
+  console.log(crop)
 
   const defaultPhoto = {
     id: nanoid(),
@@ -148,7 +149,8 @@ export const Cropping = ({ photoPreview }: Props) => {
   }, [ratioMode, setCrop, setZoom])
 
   const saveCroppingHandler = () => {
-    photos[currentPhotos].crop = crop
+    photos[currentPhotos].crop.x = crop.x
+    photos[currentPhotos].crop.y = crop.y
     photos[currentPhotos].zoom = zoom
     photos[currentPhotos].minZoom = minZoom
     photos[currentPhotos].ration = ratioMode
@@ -156,6 +158,7 @@ export const Cropping = ({ photoPreview }: Props) => {
     photos[currentPhotos].currentWidthImage = currentWidthImage
     photos[currentPhotos].originalWidthImage = originalWidthImage
     photos[currentPhotos].originalHeightImage = originalHeightImage
+    console.log("saveCroppingHandler: ",photos[currentPhotos])
   }
 
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
@@ -163,10 +166,11 @@ export const Cropping = ({ photoPreview }: Props) => {
     setRatioMode(photo.ration)
     setCurrentHeightImage(photo.currentHeightImage)
     setCurrentWidthImage(photo.currentWidthImage)
-    setCrop({ x: 0, y: 0})
+    setCrop({x: photo.crop.x, y: photo.crop.y})
     setZoom(photo.zoom)
     setMinZoom(photo.minZoom)
     setCurrentPhotos(index)
+    console.log("setCurrentPhoto: ",photo)
   }
 
   const removePhoto = (id: string, photo: PhotoType) => {
@@ -179,7 +183,9 @@ export const Cropping = ({ photoPreview }: Props) => {
     }
   }
 
-  const onCropComplete = (_: any, __: any) => {}
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    // console.log("croppedArea: ", croppedArea, "croppedAreaPixels:", croppedAreaPixels)
+  }
 
   return (
       <div className={s.cropping}>
