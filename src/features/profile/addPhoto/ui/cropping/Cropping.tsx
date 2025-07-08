@@ -122,7 +122,6 @@ export const Cropping = ({ photoPreview }: Props) => {
         updateCropView(containerW, containerH, zoom)
         break
       }
-
       case '4:5': {
         const containerW = 394
         const containerH = 497
@@ -132,7 +131,6 @@ export const Cropping = ({ photoPreview }: Props) => {
         updateCropView(containerW, containerH, zoom)
         break
       }
-
       case '16:9': {
         const containerW = 490
         const containerH = 276
@@ -184,9 +182,6 @@ export const Cropping = ({ photoPreview }: Props) => {
     if (photos.length !== 1) {
       setPhotos(photos.filter(photo => photo.id !== id))
       setCurrentPhotos(currentPhotos - 1)
-      setCurrentHeightImage(497)
-      setCurrentWidthImage(490)
-      setRatioMode(photo.ration)
     }
   }
 
