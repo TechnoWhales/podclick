@@ -230,6 +230,10 @@ export const Cropping = ({ photoPreview }: Props) => {
                   setOriginalWidthImage(width)
                   setCurrentHeightImage(height)
                   setCurrentWidthImage(width)
+                  if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
+                    setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
+                  }
+                  console.log("onMediaLoaded: ",width,height)
                 }}
             />
           </div>
