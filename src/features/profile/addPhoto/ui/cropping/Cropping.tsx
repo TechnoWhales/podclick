@@ -192,7 +192,7 @@ export const Cropping = ({ photoPreview }: Props) => {
 
   const removePhoto = (id: string) => {
     if (photos.length !== 1) {
-      setPhotos(photos.filter(photo => photo.id !== id))
+      setPhotos(photos.filter((photo, index) => photo.id !== id))
       setCurrentPhotos(currentPhotos - 1)
     }
   }
