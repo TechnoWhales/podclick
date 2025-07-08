@@ -42,6 +42,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
 
+
   const defaultPhoto = {
     id: nanoid(),
     img: photoPreview,
@@ -79,6 +80,11 @@ export const Cropping = ({ photoPreview }: Props) => {
   })
 
   const [currentPhotos, setCurrentPhotos] = useState(0)
+  console.log("ratioMode:",ratioMode)
+  console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
+  console.log( "currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
+  console.log("zoom:", zoom, "minZoom:", minZoom)
+  console.log("currentPhoto", photos[currentPhotos])
 
   const maxZoom = 10
   const rationOriginal = ratioMode === 'original'
@@ -95,8 +101,8 @@ export const Cropping = ({ photoPreview }: Props) => {
 
   useEffect(() => {
     if(photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
-      setOriginalHeightImage(photos[currentPhotos].currentHeightImage)
-      setOriginalWidthImage(photos[currentPhotos].currentWidthImage)
+      setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
+      setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
     }
     const { width: imageWidth, height: imageHeight } = {
       width: originalWidthImage,
@@ -112,12 +118,13 @@ export const Cropping = ({ photoPreview }: Props) => {
 
     switch (ratioMode) {
       case 'original': {
-        if (originalWidthImage && originalHeightImage) {
+        if (photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
           setCurrentHeightImage(originalHeightImage)
           setCurrentWidthImage(originalWidthImage)
         }
         setMinZoom(1)
         setZoom(1)
+        debugger
         break
       }
       case '1:1': {
@@ -127,6 +134,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
         updateCropView(containerW, containerH, zoom)
+        debugger
         break
       }
       case '4:5': {
@@ -136,6 +144,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
         updateCropView(containerW, containerH, zoom)
+        debugger
         break
       }
       case '16:9': {
@@ -145,6 +154,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
         updateCropView(containerW, containerH, zoom)
+        debugger
         break
       }
     }
