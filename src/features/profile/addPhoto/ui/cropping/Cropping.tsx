@@ -18,9 +18,13 @@ type RationMode = '1:1' | '4:5' | '16:9' | 'original'
 export type PhotoType = {
   id: string
   img: string
+  originalWidthImage: number
+  originalHeightImage: number
   currentHeightImage: number
   currentWidthImage: number
   crop: { x: number, y: number }
+  zoom: number
+  minZoom: number
   ration: RationMode
 }
 
@@ -38,13 +42,21 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
 
+  console.log(zoom, minZoom)
+  console.log("currentHeightImage:",currentHeightImage,"currentWidthImage:", currentWidthImage)
+  console.log("originalWidthImage:",originalWidthImage,"originalHeightImage:", originalHeightImage)
+
   const defaultPhoto = {
     id: nanoid(),
     img: photoPreview,
     currentHeightImage,
     currentWidthImage,
     crop: { x: 0, y: 0 },
-    ration: 'original' as RationMode
+    ration: 'original' as RationMode,
+    zoom: 1,
+    minZoom: 1,
+    originalWidthImage,
+    originalHeightImage,
   }
   const [photos, setPhotos] = useState<PhotoType[]>([defaultPhoto])
 
@@ -55,9 +67,13 @@ export const Cropping = ({ photoPreview }: Props) => {
         const photo = {
           id: nanoid(),
           img: base64,
+          originalWidthImage,
+          originalHeightImage,
           currentHeightImage: 497,
           currentWidthImage: 490,
           crop: { x: 0, y: 0 },
+          zoom: 1,
+          minZoom: 1,
           ration: 'original' as RationMode
         }
         
@@ -131,11 +147,25 @@ export const Cropping = ({ photoPreview }: Props) => {
     }
   }, [ratioMode, setCrop, setZoom])
 
+  const saveCroppingHandler = () => {
+    photos[currentPhotos].crop = crop
+    photos[currentPhotos].zoom = zoom
+    photos[currentPhotos].minZoom = minZoom
+    photos[currentPhotos].ration = ratioMode
+    photos[currentPhotos].currentHeightImage = currentHeightImage
+    photos[currentPhotos].currentWidthImage = currentWidthImage
+    photos[currentPhotos].originalWidthImage = originalWidthImage
+    photos[currentPhotos].originalHeightImage = originalHeightImage
+  }
+
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
     if (index === currentPhotos) {return}
+    setRatioMode(photo.ration)
     setCurrentHeightImage(photo.currentHeightImage)
     setCurrentWidthImage(photo.currentWidthImage)
-    setRatioMode(photo.ration)
+    setCrop({ x: 0, y: 0})
+    setZoom(photo.zoom)
+    setMinZoom(photo.minZoom)
     setCurrentPhotos(index)
   }
 
@@ -231,7 +261,7 @@ export const Cropping = ({ photoPreview }: Props) => {
             </div>
 
             <div className={s.photoPanel}>
-              <Button className={s.saveBtn} variant={'icon'}>
+              <Button className={s.saveBtn} variant={'icon'} onClick={saveCroppingHandler}>
                 <Icon iconId={'save'} />
               </Button>
               <Popover buttonText={<Icon iconId={'image'} />} opacity={0.8} align={'end'}>
