@@ -96,6 +96,13 @@ export const Cropping = ({ photoPreview }: Props) => {
       height: originalHeightImage
     }
 
+    const updateCropView = (containerW: number, containerH: number, zoom: number) => {
+      setCurrentWidthImage(containerW)
+      setCurrentHeightImage(containerH)
+      setMinZoom(zoom)
+      setZoom(zoom)
+    }
+
     switch (ratioMode) {
       case 'original': {
         if (originalWidthImage && originalHeightImage) {
@@ -112,10 +119,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
-        setCurrentWidthImage(containerW)
-        setCurrentHeightImage(containerH)
-        setMinZoom(zoom)
-        setZoom(zoom)
+        updateCropView(containerW, containerH, zoom)
         break
       }
 
@@ -125,10 +129,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
-        setCurrentWidthImage(containerW)
-        setCurrentHeightImage(containerH)
-        setMinZoom(zoom)
-        setZoom(zoom)
+        updateCropView(containerW, containerH, zoom)
         break
       }
 
@@ -138,10 +139,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
-        setCurrentWidthImage(containerW)
-        setCurrentHeightImage(containerH)
-        setMinZoom(zoom)
-        setZoom(zoom)
+        updateCropView(containerW, containerH, zoom)
         break
       }
     }
