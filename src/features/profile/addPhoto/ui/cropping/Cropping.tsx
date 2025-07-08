@@ -82,6 +82,7 @@ export const Cropping = ({ photoPreview }: Props) => {
   })
 
   const [currentPhotos, setCurrentPhotos] = useState(0)
+
   console.log("ratioMode:",ratioMode)
   console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
   console.log( "currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
@@ -172,16 +173,16 @@ export const Cropping = ({ photoPreview }: Props) => {
     Object.assign(photos[currentPhotos], updated)
   }
 
-  const setCurrentPhoto = (index: number, photo: PhotoType) => {
+  const setCurrentPhoto = (index: number) => {
     if (index === currentPhotos) {return}
-    setRatioMode(photo.ration)
-    setCurrentHeightImage(photo.currentHeightImage)
-    setCurrentWidthImage(photo.currentWidthImage)
-    setCrop({x: photo.crop.x, y: photo.crop.y})
-    setZoom(photo.zoom)
-    setMinZoom(photo.minZoom)
+    setRatioMode(photos[index].ration)
+    setCurrentHeightImage(photos[index].currentHeightImage)
+    setCurrentWidthImage(photos[index].currentWidthImage)
+    setCrop({x: photos[index].crop.x, y: photos[index].crop.y})
+    setZoom(photos[index].zoom)
+    setMinZoom(photos[index].minZoom)
     setCurrentPhotos(index)
-    if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0 && photo.ration !== 'original') {
+    if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0 && photos[index].ration !== 'original') {
       setOriginalHeightImage(497)
       setOriginalWidthImage(490)
     } else {
@@ -191,11 +192,55 @@ export const Cropping = ({ photoPreview }: Props) => {
   }
 
   const removePhoto = (id: string) => {
-    if (photos.length !== 1) {
-      setPhotos(photos.filter((photo, index) => photo.id !== id))
-      setCurrentPhotos(currentPhotos - 1)
+    if (photos.length === 1) {return}
+
+    let removedIndex = -1
+
+    const updatedPhotos = photos.filter((photo, i) => {
+      if (photo.id === id) {
+        removedIndex = i
+
+        return false
+      }
+
+      return true
+    })
+
+    setPhotos(updatedPhotos)
+
+    // Визначаємо новий активний індекс
+    let newIndex = 0
+    
+    if (removedIndex > 0) {
+      newIndex = removedIndex - 1
+    }
+
+    // Обов’язково викликаємо після setPhotos
+    const photo = updatedPhotos[newIndex]
+
+    if (photo) {
+      setRatioMode(photo.ration)
+      setCurrentHeightImage(photo.currentHeightImage)
+      setCurrentWidthImage(photo.currentWidthImage)
+      setCrop({ x: photo.crop.x, y: photo.crop.y })
+      setZoom(photo.zoom)
+      setMinZoom(photo.minZoom)
+      setCurrentPhotos(newIndex)
+
+      if (
+          photo.originalWidthImage === 0 &&
+          photo.originalHeightImage === 0 &&
+          photo.ration !== 'original'
+      ) {
+        setOriginalHeightImage(497)
+        setOriginalWidthImage(490)
+      } else {
+        setOriginalHeightImage(photo.originalHeightImage)
+        setOriginalWidthImage(photo.originalWidthImage)
+      }
     }
   }
+
 
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     // console.log("croppedArea: ", croppedArea, "croppedAreaPixels:", croppedAreaPixels)
@@ -246,6 +291,10 @@ export const Cropping = ({ photoPreview }: Props) => {
                     setCurrentHeightImage(photos[currentPhotos].currentHeightImage)
                     setCurrentWidthImage(photos[currentPhotos].currentWidthImage)
                   } else {
+                    photos[currentPhotos].originalWidthImage = width
+                    photos[currentPhotos].originalHeightImage = height
+                    photos[currentPhotos].currentWidthImage = width
+                    photos[currentPhotos].currentHeightImage = height
                     setOriginalHeightImage(height)
                     setOriginalWidthImage(width)
                     setCurrentHeightImage(height)
@@ -257,20 +306,12 @@ export const Cropping = ({ photoPreview }: Props) => {
                   if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
                     setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
                   }
-                  debugger
-                  if(isFirstLoading.current) {
-                    debugger
-                    photos[currentPhotos].originalWidthImage = width
-                    photos[currentPhotos].originalHeightImage = height
-                    photos[currentPhotos].currentWidthImage = width
-                    photos[currentPhotos].currentHeightImage = height
-                  }
                 }}
             />
           </div>
           <div className={s.popoversWrapper}>
             <div className={s.controlsWrapper}>
-              <Popover buttonText={<Icon iconId="expandOutline" />} opacity={0.8}>
+              <Popover buttonText={<Icon iconId={"expandOutline"} />} opacity={0.8}>
                 {ratioOptions.map(({ value, label, icon, isActive }) => (
                     <div
                         key={value}
