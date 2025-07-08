@@ -42,11 +42,6 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
 
-  console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
-  console.log("currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
-  console.log("zoom:", zoom, "minZoom:", minZoom)
-  console.log("crop:", crop)
-
   const defaultPhoto = {
     id: nanoid(),
     img: photoPreview,
@@ -164,7 +159,6 @@ export const Cropping = ({ photoPreview }: Props) => {
     photos[currentPhotos].currentWidthImage = currentWidthImage
     photos[currentPhotos].originalWidthImage = originalWidthImage
     photos[currentPhotos].originalHeightImage = originalHeightImage
-    console.log("saveCroppingHandler: ", photos[currentPhotos])
   }
 
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
@@ -185,7 +179,6 @@ export const Cropping = ({ photoPreview }: Props) => {
       setOriginalHeightImage(photos[index].originalHeightImage)
       setOriginalWidthImage(photos[index].originalWidthImage)
     }
-    console.log("setCurrentPhoto: ",  photo)
   }
 
   const removePhoto = (id: string, photo: PhotoType) => {
@@ -241,7 +234,6 @@ export const Cropping = ({ photoPreview }: Props) => {
                 }}
                 onCropComplete={onCropComplete}
                 onMediaLoaded={({ width, height }) => {
-                  console.log("onMediaLoaded")
                   if(photos[currentPhotos].originalWidthImage !== 0 && photos[currentPhotos].originalHeightImage !== 0) {
                     setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
                     setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
@@ -257,7 +249,6 @@ export const Cropping = ({ photoPreview }: Props) => {
                     setZoom(photos[currentPhotos].zoom)
                   }
                   if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
-                    debugger
                     setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
                   }
                 }}
