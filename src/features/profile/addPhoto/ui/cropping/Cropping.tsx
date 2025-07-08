@@ -148,15 +148,18 @@ export const Cropping = ({ photoPreview }: Props) => {
   }, [ratioMode, setCrop, setZoom])
 
   const saveCroppingHandler = () => {
-    photos[currentPhotos].crop.x = crop.x
-    photos[currentPhotos].crop.y = crop.y
-    photos[currentPhotos].zoom = zoom
-    photos[currentPhotos].minZoom = minZoom
-    photos[currentPhotos].ration = ratioMode
-    photos[currentPhotos].currentHeightImage = currentHeightImage
-    photos[currentPhotos].currentWidthImage = currentWidthImage
-    photos[currentPhotos].originalWidthImage = originalWidthImage
-    photos[currentPhotos].originalHeightImage = originalHeightImage
+    const updated = {
+      crop: { x: crop.x, y: crop.y },
+      zoom,
+      minZoom,
+      ration: ratioMode,
+      currentHeightImage,
+      currentWidthImage,
+      originalWidthImage,
+      originalHeightImage,
+    }
+
+    Object.assign(photos[currentPhotos], updated)
   }
 
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
