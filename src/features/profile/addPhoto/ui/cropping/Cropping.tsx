@@ -107,8 +107,6 @@ export const Cropping = ({ photoPreview }: Props) => {
         break
       }
       case '1:1': {
-        console.log("1:1")
-
         const containerW = 490
         const containerH = 497
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
