@@ -42,10 +42,8 @@ export const Cropping = ({ photoPreview }: Props) => {
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
 
-  console.log(zoom, minZoom)
-  console.log("currentWidthImage:", currentWidthImage, "currentHeightImage:",currentHeightImage)
-  console.log("originalWidthImage:",originalWidthImage,"originalHeightImage:", originalHeightImage)
-  console.log(crop)
+  console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
+  console.log("currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
 
   const defaultPhoto = {
     id: nanoid(),
@@ -68,8 +66,8 @@ export const Cropping = ({ photoPreview }: Props) => {
         const photo = {
           id: nanoid(),
           img: base64,
-          originalWidthImage,
-          originalHeightImage,
+          originalWidthImage: 0,
+          originalHeightImage: 0,
           currentHeightImage: 497,
           currentWidthImage: 490,
           crop: { x: 0, y: 0 },
@@ -92,6 +90,10 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration16to9 = ratioMode === '16:9'
 
   useEffect(() => {
+    if(photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
+      setOriginalHeightImage(photos[currentPhotos].currentHeightImage)
+      setOriginalWidthImage(photos[currentPhotos].currentWidthImage)
+    }
     const { width: imageWidth, height: imageHeight } = {
       width: originalWidthImage,
       height: originalHeightImage
@@ -108,6 +110,8 @@ export const Cropping = ({ photoPreview }: Props) => {
         break
       }
       case '1:1': {
+        console.log("1:1")
+
         const containerW = 490
         const containerH = 497
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
@@ -158,7 +162,6 @@ export const Cropping = ({ photoPreview }: Props) => {
     photos[currentPhotos].currentWidthImage = currentWidthImage
     photos[currentPhotos].originalWidthImage = originalWidthImage
     photos[currentPhotos].originalHeightImage = originalHeightImage
-    console.log("saveCroppingHandler: ",photos[currentPhotos])
   }
 
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
@@ -170,7 +173,7 @@ export const Cropping = ({ photoPreview }: Props) => {
     setZoom(photo.zoom)
     setMinZoom(photo.minZoom)
     setCurrentPhotos(index)
-    console.log("setCurrentPhoto: ",photo)
+    console.log("setCurrentPhoto: ",  photo)
   }
 
   const removePhoto = (id: string, photo: PhotoType) => {
@@ -226,14 +229,21 @@ export const Cropping = ({ photoPreview }: Props) => {
                 }}
                 onCropComplete={onCropComplete}
                 onMediaLoaded={({ width, height }) => {
-                  setOriginalHeightImage(height)
-                  setOriginalWidthImage(width)
-                  setCurrentHeightImage(height)
-                  setCurrentWidthImage(width)
+                  console.log("onMediaLoaded")
+                  if(photos[currentPhotos].originalWidthImage !== 0 && photos[currentPhotos].originalHeightImage !== 0) {
+                    setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
+                    setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
+                    setCurrentHeightImage(photos[currentPhotos].currentHeightImage)
+                    setCurrentWidthImage(photos[currentPhotos].currentWidthImage)
+                  } else {
+                    setOriginalHeightImage(height)
+                    setOriginalWidthImage(width)
+                    setCurrentHeightImage(height)
+                    setCurrentWidthImage(width)
+                  }
                   if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
                     setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
                   }
-                  console.log("onMediaLoaded: ",width,height)
                 }}
             />
           </div>
