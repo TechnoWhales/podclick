@@ -33,6 +33,7 @@ type Props = {
 }
 
 export const Cropping = ({ photoPreview }: Props) => {
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [originalWidthImage, setOriginalWidthImage] = useState(0)
   const [originalHeightImage, setOriginalHeightImage] = useState(0)
@@ -101,8 +102,8 @@ export const Cropping = ({ photoPreview }: Props) => {
 
   useEffect(() => {
     if(photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
-      setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
-      setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
+      setCurrentHeightImage(photos[currentPhotos].originalHeightImage)
+      setCurrentWidthImage(photos[currentPhotos].originalWidthImage)
     }
     const { width: imageWidth, height: imageHeight } = {
       width: originalWidthImage,
@@ -119,8 +120,8 @@ export const Cropping = ({ photoPreview }: Props) => {
     switch (ratioMode) {
       case 'original': {
         if (photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
-          setCurrentHeightImage(originalHeightImage)
-          setCurrentWidthImage(originalWidthImage)
+          setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
+          setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
         }
         setMinZoom(1)
         setZoom(1)
@@ -158,7 +159,7 @@ export const Cropping = ({ photoPreview }: Props) => {
         break
       }
     }
-  }, [ratioMode, setCrop, setZoom])
+  }, [ratioMode, setCrop, setZoom, isFirstLoading])
 
   const saveCroppingHandler = () => {
     const updated = {
@@ -243,7 +244,7 @@ export const Cropping = ({ photoPreview }: Props) => {
                 }}
                 onCropComplete={onCropComplete}
                 onMediaLoaded={({ width, height }) => {
-                  if(photos[currentPhotos].originalWidthImage !== 0 && photos[currentPhotos].originalHeightImage !== 0) {
+                  if(photos[currentPhotos] && photos[currentPhotos].originalWidthImage !== 0 && photos[currentPhotos].originalHeightImage !== 0) {
                     setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
                     setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
                     setCurrentHeightImage(photos[currentPhotos].currentHeightImage)
@@ -259,6 +260,11 @@ export const Cropping = ({ photoPreview }: Props) => {
                   }
                   if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
                     setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
+                  }
+                  if(isFirstLoading) {
+                    photos[currentPhotos].originalWidthImage = width
+                    photos[currentPhotos].originalHeightImage = height
+                    setIsFirstLoading(false)
                   }
                 }}
             />
