@@ -44,6 +44,8 @@ export const Cropping = ({ photoPreview }: Props) => {
 
   console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
   console.log("currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
+  console.log("zoom:", zoom, "minZoom:", minZoom)
+  console.log("crop:", crop)
 
   const defaultPhoto = {
     id: nanoid(),
@@ -175,7 +177,7 @@ export const Cropping = ({ photoPreview }: Props) => {
     setMinZoom(photo.minZoom)
     setCurrentPhotos(index)
     debugger
-    if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0) {
+    if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0 && photo.ration !== 'original') {
       debugger
       setOriginalHeightImage(497)
       setOriginalWidthImage(490)
@@ -251,7 +253,11 @@ export const Cropping = ({ photoPreview }: Props) => {
                     setCurrentHeightImage(height)
                     setCurrentWidthImage(width)
                   }
+                  if(photos[currentPhotos].zoom !== 1) {
+                    setZoom(photos[currentPhotos].zoom)
+                  }
                   if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
+                    debugger
                     setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
                   }
                 }}
