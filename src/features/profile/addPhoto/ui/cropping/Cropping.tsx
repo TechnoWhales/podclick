@@ -162,6 +162,7 @@ export const Cropping = ({ photoPreview }: Props) => {
     photos[currentPhotos].currentWidthImage = currentWidthImage
     photos[currentPhotos].originalWidthImage = originalWidthImage
     photos[currentPhotos].originalHeightImage = originalHeightImage
+    console.log("saveCroppingHandler: ", photos[currentPhotos])
   }
 
   const setCurrentPhoto = (index: number, photo: PhotoType) => {
@@ -173,6 +174,15 @@ export const Cropping = ({ photoPreview }: Props) => {
     setZoom(photo.zoom)
     setMinZoom(photo.minZoom)
     setCurrentPhotos(index)
+    debugger
+    if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0) {
+      debugger
+      setOriginalHeightImage(497)
+      setOriginalWidthImage(490)
+    } else {
+      setOriginalHeightImage(photos[index].originalHeightImage)
+      setOriginalWidthImage(photos[index].originalWidthImage)
+    }
     console.log("setCurrentPhoto: ",  photo)
   }
 
