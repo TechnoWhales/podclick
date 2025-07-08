@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import { nanoid } from '@reduxjs/toolkit'
@@ -33,7 +33,7 @@ type Props = {
 }
 
 export const Cropping = ({ photoPreview }: Props) => {
-  const [isFirstLoading, setIsFirstLoading] = useState(true)
+  const isFirstLoading = useRef(true)
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [originalWidthImage, setOriginalWidthImage] = useState(0)
   const [originalHeightImage, setOriginalHeightImage] = useState(0)
@@ -72,9 +72,10 @@ export const Cropping = ({ photoPreview }: Props) => {
           crop: { x: 0, y: 0 },
           zoom: 1,
           minZoom: 1,
-          ration: 'original' as RationMode
+          ration: 'original' as RationMode,
         }
-        
+
+        isFirstLoading.current = false
         setPhotos(prevState => [...prevState, photo])
       }
     }
@@ -86,7 +87,6 @@ export const Cropping = ({ photoPreview }: Props) => {
   console.log( "currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
   console.log("zoom:", zoom, "minZoom:", minZoom)
   console.log("currentPhoto", photos[currentPhotos])
-
   const maxZoom = 10
   const rationOriginal = ratioMode === 'original'
   const ration1to1 = ratioMode === '1:1'
@@ -125,7 +125,6 @@ export const Cropping = ({ photoPreview }: Props) => {
         }
         setMinZoom(1)
         setZoom(1)
-        debugger
         break
       }
       case '1:1': {
@@ -135,7 +134,6 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
         updateCropView(containerW, containerH, zoom)
-        debugger
         break
       }
       case '4:5': {
@@ -145,7 +143,6 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
         updateCropView(containerW, containerH, zoom)
-        debugger
         break
       }
       case '16:9': {
@@ -155,11 +152,10 @@ export const Cropping = ({ photoPreview }: Props) => {
         const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
 
         updateCropView(containerW, containerH, zoom)
-        debugger
         break
       }
     }
-  }, [ratioMode, setCrop, setZoom, isFirstLoading])
+  }, [ratioMode, setCrop, setZoom])
 
   const saveCroppingHandler = () => {
     const updated = {
@@ -261,10 +257,13 @@ export const Cropping = ({ photoPreview }: Props) => {
                   if(photos[currentPhotos].crop.x !== 0 && photos[currentPhotos].crop.y !== 0) {
                     setCrop({x: photos[currentPhotos].crop.x, y: photos[currentPhotos].crop.y})
                   }
-                  if(isFirstLoading) {
+                  debugger
+                  if(isFirstLoading.current) {
+                    debugger
                     photos[currentPhotos].originalWidthImage = width
                     photos[currentPhotos].originalHeightImage = height
-                    setIsFirstLoading(false)
+                    photos[currentPhotos].currentWidthImage = width
+                    photos[currentPhotos].currentHeightImage = height
                   }
                 }}
             />
