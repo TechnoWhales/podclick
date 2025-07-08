@@ -86,6 +86,13 @@ export const Cropping = ({ photoPreview }: Props) => {
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
 
+  const ratioOptions = [
+    { value: 'original', label: 'Оригинал', icon: 'imageOutline', isActive: rationOriginal },
+    { value: '1:1', label: '1:1', icon: 'square', isActive: ration1to1 },
+    { value: '4:5', label: '4:5', icon: 'rectangleVertical', isActive: ration4to5 },
+    { value: '16:9', label: '16:9', icon: 'rectangleHorizontal', isActive: ration16to9 },
+  ] as const
+
   useEffect(() => {
     if(photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
       setOriginalHeightImage(photos[currentPhotos].currentHeightImage)
@@ -167,9 +174,7 @@ export const Cropping = ({ photoPreview }: Props) => {
     setZoom(photo.zoom)
     setMinZoom(photo.minZoom)
     setCurrentPhotos(index)
-    debugger
     if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0 && photo.ration !== 'original') {
-      debugger
       setOriginalHeightImage(497)
       setOriginalWidthImage(490)
     } else {
@@ -250,23 +255,17 @@ export const Cropping = ({ photoPreview }: Props) => {
           </div>
           <div className={s.popoversWrapper}>
             <div className={s.controlsWrapper}>
-              <Popover buttonText={<Icon iconId={'expandOutline'} />} opacity={0.8}>
-                <div className={clsx(s.aspectRatioWrapper, s.imageOutline, rationOriginal && s.active)} onClick={() => setRatioMode('original')}>
-                  <Typography variant={rationOriginal ? 'h3' : 'regular_text_16'}>Оригинал</Typography>{' '}
-                  <Icon iconId={'imageOutline'} />
-                </div>
-                <div className={clsx(s.aspectRatioWrapper, ration1to1 && s.active)} onClick={() => setRatioMode('1:1')}>
-                  <Typography variant={ration1to1 ? 'h3' : 'regular_text_16'}>1:1</Typography>{' '}
-                  <Icon iconId={'square'} />
-                </div>
-                <div className={clsx(s.aspectRatioWrapper, ration4to5 && s.active)} onClick={() => setRatioMode('4:5')}>
-                  <Typography variant={ration4to5 ? 'h3' : 'regular_text_16'}>4:5</Typography>{' '}
-                  <Icon iconId={'rectangleVertical'} />
-                </div>
-                <div className={clsx(s.aspectRatioWrapper, ration16to9 && s.active)} onClick={() => setRatioMode('16:9')}>
-                  <Typography variant={ration16to9 ? 'h3' : 'regular_text_16'}>16:9</Typography>{' '}
-                  <Icon iconId={'rectangleHorizontal'} />
-                </div>
+              <Popover buttonText={<Icon iconId="expandOutline" />} opacity={0.8}>
+                {ratioOptions.map(({ value, label, icon, isActive }) => (
+                    <div
+                        key={value}
+                        className={clsx(s.aspectRatioWrapper, value === 'original' && s.imageOutline, isActive && s.active)}
+                        onClick={() => setRatioMode(value)}
+                    >
+                      <Typography variant={isActive ? 'h3' : 'regular_text_16'}>{label}</Typography>
+                      <Icon iconId={icon} />
+                    </div>
+                ))}
               </Popover>
               <Popover buttonText={<Icon iconId={'maximizeOutline'} />} opacity={0.8}>
                 <input
