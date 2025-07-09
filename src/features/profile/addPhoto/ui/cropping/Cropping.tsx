@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import { nanoid } from '@reduxjs/toolkit'
@@ -33,7 +33,6 @@ type Props = {
 }
 
 export const Cropping = ({ photoPreview }: Props) => {
-  const isFirstLoading = useRef(true)
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [originalWidthImage, setOriginalWidthImage] = useState(0)
   const [originalHeightImage, setOriginalHeightImage] = useState(0)
@@ -60,7 +59,7 @@ export const Cropping = ({ photoPreview }: Props) => {
 
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
-    onUpload: ({ base64 }) => {
+    onUpload: ({ base64, file }) => {
       if (base64) {
         const photo = {
           id: nanoid(),
@@ -74,8 +73,7 @@ export const Cropping = ({ photoPreview }: Props) => {
           minZoom: 1,
           ration: 'original' as RationMode,
         }
-
-        isFirstLoading.current = false
+debugger
         setPhotos(prevState => [...prevState, photo])
       }
     }
@@ -208,14 +206,12 @@ export const Cropping = ({ photoPreview }: Props) => {
 
     setPhotos(updatedPhotos)
 
-    // Визначаємо новий активний індекс
     let newIndex = 0
     
     if (removedIndex > 0) {
       newIndex = removedIndex - 1
     }
 
-    // Обов’язково викликаємо після setPhotos
     const photo = updatedPhotos[newIndex]
 
     if (photo) {
@@ -243,6 +239,7 @@ export const Cropping = ({ photoPreview }: Props) => {
 
 
   const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    debugger
     // console.log("croppedArea: ", croppedArea, "croppedAreaPixels:", croppedAreaPixels)
   }
 
@@ -300,6 +297,7 @@ export const Cropping = ({ photoPreview }: Props) => {
                     setCurrentHeightImage(height)
                     setCurrentWidthImage(width)
                   }
+
                   if(photos[currentPhotos].zoom !== 1) {
                     setZoom(photos[currentPhotos].zoom)
                   }
