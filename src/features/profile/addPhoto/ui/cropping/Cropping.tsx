@@ -7,7 +7,6 @@ import clsx from 'clsx'
 
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { calculateZoom } from "@/features/profile/addPhoto/utils/calculateZoom";
-import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
 import { getZoomBoost } from "@/features/profile/addPhoto/utils/getZoomBoost";
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
@@ -263,17 +262,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
       })
     )
 
-    const formatedImages = croppedImages.map(item => {
-      const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
-
-      return {
-        ...item,
-        currentHeightImage: height,
-        currentWidthImage: width
-      }
-    })
-
-    nextBtn(formatedImages)
+    nextBtn(croppedImages)
   }
 
   const ratioOptions = [
