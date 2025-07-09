@@ -65,7 +65,7 @@ export const Filters = ({imagesArr}: Props) => {
     <div className={s.filtersPanelWrapper}>
       <ConditionalWrapper {...sliderProps} className={s.slider}>
         {images.map((item) => {
-          debugger
+
           return (
             <div key={item.id} className={s.sliderItem} >
             <Image className={s[currentFilter]} src={item.img} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />

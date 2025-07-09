@@ -49,13 +49,13 @@ type Props = {
 
 export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, backBtn }: Props) => {
 
-
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
 
   // Текущие размеры изображения для отображения в окне кропинга
   const [currentHeightImage, setCurrentHeightImage] = useState(497)
   const [currentWidthImage, setCurrentWidthImage] = useState(490)
+  // Параметры для корректного кропинга
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixels>({
     height: 0, width: 0, x: 0, y: 0
 })
@@ -76,7 +76,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
     minZoom: 1,
     originalWidthImage: 0,
     originalHeightImage: 0,
-    croppedAreaPixels,
+    croppedAreaPixels: { height: 0, width: 0, x: 0, y: 0 },
     naturalHeightImage: naturalHeight,
     naturalWidthImage: naturalWidth
   }
