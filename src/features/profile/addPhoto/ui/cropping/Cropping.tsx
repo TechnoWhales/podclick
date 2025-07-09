@@ -44,20 +44,11 @@ type Props = {
 }
 
 export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) => {
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
-  const [currentHeightImage, setCurrentHeightImage] = useState(497)
-  const [currentWidthImage, setCurrentWidthImage] = useState(490)
-  const [naturalHeightImage, setNaturalHeightImage] = useState(0)
-  const [naturalWidthImage, setNaturalWidthImage] = useState(0)
-  const [zoom, setZoom] = useState(1)
-  const [minZoom, setMinZoom] = useState(1)
-  const [ratioMode, setRatioMode] = useState<RationMode>('original')
-
   const defaultPhoto = {
     id: nanoid(),
     img: photoPreview,
-    currentHeightImage,
-    currentWidthImage,
+    currentHeightImage: 0,
+    currentWidthImage: 0,
     crop: { x: 0, y: 0 },
     ration: 'original' as RationMode,
     zoom: 1,
@@ -67,8 +58,17 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     naturalHeightImage: naturalHeight,
     naturalWidthImage: naturalWidth
   }
-  const [photos, setPhotos] = useState<PhotoType[]>([defaultPhoto])
 
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [currentHeightImage, setCurrentHeightImage] = useState(497)
+  const [currentWidthImage, setCurrentWidthImage] = useState(490)
+  const [naturalHeightImage, setNaturalHeightImage] = useState(0)
+  const [naturalWidthImage, setNaturalWidthImage] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [minZoom, setMinZoom] = useState(1)
+  const [ratioMode, setRatioMode] = useState<RationMode>('original')
+  const [photos, setPhotos] = useState<PhotoType[]>([defaultPhoto])
+  const [currentPhotos, setCurrentPhotos] = useState(0)
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
     onUpload: ({ base64 }) => {
@@ -102,20 +102,11 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     }
   })
 
-  const [currentPhotos, setCurrentPhotos] = useState(0)
-
   const maxZoom = 10
   const rationOriginal = ratioMode === 'original'
   const ration1to1 = ratioMode === '1:1'
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
-
-  const ratioOptions = [
-    { value: 'original', label: 'Оригинал', icon: 'imageOutline', isActive: rationOriginal },
-    { value: '1:1', label: '1:1', icon: 'square', isActive: ration1to1 },
-    { value: '4:5', label: '4:5', icon: 'rectangleVertical', isActive: ration4to5 },
-    { value: '16:9', label: '16:9', icon: 'rectangleHorizontal', isActive: ration16to9 },
-  ] as const
 
   useEffect(() => {
     if(photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
@@ -185,7 +176,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     Object.assign(photos[currentPhotos], updated)
   }
 
-  const setCurrentPhoto = (index: number) => {
+  const setCurrentPhotoHandler = (index: number) => {
     if (index === currentPhotos) {return}
     setRatioMode(photos[index].ration)
     setCurrentHeightImage(photos[index].currentHeightImage)
@@ -196,7 +187,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     setCurrentPhotos(index)
   }
 
-  const removePhoto = (id: string) => {
+  const removePhotoHandler = (id: string) => {
     if (photos.length === 1) {return}
 
     let removedIndex = -1
@@ -229,7 +220,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
       setZoom(photo.zoom)
       setMinZoom(photo.minZoom)
       setCurrentPhotos(newIndex)
-
     }
   }
 
@@ -237,6 +227,14 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     setNaturalWidthImage(croppedAreaPixels.width)
     setNaturalHeightImage(croppedAreaPixels.height)
   }
+
+
+  const ratioOptions = [
+    { value: 'original', label: 'Оригинал', icon: 'imageOutline', isActive: rationOriginal },
+    { value: '1:1', label: '1:1', icon: 'square', isActive: ration1to1 },
+    { value: '4:5', label: '4:5', icon: 'rectangleVertical', isActive: ration4to5 },
+    { value: '16:9', label: '16:9', icon: 'rectangleHorizontal', isActive: ration16to9 },
+  ] as const
 
   return (
       <div className={s.cropping}>
@@ -332,7 +330,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
               <Popover buttonText={<Icon iconId={'image'} />} opacity={0.8} align={'end'}>
                 <div className={s.photoItemsWrapper}>
                   {photos.map((photo, i) => (
-                      <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhoto(i)} removePhoto={removePhoto} />
+                      <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhotoHandler(i)} removePhoto={removePhotoHandler} />
                   ))}
                   <UploadButton className={s.plusBtn} disabled={photos.length >= 10} variant={'icon'}>
                     <Icon iconId={'plusCircleOutline'} width={'30px'} height={'30px'} viewBox={'0 0 30 30'} />
