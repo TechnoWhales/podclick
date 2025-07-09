@@ -45,8 +45,6 @@ type Props = {
 
 export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
-  const [originalWidthImage, setOriginalWidthImage] = useState(0)
-  const [originalHeightImage, setOriginalHeightImage] = useState(0)
   const [currentHeightImage, setCurrentHeightImage] = useState(497)
   const [currentWidthImage, setCurrentWidthImage] = useState(490)
   const [naturalHeightImage, setNaturalHeightImage] = useState(0)
@@ -54,7 +52,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
-
 
   const defaultPhoto = {
     id: nanoid(),
@@ -65,8 +62,8 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     ration: 'original' as RationMode,
     zoom: 1,
     minZoom: 1,
-    originalWidthImage,
-    originalHeightImage,
+    originalWidthImage: 0,
+    originalHeightImage: 0,
     naturalHeightImage: naturalHeight,
     naturalWidthImage: naturalWidth
   }
@@ -108,7 +105,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
   const [currentPhotos, setCurrentPhotos] = useState(0)
 
   console.log("ratioMode:",ratioMode)
-  console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
+  // console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
   console.log( "currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
   console.log("zoom:", zoom, "minZoom:", minZoom)
   console.log("currentPhoto", photos[currentPhotos])
@@ -131,8 +128,8 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
       setCurrentWidthImage(photos[currentPhotos].originalWidthImage)
     }
     const { width: imageWidth, height: imageHeight } = {
-      width: originalWidthImage,
-      height: originalHeightImage
+      width: photos[currentPhotos].originalWidthImage,
+      height: photos[currentPhotos].originalHeightImage
     }
 
     const updateCropView = (containerW: number, containerH: number, zoom: number) => {
@@ -144,10 +141,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
 
     switch (ratioMode) {
       case 'original': {
-        if (photos[currentPhotos].originalWidthImage && photos[currentPhotos].originalHeightImage) {
-          setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
-          setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
-        }
         setMinZoom(1)
         setZoom(1)
         break
@@ -190,8 +183,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
       ration: ratioMode,
       currentHeightImage,
       currentWidthImage,
-      originalWidthImage,
-      originalHeightImage,
       naturalHeightImage,
       naturalWidthImage,
     }
@@ -208,13 +199,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     setZoom(photos[index].zoom)
     setMinZoom(photos[index].minZoom)
     setCurrentPhotos(index)
-    if(photos[index].originalWidthImage === 0 && photos[index].originalHeightImage === 0 && photos[index].ration !== 'original') {
-      setOriginalHeightImage(497)
-      setOriginalWidthImage(490)
-    } else {
-      setOriginalHeightImage(photos[index].originalHeightImage)
-      setOriginalWidthImage(photos[index].originalWidthImage)
-    }
   }
 
   const removePhoto = (id: string) => {
@@ -251,20 +235,8 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
       setMinZoom(photo.minZoom)
       setCurrentPhotos(newIndex)
 
-      if (
-          photo.originalWidthImage === 0 &&
-          photo.originalHeightImage === 0 &&
-          photo.ration !== 'original'
-      ) {
-        setOriginalHeightImage(497)
-        setOriginalWidthImage(490)
-      } else {
-        setOriginalHeightImage(photo.originalHeightImage)
-        setOriginalWidthImage(photo.originalWidthImage)
-      }
     }
   }
-
 
   const onCropComplete = (_: any, croppedAreaPixels: CroppedAreaPixels) => {
     setNaturalWidthImage(croppedAreaPixels.width)
@@ -311,8 +283,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
                 onCropComplete={onCropComplete}
                 onMediaLoaded={({ width, height }) => {
                   if(photos[currentPhotos] && photos[currentPhotos].originalWidthImage !== 0 && photos[currentPhotos].originalHeightImage !== 0) {
-                    setOriginalHeightImage(photos[currentPhotos].originalHeightImage)
-                    setOriginalWidthImage(photos[currentPhotos].originalWidthImage)
                     setCurrentHeightImage(photos[currentPhotos].currentHeightImage)
                     setCurrentWidthImage(photos[currentPhotos].currentWidthImage)
                   } else {
@@ -320,8 +290,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
                     photos[currentPhotos].originalHeightImage = height
                     photos[currentPhotos].currentWidthImage = width
                     photos[currentPhotos].currentHeightImage = height
-                    setOriginalHeightImage(height)
-                    setOriginalWidthImage(width)
                     setCurrentHeightImage(height)
                     setCurrentWidthImage(width)
                   }
@@ -369,7 +337,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
               <Popover buttonText={<Icon iconId={'image'} />} opacity={0.8} align={'end'}>
                 <div className={s.photoItemsWrapper}>
                   {photos.map((photo, i) => (
-                      <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhoto(i, photo)} removePhoto={removePhoto} />
+                      <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhoto(i)} removePhoto={removePhoto} />
                   ))}
                   <UploadButton className={s.plusBtn} disabled={photos.length >= 10} variant={'icon'}>
                     <Icon iconId={'plusCircleOutline'} width={'30px'} height={'30px'} viewBox={'0 0 30 30'} />
