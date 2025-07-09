@@ -6,7 +6,8 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
-import { Header } from '@/shared/components'
+import { Header, Sidebar } from '@/shared/components'
+import { Container } from '@/shared/components/ui'
 import { Providers } from '@/shared/providers/Providers'
 
 import '@/shared/styles/index.scss'
@@ -36,7 +37,7 @@ export default async function RootLayout({
   children: ReactNode
   params: { locale: string }
 }>) {
-  const messages = await getMessages()
+  const messages = await getMessages({ locale: params.locale })
 
   return (
     <html lang={params.locale}>
@@ -44,7 +45,12 @@ export default async function RootLayout({
         <Providers>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
             <Header />
-            {children}
+            <main>
+              <Container width={1310} padding={'0 15px'}>
+                {/*<Sidebar />*/}
+                {children}
+              </Container>
+            </main>
           </NextIntlClientProvider>
         </Providers>
       </body>
