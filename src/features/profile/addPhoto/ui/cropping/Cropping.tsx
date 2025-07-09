@@ -117,15 +117,19 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
   const ration16to9 = ratioMode === '16:9'
 
   useEffect(() => {
+    // Если у текущего изображения есть оригинальная ширина и высота,
+    // устанавливаем эти значения в состояние текущих размеров.
     if(images[currentImage].originalWidthImage && images[currentImage].originalHeightImage) {
       setCurrentHeightImage(images[currentImage].originalHeightImage)
       setCurrentWidthImage(images[currentImage].originalWidthImage)
     }
+
     const { width: imageWidth, height: imageHeight } = {
       width: images[currentImage].originalWidthImage,
       height: images[currentImage].originalHeightImage
     }
 
+    // Функция обновления размеров контейнера для обрезки и уровней зума.
     const updateCropView = (containerW: number, containerH: number, zoom: number) => {
       setCurrentWidthImage(containerW)
       setCurrentHeightImage(containerH)
@@ -236,7 +240,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     setNaturalHeightImage(croppedAreaPixels.height)
   }
 
-
   const ratioOptions = [
     { value: 'original', label: 'Оригинал', icon: 'imageOutline', isActive: rationOriginal },
     { value: '1:1', label: '1:1', icon: 'square', isActive: ration1to1 },
@@ -298,6 +301,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
                   if(images[currentImage].zoom !== 1) {
                     setZoom(images[currentImage].zoom)
                   }
+
                   if(images[currentImage].crop.x !== 0 && images[currentImage].crop.y !== 0) {
                     setCrop({x: images[currentImage].crop.x, y: images[currentImage].crop.y})
                   }
