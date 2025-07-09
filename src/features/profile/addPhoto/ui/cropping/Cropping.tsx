@@ -7,12 +7,13 @@ import clsx from 'clsx'
 
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { calculateZoom } from "@/features/profile/addPhoto/utils/calculateZoom";
+import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
+import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
 import { getZoomBoost } from "@/features/profile/addPhoto/utils/getZoomBoost";
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
 
 type CroppedAreaPixels = {
   height: number
@@ -33,6 +34,7 @@ export type ImageType = {
   naturalHeightImage: number
   naturalWidthImage: number
   crop: { x: number, y: number }
+  croppedAreaPixels: CroppedAreaPixels
   zoom: number
   minZoom: number
   ration: RationMode
@@ -47,7 +49,24 @@ type Props = {
 }
 
 export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, backBtn }: Props) => {
-  const defaultPhoto = {
+
+
+  // Определяет, какая часть изображения будет отображаться в Cropper
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+
+  // Текущие размеры изображения для отображения в окне кропинга
+  const [currentHeightImage, setCurrentHeightImage] = useState(497)
+  const [currentWidthImage, setCurrentWidthImage] = useState(490)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixels>({
+    height: 0, width: 0, x: 0, y: 0
+})
+
+  const [zoom, setZoom] = useState(1)
+  const [minZoom, setMinZoom] = useState(1)
+
+  // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
+  const [ratioMode, setRatioMode] = useState<RationMode>('original')
+  const defaultPhoto: ImageType = {
     id: nanoid(),
     img: photoPreview,
     currentHeightImage: 0,
@@ -58,26 +77,10 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
     minZoom: 1,
     originalWidthImage: 0,
     originalHeightImage: 0,
+    croppedAreaPixels,
     naturalHeightImage: naturalHeight,
     naturalWidthImage: naturalWidth
   }
-
-  // Определяет, какая часть изображения будет отображаться в Cropper
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
-
-  // Текущие размеры изображения для отображения в окне кропинга
-  const [currentHeightImage, setCurrentHeightImage] = useState(497)
-  const [currentWidthImage, setCurrentWidthImage] = useState(490)
-
-  // Оригинальные (натуральные) высота и ширина изображения, нужны для корректной обрезки
-  const [naturalHeightImage, setNaturalHeightImage] = useState(0)
-  const [naturalWidthImage, setNaturalWidthImage] = useState(0)
-
-  const [zoom, setZoom] = useState(1)
-  const [minZoom, setMinZoom] = useState(1)
-
-  // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
-  const [ratioMode, setRatioMode] = useState<RationMode>('original')
   const [images, setImage] = useState<ImageType[]>([defaultPhoto])
   const [currentImage, setCurrentImage] = useState(0)
   const { UploadButton } = useUploadFile({
@@ -103,6 +106,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
           naturalWidthImage: naturalWidth,
           naturalHeightImage: naturalHeight,
           crop: { x: 0, y: 0 },
+          croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
           zoom: 1,
           minZoom: 1,
           ration: 'original' as RationMode,
@@ -184,8 +188,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
       ration: ratioMode,
       currentHeightImage,
       currentWidthImage,
-      naturalHeightImage,
-      naturalWidthImage,
+      croppedAreaPixels,
     }
 
     Object.assign(images[currentImage], updated)
@@ -239,13 +242,28 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
   }
 
   const onCropComplete = (_: any, croppedAreaPixels: CroppedAreaPixels) => {
-    setNaturalWidthImage(croppedAreaPixels.width)
-    setNaturalHeightImage(croppedAreaPixels.height)
+    setCroppedAreaPixels(croppedAreaPixels)
   }
 
-  const nextBtnHandler = () => {
+  const nextBtnHandler = async () => {
     if (images.length === 0) {return}
-    const formatedImages = images.map(item => {
+
+    const croppedImages = await Promise.all(
+      images.map(async item => {
+        if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
+          return item
+        }
+
+        const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
+
+        return {
+          ...item,
+          img: croppedImg
+        }
+      })
+    )
+
+    const formatedImages = croppedImages.map(item => {
       const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
 
       return {
