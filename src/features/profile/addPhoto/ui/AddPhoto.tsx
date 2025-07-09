@@ -14,11 +14,22 @@ import s from './AddPhoto.module.scss'
 export const AddPhoto = () => {
   const [open, setOpen] = useState(false)
   const [photoPreview, setPhotoPreview] = useState<string>('')
+  const [naturalWidthImage, setNaturalWidthImage] = useState(0)
+  const [naturalHeightImage, setNaturalHeightImage] = useState(0)
 
   const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
-      if (base64) {
-      setPhotoPreview(base64)
+      if (!base64) {return}
+
+      const img = document.createElement('img')
+
+      img.src = base64
+
+      img.onload = () => {
+        setNaturalWidthImage(img.naturalWidth)
+        setNaturalHeightImage(img.naturalHeight)
+        setPhotoPreview(base64)
       }
+
     }})
   
   return (
@@ -43,7 +54,7 @@ export const AddPhoto = () => {
           </Button>
         )}
       </div>}
-      {photoPreview && <Cropping photoPreview={photoPreview} />}
+      {photoPreview && <Cropping photoPreview={photoPreview} naturalHeight={naturalHeightImage} naturalWidth={naturalWidthImage}/>}
     </Modal>
   )
 }

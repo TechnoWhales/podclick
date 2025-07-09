@@ -13,6 +13,13 @@ import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
+type CroppedAreaPixels = {
+  height: number
+  width: number
+  x: number
+  y: number
+}
+
 type RationMode = '1:1' | '4:5' | '16:9' | 'original'
 
 export type PhotoType = {
@@ -22,6 +29,8 @@ export type PhotoType = {
   originalHeightImage: number
   currentHeightImage: number
   currentWidthImage: number
+  naturalHeightImage: number
+  naturalWidthImage: number
   crop: { x: number, y: number }
   zoom: number
   minZoom: number
@@ -30,14 +39,18 @@ export type PhotoType = {
 
 type Props = {
   photoPreview: string
+  naturalWidth: number
+  naturalHeight: number
 }
 
-export const Cropping = ({ photoPreview }: Props) => {
+export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [originalWidthImage, setOriginalWidthImage] = useState(0)
   const [originalHeightImage, setOriginalHeightImage] = useState(0)
   const [currentHeightImage, setCurrentHeightImage] = useState(497)
   const [currentWidthImage, setCurrentWidthImage] = useState(490)
+  const [naturalHeightImage, setNaturalHeightImage] = useState(0)
+  const [naturalWidthImage, setNaturalWidthImage] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
@@ -54,13 +67,24 @@ export const Cropping = ({ photoPreview }: Props) => {
     minZoom: 1,
     originalWidthImage,
     originalHeightImage,
+    naturalHeightImage: naturalHeight,
+    naturalWidthImage: naturalWidth
   }
   const [photos, setPhotos] = useState<PhotoType[]>([defaultPhoto])
 
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
     onUpload: ({ base64, file }) => {
-      if (base64) {
+      if (!base64) {return}
+
+      const img = new Image()
+
+      img.src = base64
+
+      img.onload = () => {
+        const naturalWidth = img.naturalWidth
+        const naturalHeight = img.naturalHeight
+
         const photo = {
           id: nanoid(),
           img: base64,
@@ -68,12 +92,14 @@ export const Cropping = ({ photoPreview }: Props) => {
           originalHeightImage: 0,
           currentHeightImage: 497,
           currentWidthImage: 490,
+          naturalWidthImage: naturalWidth,
+          naturalHeightImage: naturalHeight,
           crop: { x: 0, y: 0 },
           zoom: 1,
           minZoom: 1,
           ration: 'original' as RationMode,
         }
-debugger
+        debugger
         setPhotos(prevState => [...prevState, photo])
       }
     }
@@ -166,6 +192,8 @@ debugger
       currentWidthImage,
       originalWidthImage,
       originalHeightImage,
+      naturalHeightImage,
+      naturalWidthImage,
     }
 
     Object.assign(photos[currentPhotos], updated)
@@ -238,9 +266,9 @@ debugger
   }
 
 
-  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-    debugger
-    // console.log("croppedArea: ", croppedArea, "croppedAreaPixels:", croppedAreaPixels)
+  const onCropComplete = (_: any, croppedAreaPixels: CroppedAreaPixels) => {
+    setNaturalWidthImage(croppedAreaPixels.width)
+    setNaturalHeightImage(croppedAreaPixels.height)
   }
 
   return (
