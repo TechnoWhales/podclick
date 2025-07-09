@@ -71,7 +71,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
 
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
-    onUpload: ({ base64, file }) => {
+    onUpload: ({ base64 }) => {
       if (!base64) {return}
 
       const img = new Image()
@@ -96,7 +96,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
           minZoom: 1,
           ration: 'original' as RationMode,
         }
-        debugger
+
         setPhotos(prevState => [...prevState, photo])
       }
     }
@@ -104,11 +104,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
 
   const [currentPhotos, setCurrentPhotos] = useState(0)
 
-  console.log("ratioMode:",ratioMode)
-  // console.log("originalWidthImage:", originalWidthImage, "originalHeightImage:", originalHeightImage)
-  console.log( "currentWidthImage:", currentWidthImage, "currentHeightImage:", currentHeightImage)
-  console.log("zoom:", zoom, "minZoom:", minZoom)
-  console.log("currentPhoto", photos[currentPhotos])
   const maxZoom = 10
   const rationOriginal = ratioMode === 'original'
   const ration1to1 = ratioMode === '1:1'
