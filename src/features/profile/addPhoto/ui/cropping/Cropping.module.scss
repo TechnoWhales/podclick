@@ -110,15 +110,39 @@ height: 100%;
 }
 
 .photoItemsWrapper {
+  max-width: 330px;
+  overflow-x: scroll;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row-reverse;
   gap: 12px;
+
+  > * {
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
   .plusBtn {
     width: 30px;
     height: 30px;
+    &.disabled {
+      cursor: not-allowed;
+      color: var(--color-dark-100);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: var(--color-light-100);
+    border-radius: 2px;
   }
 }
 .photoItemWrapper {
+  min-width: 82px;
+  min-height: 82px;
   position: relative;
   cursor: pointer;
   .removePhoto {

@@ -341,12 +341,12 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
               </Button>
               <Popover buttonText={<Icon iconId={'image'} />} opacity={0.8} align={'end'}>
                 <div className={s.photoItemsWrapper}>
+                  <UploadButton className={clsx(s.plusBtn, images.length >= 10 && s.disabled)} disabled={images.length >= 10} variant={'icon'}>
+                    <Icon iconId={'plusCircleOutline'} width={'30px'} height={'30px'} viewBox={'0 0 30 30'} />
+                  </UploadButton>
                   {images.map((photo, i) => (
                       <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhotoHandler(i)} removePhoto={removePhotoHandler} />
                   ))}
-                  <UploadButton className={s.plusBtn} disabled={images.length >= 10} variant={'icon'}>
-                    <Icon iconId={'plusCircleOutline'} width={'30px'} height={'30px'} viewBox={'0 0 30 30'} />
-                  </UploadButton>
                 </div>
               </Popover>
             </div>
