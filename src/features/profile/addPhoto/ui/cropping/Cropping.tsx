@@ -12,6 +12,7 @@ import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
 
 type CroppedAreaPixels = {
   height: number
@@ -22,7 +23,7 @@ type CroppedAreaPixels = {
 
 type RationMode = '1:1' | '4:5' | '16:9' | 'original'
 
-export type PhotoType = {
+export type ImageType = {
   id: string
   img: string
   originalWidthImage: number
@@ -41,9 +42,11 @@ type Props = {
   photoPreview: string
   naturalWidth: number
   naturalHeight: number
+  backBtn: () => void
+  nextBtn: (images: ImageType[]) => void
 }
 
-export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) => {
+export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, backBtn }: Props) => {
   const defaultPhoto = {
     id: nanoid(),
     img: photoPreview,
@@ -75,7 +78,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
   const [ratioMode, setRatioMode] = useState<RationMode>('original')
-  const [images, setImage] = useState<PhotoType[]>([defaultPhoto])
+  const [images, setImage] = useState<ImageType[]>([defaultPhoto])
   const [currentImage, setCurrentImage] = useState(0)
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
@@ -240,6 +243,21 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
     setNaturalHeightImage(croppedAreaPixels.height)
   }
 
+  const nextBtnHandler = () => {
+    if (images.length === 0) {return}
+    const formatedImages = images.map(item => {
+      const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
+
+      return {
+        ...item,
+        currentHeightImage: height,
+        currentWidthImage: width
+      }
+    })
+
+    nextBtn(formatedImages)
+  }
+
   const ratioOptions = [
     { value: 'original', label: 'Оригинал', icon: 'imageOutline', isActive: rationOriginal },
     { value: '1:1', label: '1:1', icon: 'square', isActive: ration1to1 },
@@ -254,7 +272,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth }: Props) =
             <Icon iconId={'arrowIosBack'} />
           </div>
           <Typography variant={'h1'}>Cropping</Typography>
-          <Button className={s.nextBtn} variant={'link'}>
+          <Button className={s.nextBtn} variant={'link'} onClick={nextBtnHandler}>
             <Typography variant={'h3'} as={'h3'}>
               Next
             </Typography>

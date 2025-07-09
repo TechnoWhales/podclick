@@ -4,6 +4,7 @@ import Slider from 'react-slick'
 
 import Image from 'next/image'
 
+import { ImageType } from '@/features/profile/addPhoto/ui/cropping/Cropping'
 import { Button, Icon, Typography } from '@/shared/components/ui'
 
 import "slick-carousel/slick/slick.css";
@@ -13,18 +14,25 @@ import s from '@/features/profile/addPhoto/ui/filters/Filters.module.scss'
 
 type Filter = 'normal' | 'clarendon' | 'lark' | 'gingham' | 'moon'
 
-type Props = {}
+type Props = {
+  imagesArr: ImageType[]
+}
 
-export const Filters = ({}: Props) => {
+
+
+export const Filters = ({imagesArr}: Props) => {
   const [currentFilter, setCurrentFilter] = useState<Filter>('normal')
+  const [images, setImages] = useState<ImageType[]>(imagesArr)
   
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false
+    arrows: false,
+    centerMode: true,
+    centerPadding: "0",
   };
 
   const filters = [
@@ -39,6 +47,9 @@ export const Filters = ({}: Props) => {
     {filter: 'gingham', name: 'Gingham'},
   ]
 
+  const ConditionalWrapper = images.length > 1 ? Slider : 'div'
+  const sliderProps = images.length > 1 ? settings : {}
+
   return <div className={s.filters}>
     <div className={s.title}>
       <div className={s.arrowBack}>
@@ -52,10 +63,15 @@ export const Filters = ({}: Props) => {
       </Button>
     </div>
     <div className={s.filtersPanelWrapper}>
-      <Slider {...settings} className={s.slider}>
-        <div>1</div>
-        <div>2</div>
-      </Slider>
+      <ConditionalWrapper {...sliderProps} className={s.slider}>
+        {images.map((item) => {
+          return (
+            <div key={item.id} className={s.sliderItem} >
+            <Image src={item.img} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />
+          </div>
+          )
+        })}
+      </ConditionalWrapper>
       <div className={s.filtersContainer}>
         {filters.map((item, i) => {
           const filter = item.filter as Filter
