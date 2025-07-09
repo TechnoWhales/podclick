@@ -10,6 +10,7 @@ import { Modal } from '@/shared/components/ui/modal/Modal'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from './AddPhoto.module.scss'
+import { Filters } from '@/features/profile/addPhoto/ui/filters/Filters'
 
 export const AddPhoto = () => {
   const [open, setOpen] = useState(false)
@@ -34,27 +35,30 @@ export const AddPhoto = () => {
   
   return (
     <Modal
-      className={clsx(s.addPhoto, photoPreview && s.cropping)}
-      modalTitle={photoPreview ? '' : 'Add Photo'}
+      // className={clsx(s.addPhoto, photoPreview && s.cropping)}
+      className={clsx(s.addPhoto, photoPreview && s.cropping, true && s.filters)}
+      // modalTitle={photoPreview ? '' : 'Add Photo'}
+      modalTitle={''}
       open
       onClose={() => setOpen(!open)}
     >
-      {!photoPreview && <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
-          <Image
-            className={clsx(s.photoImg, photoPreview && s.photoPreview)}
-            src={photoPreview || '/empty-photo.svg'}
-            alt={'Empty photo'}
-            width={222}
-            height={228}
-          />
-        {!photoPreview && <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>}
-        {!photoPreview && (
-          <Button className={s.draftBtn} variant={'outlined'}>
-            Open Draft
-          </Button>
-        )}
-      </div>}
-      {photoPreview && <Cropping photoPreview={photoPreview} naturalHeight={naturalHeightImage} naturalWidth={naturalWidthImage}/>}
+      {/*{!photoPreview && <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>*/}
+      {/*    <Image*/}
+      {/*      className={clsx(s.photoImg, photoPreview && s.photoPreview)}*/}
+      {/*      src={photoPreview || '/empty-photo.svg'}*/}
+      {/*      alt={'Empty photo'}*/}
+      {/*      width={222}*/}
+      {/*      height={228}*/}
+      {/*    />*/}
+      {/*  {!photoPreview && <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>}*/}
+      {/*  {!photoPreview && (*/}
+      {/*    <Button className={s.draftBtn} variant={'outlined'}>*/}
+      {/*      Open Draft*/}
+      {/*    </Button>*/}
+      {/*  )}*/}
+      {/*</div>}*/}
+      {/*{photoPreview && <Cropping photoPreview={photoPreview} naturalHeight={naturalHeightImage} naturalWidth={naturalWidthImage}/>}*/}
+      <Filters/>
     </Modal>
   )
 }
