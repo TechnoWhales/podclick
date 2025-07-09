@@ -10,9 +10,9 @@ import { useRouter } from 'next/navigation'
 
 import { OAuth } from '@/features/auth'
 import { useLoginMutation } from '@/features/auth/sign-in/api/signInApi'
+import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
-import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { ACCESS_TOKEN, COLORS, ROUTES } from '@/shared/constants'
+import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
 import { SignInType, useSignInSchema } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
@@ -71,11 +71,7 @@ export const SignIn = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className={'circularProgressContainer'}>
-        <Ring size={150} color={COLORS.accent['500']} />
-      </div>
-    )
+    return <CircleLoading />
   }
 
   return (

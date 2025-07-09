@@ -4,9 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { useConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified-success/api/emailVerifiedSuccessApi'
+import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Container, Typography } from '@/shared/components/ui'
-import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { COLORS, ROUTES } from '@/shared/constants'
+import { ROUTES } from '@/shared/constants'
 import { useCheckCodeConfirm } from '@/shared/hooks'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
@@ -26,11 +26,7 @@ export const EmailVerifiedSuccess = () => {
   })
 
   if (!isConfirmed || !isChecked) {
-    return (
-      <div className={'circularProgressContainer'}>
-        <Ring size={150} color={COLORS.accent['500']} />
-      </div>
-    )
+    return <CircleLoading />
   }
 
   return (
