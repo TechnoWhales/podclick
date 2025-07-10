@@ -20,22 +20,12 @@ export const AddPhoto = () => {
   const [images, setImage] = useState<ImageType[]>([])
   const [open, setOpen] = useState(false)
   const [photoPreview, setPhotoPreview] = useState<string>('')
-  const [naturalWidthImage, setNaturalWidthImage] = useState(0)
-  const [naturalHeightImage, setNaturalHeightImage] = useState(0)
 
   const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
       if (!base64) {return}
 
-      const img = document.createElement('img')
-
-      img.src = base64
-
-      img.onload = () => {
-        setNaturalWidthImage(img.naturalWidth)
-        setNaturalHeightImage(img.naturalHeight)
-        setPhotoPreview(base64)
-        setMode('cropping')
-      }
+      setPhotoPreview(base64)
+      setMode('cropping')
 
     }})
   
@@ -61,7 +51,7 @@ export const AddPhoto = () => {
           </Button>
         )}
       </div>}
-      {mode === 'cropping' && <Cropping photoPreview={photoPreview} naturalHeight={naturalHeightImage} naturalWidth={naturalWidthImage} backBtn={() => setMode('addPhoto')} nextBtn={(images) => {
+      {mode === 'cropping' && <Cropping photoPreview={photoPreview} backBtn={() => setMode('addPhoto')} nextBtn={(images) => {
         setMode('filter')
         setImage(images)
       }}/>}

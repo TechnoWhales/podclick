@@ -17,14 +17,11 @@ import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
 type Props = {
   photoPreview: string
-  naturalWidth: number
-  naturalHeight: number
   backBtn: () => void
   nextBtn: (images: ImageType[]) => void
 }
 
-export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, backBtn }: Props) => {
-
+export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
 
@@ -53,8 +50,6 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
     originalWidthImage: 0,
     originalHeightImage: 0,
     croppedAreaPixels: { height: 0, width: 0, x: 0, y: 0 },
-    naturalHeightImage: naturalHeight,
-    naturalWidthImage: naturalWidth
   }
   const [images, setImage] = useState<ImageType[]>([defaultPhoto])
   const [currentImage, setCurrentImage] = useState(0)
@@ -63,32 +58,21 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
     onUpload: ({ base64 }) => {
       if (!base64) {return}
 
-      const img = new Image()
-
-      img.src = base64
-
-      img.onload = () => {
-        const naturalWidth = img.naturalWidth
-        const naturalHeight = img.naturalHeight
-
-        const photo = {
-          id: nanoid(),
-          img: base64,
-          originalWidthImage: 0,
-          originalHeightImage: 0,
-          currentHeightImage: 497,
-          currentWidthImage: 490,
-          naturalWidthImage: naturalWidth,
-          naturalHeightImage: naturalHeight,
-          crop: { x: 0, y: 0 },
-          croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
-          zoom: 1,
-          minZoom: 1,
-          ration: 'original' as RationModeType,
-        }
-
-        setImage(prevState => [...prevState, photo])
+      const photo = {
+        id: nanoid(),
+        img: base64,
+        originalWidthImage: 0,
+        originalHeightImage: 0,
+        currentHeightImage: 497,
+        currentWidthImage: 490,
+        crop: { x: 0, y: 0 },
+        croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
+        zoom: 1,
+        minZoom: 1,
+        ration: 'original' as RationModeType,
       }
+
+      setImage(prevState => [...prevState, photo])
     }
   })
 
