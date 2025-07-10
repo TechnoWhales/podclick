@@ -11,4 +11,11 @@ export const ROUTES = {
     EMAIL_VERIFIED: '/auth/email-verified',
     PASSWORD_RECOVERY_RESENDING: '/auth/password-recovery-resending',
   },
+  FEED: '/feed',
+  FAVORITES: '/favorites',
+  MESSAGES: '/messages',
+  PROFILE: '/profile',
+  SEARCH: '/search',
+  SETTINGS: '/settings',
+  STATS: '/stats',
 }
