@@ -1,0 +1,43 @@
+.nav {
+  padding: 72px 0 36px 60px;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.list {
+  &:first-child {
+    margin-bottom: 60px;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
+.nav > ul:last-child {
+  margin-top: auto;
+}
+
+
+
+.button {
+  justify-content: start;
+  gap: 12px;
+  padding: 0;
+  color: var(--color-light-100);
+
+
+  &:focus-visible {
+    color: inherit;
+  }
+}
+
+.active {
+  color: var(--color-accent-500);
+
+  &:focus-visible {
+    color: var(--color-accent-500);;
+  }
+}
