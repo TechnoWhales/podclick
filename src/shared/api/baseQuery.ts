@@ -7,12 +7,12 @@ import {
 
 import { Mutex } from 'async-mutex'
 
-import { ACCESS_TOKEN } from '@/shared/constants'
+import { ACCESS_TOKEN, BASE_API } from '@/shared/constants'
 
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_BASE_API,
+  baseUrl: BASE_API,
   credentials: 'include',
   prepareHeaders: headers => {
     const token = sessionStorage.getItem(ACCESS_TOKEN)
