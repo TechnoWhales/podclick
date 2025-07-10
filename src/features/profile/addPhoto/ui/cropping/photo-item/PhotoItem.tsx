@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { PhotoType } from '@/features/profile/addPhoto/ui/cropping/Cropping'
+import { ImageType } from '@/features/profile/addPhoto/types/Image'
 import { Button, Icon } from '@/shared/components/ui'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
@@ -8,7 +8,7 @@ import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 type PhotoItemProps = {
   onClick: () =>  void
   removePhoto: (id: string) => void
-  photo: PhotoType
+  photo: ImageType
 }
 
 export const PhotoItem = ({onClick, removePhoto, photo}: PhotoItemProps) => {

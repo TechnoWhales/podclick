@@ -4,7 +4,7 @@ import Slider from 'react-slick'
 
 import Image from 'next/image'
 
-import { ImageType } from '@/features/profile/addPhoto/ui/cropping/Cropping'
+import { ImageType } from '@/features/profile/addPhoto/types/Image'
 import { Button, Icon, Typography } from '@/shared/components/ui'
 
 import "slick-carousel/slick/slick.css";
@@ -17,8 +17,6 @@ type Filter = 'normal' | 'clarendon' | 'lark' | 'gingham' | 'moon'
 type Props = {
   imagesArr: ImageType[]
 }
-
-
 
 export const Filters = ({imagesArr}: Props) => {
   const [currentFilter, setCurrentFilter] = useState<Filter>('normal')

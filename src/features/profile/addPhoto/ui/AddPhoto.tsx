@@ -1,10 +1,11 @@
 'use client'
-import { useState,  } from 'react'
+import { useState} from 'react'
 
 import clsx from 'clsx'
 import Image from 'next/image'
 
-import { Cropping, ImageType } from '@/features/profile/addPhoto/ui/cropping/Cropping'
+import { ImageType } from '@/features/profile/addPhoto/types/Image'
+import { Cropping } from '@/features/profile/addPhoto/ui/cropping/Cropping'
 import { Filters } from '@/features/profile/addPhoto/ui/filters/Filters'
 import { Button } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'

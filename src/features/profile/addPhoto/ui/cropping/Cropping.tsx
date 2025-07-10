@@ -5,6 +5,7 @@ import Cropper from 'react-easy-crop'
 import { nanoid } from '@reduxjs/toolkit'
 import clsx from 'clsx'
 
+import { CroppedAreaPixelsType, ImageType, RationModeType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { calculateZoom } from "@/features/profile/addPhoto/utils/calculateZoom";
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
@@ -13,31 +14,6 @@ import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-
-type CroppedAreaPixels = {
-  height: number
-  width: number
-  x: number
-  y: number
-}
-
-type RationMode = '1:1' | '4:5' | '16:9' | 'original'
-
-export type ImageType = {
-  id: string
-  img: string
-  originalWidthImage: number
-  originalHeightImage: number
-  currentHeightImage: number
-  currentWidthImage: number
-  naturalHeightImage: number
-  naturalWidthImage: number
-  crop: { x: number, y: number }
-  croppedAreaPixels: CroppedAreaPixels
-  zoom: number
-  minZoom: number
-  ration: RationMode
-}
 
 type Props = {
   photoPreview: string
@@ -56,7 +32,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
   const [currentHeightImage, setCurrentHeightImage] = useState(497)
   const [currentWidthImage, setCurrentWidthImage] = useState(490)
   // Параметры для корректного кропинга
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixels>({
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType>({
     height: 0, width: 0, x: 0, y: 0
 })
 
@@ -64,14 +40,14 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
   const [minZoom, setMinZoom] = useState(1)
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
-  const [ratioMode, setRatioMode] = useState<RationMode>('original')
+  const [ratioMode, setRatioMode] = useState<RationModeType>('original')
   const defaultPhoto: ImageType = {
     id: nanoid(),
     img: photoPreview,
     currentHeightImage: 0,
     currentWidthImage: 0,
     crop: { x: 0, y: 0 },
-    ration: 'original' as RationMode,
+    ration: 'original' as RationModeType,
     zoom: 1,
     minZoom: 1,
     originalWidthImage: 0,
@@ -108,7 +84,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
           croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
           zoom: 1,
           minZoom: 1,
-          ration: 'original' as RationMode,
+          ration: 'original' as RationModeType,
         }
 
         setImage(prevState => [...prevState, photo])
@@ -240,7 +216,7 @@ export const Cropping = ({ photoPreview, naturalHeight, naturalWidth, nextBtn, b
     }
   }
 
-  const onCropComplete = (_: any, croppedAreaPixels: CroppedAreaPixels) => {
+  const onCropComplete = (_: any, croppedAreaPixels: CroppedAreaPixelsType) => {
     setCroppedAreaPixels(croppedAreaPixels)
   }
 
