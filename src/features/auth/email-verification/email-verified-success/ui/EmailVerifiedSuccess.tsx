@@ -1,9 +1,9 @@
 'use client'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { useConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified-success/api/emailVerifiedSuccessApi'
+import { Link } from '@/i18n/navigation'
 import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Container, Typography } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constants'
