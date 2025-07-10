@@ -2,15 +2,18 @@ import type { Metadata } from 'next'
 
 import type { ReactNode } from 'react'
 
+import clsx from 'clsx'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
-import { Header, Sidebar } from '@/shared/components'
+import { Header, Sidebars } from '@/shared/components'
 import { Container } from '@/shared/components/ui'
 import { Providers } from '@/shared/providers/Providers'
 
 import '@/shared/styles/index.scss'
+
+import s from './Layout.module.scss'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -35,22 +38,26 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }>) {
-  const messages = await getMessages({ locale: params.locale })
+  const resolvedParams = await params
+  const locale = resolvedParams.locale
+  const messages = await getMessages({ locale })
+
+  const isAuth = true
 
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       <body className={`${inter.className}`}>
         <Providers>
-          <NextIntlClientProvider locale={params.locale} messages={messages}>
+          <NextIntlClientProvider locale={locale} messages={messages}>
             <Header />
-            <main>
-              <Container width={1310} padding={'0 15px'}>
-                {/*<Sidebar />*/}
-                {children}
-              </Container>
-            </main>
+            <Container width={1310} padding={'0 15px'}>
+              <div className={clsx(s.appGrid, isAuth ? s.withSidebar : s.centerContent)}>
+                <Sidebars />
+                <main>{children}</main>
+              </div>
+            </Container>
           </NextIntlClientProvider>
         </Providers>
       </body>
