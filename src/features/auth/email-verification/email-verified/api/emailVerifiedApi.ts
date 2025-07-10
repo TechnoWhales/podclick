@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { BASE_API } from '@/shared/constants'
 
 export const EmailVerifiedApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -6,7 +7,7 @@ export const EmailVerifiedApi = baseApi.injectEndpoints({
       query: email => ({
         url: 'auth/registration-email-resending',
         method: 'POST',
-        body: { email, baseApi: process.env.NEXT_PUBLIC_BASE_URL },
+        body: { email, baseApi: BASE_API },
       }),
     }),
   }),
