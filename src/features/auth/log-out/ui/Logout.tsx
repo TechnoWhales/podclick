@@ -2,13 +2,14 @@
 import * as React from 'react'
 import { useState } from 'react'
 
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { useLogoutMutation } from '@/features/auth/log-out/api/logoutApi'
+import { baseApi } from '@/shared/api'
 import { Button, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constants'
+import { useAppDispatch } from '@/shared/hooks'
 
 import s from './Logout.module.scss'
 
@@ -16,10 +17,12 @@ export const LogOut = () => {
   const router = useRouter()
   const [open, setOpen] = useState(true)
   const [logout] = useLogoutMutation()
+  const dispatch = useAppDispatch()
 
   const handleLogout = async () => {
     try {
       await logout().unwrap()
+      dispatch(baseApi.util.resetApiState())
       router.replace(ROUTES.AUTH.SIGN_IN)
     } catch (e) {
       console.error(e)
@@ -40,11 +43,9 @@ export const LogOut = () => {
           Are you really want to log out of your account <b>"Epam@epam.com"</b> ?
         </Typography>
         <div className={s.buttonsContainer}>
-          <Link href={ROUTES.AUTH.SIGN_IN} passHref legacyBehavior>
-            <Button variant={'outlined'} className={s.button} onClick={handleLogout}>
-              Yes
-            </Button>
-          </Link>
+          <Button variant={'outlined'} className={s.button} onClick={handleLogout}>
+            Yes
+          </Button>
           <Button
             className={s.button}
             onClick={() => {

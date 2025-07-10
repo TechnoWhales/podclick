@@ -1,8 +1,7 @@
 'use client'
 import * as React from 'react'
 
-import Link from 'next/link'
-
+import { Link } from '@/i18n/navigation'
 import { Button, Icon } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constants'
 

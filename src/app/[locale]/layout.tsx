@@ -2,18 +2,15 @@ import type { Metadata } from 'next'
 
 import type { ReactNode } from 'react'
 
-import clsx from 'clsx'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
-import { Header, Sidebars } from '@/shared/components'
-import { Container } from '@/shared/components/ui'
+import { ClientLayout } from '@/shared/layouts'
 import { Providers } from '@/shared/providers/Providers'
+import { AuthInitializer } from '@/shared/utils/init'
 
 import '@/shared/styles/index.scss'
-
-import s from './Layout.module.scss'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -44,20 +41,13 @@ export default async function RootLayout({
   const locale = resolvedParams.locale
   const messages = await getMessages({ locale })
 
-  const isAuth = true
-
   return (
     <html lang={locale}>
       <body className={`${inter.className}`}>
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <Header />
-            <Container width={1310} padding={'0 15px'}>
-              <div className={clsx(s.appGrid, isAuth ? s.withSidebar : s.centerContent)}>
-                <Sidebars />
-                <main>{children}</main>
-              </div>
-            </Container>
+            <AuthInitializer />
+            <ClientLayout>{children}</ClientLayout>
           </NextIntlClientProvider>
         </Providers>
       </body>
