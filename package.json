@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "test": "next lint",
+    "lint:next": "next lint",
     "build:production": "pnpm run build",
     "start": "next start",
     "lint": "pnpm lint:prettier && pnpm lint:eslint && pnpm lint:stylelint",
@@ -17,7 +17,10 @@
     "lint:eslint:fix": "eslint . --fix",
     "lint:stylelint:fix": "stylelint \"**/*.{css,scss,less}\" --fix",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest run",
+    "test:ui": "vitest run --config vitest.storybook.config.ts",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
