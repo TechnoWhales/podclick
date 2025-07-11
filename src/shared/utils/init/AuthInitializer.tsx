@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 import { useMeQuery } from '@/shared/api'
 import { useAppDispatch } from '@/shared/hooks'
-import { setIsInitialized, setIsLoggedInAC } from '@/shared/model/appSlice'
+import { setIsInitialized, setIsLoggedIn } from '@/shared/model/appSlice'
 
 export const AuthInitializer = () => {
   const dispatch = useAppDispatch()
@@ -16,9 +16,9 @@ export const AuthInitializer = () => {
     }
 
     if (data) {
-      dispatch(setIsLoggedInAC({ isLoggedIn: true }))
+      dispatch(setIsLoggedIn({ isLoggedIn: true }))
     } else if (isError) {
-      dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+      dispatch(setIsLoggedIn({ isLoggedIn: false }))
     }
 
     dispatch(setIsInitialized({ isInitialized: true }))

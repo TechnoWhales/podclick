@@ -1,15 +1,14 @@
 'use client'
 import * as React from 'react'
 
-import { useRouter } from 'next/navigation'
-
 import { useLogoutMutation } from '@/features/auth/log-out/api/logoutApi'
+import { useRouter } from '@/i18n/navigation'
 import { baseApi, useMeQuery } from '@/shared/api'
 import { Button, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constants'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
-import { closeLogoutModal, selectIsLogoutModalOpen } from '@/shared/model/appSlice'
+import { closeLogoutModal, selectIsLogoutModalOpen, setIsLoggedIn } from '@/shared/model/appSlice'
 
 import s from './Logout.module.scss'
 
@@ -24,6 +23,7 @@ export const LogoutModal = () => {
   const handleLogout = async () => {
     try {
       await logout().unwrap()
+      dispatch(setIsLoggedIn({ isLoggedIn: false }))
       dispatch(baseApi.util.resetApiState())
       router.replace(ROUTES.AUTH.SIGN_IN)
     } catch (e) {
