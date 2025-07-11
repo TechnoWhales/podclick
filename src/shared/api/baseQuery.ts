@@ -9,6 +9,8 @@ import { Mutex } from 'async-mutex'
 
 import { ACCESS_TOKEN } from '@/shared/constants'
 
+import { handleBaseApiError } from './handleBaseApiError'
+
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
@@ -60,12 +62,15 @@ export const baseQueryWithReauth: BaseQueryFn<
       } else {
         sessionStorage.removeItem(ACCESS_TOKEN)
       }
-    } catch (e) {
-      console.error('Failed to refresh token:', e)
+    } catch (err) {
+      console.error('Failed to refresh token:', err)
     } finally {
       release()
     }
   }
+
+  // Глобальная обработка ошибок (после всех попыток)
+  handleBaseApiError(result)
 
   return result
 }
