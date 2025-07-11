@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
+import { LogoutModal } from '@/features/auth'
 import { ClientLayout } from '@/shared/layouts'
 import { Providers } from '@/shared/providers/Providers'
 import { AuthInitializer } from '@/shared/utils/init'
@@ -48,6 +49,7 @@ export default async function RootLayout({
           <NextIntlClientProvider locale={locale} messages={messages}>
             <AuthInitializer />
             <ClientLayout>{children}</ClientLayout>
+            <LogoutModal />
           </NextIntlClientProvider>
         </Providers>
       </body>

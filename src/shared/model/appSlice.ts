@@ -9,12 +9,14 @@ export const appSlice = createSlice({
     error: null as string | null,
     isAuth: false,
     isInitialized: false,
+    isLogoutModalOpen: false,
   },
   selectors: {
     selectAppStatus: state => state.status,
     selectAppError: state => state.error,
     selectAppIsAuth: state => state.isAuth,
     selectIsInitialized: state => state.isInitialized,
+    selectIsLogoutModalOpen: state => state.isLogoutModalOpen,
   },
   extraReducers: builder => {
     builder
@@ -41,10 +43,28 @@ export const appSlice = createSlice({
     setIsInitialized: create.reducer<{ isInitialized: boolean }>((state, action) => {
       state.isInitialized = action.payload.isInitialized
     }),
+    openLogoutModal: state => {
+      state.isLogoutModalOpen = true
+    },
+    closeLogoutModal: state => {
+      state.isLogoutModalOpen = false
+    },
   }),
 })
 
-export const { selectAppStatus, selectAppError, selectAppIsAuth, selectIsInitialized } =
-  appSlice.selectors
-export const { setAppStatus, setAppError, setIsLoggedInAC, setIsInitialized } = appSlice.actions
+export const {
+  selectAppStatus,
+  selectAppError,
+  selectAppIsAuth,
+  selectIsInitialized,
+  selectIsLogoutModalOpen,
+} = appSlice.selectors
+export const {
+  setAppStatus,
+  setAppError,
+  setIsLoggedInAC,
+  setIsInitialized,
+  closeLogoutModal,
+  openLogoutModal,
+} = appSlice.actions
 export const appReducer = appSlice.reducer
