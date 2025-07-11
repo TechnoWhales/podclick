@@ -7,6 +7,7 @@ import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
 import { Header } from '@/shared/components'
+import { ToastProvider } from '@/shared/components/ui'
 import { Providers } from '@/shared/providers/Providers'
 
 import '@/shared/styles/index.scss'
@@ -45,6 +46,7 @@ export default async function RootLayout({
           <NextIntlClientProvider locale={params.locale} messages={messages}>
             <Header />
             {children}
+            <ToastProvider />
           </NextIntlClientProvider>
         </Providers>
       </body>
