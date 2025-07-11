@@ -235,7 +235,7 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
   return (
       <div className={s.cropping}>
         <div className={s.title}>
-          <div className={s.arrowBack}>
+          <div className={s.arrowBack} onClick={backBtn}>
             <Icon iconId={'arrowIosBack'} />
           </div>
           <Typography variant={'h1'}>Cropping</Typography>

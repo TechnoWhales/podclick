@@ -14,11 +14,15 @@ export type ImageType = {
   originalHeightImage: number
   currentHeightImage: number
   currentWidthImage: number
-  // naturalHeightImage: number
-  // naturalWidthImage: number
   crop: { x: number, y: number }
   croppedAreaPixels: CroppedAreaPixelsType
   zoom: number
   minZoom: number
   ration: RationModeType
+}
+
+export type Filter = 'normal' | 'clarendon' | 'lark' | 'gingham' | 'moon'
+
+export type ImageWithFilter = ImageType & {
+  filter: Filter
 }

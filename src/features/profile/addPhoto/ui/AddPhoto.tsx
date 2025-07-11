@@ -7,13 +7,14 @@ import Image from 'next/image'
 import { ImageType } from '@/features/profile/addPhoto/types/Image'
 import { Cropping } from '@/features/profile/addPhoto/ui/cropping/Cropping'
 import { Filters } from '@/features/profile/addPhoto/ui/filters/Filters'
-import { Button } from '@/shared/components/ui'
+import { Button, Icon } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from './AddPhoto.module.scss'
 
 type Mode = 'cropping' | 'filter' | "addPhoto"
+
 
 export const AddPhoto = () => {
   const [mode, setMode] = useState<Mode>('addPhoto')
@@ -59,3 +60,6 @@ export const AddPhoto = () => {
     </Modal>
   )
 }
+
+
+
