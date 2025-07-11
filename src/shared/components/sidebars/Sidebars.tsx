@@ -1,5 +1,7 @@
 'use client'
 
+import * as React from 'react'
+
 import clsx from 'clsx'
 import Link from 'next/link'
 
@@ -26,13 +28,25 @@ export const Sidebars = () => {
     { name: 'Feed', href: ROUTES.FEED, iconOutline: 'homeOutline', icon: 'home' },
     { name: 'Create', href: '#', iconOutline: 'plusSquareOutline', icon: 'plusSquare' },
     { name: 'My Profile', href: '#', iconOutline: 'personOutline', icon: 'person' },
-    { name: 'Messenger', href: '#', iconOutline: 'messageCircleOutline', icon: 'messageCircle' },
-    { name: 'Search', href: '#', iconOutline: 'searchOutline', icon: 'search' },
+    {
+      name: 'Messenger',
+      href: ROUTES.MESSAGES,
+      iconOutline: 'messageCircleOutline',
+      icon: 'messageCircle',
+    },
+    { name: 'Search', href: ROUTES.SEARCH, iconOutline: 'searchOutline', icon: 'search' },
   ]
 
+  //TODO: не та иконка на bookmarkOutline
+
   const tools: SidebarLink[] = [
-    { name: 'Statistics', href: '#', iconOutline: 'trendingUpOutline', icon: 'trendingUp' },
-    { name: 'Favorites', href: '#', iconOutline: 'bookmarkOutline', icon: 'bookmark' },
+    {
+      name: 'Statistics',
+      href: ROUTES.STATS,
+      iconOutline: 'trendingUpOutline',
+      icon: 'trendingUp',
+    },
+    { name: 'Favorites', href: ROUTES.FAVORITES, iconOutline: 'bookmarkOutline', icon: 'bookmark' },
   ]
 
   const isActive = (href: string) => pathname === href
@@ -74,6 +88,7 @@ export const Sidebars = () => {
 
         <ul>
           <li>
+            {/*TODO: решить вопрос с кнопкой*/}
             <LogOutButton />
           </li>
         </ul>
