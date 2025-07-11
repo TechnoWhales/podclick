@@ -60,23 +60,18 @@
   height: 100%;
 }
 
-
-/* Clarendon (приблизно) */
 .clarendon {
   filter: contrast(1.2) saturate(1.35) brightness(1.1) hue-rotate(-10deg);
 }
 
-/* Lark */
 .lark {
   filter: saturate(1.5) brightness(1.15) contrast(1.1);
 }
 
-/* Gingham */
 .gingham {
   filter: sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05);
 }
 
-  /* Moon */
 .moon {
   filter: grayscale(1) brightness(1.2) contrast(1.1);
 }

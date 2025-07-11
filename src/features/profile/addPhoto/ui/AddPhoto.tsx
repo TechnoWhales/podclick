@@ -2,61 +2,53 @@
 import { useState} from 'react'
 
 import clsx from 'clsx'
-import Image from 'next/image'
 
-import { ImageType } from '@/features/profile/addPhoto/types/Image'
+import { ImageType, Mode } from '@/features/profile/addPhoto/types/Image'
 import { Cropping } from '@/features/profile/addPhoto/ui/cropping/Cropping'
 import { Filters } from '@/features/profile/addPhoto/ui/filters/Filters'
-import { Button, Icon } from '@/shared/components/ui'
+import { InitialPhotoUpload } from '@/features/profile/addPhoto/ui/initial-photo-upload/InitialPhotoUpload'
+import { Publication } from '@/features/profile/addPhoto/ui/publication/Publication'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from './AddPhoto.module.scss'
 
-type Mode = 'cropping' | 'filter' | "addPhoto"
-
 
 export const AddPhoto = () => {
-  const [mode, setMode] = useState<Mode>('addPhoto')
+  const [initialImg, setInitialImg] = useState<string>('')
+  const [mode, setMode] = useState<Mode>('initialImg')
   const [images, setImage] = useState<ImageType[]>([])
   const [open, setOpen] = useState(false)
-  const [photoPreview, setPhotoPreview] = useState<string>('')
 
-  const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64}) => {
-      if (!base64) {return}
-
-      setPhotoPreview(base64)
-      setMode('cropping')
-
-    }})
+  const renderContent = () => {
+    switch (mode) {
+      case 'initialImg':
+        return <InitialPhotoUpload setImgPreview={setInitialImg} setMode={(mode) => setMode(mode)}/>
+      case 'cropping':
+        return (
+          <Cropping
+            photoPreview={initialImg}
+            backBtn={() => setMode('initialImg')}
+            nextBtn={images => {
+              setMode('filter')
+              setImage(images)
+            }}
+          />
+        )
+      case 'filter':
+        return <Filters imagesArr={images} />
+      case 'publication':
+        return <Publication imagesArr={images} />
+    }
+  }
   
   return (
     <Modal
       className={clsx(s.addPhoto, mode === 'cropping' && s.cropping, mode === 'filter' && s.filters)}
-      modalTitle={photoPreview ? '' : 'Add Photo'}
+      modalTitle={mode === 'initialImg' ? 'Add Photo' : ''}
       open
       onClose={() => setOpen(!open)}
     >
-      {!photoPreview && <div className={clsx(s.addPhotoWrapper, photoPreview && s.photoPreview)}>
-          <Image
-            className={clsx(s.photoImg, photoPreview && s.photoPreview)}
-            src={photoPreview || '/empty-photo.svg'}
-            alt={'Empty photo'}
-            width={222}
-            height={228}
-          />
-        {!photoPreview && <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>}
-        {!photoPreview && (
-          <Button className={s.draftBtn} variant={'outlined'}>
-            Open Draft
-          </Button>
-        )}
-      </div>}
-      {mode === 'cropping' && <Cropping photoPreview={photoPreview} backBtn={() => setMode('addPhoto')} nextBtn={(images) => {
-        setMode('filter')
-        setImage(images)
-      }}/>}
-      {mode === 'filter' && <Filters imagesArr={images}/>}
+      {renderContent()}
     </Modal>
   )
 }

@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import Slider from 'react-slick'
 
 import Image from 'next/image'
 
@@ -23,22 +22,6 @@ export const Filters = ({imagesArr}: Props) => {
   })
   const [currentSlide, setCurrentSlide] = useState(0)
   const [images, setImages] = useState<ImageWithFilter[]>(imagesWithFilter)
-  
-  // const settings = {
-  //   dots: true,
-  //   infinite: false,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   arrows: false,
-  //   centerMode: true,
-  //   centerPadding: "0",
-  //   afterChange: (current: number) => {
-  //     setCurrentSlide(current)
-  //   },
-  //   slickNext:
-  // };
-
 
   const filters = [
     {filter: 'normal', name: 'Normal'},
@@ -51,10 +34,6 @@ export const Filters = ({imagesArr}: Props) => {
     {filter: 'moon', name: 'Moon'},
     {filter: 'gingham', name: 'Gingham'},
   ]
-
-  // const ConditionalWrapper = images.length > 1 ? Slider : 'div'
-  // const sliderProps = images.length > 1 ? settings : {}
-
 
   const setFilterHandler = (index: number ,filter: Filter) => {
     const newFilter = images.map((item, i) => {
@@ -84,16 +63,6 @@ export const Filters = ({imagesArr}: Props) => {
       </Button>
     </div>
     <div className={s.filtersPanelWrapper}>
-      {/*<ConditionalWrapper {...sliderProps} className={s.slider}>*/}
-      {/*  {images.map((item) => {*/}
-
-      {/*    return (*/}
-      {/*      <div key={item.id} className={s.sliderItem} >*/}
-      {/*      <Image className={s[item.filter]} src={item.img} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />*/}
-      {/*    </div>*/}
-      {/*    )*/}
-      {/*  })}*/}
-      {/*</ConditionalWrapper>*/}
       <PhotoSlider onAfterChange={(i) => setCurrentSlide(i)}>
         {images.map((item) => {
 
