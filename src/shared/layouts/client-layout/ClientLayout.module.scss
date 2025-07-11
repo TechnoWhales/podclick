@@ -1,10 +1,10 @@
 .appGrid {
   display: grid;
-  height: calc(100vh - 60px)
+  height: calc(100vh - 60px);
 }
 
 .withSidebar {
-  grid-template-columns: 220px 1fr
+  grid-template-columns: 220px 1fr;
 }
 
 .withSidebar main {
@@ -14,7 +14,6 @@
 .centerContent {
   display: grid;
   height: calc(100vh - 60px);
-
 }
 
 .centerContent main {
