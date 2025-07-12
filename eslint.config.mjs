@@ -17,6 +17,7 @@ export default [
   {
     ignores: [
       '.storybook/**',
+      'vitest.setup.ts',
       'vitest.config.ts',
       'vitest.storybook.config.ts',
       'next.config.ts',

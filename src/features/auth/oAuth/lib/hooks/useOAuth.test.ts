@@ -4,16 +4,6 @@ import { notify } from '@/shared/lib/notify'
 
 import { useOAuth } from './useOAuth'
 
-vi.mock('@/shared/lib/notify', () => ({
-  notify: {
-    error: vi.fn(),
-  },
-}))
-
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({ replace: vi.fn() }),
-}))
-
 const googleLoginMock = vi.fn()
 
 vi.mock('@/features/auth/oAuth/api/oAuthApi', () => ({
@@ -24,10 +14,6 @@ vi.mock('@/features/auth/oAuth/api/oAuthApi', () => ({
 import * as GoogleOAuth from '@react-oauth/google'
 
 describe('useOAuth', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   /**
    * Проверяет, что notify.error вызывается при ошибке Google авторизации (onError callback)
    * Мокаем useGoogleLogin так, чтобы при вызове loginWithGoogle срабатывал onError

@@ -1,26 +1,15 @@
-/**
- * Тесты для функции handleBaseApiError.
- * Проверяют обработку различных структур ошибок и корректный вызов notify.error.
- * Покрываются кейсы: вложенные ошибки, plain error, plain string, массив сообщений, unknown error.
- */
-
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 import { notify } from '@/shared/lib/notify'
 
 import { handleBaseApiError } from './handleBaseApiError'
 
-vi.mock('@/shared/lib/notify', () => ({
-  notify: {
-    error: vi.fn(),
-  },
-}))
-
+/**
+ * Тесты для функции handleBaseApiError.
+ * Проверяют обработку различных структур ошибок и корректный вызов notify.error.
+ * Покрываются кейсы: вложенные ошибки, plain error, plain string, массив сообщений, unknown error.
+ */
 describe('handleBaseApiError', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   it('handles error.message', () => {
     handleBaseApiError({ error: { message: 'Error message' } })
     expect(notify.error).toHaveBeenCalledWith('Error message')
