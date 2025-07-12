@@ -69,8 +69,18 @@ export const baseQueryWithReauth: BaseQueryFn<
     }
   }
 
+  /**
+   * true, если текущий запрос — это запрос к эндпоинту "auth/me"
+   */
+  const isAuthMe =
+    (typeof args === 'string' && args === 'auth/me') ||
+    (typeof args === 'object' && args !== null && 'url' in args && (args as any).url === 'auth/me')
+
   // Глобальная обработка ошибок (после всех попыток)
-  handleBaseApiError(result)
+  // Не показываем ошибку для запроса "auth/me" со статусом 401 (неавторизованный пользователь)
+  if (!(result.error?.status === 401 && isAuthMe)) {
+    handleBaseApiError(result)
+  }
 
   return result
 }
