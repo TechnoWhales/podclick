@@ -1,5 +1,3 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-
 import { notify } from '@/shared/lib/notify'
 
 import { useOAuth } from './useOAuth'

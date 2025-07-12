@@ -1,5 +1,3 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-
 import { notify } from '@/shared/lib/notify'
 
 import { handleBaseApiError } from './handleBaseApiError'
