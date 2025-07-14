@@ -14,7 +14,6 @@ import s from './AddPhoto.module.scss'
 
 
 export const AddPhoto = () => {
-  const [initialImg, setInitialImg] = useState<string>('')
   const [mode, setMode] = useState<Mode>('initialImg')
   const [images, setImage] = useState<ImageType[]>([])
   const [open, setOpen] = useState(false)
@@ -22,11 +21,11 @@ export const AddPhoto = () => {
   const renderContent = () => {
     switch (mode) {
       case 'initialImg':
-        return <InitialPhotoUpload setImgPreview={setInitialImg} setMode={(mode) => setMode(mode)}/>
+        return <InitialPhotoUpload setImage={(image => setImage([image]))} nextBtn={() => setMode('cropping')}/>
       case 'cropping':
         return (
           <Cropping
-            photoPreview={initialImg}
+            images={images}
             backBtn={() => setMode('initialImg')}
             nextBtn={images => {
               setMode('filter')
@@ -35,12 +34,12 @@ export const AddPhoto = () => {
           />
         )
       case 'filter':
-        return <Filters imagesArr={images} nextBtn={images => {
+        return <Filters images={images} nextBtn={images => {
           setMode('publication')
           setImage(images)
-        }}/>
+        }} backBtn={() => setMode('cropping')}/>
       case 'publication':
-        return <Publication imagesArr={images} />
+        return <Publication imagesArr={images} backBtn={() => setMode('filter')}/>
     }
   }
   

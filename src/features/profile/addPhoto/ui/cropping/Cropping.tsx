@@ -17,12 +17,12 @@ import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
 
 type Props = {
-  photoPreview: string
+  images: ImageType[]
   backBtn: () => void
   nextBtn: (images: ImageType[]) => void
 }
 
-export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
+export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
 
@@ -39,22 +39,7 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
   const [ratioMode, setRatioMode] = useState<RationModeType>('original')
-  const defaultPhoto: ImageType = {
-    id: nanoid(),
-    img: photoPreview,
-    croppedImg: null,
-    filteredImg: null,
-    currentHeightImage: 0,
-    currentWidthImage: 0,
-    crop: { x: 0, y: 0 },
-    ration: 'original' as RationModeType,
-    zoom: 1,
-    minZoom: 1,
-    originalWidthImage: 0,
-    originalHeightImage: 0,
-    croppedAreaPixels: { height: 0, width: 0, x: 0, y: 0 },
-  }
-  const [images, setImage] = useState<ImageType[]>([defaultPhoto])
+  const [localImages, setLocalImage] = useState<ImageType[]>(images)
   const [currentImage, setCurrentImage] = useState(0)
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
@@ -77,7 +62,7 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
         ration: 'original' as RationModeType,
       }
 
-      setImage(prevState => [...prevState, photo])
+      setLocalImage(prevState => [...prevState, photo])
     }
   })
 
@@ -90,14 +75,14 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
   useEffect(() => {
     // Если у текущего изображения есть оригинальная ширина и высота,
     // устанавливаем эти значения в состояние текущих размеров.
-    if(images[currentImage].originalWidthImage && images[currentImage].originalHeightImage) {
-      setCurrentHeightImage(images[currentImage].originalHeightImage)
-      setCurrentWidthImage(images[currentImage].originalWidthImage)
+    if(localImages[currentImage].originalWidthImage && localImages[currentImage].originalHeightImage) {
+      setCurrentHeightImage(localImages[currentImage].originalHeightImage)
+      setCurrentWidthImage(localImages[currentImage].originalWidthImage)
     }
 
     const { width: imageWidth, height: imageHeight } = {
-      width: images[currentImage].originalWidthImage,
-      height: images[currentImage].originalHeightImage
+      width: localImages[currentImage].originalWidthImage,
+      height: localImages[currentImage].originalHeightImage
     }
 
     // Функция обновления размеров контейнера для обрезки и уровней зума.
@@ -155,26 +140,26 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
       croppedAreaPixels,
     }
 
-    Object.assign(images[currentImage], updated)
+    Object.assign(localImages[currentImage], updated)
   }
 
   const setCurrentPhotoHandler = (index: number) => {
     if (index === currentImage) {return}
-    setRatioMode(images[index].ration)
-    setCurrentHeightImage(images[index].currentHeightImage)
-    setCurrentWidthImage(images[index].currentWidthImage)
-    setCrop({x: images[index].crop.x, y: images[index].crop.y})
-    setZoom(images[index].zoom)
-    setMinZoom(images[index].minZoom)
+    setRatioMode(localImages[index].ration)
+    setCurrentHeightImage(localImages[index].currentHeightImage)
+    setCurrentWidthImage(localImages[index].currentWidthImage)
+    setCrop({x: localImages[index].crop.x, y: localImages[index].crop.y})
+    setZoom(localImages[index].zoom)
+    setMinZoom(localImages[index].minZoom)
     setCurrentImage(index)
   }
 
   const removePhotoHandler = (id: string) => {
-    if (images.length === 1) {return}
+    if (localImages.length === 1) {return}
 
     let removedIndex = -1
 
-    const updatedPhotos = images.filter((photo, i) => {
+    const updatedPhotos = localImages.filter((photo, i) => {
       if (photo.id === id) {
         removedIndex = i
 
@@ -184,7 +169,7 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
       return true
     })
 
-    setImage(updatedPhotos)
+    setLocalImage(updatedPhotos)
 
     let newIndex = 0
     
@@ -210,10 +195,10 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
   }
 
   const nextBtnHandler = async () => {
-    if (images.length === 0) {return}
+    if (localImages.length === 0) {return}
 
     const croppedImages = await Promise.all(
-      images.map(async item => {
+      localImages.map(async item => {
         if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
           return {...item, croppedImg: item.img}
         }
@@ -253,7 +238,7 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
         <div className={clsx(s.container)}>
           <div className={s.cropWrapper}>
             <Cropper
-                image={images[currentImage]?.img || images[0].img}
+                image={localImages[currentImage]?.img || localImages[0].img}
                 crop={crop}
                 zoom={zoom}
                 minZoom={minZoom}
@@ -276,24 +261,24 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
                 }}
                 onCropComplete={onCropComplete}
                 onMediaLoaded={({ width, height }) => {
-                  if(images[currentImage] && images[currentImage].originalWidthImage !== 0 && images[currentImage].originalHeightImage !== 0) {
-                    setCurrentHeightImage(images[currentImage].currentHeightImage)
-                    setCurrentWidthImage(images[currentImage].currentWidthImage)
+                  if(localImages[currentImage] && localImages[currentImage].originalWidthImage !== 0 && localImages[currentImage].originalHeightImage !== 0) {
+                    setCurrentHeightImage(localImages[currentImage].currentHeightImage)
+                    setCurrentWidthImage(localImages[currentImage].currentWidthImage)
                   } else {
-                    images[currentImage].originalWidthImage = width
-                    images[currentImage].originalHeightImage = height
-                    images[currentImage].currentWidthImage = width
-                    images[currentImage].currentHeightImage = height
+                    localImages[currentImage].originalWidthImage = width
+                    localImages[currentImage].originalHeightImage = height
+                    localImages[currentImage].currentWidthImage = width
+                    localImages[currentImage].currentHeightImage = height
                     setCurrentHeightImage(height)
                     setCurrentWidthImage(width)
                   }
 
-                  if(images[currentImage].zoom !== 1) {
-                    setZoom(images[currentImage].zoom)
+                  if(localImages[currentImage].zoom !== 1) {
+                    setZoom(localImages[currentImage].zoom)
                   }
 
-                  if(images[currentImage].crop.x !== 0 && images[currentImage].crop.y !== 0) {
-                    setCrop({x: images[currentImage].crop.x, y: images[currentImage].crop.y})
+                  if(localImages[currentImage].crop.x !== 0 && localImages[currentImage].crop.y !== 0) {
+                    setCrop({x: localImages[currentImage].crop.x, y: localImages[currentImage].crop.y})
                   }
                 }}
             />
@@ -331,10 +316,10 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
               </Button>
               <Popover buttonText={<Icon iconId={'image'} />} opacity={0.8} align={'end'}>
                 <div className={s.photoItemsWrapper}>
-                  <UploadButton className={clsx(s.plusBtn, images.length >= 10 && s.disabled)} disabled={images.length >= 10} variant={'icon'}>
+                  <UploadButton className={clsx(s.plusBtn, localImages.length >= 10 && s.disabled)} disabled={localImages.length >= 10} variant={'icon'}>
                     <Icon iconId={'plusCircleOutline'} width={'30px'} height={'30px'} viewBox={'0 0 30 30'} />
                   </UploadButton>
-                  {images.map((photo, i) => (
+                  {localImages.map((photo, i) => (
                       <PhotoItem key={photo.id} photo={photo} onClick={() => setCurrentPhotoHandler(i)} removePhoto={removePhotoHandler} />
                   ))}
                 </div>

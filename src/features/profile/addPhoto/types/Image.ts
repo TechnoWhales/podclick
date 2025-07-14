@@ -14,6 +14,7 @@ export type ImageType = {
   img: string
   croppedImg: string | null
   filteredImg: string | null
+  currentFilter: FiltersType | null
   originalWidthImage: number
   originalHeightImage: number
   currentHeightImage: number

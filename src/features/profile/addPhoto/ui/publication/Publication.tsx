@@ -10,16 +10,17 @@ import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scs
 
 type Props = {
   imagesArr: ImageType[]
+  backBtn: () => void
 }
 
-export const Publication = ({imagesArr}: Props) => {
+export const Publication = ({imagesArr, backBtn}: Props) => {
   const [publicationText, setPublicationText] = useState('')
   const profileName = 'URLProfile'
-  debugger
+
 
   return <div>
     <div className={s.title}>
-      <div className={s.arrowBack}>
+      <div className={s.arrowBack} onClick={backBtn}>
         <Icon iconId={'arrowIosBack'} />
       </div>
       <Typography variant={'h1'}>Publication</Typography>
