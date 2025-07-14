@@ -7,6 +7,7 @@ import { Button, Icon, TextField, Typography } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scss'
+import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 
 type Props = {
   imagesArr: ImageType[]
@@ -17,19 +18,10 @@ export const Publication = ({imagesArr, backBtn}: Props) => {
   const [publicationText, setPublicationText] = useState('')
   const profileName = 'URLProfile'
 
+  const nextBtnHandler = () => {}
 
   return <div>
-    <div className={s.title}>
-      <div className={s.arrowBack} onClick={backBtn}>
-        <Icon iconId={'arrowIosBack'} />
-      </div>
-      <Typography variant={'h1'}>Publication</Typography>
-      <Button className={s.nextBtn} variant={'link'}>
-        <Typography variant={'h3'} as={'h3'}>
-          Publish
-        </Typography>
-      </Button>
-    </div>
+    {<TitlePhotoPages nextBtn={nextBtnHandler} textNextBtn={'Publish'} backBtn={backBtn}>Publication</TitlePhotoPages>}
     <div className={s.publicationWrapper}>
       <PhotoSlider>
         {imagesArr.map((item) => {

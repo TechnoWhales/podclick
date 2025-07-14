@@ -3,12 +3,14 @@ import { useState } from 'react'
 
 import Image from 'next/image'
 
-import { FiltersType, ImageType, ImageWithFilterType } from '@/features/profile/addPhoto/types/Image'
+import { FiltersType, ImageType } from '@/features/profile/addPhoto/types/Image'
+import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { applyCssFilterToImage } from '@/features/profile/addPhoto/utils/saveFilteredImage'
-import { Button, Icon, Typography } from '@/shared/components/ui'
+import { Button, Typography } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from '@/features/profile/addPhoto/ui/filters/Filters.module.scss'
+
 
 type Props = {
   images: ImageType[]
@@ -17,15 +19,8 @@ type Props = {
 }
 
 export const Filters = ({images, nextBtn, backBtn}: Props) => {
-  const imagesWithFilter = images.map(item => {
-
-    return {
-      ...item,
-      filter: item.currentFilter || {filter: 'normal', name: 'Normal', value: null} as FiltersType,
-    }
-  })
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [localImages, setLocalImage] = useState<ImageWithFilterType[]>(imagesWithFilter)
+  const [localImages, setLocalImage] = useState<ImageType[]>(images)
 
   const filters: FiltersType[] = [
     {filter: 'normal', name: 'Normal', value: null},
@@ -40,11 +35,12 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
   ]
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
+    debugger
     const newFilter = localImages.map((item, i) => {
       if (i === index) {
         return {
           ...item,
-          filter,
+          currentFilter: filter,
         }
       }
 
@@ -57,16 +53,15 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
   const nextBtnHandler = async () => {
     const filteredImg = await Promise.all(
       localImages.map(async item => {
-        if (!item.croppedImg || !item.filter.value) {return item}
+        if (!item.croppedImg || !item.currentFilter?.value) {return {...item, filteredImg: item.croppedImg}}
 
-        const filteredImg = await applyCssFilterToImage(item.croppedImg, item.filter.value)
+        const filteredImg = await applyCssFilterToImage(item.croppedImg, item.currentFilter.value)
 
-        if (typeof filteredImg !== "string") {return {...item, filteredImg: item.croppedImg, currentFilter: item.filter}}
+        if (typeof filteredImg !== "string") {return {...item, filteredImg: item.croppedImg}}
 
         return {
           ...item,
-          filteredImg,
-          currentFilter: item.filter,
+          filteredImg
         }
       })
     )
@@ -75,17 +70,7 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
   }
 
   return <div className={s.filters}>
-    <div className={s.title}>
-      <div className={s.arrowBack} onClick={backBtn}>
-        <Icon iconId={'arrowIosBack'} />
-      </div>
-      <Typography variant={'h1'}>Filters</Typography>
-      <Button className={s.nextBtn} variant={'link'} onClick={nextBtnHandler}>
-        <Typography variant={'h3'} as={'h3'}>
-          Next
-        </Typography>
-      </Button>
-    </div>
+    {<TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>Filters</TitlePhotoPages>}
     <div className={s.filtersPanelWrapper}>
       <PhotoSlider onAfterChange={(i) => setCurrentSlide(i)}>
         {localImages.map((item) => {
@@ -93,7 +78,7 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
 
           return (
             <div key={item.id} className={s.sliderItem} >
-              <Image className={s[item.filter.filter]} src={item.croppedImg} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />
+              <Image className={s[item.currentFilter?.filter || '']} src={item.croppedImg} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />
             </div>
           )
         })}

@@ -2,19 +2,19 @@
 import { useEffect, useState } from 'react'
 import Cropper from 'react-easy-crop'
 
-import { nanoid } from '@reduxjs/toolkit'
 import clsx from 'clsx'
 
 import { CroppedAreaPixelsType, ImageType, RationModeType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { calculateZoom } from "@/features/profile/addPhoto/utils/calculateZoom";
+import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
 import { getZoomBoost } from "@/features/profile/addPhoto/utils/getZoomBoost";
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-import { createImage } from '@/features/profile/addPhoto/utils/createImage'
+import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 
 
 type Props = {
@@ -46,22 +46,6 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
     typeFile: 'image',
     onUpload: ({ base64: img }) => {
       if (!img) {return}
-
-      // const photo = {
-      //   id: nanoid(),
-      //   img: base64,
-      //   croppedImg: null,
-      //   filteredImg: null,
-      //   originalWidthImage: 0,
-      //   originalHeightImage: 0,
-      //   currentHeightImage: 497,
-      //   currentWidthImage: 490,
-      //   crop: { x: 0, y: 0 },
-      //   croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
-      //   zoom: 1,
-      //   minZoom: 1,
-      //   ration: 'original' as RationModeType,
-      // }
 
       const image = createImage(img)
 
@@ -227,17 +211,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
 
   return (
       <div className={s.cropping}>
-        <div className={s.title}>
-          <div className={s.arrowBack} onClick={backBtn}>
-            <Icon iconId={'arrowIosBack'} />
-          </div>
-          <Typography variant={'h1'}>Cropping</Typography>
-          <Button className={s.nextBtn} variant={'link'} onClick={nextBtnHandler}>
-            <Typography variant={'h3'} as={'h3'}>
-              Next
-            </Typography>
-          </Button>
-        </div>
+        {<TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>Cropping</TitlePhotoPages>}
         <div className={clsx(s.container)}>
           <div className={s.cropWrapper}>
             <Cropper
