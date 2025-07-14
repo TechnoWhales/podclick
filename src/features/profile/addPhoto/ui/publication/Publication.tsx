@@ -15,6 +15,7 @@ type Props = {
 export const Publication = ({imagesArr}: Props) => {
   const [publicationText, setPublicationText] = useState('')
   const profileName = 'URLProfile'
+  debugger
 
   return <div>
     <div className={s.title}>
@@ -31,10 +32,11 @@ export const Publication = ({imagesArr}: Props) => {
     <div className={s.publicationWrapper}>
       <PhotoSlider>
         {imagesArr.map((item) => {
+          if (!item.filteredImg) {return}
 
           return (
             <div key={item.id} className={s.sliderItem} >
-              <Image src={item.img} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />
+              <Image src={item.filteredImg} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />
             </div>
           )
         })}

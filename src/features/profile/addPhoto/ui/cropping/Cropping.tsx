@@ -15,6 +15,7 @@ import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
+
 type Props = {
   photoPreview: string
   backBtn: () => void
@@ -41,6 +42,8 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
   const defaultPhoto: ImageType = {
     id: nanoid(),
     img: photoPreview,
+    croppedImg: null,
+    filteredImg: null,
     currentHeightImage: 0,
     currentWidthImage: 0,
     crop: { x: 0, y: 0 },
@@ -61,6 +64,8 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
       const photo = {
         id: nanoid(),
         img: base64,
+        croppedImg: null,
+        filteredImg: null,
         originalWidthImage: 0,
         originalHeightImage: 0,
         currentHeightImage: 497,
@@ -210,14 +215,14 @@ export const Cropping = ({ photoPreview, nextBtn, backBtn }: Props) => {
     const croppedImages = await Promise.all(
       images.map(async item => {
         if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
-          return item
+          return {...item, croppedImg: item.img}
         }
 
         const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
 
         return {
           ...item,
-          img: croppedImg
+          croppedImg
         }
       })
     )

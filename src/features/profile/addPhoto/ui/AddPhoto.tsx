@@ -35,7 +35,10 @@ export const AddPhoto = () => {
           />
         )
       case 'filter':
-        return <Filters imagesArr={images} />
+        return <Filters imagesArr={images} nextBtn={images => {
+          setMode('publication')
+          setImage(images)
+        }}/>
       case 'publication':
         return <Publication imagesArr={images} />
     }
@@ -43,7 +46,7 @@ export const AddPhoto = () => {
   
   return (
     <Modal
-      className={clsx(s.addPhoto, mode === 'cropping' && s.cropping, mode === 'filter' && s.filters)}
+      className={clsx(s.addPhoto, mode === 'cropping' && s.cropping, mode === 'filter' && s.filters, mode === 'publication' && s.publication)}
       modalTitle={mode === 'initialImg' ? 'Add Photo' : ''}
       open
       onClose={() => setOpen(!open)}
