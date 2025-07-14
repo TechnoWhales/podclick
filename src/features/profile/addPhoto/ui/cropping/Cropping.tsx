@@ -4,6 +4,7 @@ import Cropper from 'react-easy-crop'
 
 import clsx from 'clsx'
 
+import { useCropView } from '@/features/profile/addPhoto/hooks/useCropView'
 import { CroppedAreaPixelsType, ImageType, RationModeType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
@@ -70,62 +71,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   const ration4to5 = ratioMode === '4:5'
   const ration16to9 = ratioMode === '16:9'
 
-  useEffect(() => {
-    // Если у текущего изображения есть оригинальная ширина и высота,
-    // устанавливаем эти значения в состояние текущих размеров.
-    if(localImages[currentImage].originalWidthImage && localImages[currentImage].originalHeightImage) {
-      setCurrentHeightImage(localImages[currentImage].originalHeightImage)
-      setCurrentWidthImage(localImages[currentImage].originalWidthImage)
-    }
-
-    const { width: imageWidth, height: imageHeight } = {
-      width: localImages[currentImage].originalWidthImage,
-      height: localImages[currentImage].originalHeightImage
-    }
-
-    // Функция обновления размеров контейнера для обрезки и уровней зума.
-    const updateCropView = (containerW: number, containerH: number, zoom: number) => {
-      setCurrentWidthImage(containerW)
-      setCurrentHeightImage(containerH)
-      setMinZoom(zoom)
-      setZoom(zoom)
-    }
-
-    switch (ratioMode) {
-      case 'original': {
-        setMinZoom(1)
-        setZoom(1)
-        break
-      }
-      case '1:1': {
-        const containerW = 490
-        const containerH = 497
-        const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
-        const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
-
-        updateCropView(containerW, containerH, zoom)
-        break
-      }
-      case '4:5': {
-        const containerW = 394
-        const containerH = 497
-        const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
-        const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
-
-        updateCropView(containerW, containerH, zoom)
-        break
-      }
-      case '16:9': {
-        const containerW = 490
-        const containerH = 276
-        const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
-        const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth, imageHeight, zoomBoost })
-
-        updateCropView(containerW, containerH, zoom)
-        break
-      }
-    }
-  }, [ratioMode, setCrop, setZoom])
+  useCropView({localImages, setCurrentWidthImage, setCurrentHeightImage, setCrop, setZoom, setMinZoom, ratioMode, currentImage})
 
   const saveCroppingHandler = () => {
     const updated = {
@@ -150,6 +96,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
     setZoom(localImages[index].zoom)
     setMinZoom(localImages[index].minZoom)
     setCurrentImage(index)
+    debugger
   }
 
   const removePhotoHandler = (id: string) => {
