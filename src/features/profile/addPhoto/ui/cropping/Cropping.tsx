@@ -14,6 +14,7 @@ import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 
 
 type Props = {
@@ -43,26 +44,28 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   const [currentImage, setCurrentImage] = useState(0)
   const { UploadButton } = useUploadFile({
     typeFile: 'image',
-    onUpload: ({ base64 }) => {
-      if (!base64) {return}
+    onUpload: ({ base64: img }) => {
+      if (!img) {return}
 
-      const photo = {
-        id: nanoid(),
-        img: base64,
-        croppedImg: null,
-        filteredImg: null,
-        originalWidthImage: 0,
-        originalHeightImage: 0,
-        currentHeightImage: 497,
-        currentWidthImage: 490,
-        crop: { x: 0, y: 0 },
-        croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
-        zoom: 1,
-        minZoom: 1,
-        ration: 'original' as RationModeType,
-      }
+      // const photo = {
+      //   id: nanoid(),
+      //   img: base64,
+      //   croppedImg: null,
+      //   filteredImg: null,
+      //   originalWidthImage: 0,
+      //   originalHeightImage: 0,
+      //   currentHeightImage: 497,
+      //   currentWidthImage: 490,
+      //   crop: { x: 0, y: 0 },
+      //   croppedAreaPixels: {height: 0, width: 0, x: 0, y: 0},
+      //   zoom: 1,
+      //   minZoom: 1,
+      //   ration: 'original' as RationModeType,
+      // }
 
-      setLocalImage(prevState => [...prevState, photo])
+      const image = createImage(img)
+
+      setLocalImage(prevState => [...prevState, image])
     }
   })
 
