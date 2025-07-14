@@ -6,15 +6,17 @@ import clsx from 'clsx'
 
 import { CroppedAreaPixelsType, ImageType, RationModeType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
+import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { calculateZoom } from "@/features/profile/addPhoto/utils/calculateZoom";
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
+import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
 import { getZoomBoost } from "@/features/profile/addPhoto/utils/getZoomBoost";
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
+
 
 
 type Props = {
@@ -47,9 +49,18 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
     onUpload: ({ base64: img }) => {
       if (!img) {return}
 
-      const image = createImage(img)
+      const imageEl = new Image()
 
-      setLocalImage(prevState => [...prevState, image])
+      imageEl.src = img
+
+      imageEl.onload = () => {
+        const naturalWidthImage = imageEl.naturalWidth
+        const naturalHeightImage = imageEl.naturalHeight
+
+        const image = createImage({img, naturalWidthImage, naturalHeightImage})
+
+        setLocalImage(prevState => [...prevState, image])
+      }
     }
   })
 
@@ -186,6 +197,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
 
     const croppedImages = await Promise.all(
       localImages.map(async item => {
+
         if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
           return {...item, croppedImg: item.img}
         }
@@ -199,7 +211,21 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
       })
     )
 
-    nextBtn(croppedImages)
+    const formatedImages = croppedImages.map(item => {
+      if(item.currentWidthImage && item.currentHeightImage) {
+        return item
+      }
+
+      const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
+
+      return {
+        ...item,
+        currentHeightImage: height,
+        currentWidthImage: width
+      }
+    })
+
+    nextBtn(formatedImages)
   }
 
   const ratioOptions = [

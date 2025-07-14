@@ -2,7 +2,13 @@ import { nanoid } from '@reduxjs/toolkit'
 
 import { ImageType } from '@/features/profile/addPhoto/types/Image'
 
-export const createImage = (img: string): ImageType => {
+type Props = {
+  img: string
+  naturalWidthImage?: number
+  naturalHeightImage?: number
+}
+
+export const createImage = ({ img, naturalHeightImage = 0, naturalWidthImage = 0 }: Props): ImageType => {
   return {
     id: nanoid(),
     img,
@@ -11,6 +17,8 @@ export const createImage = (img: string): ImageType => {
     currentFilter: null,
     currentHeightImage: 0,
     currentWidthImage: 0,
+    naturalWidthImage,
+    naturalHeightImage,
     crop: { x: 0, y: 0 },
     ration: 'original',
     zoom: 1,
@@ -19,4 +27,4 @@ export const createImage = (img: string): ImageType => {
     originalHeightImage: 0,
     croppedAreaPixels: { height: 0, width: 0, x: 0, y: 0 },
   }
-};
+}

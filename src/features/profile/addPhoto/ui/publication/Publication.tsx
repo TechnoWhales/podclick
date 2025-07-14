@@ -3,11 +3,11 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 import { ImageType } from '@/features/profile/addPhoto/types/Image'
-import { Button, Icon, TextField, Typography } from '@/shared/components/ui'
+import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
+import { TextField } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scss'
-import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 
 type Props = {
   imagesArr: ImageType[]
@@ -43,7 +43,6 @@ export const Publication = ({imagesArr, backBtn}: Props) => {
           <TextField value={publicationText} onChange={(e) => setPublicationText(e.currentTarget.value)} label={'Add publication descriptions'} placeholder={'Text-area'} rows={5} multiline fullWidth margin={'12px 0 0'}/>
         </div>
         <hr className={s.line}/>
-        <div></div>
       </div>
     </div>
   </div>

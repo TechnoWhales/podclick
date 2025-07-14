@@ -19,6 +19,8 @@ export type ImageType = {
   originalHeightImage: number
   currentHeightImage: number
   currentWidthImage: number
+  naturalWidthImage: number,
+  naturalHeightImage: number,
   crop: { x: number, y: number }
   croppedAreaPixels: CroppedAreaPixelsType
   zoom: number
