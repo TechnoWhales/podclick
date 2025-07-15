@@ -1,4 +1,4 @@
-export const scaleImageToMaxSize = (origWidth: number, origHeight: number, minSideSize = 490) => {
+export const scaleImageToMaxSize = (origWidth: number, origHeight: number, minSideSize = 497) => {
   const isWidthLarger = origWidth >= origHeight
 
   const scale = minSideSize / (isWidthLarger ? origWidth : origHeight)

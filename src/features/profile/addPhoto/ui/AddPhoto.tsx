@@ -26,7 +26,10 @@ export const AddPhoto = () => {
         return (
           <Cropping
             images={images}
-            backBtn={() => setMode('initialImg')}
+            backBtn={() => {
+              setMode('initialImg')
+              setImage([])
+            }}
             nextBtn={images => {
               setMode('filter')
               setImage(images)
