@@ -9,6 +9,8 @@ import { Mutex } from 'async-mutex'
 
 import { ACCESS_TOKEN } from '@/shared/constants'
 
+import { handleBaseApiError } from './handleBaseApiError'
+
 const mutex = new Mutex()
 
 const baseQuery = fetchBaseQuery({
@@ -60,11 +62,24 @@ export const baseQueryWithReauth: BaseQueryFn<
       } else {
         sessionStorage.removeItem(ACCESS_TOKEN)
       }
-    } catch (e) {
-      console.error('Failed to refresh token:', e)
+    } catch (err) {
+      console.error('Failed to refresh token:', err)
     } finally {
       release()
     }
+  }
+
+  /**
+   * true, если текущий запрос — это запрос к эндпоинту "auth/me"
+   */
+  const isAuthMe =
+    (typeof args === 'string' && args === 'auth/me') ||
+    (typeof args === 'object' && args !== null && 'url' in args && (args as any).url === 'auth/me')
+
+  // Глобальная обработка ошибок (после всех попыток)
+  // Не показываем ошибку для запроса "auth/me" со статусом 401 (неавторизованный пользователь)
+  if (!(result.error?.status === 401 && isAuthMe)) {
+    handleBaseApiError(result)
   }
 
   return result
