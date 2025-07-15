@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import clsx from 'clsx'
@@ -8,11 +8,10 @@ import { useCropView } from '@/features/profile/addPhoto/hooks/useCropView'
 import { CroppedAreaPixelsType, ImageType, RationModeType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
-import { calculateZoom } from "@/features/profile/addPhoto/utils/calculateZoom";
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
-import { getZoomBoost } from "@/features/profile/addPhoto/utils/getZoomBoost";
+import { scaleImageToMaxSize } from '@/features/profile/addPhoto/utils/scaleImageToMaxSize'
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
@@ -31,7 +30,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
 
   // Текущие размеры изображения для отображения в окне кропинга
-  const [currentHeightImage, setCurrentHeightImage] = useState(497)
+  const [currentHeightImage, setCurrentHeightImage] = useState(490)
   const [currentWidthImage, setCurrentWidthImage] = useState(490)
   // Параметры для корректного кропинга
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixelsType>({
@@ -57,8 +56,18 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
       imageEl.onload = () => {
         const naturalWidthImage = imageEl.naturalWidth
         const naturalHeightImage = imageEl.naturalHeight
+        let image
 
-        const image = createImage({img, naturalWidthImage, naturalHeightImage})
+       if(naturalWidthImage < 490 && naturalHeightImage < 490) {
+
+          const {width, height} = scaleImageToMaxSize(naturalWidthImage, naturalHeightImage)
+
+          image = createImage({img, naturalWidthImage: width, naturalHeightImage: height})
+        } else {
+          image = createImage({img, naturalWidthImage, naturalHeightImage})
+       }
+
+
 
         setLocalImage(prevState => [...prevState, image])
       }
@@ -214,6 +223,17 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
                   if(localImages[currentImage] && localImages[currentImage].originalWidthImage !== 0 && localImages[currentImage].originalHeightImage !== 0) {
                     setCurrentHeightImage(localImages[currentImage].currentHeightImage)
                     setCurrentWidthImage(localImages[currentImage].currentWidthImage)
+                  } else if(width < 490 && height < 490) {
+                    const {width: currentWidthImage, height: currentHeightImage, zoom} = scaleImageToMaxSize(width, height)
+
+                    localImages[currentImage].originalWidthImage = width
+                    localImages[currentImage].originalHeightImage = height
+                    localImages[currentImage].currentWidthImage = currentWidthImage
+                    localImages[currentImage].currentHeightImage = currentHeightImage
+                    localImages[currentImage].naturalWidthImage = width
+                    localImages[currentImage].naturalHeightImage = height
+                    localImages[currentImage].zoom = zoom
+                    localImages[currentImage].minZoom = zoom
                   } else {
                     localImages[currentImage].originalWidthImage = width
                     localImages[currentImage].originalHeightImage = height
@@ -223,8 +243,10 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
                     setCurrentWidthImage(width)
                   }
 
+
                   if(localImages[currentImage].zoom !== 1) {
                     setZoom(localImages[currentImage].zoom)
+                    setMinZoom(localImages[currentImage].zoom)
                   }
 
                   if(localImages[currentImage].crop.x !== 0 && localImages[currentImage].crop.y !== 0) {

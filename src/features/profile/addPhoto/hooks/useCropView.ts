@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { ImageType } from '@/features/profile/addPhoto/types/Image'
 import { calculateZoom } from '@/features/profile/addPhoto/utils/calculateZoom'
 import { getZoomBoost } from '@/features/profile/addPhoto/utils/getZoomBoost'
+import { scaleImageToMaxSize } from '@/features/profile/addPhoto/utils/scaleImageToMaxSize'
 
 type UseCropViewProps = {
   ratioMode: 'original' | '1:1' | '4:5' | '16:9'
@@ -43,11 +44,24 @@ export const useCropView = (
 
     switch (ratioMode) {
       case 'original': {
-        setMinZoom(1)
-        setZoom(1)
+        const width = localImages[currentImage].naturalWidthImage
+        const height = localImages[currentImage].naturalHeightImage
+
+        if(width < 490 && height < 490) {
+          setCurrentWidthImage(localImages[currentImage].currentWidthImage)
+          setCurrentHeightImage(localImages[currentImage].currentHeightImage)
+          setMinZoom(localImages[currentImage].minZoom)
+          setZoom(localImages[currentImage].zoom)
+          debugger
+        } else {
+          setMinZoom(1)
+          setZoom(1)
+        }
+
         break
       }
       case '1:1': {
+        debugger
         const containerW = 490
         const containerH = 497
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
