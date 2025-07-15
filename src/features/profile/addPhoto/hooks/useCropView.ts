@@ -52,7 +52,6 @@ export const useCropView = (
           setCurrentHeightImage(localImages[currentImage].currentHeightImage)
           setMinZoom(localImages[currentImage].minZoom)
           setZoom(localImages[currentImage].zoom)
-          debugger
         } else {
           setMinZoom(1)
           setZoom(1)

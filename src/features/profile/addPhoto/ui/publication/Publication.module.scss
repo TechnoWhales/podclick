@@ -33,9 +33,19 @@
           margin-right: 12px;
         }
       }
-      & label {
-        color: var(--color-light-900);
-      }
+
+        .textLengthWrapper {
+          text-align: right;
+          color: var(--color-light-900);
+
+          .textLengthError {
+            margin-right: auto;
+            color: var(--color-danger-500);
+          }
+        }
+        & label {
+          color: var(--color-light-900);
+        }
     }
     .line {
       width: 100%;

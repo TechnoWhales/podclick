@@ -17,8 +17,6 @@ import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
-
-
 type Props = {
   images: ImageType[]
   backBtn: () => void
@@ -176,7 +174,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
         return item
       }
 
-      const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
+      const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 490)
 
       return {
         ...item,

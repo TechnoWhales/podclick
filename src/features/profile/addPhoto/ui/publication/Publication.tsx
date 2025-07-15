@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -8,6 +8,7 @@ import { TextField } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scss'
+import { clsx } from 'clsx'
 
 type Props = {
   imagesArr: ImageType[]
@@ -17,6 +18,11 @@ type Props = {
 export const Publication = ({imagesArr, backBtn}: Props) => {
   const [publicationText, setPublicationText] = useState('')
   const profileName = 'URLProfile'
+
+  const setPublicationTextHandler = (text: string) => {
+    if (text.length > 500) {return}
+    setPublicationText(text)
+  }
 
   const nextBtnHandler = () => {}
 
@@ -40,7 +46,10 @@ export const Publication = ({imagesArr, backBtn}: Props) => {
             <Image className={s.avatarImg} src={'./empty-photo.svg'} alt={'Avatar image'} width={36} height={36}/>
             {profileName}
           </div>
-          <TextField value={publicationText} onChange={(e) => setPublicationText(e.currentTarget.value)} label={'Add publication descriptions'} placeholder={'Text-area'} rows={5} multiline fullWidth margin={'12px 0 0'}/>
+          <div>
+            <TextField value={publicationText} onChange={(e) => setPublicationTextHandler(e.target.value)} label={'Add publication descriptions'} placeholder={'Text-area'} rows={5} multiline fullWidth margin={'12px 0 0'} />
+            <div className={s.textLengthWrapper}><span className={clsx(publicationText.length >= 500 && s.textLengthError)}>{publicationText.length}</span>/500</div>
+          </div>
         </div>
         <hr className={s.line}/>
       </div>
