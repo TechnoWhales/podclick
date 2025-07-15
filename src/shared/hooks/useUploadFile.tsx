@@ -1,6 +1,7 @@
 import { ComponentProps, useRef } from 'react'
 
 import { Button } from '@/shared/components/ui'
+import {notify} from "@/shared/lib/notify";
 
 /**
  * Список допустимых типов файлов.
@@ -8,6 +9,7 @@ import { Button } from '@/shared/components/ui'
 type FileType =
   | 'all'
   | 'image'
+    | 'pngjpeg'
   | 'video'
   | 'audio'
   | 'pdf'
@@ -24,6 +26,7 @@ type FileType =
 const MIME_TYPES: Record<FileType, string> = {
   all: '*/*',
   image: 'image/*',
+  pngjpeg: 'image/png, image/jpeg',
   video: 'video/*',
   audio: 'audio/*',
   pdf: 'application/pdf',
@@ -49,7 +52,10 @@ type Props = {
    * Возвращает объект с исходным файлом и его base64-представлением(e.target?.result).
    */
   onUpload?: ({ file, base64 }: { file: File; base64: string }) => void
+  maxSizeMB?: number //
 }
+
+
 
 /**
  * Кастомный хук для загрузки файлов.
@@ -60,8 +66,11 @@ type Props = {
  *   UploadButton: (props: ComponentProps<typeof Button>) => JSX.Element
  * }} — компонент кнопки, открывающей окно выбора файла.
  */
-export function useUploadFile({ typeFile = 'all', onUpload }: Props) {
+export function useUploadFile({ typeFile = 'all', onUpload, maxSizeMB = 20 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const MAX_SIZE_MB = maxSizeMB
+  const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024
 
   /**
    * Обработчик выбора файла.
@@ -72,6 +81,19 @@ export function useUploadFile({ typeFile = 'all', onUpload }: Props) {
     const file = inputRef.current?.files?.[0]
 
     if (!file) {return}
+
+    if (typeFile === 'pngjpeg' && !['image/png', 'image/jpeg'].includes(file.type)) {
+      notify.error("PNG or JPEG files only")
+
+      return
+    }
+
+
+    if (file.size > MAX_SIZE_BYTES) {
+      notify.error(`File size is too big. Max size is ${maxSizeMB}MB`)
+
+      return;
+    }
 
     const reader = new FileReader()
 

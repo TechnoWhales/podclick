@@ -14,7 +14,7 @@ type Props = {
 }
 
 export const InitialPhotoUpload = ({setImage, nextBtn}: Props) => {
-  const {UploadButton} = useUploadFile({typeFile: 'image', onUpload: ({base64: img}) => {
+  const {UploadButton} = useUploadFile({typeFile: 'pngjpeg', onUpload: ({base64: img}) => {
       if (!img) {return}
       
       const image = createImage({img})

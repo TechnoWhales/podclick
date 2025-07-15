@@ -45,7 +45,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   const [localImages, setLocalImage] = useState<ImageType[]>(images)
   const [currentImage, setCurrentImage] = useState(0)
   const { UploadButton } = useUploadFile({
-    typeFile: 'image',
+    typeFile: 'pngjpeg',
     onUpload: ({ base64: img }) => {
       if (!img) {return}
 
