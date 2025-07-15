@@ -105,7 +105,6 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
     setZoom(localImages[index].zoom)
     setMinZoom(localImages[index].minZoom)
     setCurrentImage(index)
-    debugger
   }
 
   const removePhotoHandler = (id: string) => {
@@ -153,7 +152,12 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
 
     const croppedImages = await Promise.all(
       localImages.map(async item => {
+        if (item.naturalHeightImage && item.naturalWidthImage) {
+          const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
 
+          item.currentHeightImage = height
+          item.currentWidthImage = width
+        }
         if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
           return {...item, croppedImg: item.img}
         }

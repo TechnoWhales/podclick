@@ -1,24 +1,6 @@
 .cropping {
 height: 100%;
 }
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  height: 60px;
-  .arrowBack {
-    cursor: pointer;
-    margin-left: 32px;
-  }
-
-  .nextBtn {
-    margin-right: 36px;
-    padding: 0;
-    cursor: pointer;
-  }
-}
 
 .container {
   position: relative;
