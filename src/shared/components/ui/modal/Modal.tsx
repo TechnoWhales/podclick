@@ -17,6 +17,7 @@ type Props = {
   padding?: string
   showCloseButton?: boolean
   modalDescription?: string
+  offBackgroundAnimation?: boolean
 } & ComponentPropsWithoutRef<'div'>
 
 export const Modal = ({
@@ -27,11 +28,12 @@ export const Modal = ({
   className,
   open,
   modalDescription,
+                        offBackgroundAnimation,
   ...rest
 }: Props) => (
   <Dialog.Root open={open} onOpenChange={onClose} {...rest}>
     <Dialog.Portal>
-      <Dialog.Overlay className={s.overlay} />
+      <Dialog.Overlay className={clsx(s.overlay, offBackgroundAnimation && s.offBackgroundAnimation)}/>
       <Dialog.Content className={clsx(s.content, s[size], className)}>
         <Dialog.Title className={clsx(s.title, !modalTitle && s.hideTitle)}>
           {modalTitle && modalTitle}
