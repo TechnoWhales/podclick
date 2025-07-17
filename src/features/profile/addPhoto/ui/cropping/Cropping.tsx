@@ -4,20 +4,16 @@ import Cropper from 'react-easy-crop'
 
 import clsx from 'clsx'
 
-import { useCropView } from '@/features/profile/addPhoto/hooks/useCropView'
 import { CroppedAreaPixelsType, ImageType, RatioType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 import { fitImageToContainerOrRatio } from '@/features/profile/addPhoto/utils/fitImageToContainerOrRatio'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
-import { scaleImageToMaxSize } from '@/features/profile/addPhoto/utils/scaleImageToMaxSize'
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
-import { getZoomBoost } from '@/features/profile/addPhoto/utils/getZoomBoost'
-import { calculateZoom } from '@/features/profile/addPhoto/utils/calculateZoom'
 
 type Props = {
   images: ImageType[]
@@ -85,7 +81,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
 
         return
     }
-    const {currentWidthImage, currentHeightImage, zoom} = fitImageToContainerOrRatio({currentImage, currentRatio, images: localImages})
+    const {currentWidthImage, currentHeightImage, zoom} = fitImageToContainerOrRatio({currentRatio, image: localImages[currentImage]})
 
       setCurrentHeightImage(currentHeightImage)
       setCurrentWidthImage(currentWidthImage)
@@ -136,7 +132,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
 
     if (index === -1 || index === 0) {return}
 
-    const filteredImages = localImages.filter((item, i) => i !== index)
+    const filteredImages = localImages.filter((_, i) => i !== index)
 
     setLocalImage(filteredImages)
     setCurrentImage(index - 1)
@@ -148,44 +144,30 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   }
 
   const nextBtnHandler = async () => {
-    // if (localImages.length === 0) {return}
-    //
-    // const croppedImages = await Promise.all(
-    //   localImages.map(async item => {
-    //     if (item.naturalHeightImage && item.naturalWidthImage) {
-    //       const {width, height} = fitImageToContainerOrRatio(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
-    //
-    //       item.currentHeightImage = height
-    //       item.currentWidthImage = width
-    //     }
-    //     if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
-    //       return {...item, croppedImg: item.img}
-    //     }
-    //
-    //     const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
-    //
-    //     return {
-    //       ...item,
-    //       croppedImg
-    //     }
-    //   })
-    // )
-    //
-    // const formatedImages = croppedImages.map(item => {
-    //   if(item.currentWidthImage && item.currentHeightImage) {
-    //     return item
-    //   }
-    //
-    //   const {width, height} = fitImageToContainerOrRatio(item.naturalWidthImage, item.naturalHeightImage, 490, 490)
-    //
-    //   return {
-    //     ...item,
-    //     currentHeightImage: height,
-    //     currentWidthImage: width
-    //   }
-    // })
-    //
-    // nextBtn(formatedImages)
+    if (localImages.length === 0) {return}
+
+    const croppedImages = await Promise.all(
+      localImages.map(async item => {
+        if (!item.currentHeightImage && !item.currentWidthImage) {
+          const {currentWidthImage, currentHeightImage} = fitImageToContainerOrRatio({currentRatio: item.ratio, image: item})
+
+          item.currentHeightImage = currentHeightImage
+          item.currentWidthImage = currentWidthImage
+        }
+        if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
+          return {...item, croppedImg: item.img}
+        }
+
+        const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
+
+        return {
+          ...item,
+          croppedImg
+        }
+      })
+    )
+
+    nextBtn(croppedImages)
   }
 
   const ratioOptions = [

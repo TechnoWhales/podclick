@@ -3,26 +3,25 @@ import { calculateZoom } from '@/features/profile/addPhoto/utils/calculateZoom'
 import { getZoomBoost } from '@/features/profile/addPhoto/utils/getZoomBoost'
 
 type Props = {
-  images: ImageType[]
+  image: ImageType
   currentRatio: RatioType
-  currentImage: number
 }
 
 const maxSize = 490
 
-export const fitImageToContainerOrRatio = ({ images, currentRatio, currentImage }: Props) => {
-  const originalWidth = images[currentImage].naturalWidthImage
-  const originalHeight = images[currentImage].naturalHeightImage
+export const fitImageToContainerOrRatio = ({ image, currentRatio }: Props) => {
+  const naturalWidth = image.naturalWidthImage
+  const naturalHeight = image.naturalHeightImage
   let zoom: number = 1;
 
-  const widthRatio = maxSize / originalWidth
-  const heightRatio = maxSize / originalHeight
+  const widthRatio = maxSize / naturalWidth
+  const heightRatio = maxSize / naturalHeight
   const scaleFactor = Math.min(widthRatio, heightRatio)
 
-  const currentWidthImage = Math.round(originalWidth * scaleFactor)
-  const currentHeightImage = Math.round(originalHeight * scaleFactor)
+  const currentWidthImage = Math.round(naturalWidth * scaleFactor)
+  const currentHeightImage = Math.round(naturalHeight * scaleFactor)
 
-  if (originalWidth < maxSize && originalHeight < maxSize) {
+  if (naturalWidth < maxSize && naturalHeight < maxSize) {
       zoom = scaleFactor
   }
 
@@ -34,9 +33,9 @@ export const fitImageToContainerOrRatio = ({ images, currentRatio, currentImage 
     const zoomBoost = getZoomBoost(currentWidthImage, currentHeightImage, containerW, containerH)
     const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: currentWidthImage, imageHeight: currentHeightImage, zoomBoost })
 
-    if (originalWidth < maxSize && originalHeight < maxSize) {
-      const zoomBoost = getZoomBoost(originalWidth, originalHeight, containerW, containerH)
-      const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: originalWidth, imageHeight: originalHeight, zoomBoost })
+    if (naturalWidth < maxSize && naturalHeight < maxSize) {
+      const zoomBoost = getZoomBoost(naturalWidth, naturalHeight, containerW, containerH)
+      const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: naturalWidth, imageHeight: naturalHeight, zoomBoost })
 
       return { currentWidthImage: containerW, currentHeightImage: containerH, zoom: zoom }
     }
@@ -49,9 +48,9 @@ export const fitImageToContainerOrRatio = ({ images, currentRatio, currentImage 
     const zoomBoost = getZoomBoost(currentWidthImage, currentHeightImage, containerW, containerH)
     const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: currentWidthImage, imageHeight: currentHeightImage, zoomBoost })
 
-    if (originalWidth < maxSize && originalHeight < maxSize) {
-      const zoomBoost = getZoomBoost(originalWidth, originalHeight, containerW, containerH)
-      const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: originalWidth, imageHeight: originalHeight, zoomBoost })
+    if (naturalWidth < maxSize && naturalHeight < maxSize) {
+      const zoomBoost = getZoomBoost(naturalWidth, naturalHeight, containerW, containerH)
+      const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: naturalWidth, imageHeight: naturalHeight, zoomBoost })
 
       return { currentWidthImage: containerW, currentHeightImage: containerH, zoom: zoom }
     }
@@ -64,9 +63,9 @@ export const fitImageToContainerOrRatio = ({ images, currentRatio, currentImage 
     const zoomBoost = getZoomBoost(currentWidthImage, currentHeightImage, containerW, containerH)
     const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: currentWidthImage, imageHeight: currentHeightImage, zoomBoost })
 
-    if (originalWidth < maxSize && originalHeight < maxSize) {
-      const zoomBoost = getZoomBoost(originalWidth, originalHeight, containerW, containerH)
-      const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: originalWidth, imageHeight: originalHeight, zoomBoost })
+    if (naturalWidth < maxSize && naturalHeight < maxSize) {
+      const zoomBoost = getZoomBoost(naturalWidth, naturalHeight, containerW, containerH)
+      const zoom = calculateZoom({ containerWidth: containerW, containerHeight: containerH, imageWidth: naturalWidth, imageHeight: naturalHeight, zoomBoost })
 
       return { currentWidthImage: containerW, currentHeightImage: containerH, zoom: zoom }
     }
@@ -75,6 +74,4 @@ export const fitImageToContainerOrRatio = ({ images, currentRatio, currentImage 
   }
 
   return { currentWidthImage, currentHeightImage, zoom }
-
-
 }
