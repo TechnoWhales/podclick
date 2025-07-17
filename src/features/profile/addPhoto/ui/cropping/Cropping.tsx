@@ -1,21 +1,23 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import clsx from 'clsx'
 
 import { useCropView } from '@/features/profile/addPhoto/hooks/useCropView'
-import { CroppedAreaPixelsType, ImageType, RationModeType } from '@/features/profile/addPhoto/types/Image'
+import { CroppedAreaPixelsType, ImageType, RatioType } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
-import { fitImageToContainer } from '@/features/profile/addPhoto/utils/fitImageToContainer'
+import { fitImageToContainerOrRatio } from '@/features/profile/addPhoto/utils/fitImageToContainerOrRatio'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
 import { scaleImageToMaxSize } from '@/features/profile/addPhoto/utils/scaleImageToMaxSize'
 import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
+import { getZoomBoost } from '@/features/profile/addPhoto/utils/getZoomBoost'
+import { calculateZoom } from '@/features/profile/addPhoto/utils/calculateZoom'
 
 type Props = {
   images: ImageType[]
@@ -39,9 +41,10 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   const [minZoom, setMinZoom] = useState(1)
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
-  const [ratioMode, setRatioMode] = useState<RationModeType>('original')
+  const [currentRatio, setCurrentRatio] = useState<RatioType>('original')
   const [localImages, setLocalImage] = useState<ImageType[]>(images)
   const [currentImage, setCurrentImage] = useState(0)
+  // const [currentImage, setCurrentImage] = useState(0)
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
     onUpload: ({ base64: img }) => {
@@ -54,16 +57,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
       imageEl.onload = () => {
         const naturalWidthImage = imageEl.naturalWidth
         const naturalHeightImage = imageEl.naturalHeight
-        let image
-
-       if(naturalWidthImage < 490 && naturalHeightImage < 490) {
-
-          const {width, height} = scaleImageToMaxSize(naturalWidthImage, naturalHeightImage)
-
-          image = createImage({img, naturalWidthImage: width, naturalHeightImage: height})
-        } else {
-          image = createImage({img, naturalWidthImage, naturalHeightImage})
-       }
+        const image = createImage({img, naturalWidthImage, naturalHeightImage})
 
         setLocalImage(prevState => [...prevState, image])
       }
@@ -71,72 +65,92 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   })
 
   const maxZoom = 10
-  const rationOriginal = ratioMode === 'original'
-  const ration1to1 = ratioMode === '1:1'
-  const ration4to5 = ratioMode === '4:5'
-  const ration16to9 = ratioMode === '16:9'
+  const rationOriginal = currentRatio === 'original'
+  const ration1to1 = currentRatio === '1:1'
+  const ration4to5 = currentRatio === '4:5'
+  const ration16to9 = currentRatio === '16:9'
 
-  useCropView({localImages, setCurrentWidthImage, setCurrentHeightImage, setCrop, setZoom, setMinZoom, ratioMode, currentImage})
+  // useCropView({localImages, setCurrentWidthImage, setCurrentHeightImage, setCrop, setZoom, setMinZoom, ratioMode, currentImage})
+
+  useEffect(() => {
+    const {currentWidthImage, currentHeightImage, zoom} = fitImageToContainerOrRatio({currentImage, currentRatio, images: localImages})
+
+    setCurrentHeightImage(currentHeightImage)
+    setCurrentWidthImage(currentWidthImage)
+    setZoom(zoom)
+    setMinZoom(zoom)
+  }, [currentImage, currentRatio])
 
   const saveCroppingHandler = () => {
     const updated = {
       crop: { x: crop.x, y: crop.y },
       zoom,
       minZoom,
-      ration: ratioMode,
+      ratio: currentRatio,
       currentHeightImage,
       currentWidthImage,
       croppedAreaPixels,
     }
 
-    Object.assign(localImages[currentImage], updated)
+    const updatedImages = localImages.map((item, i) => {
+      if (i === currentImage) {
+        return {
+          ...item,
+          ...updated
+        }
+      }
+
+      return item
+    })
+
+    setLocalImage(updatedImages)
   }
 
   const setCurrentPhotoHandler = (index: number) => {
-    if (index === currentImage) {return}
-    setRatioMode(localImages[index].ration)
-    setCurrentHeightImage(localImages[index].currentHeightImage)
-    setCurrentWidthImage(localImages[index].currentWidthImage)
-    setCrop({x: localImages[index].crop.x, y: localImages[index].crop.y})
-    setZoom(localImages[index].zoom)
-    setMinZoom(localImages[index].minZoom)
-    setCurrentImage(index)
+    // if (index === currentImage) {return}
+    // setRatioMode(localImages[index].ration)
+    // setCurrentHeightImage(localImages[index].currentHeightImage)
+    // setCurrentWidthImage(localImages[index].currentWidthImage)
+    // setCrop({x: localImages[index].crop.x, y: localImages[index].crop.y})
+    // setZoom(localImages[index].zoom)
+    // setMinZoom(localImages[index].minZoom)
+    // setCurrentImage(index)
   }
 
   const removePhotoHandler = (id: string) => {
-    if (localImages.length === 1) {return}
-
-    let removedIndex = -1
-
-    const updatedPhotos = localImages.filter((photo, i) => {
-      if (photo.id === id) {
-        removedIndex = i
-
-        return false
-      }
-
-      return true
-    })
-
-    setLocalImage(updatedPhotos)
-
-    let newIndex = 0
-    
-    if (removedIndex > 0) {
-      newIndex = removedIndex - 1
-    }
-
-    const photo = updatedPhotos[newIndex]
-
-    if (photo) {
-      setRatioMode(photo.ration)
-      setCurrentHeightImage(photo.currentHeightImage)
-      setCurrentWidthImage(photo.currentWidthImage)
-      setCrop({ x: photo.crop.x, y: photo.crop.y })
-      setZoom(photo.zoom)
-      setMinZoom(photo.minZoom)
-      setCurrentImage(newIndex)
-    }
+    // if (localImages.length === 1) {return}
+    //
+    // let removedIndex = -1
+    //
+    // const updatedPhotos = localImages.filter((photo, i) => {
+    //   if (photo.id === id) {
+    //     removedIndex = i
+    //
+    //     return false
+    //   }
+    //
+    //   return true
+    // })
+    //
+    // setLocalImage(updatedPhotos)
+    //
+    // let newIndex = 0
+    //
+    // if (removedIndex > 0) {
+    //   newIndex = removedIndex - 1
+    // }
+    //
+    // const photo = updatedPhotos[newIndex]
+    //
+    // if (photo) {
+    //   setRatioMode(photo.ration)
+    //   setCurrentHeightImage(photo.currentHeightImage)
+    //   setCurrentWidthImage(photo.currentWidthImage)
+    //   setCrop({ x: photo.crop.x, y: photo.crop.y })
+    //   setZoom(photo.zoom)
+    //   setMinZoom(photo.minZoom)
+    //   setCurrentImage(newIndex)
+    // }
   }
 
   const onCropComplete = (_: any, croppedAreaPixels: CroppedAreaPixelsType) => {
@@ -144,44 +158,44 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   }
 
   const nextBtnHandler = async () => {
-    if (localImages.length === 0) {return}
-
-    const croppedImages = await Promise.all(
-      localImages.map(async item => {
-        if (item.naturalHeightImage && item.naturalWidthImage) {
-          const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
-
-          item.currentHeightImage = height
-          item.currentWidthImage = width
-        }
-        if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
-          return {...item, croppedImg: item.img}
-        }
-
-        const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
-
-        return {
-          ...item,
-          croppedImg
-        }
-      })
-    )
-
-    const formatedImages = croppedImages.map(item => {
-      if(item.currentWidthImage && item.currentHeightImage) {
-        return item
-      }
-
-      const {width, height} = fitImageToContainer(item.naturalWidthImage, item.naturalHeightImage, 490, 490)
-
-      return {
-        ...item,
-        currentHeightImage: height,
-        currentWidthImage: width
-      }
-    })
-
-    nextBtn(formatedImages)
+    // if (localImages.length === 0) {return}
+    //
+    // const croppedImages = await Promise.all(
+    //   localImages.map(async item => {
+    //     if (item.naturalHeightImage && item.naturalWidthImage) {
+    //       const {width, height} = fitImageToContainerOrRatio(item.naturalWidthImage, item.naturalHeightImage, 490, 497)
+    //
+    //       item.currentHeightImage = height
+    //       item.currentWidthImage = width
+    //     }
+    //     if(item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
+    //       return {...item, croppedImg: item.img}
+    //     }
+    //
+    //     const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
+    //
+    //     return {
+    //       ...item,
+    //       croppedImg
+    //     }
+    //   })
+    // )
+    //
+    // const formatedImages = croppedImages.map(item => {
+    //   if(item.currentWidthImage && item.currentHeightImage) {
+    //     return item
+    //   }
+    //
+    //   const {width, height} = fitImageToContainerOrRatio(item.naturalWidthImage, item.naturalHeightImage, 490, 490)
+    //
+    //   return {
+    //     ...item,
+    //     currentHeightImage: height,
+    //     currentWidthImage: width
+    //   }
+    // })
+    //
+    // nextBtn(formatedImages)
   }
 
   const ratioOptions = [
@@ -197,7 +211,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
         <div className={clsx(s.container)}>
           <div className={s.cropWrapper}>
             <Cropper
-                image={localImages[currentImage]?.img || localImages[0].img}
+                image={localImages[currentImage].img}
                 crop={crop}
                 zoom={zoom}
                 minZoom={minZoom}
@@ -219,40 +233,39 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
                   },
                 }}
                 onCropComplete={onCropComplete}
-                onMediaLoaded={({ width, height }) => {
-                  if(localImages[currentImage] && localImages[currentImage].originalWidthImage !== 0 && localImages[currentImage].originalHeightImage !== 0) {
-                    setCurrentHeightImage(localImages[currentImage].currentHeightImage)
-                    setCurrentWidthImage(localImages[currentImage].currentWidthImage)
-                  } else if(width < 490 && height < 490) {
-                    const {width: currentWidthImage, height: currentHeightImage, zoom} = scaleImageToMaxSize(width, height)
-
-                    localImages[currentImage].originalWidthImage = width
-                    localImages[currentImage].originalHeightImage = height
-                    localImages[currentImage].currentWidthImage = currentWidthImage
-                    localImages[currentImage].currentHeightImage = currentHeightImage
-                    localImages[currentImage].naturalWidthImage = width
-                    localImages[currentImage].naturalHeightImage = height
-                    localImages[currentImage].zoom = zoom
-                    localImages[currentImage].minZoom = zoom
-                  } else {
-                    localImages[currentImage].originalWidthImage = width
-                    localImages[currentImage].originalHeightImage = height
-                    localImages[currentImage].currentWidthImage = width
-                    localImages[currentImage].currentHeightImage = height
-                    setCurrentHeightImage(height)
-                    setCurrentWidthImage(width)
-                  }
-
-
-                  if(localImages[currentImage].zoom !== 1) {
-                    setZoom(localImages[currentImage].zoom)
-                    setMinZoom(localImages[currentImage].zoom)
-                  }
-
-                  if(localImages[currentImage].crop.x !== 0 && localImages[currentImage].crop.y !== 0) {
-                    setCrop({x: localImages[currentImage].crop.x, y: localImages[currentImage].crop.y})
-                  }
-                }}
+                // onMediaLoaded={({ width, height }) => {
+                //   if(localImages[currentImage] && localImages[currentImage].originalWidthImage !== 0 && localImages[currentImage].originalHeightImage !== 0) {
+                //     setCurrentHeightImage(localImages[currentImage].currentHeightImage)
+                //     setCurrentWidthImage(localImages[currentImage].currentWidthImage)
+                //   } else if(width < 490 && height < 490) {
+                //     const {width: currentWidthImage, height: currentHeightImage, zoom} = scaleImageToMaxSize(width, height)
+                //     localImages[currentImage].originalWidthImage = width
+                //     localImages[currentImage].originalHeightImage = height
+                //     localImages[currentImage].currentWidthImage = currentWidthImage
+                //     localImages[currentImage].currentHeightImage = currentHeightImage
+                //     localImages[currentImage].naturalWidthImage = width
+                //     localImages[currentImage].naturalHeightImage = height
+                //     localImages[currentImage].zoom = zoom
+                //     localImages[currentImage].minZoom = zoom
+                //   } else {
+                //     localImages[currentImage].originalWidthImage = width
+                //     localImages[currentImage].originalHeightImage = height
+                //     localImages[currentImage].currentWidthImage = width
+                //     localImages[currentImage].currentHeightImage = height
+                //     setCurrentHeightImage(height)
+                //     setCurrentWidthImage(width)
+                //   }
+                //
+                //
+                //   if(localImages[currentImage].zoom !== 1) {
+                //     setZoom(localImages[currentImage].zoom)
+                //     setMinZoom(localImages[currentImage].zoom)
+                //   }
+                //
+                //   if(localImages[currentImage].crop.x !== 0 && localImages[currentImage].crop.y !== 0) {
+                //     setCrop({x: localImages[currentImage].crop.x, y: localImages[currentImage].crop.y})
+                //   }
+                // }}
             />
           </div>
           <div className={s.popoversWrapper}>
@@ -262,7 +275,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
                     <div
                         key={value}
                         className={clsx(s.aspectRatioWrapper, value === 'original' && s.imageOutline, isActive && s.active)}
-                        onClick={() => setRatioMode(value)}
+                        onClick={() => setCurrentRatio(value)}
                     >
                       <Typography variant={isActive ? 'h3' : 'regular_text_16'}>{label}</Typography>
                       <Icon iconId={icon} />

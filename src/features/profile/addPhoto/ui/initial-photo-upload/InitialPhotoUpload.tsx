@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import { openDB } from 'idb'
 import Image from 'next/image'
@@ -19,12 +21,21 @@ type Props = {
 export const InitialPhotoUpload = ({setImage, nextBtn, setMode, openDraft}: Props) => {
   const {UploadButton} = useUploadFile({typeFile: 'pngjpeg', onUpload: ({base64: img}) => {
       if (!img) {return}
-      
-      const image = createImage({img})
 
-      setImage(image)
-      nextBtn()
+      const imageEl = new window.Image()
+
+      imageEl.src = img
+
+      imageEl.onload = () => {
+        const naturalWidthImage = imageEl.naturalWidth
+        const naturalHeightImage = imageEl.naturalHeight
+        const image = createImage({img, naturalWidthImage, naturalHeightImage})
+        
+        setImage(image)
+        nextBtn()
+      }
     }})
+  
 
   const openDraftHandler = async ()  => {
     const imagesDB = await openDB('addPhotoImages', 1);

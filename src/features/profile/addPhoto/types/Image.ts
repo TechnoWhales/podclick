@@ -5,7 +5,7 @@ export type CroppedAreaPixelsType = {
   y: number
 }
 
-export type RationModeType = '1:1' | '4:5' | '16:9' | 'original'
+export type RatioType = '1:1' | '4:5' | '16:9' | 'original'
 
 export type Mode = "initialImg" |'cropping' | 'filter' | 'publication'
 
@@ -25,7 +25,7 @@ export type ImageType = {
   croppedAreaPixels: CroppedAreaPixelsType
   zoom: number
   minZoom: number
-  ration: RationModeType
+  ratio: RatioType
 }
 
 export type FiltersType = {filter: 'normal', name: 'Normal', value: null}

@@ -20,7 +20,7 @@ export const createImage = ({ img, naturalHeightImage = 0, naturalWidthImage = 0
     naturalWidthImage,
     naturalHeightImage,
     crop: { x: 0, y: 0 },
-    ration: 'original',
+    ratio: 'original',
     zoom: 1,
     minZoom: 1,
     originalWidthImage: 0,
