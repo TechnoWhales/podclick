@@ -88,7 +88,7 @@ export const AddPhoto = () => {
       onClose={closeHandler}
     >
       {renderContent()}
-      <Modal modalTitle={'Close'} open={openCloseModal} onClose={closeHandler} size={'sm'}>
+      <Modal offBackgroundAnimation modalTitle={'Close'} open={openCloseModal} onClose={() => setOpenCloseModal(false)} size={'sm'}>
         <div className={s.textCloseModalWrapper}>
           <Typography  variant={'regular_text_16'}>
             Do you really want to close the creation of a publication?
@@ -98,7 +98,7 @@ export const AddPhoto = () => {
           </Typography>
         </div>
         <div className={s.btnCloseModalWrapper}>
-          <Button onClick={discardHandler} variant={'outlined'} >Discard</Button>
+          <Button onClick={discardHandler} variant={'outlined'}>Discard</Button>
           <Button onClick={saveDraftHandler}>Save draft</Button>
         </div>
       </Modal>

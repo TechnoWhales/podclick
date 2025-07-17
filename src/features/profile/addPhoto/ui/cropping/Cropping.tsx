@@ -65,8 +65,6 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
           image = createImage({img, naturalWidthImage, naturalHeightImage})
        }
 
-
-
         setLocalImage(prevState => [...prevState, image])
       }
     }

@@ -49,7 +49,7 @@ export const useCropView = (
 
         if(width < 490 && height < 490) {
           setCurrentWidthImage(localImages[currentImage].currentWidthImage)
-          setCurrentHeightImage(localImages[currentImage].currentHeightImage)
+          setCurrentHeightImage(localImages[currentImage].currentWidthImage)
           setMinZoom(localImages[currentImage].minZoom)
           setZoom(localImages[currentImage].zoom)
         } else {
@@ -60,7 +60,6 @@ export const useCropView = (
         break
       }
       case '1:1': {
-        debugger
         const containerW = 490
         const containerH = 497
         const zoomBoost = getZoomBoost(imageWidth, imageHeight, containerW, containerH)
