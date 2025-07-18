@@ -35,7 +35,6 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
   ]
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
-    debugger
     const newFilter = localImages.map((item, i) => {
       if (i === index) {
         return {

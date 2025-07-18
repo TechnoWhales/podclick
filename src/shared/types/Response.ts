@@ -1,4 +1,4 @@
-export type Message = { message: string; field: 'userName' | 'email' }
+export type Message = { message: string; field: string }
 
 export type ApiErrorResponse = {
   statusCode: number

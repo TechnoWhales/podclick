@@ -23,8 +23,6 @@ export const createImage = ({ img, naturalHeightImage = 0, naturalWidthImage = 0
     ratio: 'original',
     zoom: 1,
     minZoom: 1,
-    originalWidthImage: 0,
-    originalHeightImage: 0,
     croppedAreaPixels: { height: 0, width: 0, x: 0, y: 0 },
   }
 }
