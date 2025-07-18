@@ -23,9 +23,10 @@ type Props = {
   images: ImageType[]
   backBtn: () => void
   nextBtn: (images: ImageType[]) => void
+  setImage: (images: ImageType[]) => void
 }
 
-export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
+export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [isFirstLoading, setIsFistLoading] = useState(true)
@@ -45,17 +46,17 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
   const [minZoom, setMinZoom] = useState(1)
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
-  const [currentRatio, setCurrentRatio] = useState<RatioType>('original')
+  const [currentRatio, setCurrentRatio] = useState<RatioType>('1:1')
   const [localImages, setLocalImage] = useState<ImageType[]>(images)
   const [currentImage, setCurrentImage] = useState(0)
 
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
-    onUpload: ({ base64: img, file }) => {
+    onUpload: ({ base64: img }) => {
       if (!img) {
         return
       }
-      debugger
+
       const imageEl = new Image()
 
       imageEl.src = img
@@ -66,6 +67,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
         const image = createImage({ img, naturalWidthImage, naturalHeightImage })
 
         setLocalImage(prevState => [...prevState, image])
+        setImage([...localImages, image])
       }
     },
   })
@@ -105,6 +107,10 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
     setMinZoom(zoom)
   }, [currentRatio, currentImage])
 
+  useEffect(() => {
+    saveCroppingHandler()
+  }, [crop, zoom])
+
   const saveCroppingHandler = () => {
     const updated = {
       crop: { x: crop.x, y: crop.y },
@@ -127,6 +133,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
       return item
     })
 
+    setImage(updatedImages)
     setLocalImage(updatedImages)
   }
 
@@ -183,6 +190,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
           item.currentHeightImage = currentHeightImage
           item.currentWidthImage = currentWidthImage
         }
+
         if (item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
           return { ...item, croppedImg: item.img }
         }
@@ -196,6 +204,7 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
       })
     )
 
+    setIsFistLoading(true)
     nextBtn(croppedImages)
   }
 
@@ -237,6 +246,9 @@ export const Cropping = ({ images, nextBtn, backBtn }: Props) => {
                   currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '10px',
                 borderBottomRightRadius:
                   currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '10px',
+              },
+              mediaStyle: {
+                filter: images[currentImage]?.currentFilter?.value || '',
               },
             }}
             onCropComplete={onCropComplete}

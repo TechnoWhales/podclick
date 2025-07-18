@@ -11,27 +11,47 @@ import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from '@/features/profile/addPhoto/ui/filters/Filters.module.scss'
 
-
 type Props = {
   images: ImageType[]
   nextBtn: (images: ImageType[]) => void
   backBtn: () => void
+  setImage: (image: ImageType[]) => void
 }
 
-export const Filters = ({images, nextBtn, backBtn}: Props) => {
+export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [localImages, setLocalImage] = useState<ImageType[]>(images)
 
   const filters: FiltersType[] = [
-    {filter: 'normal', name: 'Normal', value: null},
-    {filter: 'clarendon', name: 'Clarendon', value: 'contrast(1.2) saturate(1.35) brightness(1.1) hue-rotate(-10deg)'},
-    {filter: 'lark', name: 'Lark', value: 'saturate(1.5) brightness(1.15) contrast(1.1)'},
-    {filter: 'gingham', name: 'Gingham', value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)'},
-    {filter: 'moon', name: 'Moon', value: "grayscale(1) brightness(1.2) contrast(1.1)"},
-    {filter: 'gingham', name: 'Gingham', value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)'},
-    {filter: 'gingham', name: 'Gingham', value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)'},
-    {filter: 'moon', name: 'Moon', value: "grayscale(1) brightness(1.2) contrast(1.1)"},
-    {filter: 'gingham', name: 'Gingham', value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)'},
+    { filter: 'normal', name: 'Normal', value: null },
+    {
+      filter: 'clarendon',
+      name: 'Clarendon',
+      value: 'contrast(1.2) saturate(1.35) brightness(1.1) hue-rotate(-10deg)',
+    },
+    { filter: 'lark', name: 'Lark', value: 'saturate(1.5) brightness(1.15) contrast(1.1)' },
+    {
+      filter: 'gingham',
+      name: 'Gingham',
+      value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+    },
+    { filter: 'moon', name: 'Moon', value: 'grayscale(1) brightness(1.2) contrast(1.1)' },
+    {
+      filter: 'gingham',
+      name: 'Gingham',
+      value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+    },
+    {
+      filter: 'gingham',
+      name: 'Gingham',
+      value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+    },
+    { filter: 'moon', name: 'Moon', value: 'grayscale(1) brightness(1.2) contrast(1.1)' },
+    {
+      filter: 'gingham',
+      name: 'Gingham',
+      value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+    },
   ]
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
@@ -46,21 +66,26 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
       return item
     })
 
-    return setLocalImage(newFilter)
+    setLocalImage(newFilter)
+    setImage(newFilter)
   }
 
   const nextBtnHandler = async () => {
     const filteredImg = await Promise.all(
       localImages.map(async item => {
-        if (!item.croppedImg || !item.currentFilter?.value) {return {...item, filteredImg: item.croppedImg}}
+        if (!item.croppedImg || !item.currentFilter?.value) {
+          return { ...item, filteredImg: item.croppedImg }
+        }
 
         const filteredImg = await applyCssFilterToImage(item.croppedImg, item.currentFilter.value)
 
-        if (typeof filteredImg !== "string") {return {...item, filteredImg: item.croppedImg}}
+        if (typeof filteredImg !== 'string') {
+          return { ...item, filteredImg: item.croppedImg }
+        }
 
         return {
           ...item,
-          filteredImg
+          filteredImg,
         }
       })
     )
@@ -68,32 +93,57 @@ export const Filters = ({images, nextBtn, backBtn}: Props) => {
     nextBtn(filteredImg)
   }
 
-  return <div className={s.filters}>
-    {<TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>Filters</TitlePhotoPages>}
-    <div className={s.filtersPanelWrapper}>
-      <PhotoSlider onAfterChange={(i) => setCurrentSlide(i)}>
-        {localImages.map((item) => {
-          if (!item.croppedImg) {return}
+  return (
+    <div className={s.filters}>
+      {
+        <TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>
+          Filters
+        </TitlePhotoPages>
+      }
+      <div className={s.filtersPanelWrapper}>
+        <PhotoSlider onAfterChange={i => setCurrentSlide(i)}>
+          {localImages.map(item => {
+            if (!item.croppedImg) {
+              return
+            }
 
-          return (
-            <div key={item.id} className={s.sliderItem} >
-              <Image className={s[item.currentFilter?.filter || '']} src={item.croppedImg} alt={'Empty photo'} width={item.currentWidthImage} height={item.currentHeightImage} />
-            </div>
-          )
-        })}
-      </PhotoSlider>
+            return (
+              <div key={item.id} className={s.sliderItem}>
+                <Image
+                  className={s[item.currentFilter?.filter || '']}
+                  src={item.croppedImg}
+                  alt={'Empty photo'}
+                  width={item.currentWidthImage}
+                  height={item.currentHeightImage}
+                />
+              </div>
+            )
+          })}
+        </PhotoSlider>
 
-      <div className={s.filtersContainer}>
-        {filters.map((item, i) => {
-          return (
-            <div key={i} className={s.filterWrapper}>
-              <Button className={s.filterBtn} variant={'icon'} onClick={() => setFilterHandler(currentSlide,item)}><Image className={s[item.filter]} src={"/filter-sample.png"} alt={`${item.name} filter`} width={108} height={108} /></Button>
-              <Typography variant={'regular_text_16'}>{item.name}</Typography>
-            </div>
-          )
-        })}
-
+        <div className={s.filtersContainer}>
+          {filters.map((item, i) => {
+            return (
+              <div key={i} className={s.filterWrapper}>
+                <Button
+                  className={s.filterBtn}
+                  variant={'icon'}
+                  onClick={() => setFilterHandler(currentSlide, item)}
+                >
+                  <Image
+                    className={s[item.filter]}
+                    src={'/filter-sample.png'}
+                    alt={`${item.name} filter`}
+                    width={108}
+                    height={108}
+                  />
+                </Button>
+                <Typography variant={'regular_text_16'}>{item.name}</Typography>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
-  </div>
+  )
 }

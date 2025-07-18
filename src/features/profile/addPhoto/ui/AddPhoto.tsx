@@ -1,5 +1,5 @@
 'use client'
-import { useState} from 'react'
+import { useState } from 'react'
 
 import clsx from 'clsx'
 import { openDB } from 'idb'
@@ -14,7 +14,6 @@ import { Modal } from '@/shared/components/ui/modal/Modal'
 
 import s from './AddPhoto.module.scss'
 
-
 export const AddPhoto = () => {
   const [mode, setMode] = useState<Mode>('initialImg')
   const [images, setImage] = useState<ImageType[]>([])
@@ -24,13 +23,13 @@ export const AddPhoto = () => {
   const saveDraftHandler = async () => {
     const imagesDB = await openDB('addPhotoImages', 1, {
       upgrade(db) {
-        db.createObjectStore('store1');
+        db.createObjectStore('store1')
       },
-    });
+    })
 
-    await imagesDB.clear('store1');
+    await imagesDB.clear('store1')
 
-    await imagesDB.add('store1', { data: images }, 'images');
+    await imagesDB.add('store1', { data: images }, 'images')
 
     setOpenCloseModal(false)
     setOpen(false)
@@ -52,10 +51,16 @@ export const AddPhoto = () => {
   const renderContent = () => {
     switch (mode) {
       case 'initialImg':
-        return <InitialPhotoUpload openDraft={(images) => {
-          setImage([...images])}}
-          setImage={(image => setImage([image]))
-        } setMode={() => setMode('cropping')} nextBtn={() => setMode('cropping')}/>
+        return (
+          <InitialPhotoUpload
+            openDraft={images => {
+              setImage([...images])
+            }}
+            setImage={image => setImage([image])}
+            setMode={() => setMode('cropping')}
+            nextBtn={() => setMode('cropping')}
+          />
+        )
       case 'cropping':
         return (
           <Cropping
@@ -68,29 +73,48 @@ export const AddPhoto = () => {
               setMode('filter')
               setImage(images)
             }}
+            setImage={images => setImage(images)}
           />
         )
       case 'filter':
-        return <Filters images={images} nextBtn={images => {
-          setMode('publication')
-          setImage(images)
-        }} backBtn={() => setMode('cropping')}/>
+        return (
+          <Filters
+            images={images}
+            nextBtn={images => {
+              setMode('publication')
+              setImage(images)
+            }}
+            backBtn={() => setMode('cropping')}
+            setImage={images => setImage(images)}
+          />
+        )
       case 'publication':
-        return <Publication imagesArr={images} backBtn={() => setMode('filter')}/>
+        return <Publication imagesArr={images} backBtn={() => setMode('filter')} />
     }
   }
-  
+
   return (
     <Modal
-      className={clsx(s.addPhoto, mode === 'cropping' && s.cropping, mode === 'filter' && s.filters, mode === 'publication' && s.publication)}
+      className={clsx(
+        s.addPhoto,
+        mode === 'cropping' && s.cropping,
+        mode === 'filter' && s.filters,
+        mode === 'publication' && s.publication
+      )}
       modalTitle={mode === 'initialImg' ? 'Add Photo' : ''}
       open={open}
       onClose={closeHandler}
     >
       {renderContent()}
-      <Modal offBackgroundAnimation modalTitle={'Close'} open={openCloseModal} onClose={() => setOpenCloseModal(false)} size={'sm'}>
+      <Modal
+        offBackgroundAnimation
+        modalTitle={'Close'}
+        open={openCloseModal}
+        onClose={() => setOpenCloseModal(false)}
+        size={'sm'}
+      >
         <div className={s.textCloseModalWrapper}>
-          <Typography  variant={'regular_text_16'}>
+          <Typography variant={'regular_text_16'}>
             Do you really want to close the creation of a publication?
           </Typography>
           <Typography variant={'regular_text_16'}>
@@ -98,13 +122,12 @@ export const AddPhoto = () => {
           </Typography>
         </div>
         <div className={s.btnCloseModalWrapper}>
-          <Button onClick={discardHandler} variant={'outlined'}>Discard</Button>
+          <Button onClick={discardHandler} variant={'outlined'}>
+            Discard
+          </Button>
           <Button onClick={saveDraftHandler}>Save draft</Button>
         </div>
       </Modal>
     </Modal>
   )
 }
-
-
-

@@ -8,7 +8,11 @@ type Props = {
   naturalHeightImage?: number
 }
 
-export const createImage = ({ img, naturalHeightImage = 0, naturalWidthImage = 0 }: Props): ImageType => {
+export const createImage = ({
+  img,
+  naturalHeightImage = 0,
+  naturalWidthImage = 0,
+}: Props): ImageType => {
   return {
     id: nanoid(),
     img,
@@ -20,7 +24,7 @@ export const createImage = ({ img, naturalHeightImage = 0, naturalWidthImage = 0
     naturalWidthImage,
     naturalHeightImage,
     crop: { x: 0, y: 0 },
-    ratio: 'original',
+    ratio: '1:1',
     zoom: 1,
     minZoom: 1,
     croppedAreaPixels: { height: 0, width: 0, x: 0, y: 0 },
