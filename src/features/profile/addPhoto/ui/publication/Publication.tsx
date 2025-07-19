@@ -24,6 +24,7 @@ type Props = {
 }
 
 export const Publication = ({ imagesArr, backBtn }: Props) => {
+  const [isDisable, setIsDisable] = useState(false)
   const t = useTranslations('addPost.publication')
   const [uploadImagesForPost] = useUploadImagesForPostMutation()
   const [createPost] = useCreatePostMutation()
@@ -42,6 +43,7 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
     const data = { files: imagesToFile }
 
     try {
+      setIsDisable(true)
       const { images } = await uploadImagesForPost(data).unwrap()
 
       const childrenMetadata = images.map(item => {
@@ -54,16 +56,24 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
         childrenMetadata,
       }
 
-      const post = await createPost(body).unwrap()
+      await createPost(body).unwrap()
+
+      setIsDisable(false)
     } catch (e: unknown) {
       handleError(e)
+      setIsDisable(false)
     }
   }
 
   return (
     <div>
       {
-        <TitlePhotoPages nextBtn={nextBtnHandler} textNextBtn={t('publish')} backBtn={backBtn}>
+        <TitlePhotoPages
+          nextBtn={nextBtnHandler}
+          textNextBtn={t('publish')}
+          backBtn={backBtn}
+          disableNextBtn={isDisable}
+        >
           {t('title')}
         </TitlePhotoPages>
       }
@@ -108,6 +118,7 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
                 multiline
                 fullWidth
                 margin={'12px 0 0'}
+                disabled={isDisable}
               />
               <div className={s.textLengthWrapper}>
                 <span className={clsx(publicationText.length >= 500 && s.textLengthError)}>

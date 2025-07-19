@@ -11,9 +11,16 @@ type Props = {
   nextBtn: () => void
   children: ReactNode
   textNextBtn?: string
+  disableNextBtn?: boolean
 }
 
-export const TitlePhotoPages = ({ nextBtn, backBtn, children, textNextBtn = 'Next' }: Props) => {
+export const TitlePhotoPages = ({
+  nextBtn,
+  backBtn,
+  children,
+  textNextBtn = 'Next',
+  disableNextBtn,
+}: Props) => {
   const t = useTranslations('addPost')
 
   return (
@@ -22,7 +29,7 @@ export const TitlePhotoPages = ({ nextBtn, backBtn, children, textNextBtn = 'Nex
         <Icon iconId={'arrowIosBack'} />
       </Button>
       <Typography variant={'h1'}>{children}</Typography>
-      <Button className={s.nextBtn} variant={'link'} onClick={nextBtn}>
+      <Button className={s.nextBtn} variant={'link'} onClick={nextBtn} disabled={disableNextBtn}>
         <Typography variant={'h3'} as={'h3'}>
           {textNextBtn === 'Next' ? t('nextBtn') : textNextBtn}
         </Typography>
