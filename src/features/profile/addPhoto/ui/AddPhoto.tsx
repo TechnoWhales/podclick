@@ -58,7 +58,6 @@ export const AddPhoto = () => {
               setImage([...images])
             }}
             setImage={image => setImage([image])}
-            setMode={() => setMode('cropping')}
             nextBtn={() => setMode('cropping')}
           />
         )
@@ -110,7 +109,10 @@ export const AddPhoto = () => {
         offBackgroundAnimation
         modalTitle={'Close'}
         open={openCloseModal}
-        onClose={() => setOpenCloseModal(false)}
+        onClose={() => {
+          setOpenCloseModal(false)
+          setOpen(false)
+        }}
         size={'sm'}
       >
         <div className={s.textCloseModalWrapper}>
@@ -118,12 +120,6 @@ export const AddPhoto = () => {
             part1: chunks => <Typography variant={'regular_text_16'}>{chunks}</Typography>,
             part2: chunks => <Typography variant={'regular_text_16'}>{chunks}</Typography>,
           })}
-          {/*<Typography variant={'regular_text_16'}>*/}
-          {/*  Do you really want to close the creation of a publication?*/}
-          {/*</Typography>*/}
-          {/*<Typography variant={'regular_text_16'}>*/}
-          {/*  If you close everything will be deleted*/}
-          {/*</Typography>*/}
         </div>
         <div className={s.btnCloseModalWrapper}>
           <Button onClick={discardHandler} variant={'outlined'}>

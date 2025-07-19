@@ -49,7 +49,6 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
   const [currentRatio, setCurrentRatio] = useState<RatioType>('1:1')
-  // const [localImages, setLocalImage] = useState<ImageType[]>(images)
   const [currentImage, setCurrentImage] = useState(0)
 
   const { UploadButton } = useUploadFile({
@@ -68,7 +67,6 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
         const naturalHeightImage = imageEl.naturalHeight
         const image = createImage({ img, naturalWidthImage, naturalHeightImage })
 
-        // setLocalImage(prevState => [...prevState, image])
         setImage([...images, image])
       }
     },

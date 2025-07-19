@@ -32,5 +32,11 @@
 .btnCloseModalWrapper {
   display: flex;
   justify-content: space-between;
+  button {
+    &:lang(ru) {
+      padding: 6px 12px;
+
+    }
+  }
 
 }

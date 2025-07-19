@@ -16,10 +16,9 @@ type Props = {
   setImage: (img: ImageType) => void
   openDraft: (img: ImageType[]) => void
   nextBtn: () => void
-  setMode: () => void
 }
 
-export const InitialPhotoUpload = ({ setImage, nextBtn, setMode, openDraft }: Props) => {
+export const InitialPhotoUpload = ({ setImage, nextBtn, openDraft }: Props) => {
   const t = useTranslations('addPost.addPhoto')
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
@@ -49,7 +48,7 @@ export const InitialPhotoUpload = ({ setImage, nextBtn, setMode, openDraft }: Pr
     const images = await imagesDB.get('store1', 'images')
 
     openDraft(images.data)
-    setMode()
+    nextBtn()
   }
 
   return (
