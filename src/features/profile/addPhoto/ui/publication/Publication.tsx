@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { nanoid } from '@reduxjs/toolkit'
 import { clsx } from 'clsx'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import {
@@ -23,6 +24,7 @@ type Props = {
 }
 
 export const Publication = ({ imagesArr, backBtn }: Props) => {
+  const t = useTranslations('addPost.publication')
   const [uploadImagesForPost] = useUploadImagesForPostMutation()
   const [createPost] = useCreatePostMutation()
   const [publicationText, setPublicationText] = useState('')
@@ -61,8 +63,8 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
   return (
     <div>
       {
-        <TitlePhotoPages nextBtn={nextBtnHandler} textNextBtn={'Publish'} backBtn={backBtn}>
-          Publication
+        <TitlePhotoPages nextBtn={nextBtnHandler} textNextBtn={t('publish')} backBtn={backBtn}>
+          {t('title')}
         </TitlePhotoPages>
       }
       <div className={s.publicationWrapper}>
@@ -100,8 +102,8 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
               <TextField
                 value={publicationText}
                 onChange={e => setPublicationTextHandler(e.target.value)}
-                label={'Add publication descriptions'}
-                placeholder={'Text-area'}
+                label={t('descTitle')}
+                placeholder={t('placeholder')}
                 rows={5}
                 multiline
                 fullWidth

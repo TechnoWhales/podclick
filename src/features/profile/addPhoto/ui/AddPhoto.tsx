@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 import clsx from 'clsx'
 import { openDB } from 'idb'
+import { useTranslations } from 'next-intl'
 
 import { ImageType, Mode } from '@/features/profile/addPhoto/types/Image'
 import { Cropping } from '@/features/profile/addPhoto/ui/cropping/Cropping'
@@ -15,6 +16,7 @@ import { Modal } from '@/shared/components/ui/modal/Modal'
 import s from './AddPhoto.module.scss'
 
 export const AddPhoto = () => {
+  const t = useTranslations('addPost')
   const [mode, setMode] = useState<Mode>('initialImg')
   const [images, setImage] = useState<ImageType[]>([])
   const [open, setOpen] = useState(true)
@@ -66,7 +68,6 @@ export const AddPhoto = () => {
             images={images}
             backBtn={() => {
               setMode('initialImg')
-              // setImage([])
             }}
             nextBtn={images => {
               setMode('filter')
@@ -100,7 +101,7 @@ export const AddPhoto = () => {
         mode === 'filter' && s.filters,
         mode === 'publication' && s.publication
       )}
-      modalTitle={mode === 'initialImg' ? 'Add Photo' : ''}
+      modalTitle={mode === 'initialImg' ? t('addPhoto.title') : ''}
       open={open}
       onClose={closeHandler}
     >
@@ -113,18 +114,22 @@ export const AddPhoto = () => {
         size={'sm'}
       >
         <div className={s.textCloseModalWrapper}>
-          <Typography variant={'regular_text_16'}>
-            Do you really want to close the creation of a publication?
-          </Typography>
-          <Typography variant={'regular_text_16'}>
-            If you close everything will be deleted
-          </Typography>
+          {t.rich('closeModal.description', {
+            part1: chunks => <Typography variant={'regular_text_16'}>{chunks}</Typography>,
+            part2: chunks => <Typography variant={'regular_text_16'}>{chunks}</Typography>,
+          })}
+          {/*<Typography variant={'regular_text_16'}>*/}
+          {/*  Do you really want to close the creation of a publication?*/}
+          {/*</Typography>*/}
+          {/*<Typography variant={'regular_text_16'}>*/}
+          {/*  If you close everything will be deleted*/}
+          {/*</Typography>*/}
         </div>
         <div className={s.btnCloseModalWrapper}>
           <Button onClick={discardHandler} variant={'outlined'}>
-            Discard
+            {t('closeModal.discard')}
           </Button>
-          <Button onClick={saveDraftHandler}>Save draft</Button>
+          <Button onClick={saveDraftHandler}>{t('closeModal.saveDraft')}</Button>
         </div>
       </Modal>
     </Modal>

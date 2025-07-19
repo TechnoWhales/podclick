@@ -1,0 +1,33 @@
+{
+  "addPost": {
+    "addPhoto": {
+      "title": "Add Photo",
+      "uploadButton": "Select from Computer",
+      "openDraft": "Open Draft"
+    },
+    "cropping": {
+      "title": "Cropping"
+    },
+    "filters": {
+      "title": "Filters",
+      "normal": "Normal",
+      "clarendon": "Clarendon",
+      "lark": "Lark",
+      "gingham": "Gingham",
+      "moon": "Moon"
+    },
+    "publication": {
+      "title": "Publication",
+      "publish": "Publish",
+      "descTitle": "Add publication description",
+      "placeholder": "Text-area"
+    },
+    "closeModal": {
+      "title": "Close",
+      "description": "<part1>Do you really want to close the creation of a publication?</part1><part2>If you close everything will be deleted</part2>",
+      "discard": "Discard",
+      "saveDraft": "Save draft"
+    },
+    "nextBtn": "next"
+  }
+}

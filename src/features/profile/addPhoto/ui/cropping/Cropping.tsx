@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import clsx from 'clsx'
+import { useTranslations } from 'next-intl'
 
 import {
   CroppedAreaPixelsType,
@@ -14,7 +15,7 @@ import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 import { fitImageToContainerOrRatio } from '@/features/profile/addPhoto/utils/fitImageToContainerOrRatio'
 import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
-import { Button, Icon, Popover, Typography } from '@/shared/components/ui'
+import { Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
 import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
@@ -27,6 +28,7 @@ type Props = {
 }
 
 export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
+  const t = useTranslations('addPost.cropping')
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [isFirstLoading, setIsFistLoading] = useState(true)
@@ -218,7 +220,7 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
     <div className={s.cropping}>
       {
         <TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>
-          Cropping
+          {t('title')}
         </TitlePhotoPages>
       }
       <div className={clsx(s.container)}>

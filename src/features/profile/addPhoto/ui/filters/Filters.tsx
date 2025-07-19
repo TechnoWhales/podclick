@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { FiltersType, ImageType } from '@/features/profile/addPhoto/types/Image'
@@ -19,6 +20,7 @@ type Props = {
 }
 
 export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
+  const t = useTranslations('addPost.filters')
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const filters: FiltersType[] = [
@@ -95,7 +97,7 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
     <div className={s.filters}>
       {
         <TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>
-          Filters
+          {t('title')}
         </TitlePhotoPages>
       }
       <div className={s.filtersPanelWrapper}>
@@ -136,7 +138,7 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
                     height={108}
                   />
                 </Button>
-                <Typography variant={'regular_text_16'}>{item.name}</Typography>
+                <Typography variant={'regular_text_16'}>{t(item.filter)}</Typography>
               </div>
             )
           })}

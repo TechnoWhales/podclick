@@ -2,6 +2,7 @@
 
 import clsx from 'clsx'
 import { openDB } from 'idb'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { ImageType } from '@/features/profile/addPhoto/types/Image'
@@ -19,6 +20,7 @@ type Props = {
 }
 
 export const InitialPhotoUpload = ({ setImage, nextBtn, setMode, openDraft }: Props) => {
+  const t = useTranslations('addPost.addPhoto')
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
     onUpload: ({ base64: img }) => {
@@ -60,9 +62,9 @@ export const InitialPhotoUpload = ({ setImage, nextBtn, setMode, openDraft }: Pr
           width={222}
           height={228}
         />
-        <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>
+        <UploadButton className={s.selectBtn}>{t('uploadButton')}</UploadButton>
         <Button onClick={openDraftHandler} className={s.draftBtn} variant={'outlined'}>
-          Open Draft
+          {t('openDraft')}
         </Button>
       </div>
     </div>
