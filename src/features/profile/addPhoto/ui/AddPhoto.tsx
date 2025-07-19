@@ -2,9 +2,9 @@
 import { useState } from 'react'
 
 import clsx from 'clsx'
-import { openDB } from 'idb'
 import { useTranslations } from 'next-intl'
 
+import { useImageDB } from '@/features/profile/addPhoto/hooks/useImageDB'
 import { ImageType, Mode } from '@/features/profile/addPhoto/types/Image'
 import { Cropping } from '@/features/profile/addPhoto/ui/cropping/Cropping'
 import { Filters } from '@/features/profile/addPhoto/ui/filters/Filters'
@@ -22,16 +22,11 @@ export const AddPhoto = () => {
   const [open, setOpen] = useState(true)
   const [openCloseModal, setOpenCloseModal] = useState(false)
 
+  const { clearAll, saveImages } = useImageDB()
+
   const saveDraftHandler = async () => {
-    const imagesDB = await openDB('addPhotoImages', 1, {
-      upgrade(db) {
-        db.createObjectStore('store1')
-      },
-    })
-
-    await imagesDB.clear('store1')
-
-    await imagesDB.add('store1', { data: images }, 'images')
+    await clearAll()
+    await saveImages('images', images)
 
     setOpenCloseModal(false)
     setOpen(false)

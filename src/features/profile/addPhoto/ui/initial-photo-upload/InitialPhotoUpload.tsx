@@ -5,6 +5,7 @@ import { openDB } from 'idb'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
+import { useImageDB } from '@/features/profile/addPhoto/hooks/useImageDB'
 import { ImageType } from '@/features/profile/addPhoto/types/Image'
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 import { Button } from '@/shared/components/ui'
@@ -20,6 +21,7 @@ type Props = {
 
 export const InitialPhotoUpload = ({ setImage, nextBtn, openDraft }: Props) => {
   const t = useTranslations('addPost.addPhoto')
+  const { getImages } = useImageDB()
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
     onUpload: ({ base64: img }) => {
@@ -43,12 +45,12 @@ export const InitialPhotoUpload = ({ setImage, nextBtn, openDraft }: Props) => {
   })
 
   const openDraftHandler = async () => {
-    const imagesDB = await openDB('addPhotoImages', 1)
+    const images = await getImages('images')
 
-    const images = await imagesDB.get('store1', 'images')
-
-    openDraft(images.data)
-    nextBtn()
+    if (images) {
+      openDraft(images)
+      nextBtn()
+    }
   }
 
   return (
