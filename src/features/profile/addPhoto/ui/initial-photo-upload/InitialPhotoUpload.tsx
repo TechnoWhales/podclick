@@ -18,9 +18,13 @@ type Props = {
   setMode: () => void
 }
 
-export const InitialPhotoUpload = ({setImage, nextBtn, setMode, openDraft}: Props) => {
-  const {UploadButton} = useUploadFile({typeFile: 'pngjpeg', onUpload: ({base64: img}) => {
-      if (!img) {return}
+export const InitialPhotoUpload = ({ setImage, nextBtn, setMode, openDraft }: Props) => {
+  const { UploadButton } = useUploadFile({
+    typeFile: 'pngjpeg',
+    onUpload: ({ base64: img }) => {
+      if (!img) {
+        return
+      }
 
       const imageEl = new window.Image()
 
@@ -29,36 +33,38 @@ export const InitialPhotoUpload = ({setImage, nextBtn, setMode, openDraft}: Prop
       imageEl.onload = () => {
         const naturalWidthImage = imageEl.naturalWidth
         const naturalHeightImage = imageEl.naturalHeight
-        const image = createImage({img, naturalWidthImage, naturalHeightImage})
-        
+        const image = createImage({ img, naturalWidthImage, naturalHeightImage })
+
         setImage(image)
         nextBtn()
       }
-    }})
-  
+    },
+  })
 
-  const openDraftHandler = async ()  => {
-    const imagesDB = await openDB('addPhotoImages', 1);
+  const openDraftHandler = async () => {
+    const imagesDB = await openDB('addPhotoImages', 1)
 
-    const images = await imagesDB.get('store1', 'images');
+    const images = await imagesDB.get('store1', 'images')
 
     openDraft(images.data)
     setMode()
   }
-  
-  return <div>
-    <div className={clsx(s.addPhotoWrapper)}>
-      <Image
-        className={clsx(s.photoImg)}
-        src={'/empty-photo.svg'}
-        alt={'Empty photo'}
-        width={222}
-        height={228}
-      />
-      <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>
+
+  return (
+    <div>
+      <div className={clsx(s.addPhotoWrapper)}>
+        <Image
+          className={clsx(s.photoImg)}
+          src={'/empty-photo.svg'}
+          alt={'Empty photo'}
+          width={222}
+          height={228}
+        />
+        <UploadButton className={s.selectBtn}>Select from Computer</UploadButton>
         <Button onClick={openDraftHandler} className={s.draftBtn} variant={'outlined'}>
           Open Draft
         </Button>
+      </div>
     </div>
-  </div>
+  )
 }

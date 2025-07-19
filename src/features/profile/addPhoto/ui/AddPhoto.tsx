@@ -33,7 +33,6 @@ export const AddPhoto = () => {
 
     setOpenCloseModal(false)
     setOpen(false)
-    setImage([])
   }
 
   const discardHandler = () => {
@@ -41,7 +40,7 @@ export const AddPhoto = () => {
   }
 
   const closeHandler = () => {
-    if (mode === 'initialImg') {
+    if (images.length === 0) {
       setOpen(false)
     } else {
       setOpenCloseModal(true)
@@ -67,7 +66,7 @@ export const AddPhoto = () => {
             images={images}
             backBtn={() => {
               setMode('initialImg')
-              setImage([])
+              // setImage([])
             }}
             nextBtn={images => {
               setMode('filter')

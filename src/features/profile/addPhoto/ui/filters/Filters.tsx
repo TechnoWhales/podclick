@@ -20,7 +20,6 @@ type Props = {
 
 export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [localImages, setLocalImage] = useState<ImageType[]>(images)
 
   const filters: FiltersType[] = [
     { filter: 'normal', name: 'Normal', value: null },
@@ -55,7 +54,7 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
   ]
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
-    const newFilter = localImages.map((item, i) => {
+    const newFilter = images.map((item, i) => {
       if (i === index) {
         return {
           ...item,
@@ -66,13 +65,12 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
       return item
     })
 
-    setLocalImage(newFilter)
     setImage(newFilter)
   }
 
   const nextBtnHandler = async () => {
     const filteredImg = await Promise.all(
-      localImages.map(async item => {
+      images.map(async item => {
         if (!item.croppedImg || !item.currentFilter?.value) {
           return { ...item, filteredImg: item.croppedImg }
         }
@@ -102,7 +100,7 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
       }
       <div className={s.filtersPanelWrapper}>
         <PhotoSlider onAfterChange={i => setCurrentSlide(i)}>
-          {localImages.map(item => {
+          {images.map(item => {
             if (!item.croppedImg) {
               return
             }

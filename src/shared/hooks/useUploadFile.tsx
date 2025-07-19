@@ -1,7 +1,7 @@
 import { ComponentProps, useRef } from 'react'
 
 import { Button } from '@/shared/components/ui'
-import {notify} from "@/shared/lib/notify";
+import { notify } from '@/shared/lib/notify'
 
 /**
  * Список допустимых типов файлов.
@@ -9,7 +9,7 @@ import {notify} from "@/shared/lib/notify";
 type FileType =
   | 'all'
   | 'image'
-    | 'pngjpeg'
+  | 'pngjpeg'
   | 'video'
   | 'audio'
   | 'pdf'
@@ -31,7 +31,8 @@ const MIME_TYPES: Record<FileType, string> = {
   audio: 'audio/*',
   pdf: 'application/pdf',
   doc: 'application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  excel: 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  excel:
+    'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   ppt: 'application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation',
   text: 'text/plain',
   archive: 'application/zip, application/x-rar-compressed, application/x-7z-compressed',
@@ -54,8 +55,6 @@ type Props = {
   onUpload?: ({ file, base64 }: { file: File; base64: string }) => void
   maxSizeMB?: number //
 }
-
-
 
 /**
  * Кастомный хук для загрузки файлов.
@@ -80,24 +79,25 @@ export function useUploadFile({ typeFile = 'all', onUpload, maxSizeMB = 20 }: Pr
   const handleFileChange = () => {
     const file = inputRef.current?.files?.[0]
 
-    if (!file) {return}
+    if (!file) {
+      return
+    }
 
     if (typeFile === 'pngjpeg' && !['image/png', 'image/jpeg'].includes(file.type)) {
-      notify.error("PNG or JPEG files only")
+      notify.error('PNG or JPEG files only')
 
       return
     }
 
-
     if (file.size > MAX_SIZE_BYTES) {
-      notify.error(`File size is too big. Max size is ${maxSizeMB}MB`)
+      notify.error(`The photo must be less than ${maxSizeMB}Mb and have JPEG or PNG format`)
 
-      return;
+      return
     }
 
     const reader = new FileReader()
 
-    reader.onload = (e) => {
+    reader.onload = e => {
       const base64 = e.target?.result
 
       if (typeof base64 === 'string') {
@@ -113,7 +113,7 @@ export function useUploadFile({ typeFile = 'all', onUpload, maxSizeMB = 20 }: Pr
    */
   const Input = (
     <input
-      type={"file"}
+      type={'file'}
       ref={inputRef}
       onChange={handleFileChange}
       style={{ display: 'none' }}
@@ -136,5 +136,3 @@ export function useUploadFile({ typeFile = 'all', onUpload, maxSizeMB = 20 }: Pr
 
   return { UploadButton }
 }
-
-
