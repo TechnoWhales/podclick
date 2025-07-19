@@ -1,56 +1,79 @@
-import { useEffect, useRef } from 'react'
+import { useRef, useCallback } from 'react'
 
 import { openDB, IDBPDatabase } from 'idb'
 
-import { ImageDB, ImageType } from '@/features/profile/addPhoto/types/Image'
+import { ImageType } from '@/features/profile/addPhoto/types/Image'
+
+export type ImageDB = {
+  images: {
+    key: string
+    value: ImageType[]
+  }
+}
 
 export const useImageDB = () => {
   const dbRef = useRef<IDBPDatabase<ImageDB> | null>(null)
 
-  useEffect(() => {
-    const initImageDB = async () => {
-      const db = await openDB<ImageDB>('addPhotoImages', 1, {
-        upgrade(db) {
-          if (!db.objectStoreNames.contains('images')) {
-            db.createObjectStore('images')
-          }
-        },
-      })
-
-      dbRef.current = db
+  const getDb = async (): Promise<IDBPDatabase<ImageDB>> => {
+    if (dbRef.current) {
+      return dbRef.current
     }
 
-    initImageDB()
+    const db = await openDB<ImageDB>('addPhotoImages', 2, {
+      upgrade(upgradeDb) {
+        if (!upgradeDb.objectStoreNames.contains('images')) {
+          upgradeDb.createObjectStore('images')
+        }
+      },
+    })
+
+    dbRef.current = db
+
+    return db
+  }
+
+  const saveImages = useCallback(async (key: string, images: ImageType[]) => {
+    try {
+      const db = await getDb()
+
+      await db.put('images', images, key)
+    } catch (error) {
+      console.error('IndexedDB saveImages error:', error)
+      throw error
+    }
   }, [])
 
-  const saveImages = async (key: string, images: ImageType[]) => {
-    if (!dbRef.current) {
-      return
-    }
-    await dbRef.current.put('images', images, key)
-  }
+  const getImages = useCallback(async (key: string): Promise<ImageType[] | null | undefined> => {
+    try {
+      const db = await getDb()
 
-  const getImages = async (key: string) => {
-    if (!dbRef.current) {
+      return await db.get('images', key)
+    } catch (error) {
+      console.error('IndexedDB getImages error:', error)
+
       return null
     }
+  }, [])
 
-    return await dbRef.current.get('images', key)
-  }
+  const deleteImages = useCallback(async (key: string) => {
+    try {
+      const db = await getDb()
 
-  const deleteImages = async (key: string) => {
-    if (!dbRef.current) {
-      return
+      await db.delete('images', key)
+    } catch (error) {
+      console.error('IndexedDB deleteImages error:', error)
     }
-    await dbRef.current.delete('images', key)
-  }
+  }, [])
 
-  const clearAll = async () => {
-    if (!dbRef.current) {
-      return
+  const clearAll = useCallback(async () => {
+    try {
+      const db = await getDb()
+
+      await db.clear('images')
+    } catch (error) {
+      console.error('IndexedDB clearAll error:', error)
     }
-    await dbRef.current.clear('images')
-  }
+  }, [])
 
   return { saveImages, getImages, deleteImages, clearAll }
 }

@@ -14,9 +14,9 @@ import s from '@/features/profile/addPhoto/ui/filters/Filters.module.scss'
 
 type Props = {
   images: ImageType[]
-  nextBtn: (images: ImageType[]) => void
-  backBtn: () => void
-  setImage: (image: ImageType[]) => void
+  nextBtnAction: (images: ImageType[]) => void
+  backBtnAction: () => void
+  setImageAction: (image: ImageType[]) => void
 }
 
 const filters: FiltersType[] = [
@@ -51,7 +51,7 @@ const filters: FiltersType[] = [
   },
 ]
 
-export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
+export const Filters = ({ images, nextBtnAction, backBtnAction, setImageAction }: Props) => {
   const t = useTranslations('addPost.filters')
   const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -67,7 +67,7 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
       return item
     })
 
-    setImage(newFilter)
+    setImageAction(newFilter)
   }
 
   const nextBtnHandler = async () => {
@@ -90,13 +90,13 @@ export const Filters = ({ images, nextBtn, backBtn, setImage }: Props) => {
       })
     )
 
-    nextBtn(filteredImg)
+    nextBtnAction(filteredImg)
   }
 
   return (
     <div className={s.filters}>
       {
-        <TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>
+        <TitlePhotoPages nextBtnAction={nextBtnHandler} backBtnAction={backBtnAction}>
           {t('title')}
         </TitlePhotoPages>
       }

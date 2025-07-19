@@ -22,13 +22,14 @@ import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
 type Props = {
   images: ImageType[]
-  backBtn: () => void
-  nextBtn: (images: ImageType[]) => void
-  setImage: (images: ImageType[]) => void
+  backBtnAction: () => void
+  nextBtnAction: (images: ImageType[]) => void
+  setImageAction: (images: ImageType[]) => void
 }
 
-export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
+export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction }: Props) => {
   const t = useTranslations('addPost.cropping')
+  const [isDisable, setIsDisable] = useState(false)
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [isFirstLoading, setIsFistLoading] = useState(true)
@@ -67,7 +68,7 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
         const naturalHeightImage = imageEl.naturalHeight
         const image = createImage({ img, naturalWidthImage, naturalHeightImage })
 
-        setImage([...images, image])
+        setImageAction([...images, image])
       }
     },
   })
@@ -133,7 +134,7 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
       return item
     })
 
-    setImage(updatedImages)
+    setImageAction(updatedImages)
   }
 
   const setCurrentImageHandler = (id: string) => {
@@ -152,15 +153,15 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
   const removeImageHandler = (id: string) => {
     const index = images.findIndex(item => item.id === id)
 
-    if (index === -1 || index === 0) {
+    if (index === -1 || images.length === 1) {
       return
     }
 
     const filteredImages = images.filter((_, i) => i !== index)
 
-    const currentIndex = index - 1
+    const currentIndex = index === 0 ? 0 : index - 1
 
-    setImage(filteredImages)
+    setImageAction(filteredImages)
     setCurrentImage(currentIndex)
     setCurrentRatio(images[currentIndex].ratio)
     setCrop({
@@ -177,7 +178,7 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
     if (images.length === 0) {
       return
     }
-
+    setIsDisable(true)
     const croppedImages = await Promise.all(
       images.map(async item => {
         if (!item.currentHeightImage && !item.currentWidthImage) {
@@ -186,8 +187,11 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
             image: item,
           })
 
-          item.currentHeightImage = currentHeightImage
-          item.currentWidthImage = currentWidthImage
+          return {
+            ...item,
+            currentWidthImage,
+            currentHeightImage,
+          }
         }
 
         if (item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
@@ -203,8 +207,9 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
       })
     )
 
+    setIsDisable(false)
     setIsFistLoading(true)
-    nextBtn(croppedImages)
+    nextBtnAction(croppedImages)
   }
 
   const ratioOptions = [
@@ -217,7 +222,11 @@ export const Cropping = ({ images, nextBtn, backBtn, setImage }: Props) => {
   return (
     <div className={s.cropping}>
       {
-        <TitlePhotoPages nextBtn={nextBtnHandler} backBtn={backBtn}>
+        <TitlePhotoPages
+          nextBtnAction={nextBtnHandler}
+          backBtnAction={backBtnAction}
+          disableNextBtn={isDisable}
+        >
           {t('title')}
         </TitlePhotoPages>
       }

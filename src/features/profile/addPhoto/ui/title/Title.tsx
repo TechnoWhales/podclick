@@ -1,3 +1,4 @@
+'use client'
 import { ReactNode } from 'react'
 
 import { useTranslations } from 'next-intl'
@@ -7,16 +8,16 @@ import { Button, Icon, Typography } from '@/shared/components/ui'
 import s from '@/features/profile/addPhoto/ui/title/Title.module.scss'
 
 type Props = {
-  backBtn: () => void
-  nextBtn: () => void
+  backBtnAction: () => void
+  nextBtnAction: () => void
   children: ReactNode
   textNextBtn?: string
   disableNextBtn?: boolean
 }
 
 export const TitlePhotoPages = ({
-  nextBtn,
-  backBtn,
+  nextBtnAction,
+  backBtnAction,
   children,
   textNextBtn = 'Next',
   disableNextBtn,
@@ -25,11 +26,16 @@ export const TitlePhotoPages = ({
 
   return (
     <div className={s.title}>
-      <Button variant={'icon'} className={s.arrowBack} onClick={backBtn}>
+      <Button variant={'icon'} className={s.arrowBack} onClick={backBtnAction}>
         <Icon iconId={'arrowIosBack'} />
       </Button>
       <Typography variant={'h1'}>{children}</Typography>
-      <Button className={s.nextBtn} variant={'link'} onClick={nextBtn} disabled={disableNextBtn}>
+      <Button
+        className={s.nextBtn}
+        variant={'link'}
+        onClick={nextBtnAction}
+        disabled={disableNextBtn}
+      >
         <Typography variant={'h3'} as={'h3'}>
           {textNextBtn === 'Next' ? t('nextBtn') : textNextBtn}
         </Typography>

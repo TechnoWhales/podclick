@@ -69,9 +69,9 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
     <div>
       {
         <TitlePhotoPages
-          nextBtn={nextBtnHandler}
+          nextBtnAction={nextBtnHandler}
           textNextBtn={t('publish')}
-          backBtn={backBtn}
+          backBtnAction={backBtn}
           disableNextBtn={isDisable}
         >
           {t('title')}

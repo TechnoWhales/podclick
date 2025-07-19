@@ -49,37 +49,37 @@ export const AddPhoto = () => {
       case 'initialImg':
         return (
           <InitialPhotoUpload
-            openDraft={images => {
+            openDraftAction={images => {
               setImage([...images])
             }}
-            setImage={image => setImage([image])}
-            nextBtn={() => setMode('cropping')}
+            setImageAction={image => setImage([image])}
+            nextBtnAction={() => setMode('cropping')}
           />
         )
       case 'cropping':
         return (
           <Cropping
             images={images}
-            backBtn={() => {
+            backBtnAction={() => {
               setMode('initialImg')
             }}
-            nextBtn={images => {
+            nextBtnAction={images => {
               setMode('filter')
               setImage(images)
             }}
-            setImage={images => setImage(images)}
+            setImageAction={images => setImage(images)}
           />
         )
       case 'filter':
         return (
           <Filters
             images={images}
-            nextBtn={images => {
+            nextBtnAction={images => {
               setMode('publication')
               setImage(images)
             }}
-            backBtn={() => setMode('cropping')}
-            setImage={images => setImage(images)}
+            backBtnAction={() => setMode('cropping')}
+            setImageAction={images => setImage(images)}
           />
         )
       case 'publication':

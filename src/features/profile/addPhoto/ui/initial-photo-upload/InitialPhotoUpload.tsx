@@ -1,7 +1,6 @@
 'use client'
 
 import clsx from 'clsx'
-import { openDB } from 'idb'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
@@ -14,12 +13,12 @@ import { useUploadFile } from '@/shared/hooks/useUploadFile'
 import s from '@/features/profile/addPhoto/ui/initial-photo-upload/InitialPhotoUpload.module.scss'
 
 type Props = {
-  setImage: (img: ImageType) => void
-  openDraft: (img: ImageType[]) => void
-  nextBtn: () => void
+  setImageAction: (img: ImageType) => void
+  openDraftAction: (img: ImageType[]) => void
+  nextBtnAction: () => void
 }
 
-export const InitialPhotoUpload = ({ setImage, nextBtn, openDraft }: Props) => {
+export const InitialPhotoUpload = ({ setImageAction, nextBtnAction, openDraftAction }: Props) => {
   const t = useTranslations('addPost.addPhoto')
   const { getImages } = useImageDB()
   const { UploadButton } = useUploadFile({
@@ -38,8 +37,8 @@ export const InitialPhotoUpload = ({ setImage, nextBtn, openDraft }: Props) => {
         const naturalHeightImage = imageEl.naturalHeight
         const image = createImage({ img, naturalWidthImage, naturalHeightImage })
 
-        setImage(image)
-        nextBtn()
+        setImageAction(image)
+        nextBtnAction()
       }
     },
   })
@@ -48,8 +47,8 @@ export const InitialPhotoUpload = ({ setImage, nextBtn, openDraft }: Props) => {
     const images = await getImages('images')
 
     if (images) {
-      openDraft(images)
-      nextBtn()
+      openDraftAction(images)
+      nextBtnAction()
     }
   }
 
