@@ -80,6 +80,9 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
   const ration16to9 = currentRatio === '16:9'
 
   useEffect(() => {
+    if (isFirstLoading && images[currentImage].croppedImg !== null) {
+      setCurrentRatio(images[currentImage].ratio)
+    }
     if (
       isFirstLoading &&
       images[currentImage].currentWidthImage !== 0 &&
@@ -88,6 +91,7 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
       setIsFistLoading(false)
       setCurrentHeightImage(images[currentImage].currentHeightImage)
       setCurrentWidthImage(images[currentImage].currentWidthImage)
+      setCurrentRatio(images[currentImage].ratio)
       setZoom(images[currentImage].zoom)
       setMinZoom(images[currentImage].minZoom)
       setCrop({
@@ -106,11 +110,12 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
     setCurrentWidthImage(currentWidthImage)
     setZoom(zoom)
     setMinZoom(zoom)
+    setIsFistLoading(false)
   }, [currentRatio, currentImage])
 
   useEffect(() => {
     saveCroppingHandler()
-  }, [crop, zoom, croppedAreaPixels])
+  }, [crop, zoom, croppedAreaPixels, currentRatio])
 
   const saveCroppingHandler = () => {
     const updated = {
@@ -191,11 +196,8 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
             ...item,
             currentWidthImage,
             currentHeightImage,
+            croppedImg: item.img,
           }
-        }
-
-        if (item.croppedAreaPixels.width === 0 || item.croppedAreaPixels.height === 0) {
-          return { ...item, croppedImg: item.img }
         }
 
         const croppedImg = await getCroppedImg(item.img, item.croppedAreaPixels)
@@ -248,12 +250,12 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
               cropAreaStyle: { border: 0, boxShadow: 'none' },
               containerStyle: {
                 margin: 'auto',
-                height: `${currentHeightImage}px`,
+                height: `${currentHeightImage + 8}px`,
                 width: `${currentWidthImage}px`,
                 borderBottomLeftRadius:
-                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '10px',
+                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '8px',
                 borderBottomRightRadius:
-                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '10px',
+                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '8px',
               },
               mediaStyle: {
                 filter: images[currentImage]?.currentFilter?.value || '',
