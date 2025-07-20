@@ -14,9 +14,11 @@ import s from '@/features/profile/addPhoto/ui/filters/Filters.module.scss'
 
 type Props = {
   images: ImageType[]
+  currentImage: number
   nextBtnAction: (images: ImageType[]) => void
   backBtnAction: () => void
   setImageAction: (image: ImageType[]) => void
+  setCurrentImageAction: (index: number) => void
 }
 
 const filters: FiltersType[] = [
@@ -51,9 +53,16 @@ const filters: FiltersType[] = [
   },
 ]
 
-export const Filters = ({ images, nextBtnAction, backBtnAction, setImageAction }: Props) => {
+export const Filters = ({
+  images,
+  nextBtnAction,
+  backBtnAction,
+  setImageAction,
+  currentImage,
+  setCurrentImageAction,
+}: Props) => {
   const t = useTranslations('addPost.filters')
-  const [currentSlide, setCurrentSlide] = useState(0)
+  // const [currentSlide, setCurrentSlide] = useState(0)
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
     const newFilter = images.map((item, i) => {
@@ -101,7 +110,11 @@ export const Filters = ({ images, nextBtnAction, backBtnAction, setImageAction }
         </TitlePhotoPages>
       }
       <div className={s.filtersPanelWrapper}>
-        <PhotoSlider onAfterChange={i => setCurrentSlide(i)}>
+        <PhotoSlider
+          currentSlide={currentImage}
+          setCurrentSlide={i => setCurrentImageAction(i)}
+          onAfterChange={i => setCurrentImageAction(i)}
+        >
           {images.map(item => {
             if (!item.croppedImg) {
               return
@@ -128,7 +141,7 @@ export const Filters = ({ images, nextBtnAction, backBtnAction, setImageAction }
                 <Button
                   className={s.filterBtn}
                   variant={'icon'}
-                  onClick={() => setFilterHandler(currentSlide, item)}
+                  onClick={() => setFilterHandler(currentImage, item)}
                 >
                   <Image
                     className={s[item.filter]}

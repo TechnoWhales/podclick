@@ -22,12 +22,21 @@ import s from '@/features/profile/addPhoto/ui/cropping/Cropping.module.scss'
 
 type Props = {
   images: ImageType[]
+  currentImage: number
   backBtnAction: () => void
   nextBtnAction: (images: ImageType[]) => void
   setImageAction: (images: ImageType[]) => void
+  setCurrentImageAction: (index: number) => void
 }
 
-export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction }: Props) => {
+export const Cropping = ({
+  images,
+  nextBtnAction,
+  backBtnAction,
+  setImageAction,
+  currentImage,
+  setCurrentImageAction,
+}: Props) => {
   const t = useTranslations('addPost.cropping')
   const [isDisable, setIsDisable] = useState(false)
   // Определяет, какая часть изображения будет отображаться в Cropper
@@ -50,7 +59,7 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
   const [currentRatio, setCurrentRatio] = useState<RatioType>('1:1')
-  const [currentImage, setCurrentImage] = useState(0)
+  // const [currentImage, setCurrentImage] = useState(0)
 
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
@@ -149,7 +158,7 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
       return
     }
 
-    setCurrentImage(index)
+    setCurrentImageAction(index)
     setCurrentRatio(images[index].ratio)
     setZoom(images[index].zoom)
     setMinZoom(images[index].minZoom)
@@ -167,7 +176,7 @@ export const Cropping = ({ images, nextBtnAction, backBtnAction, setImageAction 
     const currentIndex = index === 0 ? 0 : index - 1
 
     setImageAction(filteredImages)
-    setCurrentImage(currentIndex)
+    setCurrentImageAction(currentIndex)
     setCurrentRatio(images[currentIndex].ratio)
     setCrop({
       x: images[currentIndex].crop.x,

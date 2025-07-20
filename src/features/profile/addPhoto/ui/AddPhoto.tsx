@@ -19,6 +19,7 @@ export const AddPhoto = () => {
   const t = useTranslations('addPost')
   const [mode, setMode] = useState<Mode>('initialImg')
   const [images, setImage] = useState<ImageType[]>([])
+  const [currentImage, setCurrentImage] = useState(0)
   const [open, setOpen] = useState(true)
   const [openCloseModal, setOpenCloseModal] = useState(false)
 
@@ -60,6 +61,8 @@ export const AddPhoto = () => {
         return (
           <Cropping
             images={images}
+            currentImage={currentImage}
+            setCurrentImageAction={setCurrentImage}
             backBtnAction={() => {
               setMode('initialImg')
             }}
@@ -74,6 +77,8 @@ export const AddPhoto = () => {
         return (
           <Filters
             images={images}
+            currentImage={currentImage}
+            setCurrentImageAction={setCurrentImage}
             nextBtnAction={images => {
               setMode('publication')
               setImage(images)
@@ -83,7 +88,14 @@ export const AddPhoto = () => {
           />
         )
       case 'publication':
-        return <Publication imagesArr={images} backBtn={() => setMode('filter')} />
+        return (
+          <Publication
+            currentImage={currentImage}
+            setCurrentImageAction={setCurrentImage}
+            imagesArr={images}
+            backBtn={() => setMode('filter')}
+          />
+        )
     }
   }
 

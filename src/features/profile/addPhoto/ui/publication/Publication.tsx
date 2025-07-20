@@ -20,10 +20,12 @@ import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scs
 
 type Props = {
   imagesArr: ImageType[]
+  currentImage: number
   backBtn: () => void
+  setCurrentImageAction: (index: number) => void
 }
 
-export const Publication = ({ imagesArr, backBtn }: Props) => {
+export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageAction }: Props) => {
   const [isDisable, setIsDisable] = useState(false)
   const t = useTranslations('addPost.publication')
   const [uploadImagesForPost] = useUploadImagesForPostMutation()
@@ -78,7 +80,7 @@ export const Publication = ({ imagesArr, backBtn }: Props) => {
         </TitlePhotoPages>
       }
       <div className={s.publicationWrapper}>
-        <PhotoSlider>
+        <PhotoSlider setCurrentSlide={i => setCurrentImageAction(i)} currentSlide={currentImage}>
           {imagesArr.map(item => {
             if (!item.filteredImg) {
               return
