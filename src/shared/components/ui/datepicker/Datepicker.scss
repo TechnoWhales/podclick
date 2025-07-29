@@ -1,0 +1,91 @@
+.air-datepicker.air-datepicker--custom {
+  box-sizing: border-box;
+  background-color:  var(--color-dark-500);
+  border-color: var(--color-dark-300);
+  width: 300px;
+  height: 348px;
+  padding: 16px 24px 16px 24px;
+  .air-datepicker--navigation {
+    .air-datepicker-nav {
+      border: none;
+      display: flex;
+      justify-content: normal;
+      .air-datepicker-nav--title {
+        display: flex;
+        justify-content: flex-start;
+        width: 156px;
+        margin-right: 16px;
+        color: var(--color-light-100);
+        font-size: var(--font-size-s);
+        font-weight: var(--font-weight-700);
+        font-family: var(--font-family-primary), sans-serif;
+        & i {
+          color: inherit;
+          font-size: inherit;
+          font-weight: inherit;
+        }
+        &:hover {
+          background-color: transparent;
+        }
+      }
+      .air-datepicker-nav--action {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        &:hover {
+          background-color: var(--color-dark-100);
+        }
+        &[data-action="prev"] {
+          order: 1;
+        }
+        &[data-action="next"] {
+          order: 2;
+        }
+      }
+      }
+    }
+
+  .air-datepicker-body--day-names {
+    margin: 12px 0;
+  }
+
+  .air-datepicker-body--day-name {
+    width: 36px;
+    height: 40px;
+    color: var(--color-dark-100);
+    font-size: var(--font-size-s);
+    font-weight:  var(--font-weight-400);
+    font-family: var(--font-family-primary), sans-serif;
+  }
+
+  .air-datepicker-cell {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-size-s);
+    font-weight:  var(--font-weight-400);
+    font-family: var(--font-family-primary), sans-serif;
+    &:hover {
+      border-radius: 50%;
+      background-color: var(--color-accent-700);
+    }
+    &.-day- {
+      color: var(--color-light-100);
+    }
+    &.-weekend- {
+      color: var(--color-danger-300);
+    }
+    &.-other-month- {
+      color: var(--color-dark-100);
+    }
+    &.-current- {
+      color: var(--color-accent-500);
+    }
+    &.-selected- {
+      border-radius: 50%;
+      background-color: var(--color-accent-900);
+    }
+  }
+}
+
+
+
