@@ -30,6 +30,7 @@ export const ClientLayout = ({ children }: Props) => {
         <div className={clsx(s.appGrid, isAuth ? s.withSidebar : s.centerContent)}>
           {isAuth && <Sidebars />}
           <main>
+            {/* TODO: разобраться с контейнером*/}
             <Container width={1020} padding={'36px 24px 0'}>
               {children}
             </Container>

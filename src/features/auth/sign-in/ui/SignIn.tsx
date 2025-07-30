@@ -19,6 +19,8 @@ import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignIn.module.scss'
 
+// TODO: Удалить защиту роута
+
 export const SignIn = () => {
   const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations('signIn')
