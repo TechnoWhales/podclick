@@ -1,3 +1,52 @@
+.air-datepicker--input {
+  margin-left: 50px;
+  position: relative;
+  width: max-content;
+  & input {
+    padding-right: 60px;
+    &:active {
+      border-color: var(--color-dark-100);
+
+    }
+  }
+  &::after {
+    display: inline-block;
+    content: "";
+    width: 24px;
+    height: 24px;
+    right: 15px;
+    top: 6px;
+    position: absolute;
+
+    mask: url("../../../../../public/icons/calendar-outline.svg");
+    -webkit-mask: url("../../../../../public/icons/calendar-outline.svg");
+
+    background-color: var(--color-light-100);
+  }
+
+  &.error {
+    & input {
+      color: var(--color-danger-500);
+    }
+    &::after {
+      background-color: var(--color-danger-500);
+    }
+  }
+  &.range {
+    input {
+      background-color: var(--color-dark-500);
+    }
+  }
+  &:focus-within {
+    &::after {
+      mask: url("../../../../../public/icons/сalendar.svg");
+      -webkit-mask: url("../../../../../public/icons/сalendar.svg");
+    }
+  }
+
+
+}
+
 .air-datepicker.air-datepicker--custom {
   box-sizing: border-box;
   background-color:  var(--color-dark-500);
@@ -5,15 +54,24 @@
   width: 300px;
   height: 348px;
   padding: 16px 24px 16px 24px;
+
+  .air-datepicker--pointer {
+    display: none;
+  }
   .air-datepicker--navigation {
+    display: flex;
+    align-items: center;
+    height: 36px;
     .air-datepicker-nav {
       border: none;
       display: flex;
       justify-content: normal;
+      width: 100%;
       .air-datepicker-nav--title {
+        pointer-events: none;
         display: flex;
         justify-content: flex-start;
-        width: 156px;
+        max-width: 156px;
         margin-right: 16px;
         color: var(--color-light-100);
         font-size: var(--font-size-s);
@@ -32,10 +90,12 @@
         width: 36px;
         height: 36px;
         border-radius: 50%;
+
         &:hover {
           background-color: var(--color-dark-100);
         }
         &[data-action="prev"] {
+          margin-left: auto;
           order: 1;
         }
         &[data-action="next"] {
@@ -50,6 +110,7 @@
   }
 
   .air-datepicker-body--day-name {
+    text-transform: capitalize;
     width: 36px;
     height: 40px;
     color: var(--color-dark-100);
@@ -58,16 +119,21 @@
     font-family: var(--font-family-primary), sans-serif;
   }
 
+  .air-datepicker-body--cells.-days- {
+    grid-auto-rows: 36px
+  }
   .air-datepicker-cell {
     width: 36px;
     height: 36px;
     font-size: var(--font-size-s);
     font-weight:  var(--font-weight-400);
     font-family: var(--font-family-primary), sans-serif;
+    border-radius: 50%;
     &:hover {
       border-radius: 50%;
       background-color: var(--color-accent-700);
     }
+
     &.-day- {
       color: var(--color-light-100);
     }
@@ -84,6 +150,39 @@
       border-radius: 50%;
       background-color: var(--color-accent-900);
     }
+    &.-in-range- {
+      background-color: var(--color-accent-900);
+      border-radius: 0;
+    }
+    &.-range-from- {
+      border-radius: 18px 0 0 18px;
+    }
+    &.-range-to- {
+      border-radius:  0 18px 18px 0;
+    }
+
+    &.-focus-.-range-from-.-range-to- {
+      border-radius: 50%;
+    }
+
+
+    &:focus {
+      border-radius: 50%;
+      background-color: transparent;
+      border: 1px solid var(--color-accent-900);
+
+    }
+    &:nth-child(7n+1).-range-from- {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:nth-child(7n).-range-to- {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+
   }
 }
 
