@@ -5,7 +5,7 @@ import { BASE_API } from '@/shared/constants'
 import s from './PublicUserCount.module.scss'
 
 export const PublicUserCount = async () => {
-  const res = await fetch(`${BASE_API}/public-user`, { cache: 'no-store' })
+  const res = await fetch(`${BASE_API}/public-user`)
   const data = await res.json()
 
   return (
