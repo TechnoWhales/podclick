@@ -9,9 +9,9 @@ import {
   useCheckRecoveryCodeMutation,
   useNewPasswordMutation,
 } from '@/features/auth/new-password/api/newPasswordApi'
+import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
-import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { COLORS, ROUTES } from '@/shared/constants'
+import { ROUTES } from '@/shared/constants'
 import { NewPasswordType, useCheckCodeConfirm, useNewPasswordSchema } from '@/shared/hooks'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
@@ -66,11 +66,7 @@ export const NewPassword = () => {
   }
 
   if (!isConfirmed || !isChecked) {
-    return (
-      <div className={'circularProgressContainer'}>
-        <Ring size={150} color={COLORS.accent['500']} />
-      </div>
-    )
+    return <CircleLoading />
   }
 
   return (

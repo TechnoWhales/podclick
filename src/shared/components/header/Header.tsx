@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
+import { usePathname } from '@/i18n/navigation'
 import { useMeQuery } from '@/shared/api'
 import { LanguageSelect } from '@/shared/components'
 import { Button, Container, Icon, Typography } from '@/shared/components/ui'
