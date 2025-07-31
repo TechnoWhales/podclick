@@ -1,8 +1,10 @@
 .button {
-  display: flex;
   gap: 12px;
-  align-items: center;
   justify-content: start;
+  padding: 0;
+  color: var(--color-light-100);
 
-  width: 100%;
+  &:focus-visible {
+    color: inherit;
+  }
 }

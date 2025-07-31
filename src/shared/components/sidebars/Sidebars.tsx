@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import clsx from 'clsx'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 import type { IconsId } from '@/shared/types'
@@ -23,30 +24,41 @@ type SidebarLink = {
 
 export const Sidebars = () => {
   const pathname = usePathname()
+  const tSidebars = useTranslations('common.sidebars')
 
   const main: SidebarLink[] = [
-    { name: 'Feed', href: ROUTES.FEED, iconOutline: 'homeOutline', icon: 'home' },
-    { name: 'Create', href: '#', iconOutline: 'plusSquareOutline', icon: 'plusSquare' },
-    { name: 'My Profile', href: '#', iconOutline: 'personOutline', icon: 'person' },
+    { name: tSidebars('feed'), href: ROUTES.FEED, iconOutline: 'homeOutline', icon: 'home' },
+    { name: tSidebars('create'), href: '#', iconOutline: 'plusSquareOutline', icon: 'plusSquare' },
+    { name: tSidebars('myProfile'), href: '#', iconOutline: 'personOutline', icon: 'person' },
     {
-      name: 'Messenger',
+      name: tSidebars('messenger'),
       href: ROUTES.MESSAGES,
       iconOutline: 'messageCircleOutline',
       icon: 'messageCircle',
     },
-    { name: 'Search', href: ROUTES.SEARCH, iconOutline: 'searchOutline', icon: 'search' },
+    {
+      name: tSidebars('search'),
+      href: ROUTES.SEARCH,
+      iconOutline: 'searchOutline',
+      icon: 'search',
+    },
   ]
 
   //TODO: не та иконка на bookmarkOutline
 
   const tools: SidebarLink[] = [
     {
-      name: 'Statistics',
+      name: tSidebars('statistics'),
       href: ROUTES.STATS,
       iconOutline: 'trendingUpOutline',
       icon: 'trendingUp',
     },
-    { name: 'Favorites', href: ROUTES.FAVORITES, iconOutline: 'bookmarkOutline', icon: 'bookmark' },
+    {
+      name: tSidebars('favorites'),
+      href: ROUTES.FAVORITES,
+      iconOutline: 'bookmarkOutline',
+      icon: 'bookmark',
+    },
   ]
 
   const isActive = (href: string) => pathname === href

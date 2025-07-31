@@ -1,18 +1,27 @@
+import clsx from 'clsx'
+
 import { CounterDisplay } from '@/features/public-user-count/ui/counter-display/CounterDisplay'
-import { Typography } from '@/shared/components/ui'
+import { Title } from '@/features/public-user-count/ui/title/Title'
 import { BASE_API } from '@/shared/constants'
 
 import s from './PublicUserCount.module.scss'
 
-export const PublicUserCount = async () => {
+type Props = {
+  className?: string
+}
+
+export const PublicUserCount = async ({ className }: Props) => {
   const res = await fetch(`${BASE_API}/public-user`)
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch public user count')
+  }
+
   const data = await res.json()
 
   return (
-    <div className={s.wrapper}>
-      <Typography as={'h2'} variant={'h2'}>
-        Registered users:
-      </Typography>
+    <div className={clsx(s.wrapper, className)}>
+      <Title />
       <CounterDisplay count={data.totalCount} />
     </div>
   )

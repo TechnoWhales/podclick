@@ -1,14 +1,18 @@
 import { Suspense } from 'react'
 
-import { PublicUserCount } from '@/features/public-user-count'
+import { PublicCards } from '@/features/public-cards/ui/PublicCards'
+import { PublicUserCount } from '@/features/public-user-count/ui/PublicUserCount'
 import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Providers } from '@/shared/providers'
+
+import s from './Page.module.scss'
 
 export default function Home() {
   return (
     <Providers>
       <Suspense fallback={<CircleLoading />}>
-        <PublicUserCount />
+        <PublicUserCount className={s.publicUserCount} />
+        <PublicCards />
       </Suspense>
     </Providers>
   )

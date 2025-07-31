@@ -1,0 +1,20 @@
+.card {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.postAuthor{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.time {
+  color: var(--color-light-900);
+}
