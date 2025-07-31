@@ -1,0 +1,59 @@
+:root {
+  --toastify-color-success: var(--color-success-900);
+  --toastify-color-error: var(--color-danger-900);
+  --toastify-color-warning: var(--color-warning-900);
+  --toastify-color-info: var(--color-accent-900);
+  --toastify-toast-min-height: 48px;
+  --toastify-toast-padding: 11px 41px 11px 23px;
+  --toastify-toast-bd-radius: 2px;
+  --toastify-font-family: var(--font-family-primary), sans-serif;
+}
+
+.Toastify__toast {
+  box-sizing: border-box;
+  border: 1px solid;
+}
+
+.Toastify__toast-theme--colored {
+  &.Toastify__toast--success {
+    border-color: var(--color-success-500);
+  }
+
+  &.Toastify__toast--error {
+    border-color: var(--color-danger-500);
+  }
+
+  &.Toastify__toast--warning {
+    border-color: var(--color-warning-500);
+  }
+
+  &.Toastify__toast--info {
+    border-color: var(--color-accent-500);
+  }
+}
+
+.Toastify__toast-container--bottom-left {
+  left: 13.5%;
+}
+
+.Toastify__close-button {
+  top: 15px;
+  right: 23px;
+}
+
+@media only screen and (width <= 1280px) {
+  .Toastify__toast-container--bottom-left {
+    left: 5%;
+  }
+}
+
+@media only screen and (width <= 480px) {
+  .Toastify__toast-container--bottom-left {
+    left: var(--toastify-toast-left);
+  }
+
+  .Toastify__toast {
+    margin-bottom: 5px;
+    border-radius: var(--toastify-toast-bd-radius);
+  }
+}
