@@ -1,0 +1,21 @@
+.appGrid {
+  display: grid;
+  height: calc(100vh - 60px);
+}
+
+.withSidebar {
+  grid-template-columns: 220px 1fr;
+}
+
+.withSidebar main {
+  overflow-y: auto;
+}
+
+.centerContent {
+  display: grid;
+  height: calc(100vh - 60px);
+}
+
+.centerContent main {
+  width: 100%;
+}

@@ -1,0 +1,45 @@
+@use '../../../../../shared/styles/mixins/line-clamp' as *;
+
+.wrapper {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text {
+  position: relative;
+}
+
+.clamped {
+  @include line-clamp(3)
+}
+
+.inlineButton {
+  display: inline;
+  padding: 0;
+}
+
+
+//.wrapper {
+//  position: relative; // щоб кнопка позиціонувалася відносно цього контейнера
+//  font-size: var(--font-size-xs);
+//  line-height: var(--line-height-xl);
+//}
+//
+//.text {
+//  @include line-clamp(3);
+//  /* дестеріть праворуч простір під кнопку, щоб вона не накладалася на текст */
+//}
+
+//.inlineButton {
+//  position: absolute;
+//  bottom: 0; // по нижній межі .text (третій рядок)
+//  right: 0; // по правій межі .text
+//  padding: 0;
+//  background: none; // (чи ваші стилі)
+//  border: none;
+//  cursor: pointer;
+//
+//  /* за потреби підправте розміри шрифту / кольори: */
+//  font-size: 0.875rem;
+//  color: #007bff;
+//}

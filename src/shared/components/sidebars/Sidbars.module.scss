@@ -1,0 +1,41 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  padding: 72px 0 36px 60px;
+  border-right: 1px solid var(--color-dark-300);
+}
+
+.list {
+  &:first-child {
+    margin-bottom: 60px;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}
+
+.nav > ul:last-child {
+  margin-top: auto;
+}
+
+.button {
+  gap: 12px;
+  justify-content: start;
+  padding: 0;
+  color: var(--color-light-100);
+
+  &:focus-visible {
+    color: inherit;
+  }
+}
+
+.active {
+  color: var(--color-accent-500);
+
+  &:focus-visible {
+    color: var(--color-accent-500);
+  }
+}

@@ -6,9 +6,8 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { useResendConfirmationEmailMutation } from '@/features/auth/email-verification/email-verified/api/emailVerifiedApi'
+import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Container, TextField, Typography } from '@/shared/components/ui'
-import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { COLORS } from '@/shared/constants'
 import { EmailType, useEmailSchema } from '@/shared/hooks'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
@@ -39,11 +38,7 @@ export const EmailVerified = () => {
   const { isChecked } = useCheckQueryParams({ redirectUrl: '/' })
 
   if (!isChecked) {
-    return (
-      <div className={'circularProgressContainer'}>
-        <Ring size={150} color={COLORS.accent['500']} />
-      </div>
-    )
+    return <CircleLoading />
   }
 
   return (
