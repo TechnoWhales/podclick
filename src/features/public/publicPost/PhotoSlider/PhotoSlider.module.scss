@@ -1,0 +1,140 @@
+.publicPostDots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+  border-radius: 2px;
+
+  //background-color: rgb(51 51 51 / 50%);
+  opacity: 0.9;
+  background-color: var(--color-accent-500);
+
+
+  & li {
+    cursor: pointer;
+
+    position: relative;
+
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    & button {
+      cursor: pointer;
+      color: transparent;
+      background: transparent;
+      outline: none;
+
+      &::before {
+        content: '•';
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+
+        font-size: 28px;
+        -webkit-font-smoothing: antialiased;
+        color: var(--color-light-100);
+      }
+    }
+  }
+}
+
+.publicPostDots :global(li.slick-active) button::before {
+  color: var(--color-accent-500);
+}
+
+
+.imageLeftArrow {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  opacity: 0.5;
+  background-color: var(--color-dark-300)
+
+}
+
+.imageLeftArrow:hover {
+  cursor: pointer;
+
+}
+
+.imageRightArrow {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  background-color: var(--color-dark-300)
+}
+
+.imageRightArrow:hover {
+  cursor: pointer;
+  // background-color: rgb(51 51 51 / 100%);
+}
+
+.slideWrapper {
+  position: relative;
+  max-width: 492px;
+  height: 100%;
+
+}
+
+.slideWrapperOpacity {
+  position: relative;
+  max-width: 492px;
+  opacity: 0.2;
+}
+
+.slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //width: 100%;
+ // height: 100%;
+
+}
+
+.image {
+  max-width: 490px;
+  width: 100%;
+  max-height: 562px;
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+/*.defaultImage {
+  width: 100%;
+  max-width: 490px;
+  height: 100%;
+  min-height: 562px;
+  padding: 96px;
+
+  object-fit: cover;
+
+  background-color: var(--light-900);
+}*/
+

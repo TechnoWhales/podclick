@@ -12,7 +12,7 @@ type ModalSize = 'lg' | 'md' | 'sm'
 type Props = {
   open: boolean
   onClose: () => void
-  modalTitle: string
+  modalTitle?: string
   size?: ModalSize
 } & ComponentPropsWithoutRef<'div'>
 
@@ -29,7 +29,7 @@ export const Modal = ({
     <Dialog.Portal>
       <Dialog.Overlay className={s.overlay} />
       <Dialog.Content className={clsx(s.content, s[size], className)}>
-        <Dialog.Title className={s.title}>{modalTitle}</Dialog.Title>
+        {modalTitle && <Dialog.Title className={s.title}>{modalTitle}</Dialog.Title>}
         <hr />
         {children}
         <Dialog.Close asChild>
