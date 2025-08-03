@@ -38,3 +38,10 @@ export const SmallAvatar: Story = {
     title: 'Small avatar',
   },
 }
+export const ExtraSmallAvatar: Story = {
+  args: {
+    url: '/mock/avatar.png',
+    size: 24,
+    title: 'Extra Small avatar',
+  },
+}

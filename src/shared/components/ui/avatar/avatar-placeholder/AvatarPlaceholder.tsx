@@ -1,8 +1,9 @@
+'use client'
 type Props = {
-  size?: 204 | 48 | 36
+  size?: 204 | 48 | 36 | 24
 }
 
-export const AvatarPlaceholder = ({ size = 36 }: Props) => (
+export const AvatarPlaceholder = ({ size = 24 }: Props) => (
   <svg viewBox={'0 0 40 40'} width={size} height={size} xmlns={'http://www.w3.org/2000/svg'}>
     <circle cx={'20'} cy={'20'} r={'20'} fill={'#232136'} />
     <path
