@@ -2,31 +2,22 @@
 
 import * as React from 'react'
 
-import clsx from 'clsx'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
 
-import type { IconsId } from '@/shared/types'
+import type { SidebarLink } from '@/shared/components/sidebars/lib/types/Sidebars.types'
 
 import { LogOutButton } from '@/features/auth'
 import { usePathname } from '@/i18n/navigation'
-import { Button, Icon } from '@/shared/components/ui'
+import { SidebarsList } from '@/shared/components/sidebars/ui/sidebars/sidebars-list/SidebarsList'
 import { ROUTES } from '@/shared/constants'
 
-import s from './Sidbars.module.scss'
-
-type SidebarLink = {
-  name: string
-  href: string
-  iconOutline: IconsId
-  icon: IconsId
-}
+import s from './Sidebars.module.scss'
 
 export const Sidebars = () => {
   const pathname = usePathname()
   const tSidebars = useTranslations('common.sidebars')
 
-  const main: SidebarLink[] = [
+  const mainList: SidebarLink[] = [
     { name: tSidebars('feed'), href: ROUTES.FEED, iconOutline: 'homeOutline', icon: 'home' },
     { name: tSidebars('create'), href: '#', iconOutline: 'plusSquareOutline', icon: 'plusSquare' },
     { name: tSidebars('myProfile'), href: '#', iconOutline: 'personOutline', icon: 'person' },
@@ -46,7 +37,7 @@ export const Sidebars = () => {
 
   //TODO: не та иконка на bookmarkOutline
 
-  const tools: SidebarLink[] = [
+  const toolsList: SidebarLink[] = [
     {
       name: tSidebars('statistics'),
       href: ROUTES.STATS,
@@ -66,38 +57,8 @@ export const Sidebars = () => {
   return (
     <aside>
       <nav className={s.nav}>
-        <ul className={s.list}>
-          {main.map(i => (
-            <li key={i.name}>
-              <Button
-                as={Link}
-                href={i.href}
-                variant={'link'}
-                className={clsx(s.button, { [s.active]: isActive(i.href) })}
-              >
-                <Icon iconId={isActive(i.href) ? i.icon : i.iconOutline} />
-                {i.name}
-              </Button>
-            </li>
-          ))}
-        </ul>
-
-        <ul className={s.list}>
-          {tools.map(i => (
-            <li key={i.name}>
-              <Button
-                as={Link}
-                href={i.href}
-                variant={'link'}
-                className={clsx(s.button, { [s.active]: isActive(i.href) })}
-              >
-                <Icon iconId={i.icon} />
-                {i.name}
-              </Button>
-            </li>
-          ))}
-        </ul>
-
+        <SidebarsList isActive={isActive} list={mainList} />
+        <SidebarsList isActive={isActive} list={toolsList} />
         <ul>
           <li>
             {/*TODO: решить вопрос с кнопкой*/}
