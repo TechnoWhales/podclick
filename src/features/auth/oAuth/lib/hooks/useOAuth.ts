@@ -2,7 +2,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 
 import { useRouter } from 'next/navigation'
 
-import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
+import { ACCESS_TOKEN, BASE_API, ROUTES } from '@/shared/constants'
 import { notify } from '@/shared/lib/notify'
 
 import { useGoogleLoginMutation } from '../../api/oAuthApi'
@@ -37,10 +37,10 @@ export const useOAuth = () => {
   })
 
   const loginWithGithub = () => {
-    const redirectUrl = encodeURIComponent(window.location.origin + '/auth/')
+    const redirectUrl = encodeURIComponent(window.location.origin + '/auth/github')
 
     window.location.assign(
-      `https://inctagram.work/api/v1/auth/github/login?redirect_url=${redirectUrl}`
+      `${BASE_API}/auth/github/login?redirect_url=${redirectUrl}`
     )
   }
 
