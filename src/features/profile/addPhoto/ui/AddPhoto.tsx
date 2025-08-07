@@ -18,15 +18,14 @@ import { Modal } from '@/shared/components/ui/modal/Modal'
 import s from './AddPhoto.module.scss'
 
 export const AddPhoto = () => {
-  const t = useTranslations('addPost')
   const [currentPage, setCurrentPage] = useState<PageType>('initialImg')
   const [images, setImage] = useState<ImageType[]>([])
   const [currentImage, setCurrentImage] = useState(0)
   const [open, setOpen] = useState(false)
   const [openCloseModal, setOpenCloseModal] = useState(false)
 
+  const t = useTranslations('addPost')
   const { clearAll, saveImages } = useImageDB()
-
   const searchParams = useSearchParams()
   const router = useRouter()
   const path = usePathname()
@@ -106,7 +105,7 @@ export const AddPhoto = () => {
           <Publication
             currentImage={currentImage}
             setCurrentImageAction={setCurrentImage}
-            imagesArr={images}
+            images={images}
             backBtn={() => setCurrentPage('filter')}
           />
         )

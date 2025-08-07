@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import { FiltersType, ImageType, PageType } from '@/features/profile/addPhoto/types/Image'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
-import { applyCssFilterToImage } from '@/features/profile/addPhoto/utils/saveFilteredImage'
+import { saveImageWithFilter } from '@/features/profile/addPhoto/utils/filters/saveImageWithFilter'
 import { Button, Typography } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
@@ -19,7 +19,6 @@ type Props = {
   setImageAction: (image: ImageType[]) => void
   setCurrentImageAction: (index: number) => void
 }
-
 
 export const Filters = ({
   images,
@@ -53,11 +52,7 @@ export const Filters = ({
           return { ...item, filteredImg: item.croppedImg }
         }
 
-        const filteredImg = await applyCssFilterToImage(item.croppedImg, item.currentFilter.value)
-
-        if (typeof filteredImg !== 'string') {
-          return { ...item, filteredImg: item.croppedImg }
-        }
+        const filteredImg = await saveImageWithFilter(item.croppedImg, item.currentFilter.value)
 
         return {
           ...item,
@@ -72,7 +67,7 @@ export const Filters = ({
   return (
     <div className={s.filters}>
       {
-        <TitlePhotoPages nextBtnAction={nextBtnHandler} backBtnAction={backBtnAction}>
+        <TitlePhotoPages nextBtnAction={nextBtnHandler} backBtnAction={backBtnAction}> // TODO: Дизаблить кнопку
           {t('title')}
         </TitlePhotoPages>
       }
@@ -83,14 +78,10 @@ export const Filters = ({
           onAfterChange={i => setCurrentImageAction(i)}
         >
           {images.map(item => {
-            if (!item.croppedImg) {
-              return
-            }
-
             return (
               <div key={item.id} className={s.sliderItem}>
                 <Image
-                  className={s[item.currentFilter?.filter || '']}
+                  className={s[item.currentFilter.filter]}
                   src={item.croppedImg}
                   alt={'Empty photo'}
                   width={item.currentWidthImage}
@@ -130,7 +121,7 @@ export const Filters = ({
 
 
 const filters: FiltersType[] = [
-  { filter: 'normal', name: 'Normal', value: null },
+  { filter: 'normal', name: 'Normal', value: '' },
   {
     filter: 'clarendon',
     name: 'Clarendon',

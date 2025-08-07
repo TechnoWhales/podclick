@@ -13,8 +13,8 @@ import {
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
-import { fitImageToContainerOrRatio } from '@/features/profile/addPhoto/utils/fitImageToContainerOrRatio'
-import { getCroppedImg } from '@/features/profile/addPhoto/utils/getCroppedImg'
+import { fitImageToContainerOrRatio } from '@/features/profile/addPhoto/utils/cropping/fitImageToContainerOrRatio'
+import { getCroppedImg } from '@/features/profile/addPhoto/utils/cropping/getCroppedImg'
 import { Icon, Popover, Typography } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
 
@@ -29,6 +29,8 @@ type Props = {
   setCurrentImageAction: (index: number) => void
 }
 
+const maxZoom = 10
+
 export const Cropping = ({
   images,
   nextBtnAction,
@@ -37,12 +39,10 @@ export const Cropping = ({
   currentImage,
   setCurrentImageAction,
 }: Props) => {
-  const t = useTranslations('addPost.cropping')
   const [isDisable, setIsDisable] = useState(false)
   // Определяет, какая часть изображения будет отображаться в Cropper
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [isFirstLoading, setIsFistLoading] = useState(true)
-
   // Текущие размеры изображения для отображения в окне кропинга
   const [currentHeightImage, setCurrentHeightImage] = useState(490)
   const [currentWidthImage, setCurrentWidthImage] = useState(490)
@@ -53,13 +53,12 @@ export const Cropping = ({
     x: 0,
     y: 0,
   })
-
   const [zoom, setZoom] = useState(1)
   const [minZoom, setMinZoom] = useState(1)
-
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
   const [currentRatio, setCurrentRatio] = useState<RatioType>('1:1')
 
+  const t = useTranslations('addPost.cropping')
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
     onUpload: ({ base64: img }) => {
@@ -80,12 +79,6 @@ export const Cropping = ({
       }
     },
   })
-
-  const maxZoom = 10
-  const rationOriginal = currentRatio === 'original'
-  const ration1to1 = currentRatio === '1:1'
-  const ration4to5 = currentRatio === '4:5'
-  const ration16to9 = currentRatio === '16:9'
 
   useEffect(() => {
     if (isFirstLoading && images[currentImage].croppedImg !== null) {
@@ -221,6 +214,11 @@ export const Cropping = ({
     setIsFistLoading(true)
     nextBtnAction(croppedImages, 'filter')
   }
+
+  const rationOriginal = currentRatio === 'original'
+  const ration1to1 = currentRatio === '1:1'
+  const ration4to5 = currentRatio === '4:5'
+  const ration16to9 = currentRatio === '16:9'
 
   const ratioOptions = [
     { value: 'original', label: 'Оригинал', icon: 'imageOutline', isActive: rationOriginal },

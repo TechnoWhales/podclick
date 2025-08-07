@@ -12,9 +12,9 @@ export type PageType = 'initialImg' | 'cropping' | 'filter' | 'publication'
 export type ImageType = {
   id: string
   img: string
-  croppedImg: string | null
-  filteredImg: string | null
-  currentFilter: FiltersType | null
+  croppedImg: string
+  filteredImg: string
+  currentFilter: FiltersType
   currentHeightImage: number
   currentWidthImage: number
   naturalWidthImage: number
@@ -27,7 +27,7 @@ export type ImageType = {
 }
 
 export type FiltersType =
-  | { filter: 'normal'; name: 'Normal'; value: null }
+  | { filter: 'normal'; name: 'Normal'; value: '' }
   | {
       filter: 'clarendon'
       name: 'Clarendon'

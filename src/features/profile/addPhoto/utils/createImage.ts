@@ -16,9 +16,9 @@ export const createImage = ({
   return {
     id: nanoid(),
     img,
-    croppedImg: null,
-    filteredImg: null,
-    currentFilter: null,
+    croppedImg: img,
+    filteredImg: img,
+    currentFilter: { filter: 'normal', name: 'Normal', value: '' },
     currentHeightImage: 0,
     currentWidthImage: 0,
     naturalWidthImage,
