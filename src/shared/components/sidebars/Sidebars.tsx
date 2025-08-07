@@ -28,7 +28,7 @@ export const Sidebars = () => {
 
   const main: SidebarLink[] = [
     { name: tSidebars('feed'), href: ROUTES.FEED, iconOutline: 'homeOutline', icon: 'home' },
-    { name: tSidebars('create'), href: '#', iconOutline: 'plusSquareOutline', icon: 'plusSquare' },
+    { name: tSidebars('create'), href: `${ROUTES.PROFILE}/123/?action=create`, iconOutline: 'plusSquareOutline', icon: 'plusSquare' }, //TODO: 123 заменить на id из localstorage
     { name: tSidebars('myProfile'), href: '#', iconOutline: 'personOutline', icon: 'person' },
     {
       name: tSidebars('messenger'),
