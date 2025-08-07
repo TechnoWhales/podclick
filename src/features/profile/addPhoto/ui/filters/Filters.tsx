@@ -1,10 +1,9 @@
 'use client'
-import { useState } from 'react'
 
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
-import { FiltersType, ImageType } from '@/features/profile/addPhoto/types/Image'
+import { FiltersType, ImageType, PageType } from '@/features/profile/addPhoto/types/Image'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { applyCssFilterToImage } from '@/features/profile/addPhoto/utils/saveFilteredImage'
 import { Button, Typography } from '@/shared/components/ui'
@@ -15,43 +14,12 @@ import s from '@/features/profile/addPhoto/ui/filters/Filters.module.scss'
 type Props = {
   images: ImageType[]
   currentImage: number
-  nextBtnAction: (images: ImageType[]) => void
+  nextBtnAction: (images: ImageType[], pageName: PageType) => void
   backBtnAction: () => void
   setImageAction: (image: ImageType[]) => void
   setCurrentImageAction: (index: number) => void
 }
 
-const filters: FiltersType[] = [
-  { filter: 'normal', name: 'Normal', value: null },
-  {
-    filter: 'clarendon',
-    name: 'Clarendon',
-    value: 'contrast(1.2) saturate(1.35) brightness(1.1) hue-rotate(-10deg)',
-  },
-  { filter: 'lark', name: 'Lark', value: 'saturate(1.5) brightness(1.15) contrast(1.1)' },
-  {
-    filter: 'gingham',
-    name: 'Gingham',
-    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
-  },
-  { filter: 'moon', name: 'Moon', value: 'grayscale(1) brightness(1.2) contrast(1.1)' },
-  {
-    filter: 'gingham',
-    name: 'Gingham',
-    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
-  },
-  {
-    filter: 'gingham',
-    name: 'Gingham',
-    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
-  },
-  { filter: 'moon', name: 'Moon', value: 'grayscale(1) brightness(1.2) contrast(1.1)' },
-  {
-    filter: 'gingham',
-    name: 'Gingham',
-    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
-  },
-]
 
 export const Filters = ({
   images,
@@ -62,7 +30,6 @@ export const Filters = ({
   setCurrentImageAction,
 }: Props) => {
   const t = useTranslations('addPost.filters')
-  // const [currentSlide, setCurrentSlide] = useState(0)
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
     const newFilter = images.map((item, i) => {
@@ -99,7 +66,7 @@ export const Filters = ({
       })
     )
 
-    nextBtnAction(filteredImg)
+    nextBtnAction(filteredImg, 'publication')
   }
 
   return (
@@ -160,3 +127,36 @@ export const Filters = ({
     </div>
   )
 }
+
+
+const filters: FiltersType[] = [
+  { filter: 'normal', name: 'Normal', value: null },
+  {
+    filter: 'clarendon',
+    name: 'Clarendon',
+    value: 'contrast(1.2) saturate(1.35) brightness(1.1) hue-rotate(-10deg)',
+  },
+  { filter: 'lark', name: 'Lark', value: 'saturate(1.5) brightness(1.15) contrast(1.1)' },
+  {
+    filter: 'gingham',
+    name: 'Gingham',
+    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+  },
+  { filter: 'moon', name: 'Moon', value: 'grayscale(1) brightness(1.2) contrast(1.1)' },
+  {
+    filter: 'gingham',
+    name: 'Gingham',
+    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+  },
+  {
+    filter: 'gingham',
+    name: 'Gingham',
+    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+  },
+  { filter: 'moon', name: 'Moon', value: 'grayscale(1) brightness(1.2) contrast(1.1)' },
+  {
+    filter: 'gingham',
+    name: 'Gingham',
+    value: 'sepia(0.2) saturate(0.85) contrast(0.9) brightness(1.05)',
+  },
+]

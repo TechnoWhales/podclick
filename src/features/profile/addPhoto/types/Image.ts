@@ -7,7 +7,7 @@ export type CroppedAreaPixelsType = {
 
 export type RatioType = '1:1' | '4:5' | '16:9' | 'original'
 
-export type Mode = 'initialImg' | 'cropping' | 'filter' | 'publication'
+export type PageType = 'initialImg' | 'cropping' | 'filter' | 'publication'
 
 export type ImageType = {
   id: string

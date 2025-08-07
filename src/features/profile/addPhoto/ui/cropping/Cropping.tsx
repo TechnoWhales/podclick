@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl'
 
 import {
   CroppedAreaPixelsType,
-  ImageType,
+  ImageType, PageType,
   RatioType,
 } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'
@@ -24,7 +24,7 @@ type Props = {
   images: ImageType[]
   currentImage: number
   backBtnAction: () => void
-  nextBtnAction: (images: ImageType[]) => void
+  nextBtnAction: (images: ImageType[], padeName: PageType) => void
   setImageAction: (images: ImageType[]) => void
   setCurrentImageAction: (index: number) => void
 }
@@ -59,7 +59,6 @@ export const Cropping = ({
 
   // Текущий режим соотношения сторон изображения ('original', '1:1', '4:5', '16:9'), влияет на область обрезки и зум
   const [currentRatio, setCurrentRatio] = useState<RatioType>('1:1')
-  // const [currentImage, setCurrentImage] = useState(0)
 
   const { UploadButton } = useUploadFile({
     typeFile: 'pngjpeg',
@@ -220,7 +219,7 @@ export const Cropping = ({
 
     setIsDisable(false)
     setIsFistLoading(true)
-    nextBtnAction(croppedImages)
+    nextBtnAction(croppedImages, 'filter')
   }
 
   const ratioOptions = [

@@ -14,6 +14,7 @@ import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { base64ToFile } from '@/features/profile/addPhoto/utils/base64ToFile'
 import { TextField } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
+import { UserAvatar } from '@/shared/components/user-avatar/UserAvatar'
 import { handleError } from '@/shared/utils/handleError'
 
 import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scss'
@@ -31,7 +32,6 @@ export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageA
   const [uploadImagesForPost] = useUploadImagesForPostMutation()
   const [createPost] = useCreatePostMutation()
   const [publicationText, setPublicationText] = useState('')
-  const profileName = 'URLProfile'
 
   const setPublicationTextHandler = (text: string) => {
     if (text.length > 500) {
@@ -100,16 +100,7 @@ export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageA
         </PhotoSlider>
         <div className={s.contentWrapper}>
           <div className={s.decrWrapper}>
-            <div className={s.avatarWrapper}>
-              <Image
-                className={s.avatarImg}
-                src={'./empty-photo.svg'}
-                alt={'Avatar image'}
-                width={36}
-                height={36}
-              />
-              {profileName}
-            </div>
+            <UserAvatar img={''} name={'Test user'}/>
             <div>
               <TextField
                 value={publicationText}

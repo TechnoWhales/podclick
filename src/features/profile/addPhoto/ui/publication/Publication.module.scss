@@ -23,17 +23,6 @@
     .decrWrapper {
       margin: 0 auto 35px;
       width: 432px;
-      .avatarWrapper {
-        margin-top: 24px;
-        display: flex;
-        align-items: center;
-        .avatarImg {
-          border-radius: 50%;
-          background-color: #fff;
-          margin-right: 12px;
-        }
-      }
-
         .textLengthWrapper {
           text-align: right;
           color: var(--color-light-900);

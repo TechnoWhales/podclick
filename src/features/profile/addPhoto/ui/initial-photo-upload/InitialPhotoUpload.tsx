@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 import { useImageDB } from '@/features/profile/addPhoto/hooks/useImageDB'
-import { ImageType } from '@/features/profile/addPhoto/types/Image'
+import { ImageType, PageType } from '@/features/profile/addPhoto/types/Image'
 import { createImage } from '@/features/profile/addPhoto/utils/createImage'
 import { Button } from '@/shared/components/ui'
 import { useUploadFile } from '@/shared/hooks/useUploadFile'
@@ -13,12 +13,10 @@ import { useUploadFile } from '@/shared/hooks/useUploadFile'
 import s from '@/features/profile/addPhoto/ui/initial-photo-upload/InitialPhotoUpload.module.scss'
 
 type Props = {
-  setImageAction: (img: ImageType) => void
-  openDraftAction: (img: ImageType[]) => void
-  nextBtnAction: () => void
+  nextBtnAction: (image: ImageType[], pageName: PageType) => void
 }
 
-export const InitialPhotoUpload = ({ setImageAction, nextBtnAction, openDraftAction }: Props) => {
+export const InitialPhotoUpload = ({ nextBtnAction }: Props) => {
   const t = useTranslations('addPost.addPhoto')
   const { getImages } = useImageDB()
   const { UploadButton } = useUploadFile({
@@ -37,8 +35,7 @@ export const InitialPhotoUpload = ({ setImageAction, nextBtnAction, openDraftAct
         const naturalHeightImage = imageEl.naturalHeight
         const image = createImage({ img, naturalWidthImage, naturalHeightImage })
 
-        setImageAction(image)
-        nextBtnAction()
+        nextBtnAction([image], 'cropping')
       }
     },
   })
@@ -47,8 +44,7 @@ export const InitialPhotoUpload = ({ setImageAction, nextBtnAction, openDraftAct
     const images = await getImages('images')
 
     if (images) {
-      openDraftAction(images)
-      nextBtnAction()
+      nextBtnAction(images, 'cropping')
     }
   }
 
