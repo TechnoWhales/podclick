@@ -1,0 +1,143 @@
+.cropping {
+height: 100%
+}
+
+.container {
+  position: relative;
+  height: 498px;
+  .cropWrapper {}
+
+  .popoversWrapper {
+    position: absolute;
+    z-index: 999;
+    bottom: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    margin-top: 12px;
+    padding: 0 12px;
+    .controlsWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & > * + * {
+        margin-left: 24px;
+      }
+    }
+  }
+}
+
+.aspectRatioWrapper {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 130px;
+  margin-bottom: 12px;
+
+  color: var(--color-light-900);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  & svg {
+    stroke: var(--color-light-900);
+
+    &.active {
+      stroke: var(--color-light-100);
+    }
+  }
+
+  &.active {
+    color: var(--color-light-100);
+
+    svg {
+      stroke: var(--color-light-100);
+    }
+  }
+
+  &.imageOutline {
+    svg {
+      fill: var(--color-light-900);
+      stroke: none;
+    }
+
+    &.active svg {
+      fill: var(--color-light-100);
+    }
+  }
+}
+
+
+.photoPanel {
+  display: flex;
+  .saveBtn {
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
+    width: 36px;
+    color: var(--color-light-100);
+    margin-right: 12px;
+    background-color: var(--color-dark-500);
+    opacity: 0.8;
+    &:hover {
+      color: var(--color-accent-500);
+    }
+  }
+}
+
+.photoItemsWrapper {
+  max-width: 330px;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 12px;
+
+  > * {
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .plusBtn {
+    width: 30px;
+    height: 30px;
+    &.disabled {
+      cursor: not-allowed;
+      color: var(--color-dark-100);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: var(--color-light-100);
+    border-radius: 2px;
+  }
+}
+.photoItemWrapper {
+  min-width: 82px;
+  min-height: 82px;
+  position: relative;
+  cursor: pointer;
+  .removePhoto {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: var(--color-dark-500);
+    opacity: 0.8;
+  }
+
+}
+

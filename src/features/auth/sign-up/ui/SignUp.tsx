@@ -12,6 +12,7 @@ import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { ROUTES } from '@/shared/constants'
+import { BASE_API } from '@/shared/constants/constants'
 import { SignUpType, useSignUnSchema } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
@@ -54,7 +55,7 @@ export const SignUp = () => {
       userName: data.userName,
       email: data.email,
       password: data.password,
-      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/email-verified-success`,
+      baseUrl: `${BASE_API}/auth/email-verified-success`,
     }
 
     registration(body)
