@@ -7,8 +7,8 @@ import { ROUTES } from '@/shared/constants'
 
 export default function InfoPageLayout({ children }: { children: ReactNode }) {
   return (
-    <main>
-      <Container width={1310} padding={'24px 15px 227px'}>
+    <>
+      <div style={{ padding: '24px 0 227px' }}>
         <Link href={ROUTES.AUTH.SIGN_UP} passHref legacyBehavior>
           <Typography
             as={'a'}
@@ -21,7 +21,7 @@ export default function InfoPageLayout({ children }: { children: ReactNode }) {
         <Container width={988} padding={'23px 15px 0'}>
           {children}
         </Container>
-      </Container>
-    </main>
+      </div>
+    </>
   )
 }
