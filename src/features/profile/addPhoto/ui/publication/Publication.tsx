@@ -101,7 +101,7 @@ export const Publication = ({ images, backBtn, currentImage, setCurrentImageActi
         </PhotoSlider>
         <div className={s.contentWrapper}>
           <div className={s.decrWrapper}>
-            <UserAvatar img={''} name={'Test user'}/>
+            {/*<UserAvatar img={''} name={'Test user'}/>*/}
             <div>
               <TextField
                 value={publicationText}
