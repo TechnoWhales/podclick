@@ -29,7 +29,7 @@ export const PhotoSlider = ({
   ...rest
 }: Props) => {
   const sliderRef = useRef<Slider>(null)
-  // const [currentSlide, setCurrentSlide] = useState(0)
+
 
   useEffect(() => {
     if (currentSlide != null) {

@@ -189,7 +189,7 @@ export const Cropping = ({
       images.map(async item => {
         if (!item.currentHeightImage && !item.currentWidthImage) {
           const { currentWidthImage, currentHeightImage } = fitImageToContainerOrRatio({
-            currentRatio: item.ratio,
+            currentRatio: 'original',
             image: item,
           })
 
@@ -247,7 +247,7 @@ export const Cropping = ({
             minZoom={minZoom}
             maxZoom={maxZoom}
             zoomSpeed={0.5}
-            showGrid
+            showGrid={false}
             cropSize={{ width: currentWidthImage, height: currentHeightImage }}
             restrictPosition
             onCropChange={setCrop}
@@ -256,12 +256,12 @@ export const Cropping = ({
               cropAreaStyle: { border: 0, boxShadow: 'none' },
               containerStyle: {
                 margin: 'auto',
-                height: `${currentHeightImage + 8}px`,
+                height: `${currentHeightImage}px`,
                 width: `${currentWidthImage}px`,
                 borderBottomLeftRadius:
-                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '8px',
+                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '6px',
                 borderBottomRightRadius:
-                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '8px',
+                  currentHeightImage < 490 || currentWidthImage < 490 || ration4to5 ? '0' : '6px',
               },
               mediaStyle: {
                 filter: images[currentImage]?.currentFilter?.value || '',

@@ -19,15 +19,16 @@
 }
 .filtersPanelWrapper  {
   display: flex;
+  height: 490px;
 }
 
 .slider {
-  width: 488px;
-  height: 502px;
+  width: 490px;
+  height: 490px;
 }
 .sliderItem {
   position: relative;
-  height: 502px;
+  height: 490px;
 }
 
 .sliderItem > * {

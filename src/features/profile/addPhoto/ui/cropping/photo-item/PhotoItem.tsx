@@ -20,7 +20,7 @@ export const PhotoItem = ({ onClick, removePhoto, photo }: PhotoItemProps) => {
         <Icon iconId={'close'} />
       </Button>
       <Image
-        style={{ filter: photo?.currentFilter?.value || '' }}
+        style={{ filter: photo.currentFilter.value }}
         src={img}
         alt={'Empty photo'}
         width={82}

@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
@@ -28,6 +30,8 @@ export const Filters = ({
   currentImage,
   setCurrentImageAction,
 }: Props) => {
+  const [isDisable, setIsDisable] = useState(false)
+  
   const t = useTranslations('addPost.filters')
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
@@ -46,6 +50,8 @@ export const Filters = ({
   }
 
   const nextBtnHandler = async () => {
+    setIsDisable(true)
+
     const filteredImg = await Promise.all(
       images.map(async item => {
         if (!item.croppedImg || !item.currentFilter?.value) {
@@ -61,13 +67,14 @@ export const Filters = ({
       })
     )
 
+    setIsDisable(false)
     nextBtnAction(filteredImg, 'publication')
   }
 
   return (
     <div className={s.filters}>
       {
-        <TitlePhotoPages nextBtnAction={nextBtnHandler} backBtnAction={backBtnAction}> // TODO: Дизаблить кнопку
+        <TitlePhotoPages nextBtnAction={nextBtnHandler} backBtnAction={backBtnAction} disableNextBtn={isDisable}> 
           {t('title')}
         </TitlePhotoPages>
       }

@@ -43,30 +43,35 @@ export const AddPhoto = () => {
     await clearAll()
     await saveImages('images', images)
 
-    setOpenCloseModal(false)
-    setOpen(false)
-    setCurrentPage('initialImg')
+    closeModal()
     router.replace(path)
-  }
-
-  const discardHandler = () => {
-    setOpenCloseModal(false)
   }
 
   const closeHandler = () => {
     if (images.length === 0) {
-      setOpen(false)
-      setCurrentPage('initialImg')
+      closeModal()
     } else {
       setOpenCloseModal(true)
     }
     router.replace(path)
   }
 
+  const closeModal = () => {
+    setOpen(false)
+    setCurrentPage('initialImg')
+    setCurrentImage(0)
+  }
+
   const renderContent = () => {
-    const nextBtnHandler = (images: ImageType[], pageName: PageType) => {
+    const nextBtnHandler = (images: ImageType[], pageName: PageType, closeModal = false) => {
       setImage(images)
       setCurrentPage(pageName)
+
+      if (closeModal) {
+        setOpen(false)
+        router.replace(path)
+        setCurrentImage(0)
+      }
     }
 
     switch (currentPage) {
@@ -106,6 +111,7 @@ export const AddPhoto = () => {
             currentImage={currentImage}
             setCurrentImageAction={setCurrentImage}
             images={images}
+            nextBtnAction={nextBtnHandler}
             backBtn={() => setCurrentPage('filter')}
           />
         )
@@ -143,7 +149,7 @@ export const AddPhoto = () => {
           })}
         </div>
         <div className={s.btnCloseModalWrapper}>
-          <Button onClick={discardHandler} variant={'outlined'}>
+          <Button onClick={() => setOpenCloseModal(false)} variant={'outlined'}>
             {t('closeModal.discard')}
           </Button>
           <Button onClick={saveDraftHandler}>{t('closeModal.saveDraft')}</Button>

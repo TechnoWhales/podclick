@@ -9,9 +9,9 @@ import {
   useCreatePostMutation,
   useUploadImagesForPostMutation,
 } from '@/features/profile/addPhoto/api/addPhotoApi'
-import { ImageType } from '@/features/profile/addPhoto/types/Image'
+import { ImageType, PageType } from '@/features/profile/addPhoto/types/Image'
 import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
-import { base64ToFile } from '@/features/profile/addPhoto/utils/base64ToFile'
+import { base64ToFile } from '@/features/profile/addPhoto/utils/publication/base64ToFile'
 import { TextField } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 import { UserAvatar } from '@/shared/components/user-avatar/UserAvatar'
@@ -20,18 +20,20 @@ import { handleError } from '@/shared/utils/handleError'
 import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scss'
 
 type Props = {
-  imagesArr: ImageType[]
+  images: ImageType[]
   currentImage: number
   backBtn: () => void
   setCurrentImageAction: (index: number) => void
+  nextBtnAction: (images: ImageType[], pageName: PageType, closeModal: boolean) => void
 }
 
-export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageAction }: Props) => {
+export const Publication = ({ images, backBtn, currentImage, setCurrentImageAction, nextBtnAction }: Props) => {
   const [isDisable, setIsDisable] = useState(false)
-  const t = useTranslations('addPost.publication')
+  const [publicationText, setPublicationText] = useState('')
+
   const [uploadImagesForPost] = useUploadImagesForPostMutation()
   const [createPost] = useCreatePostMutation()
-  const [publicationText, setPublicationText] = useState('')
+  const t = useTranslations('addPost.publication')
 
   const setPublicationTextHandler = (text: string) => {
     if (text.length > 500) {
@@ -41,7 +43,7 @@ export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageA
   }
 
   const nextBtnHandler = async () => {
-    const imagesToFile = imagesArr.map(item => base64ToFile(item.filteredImg as string, nanoid()))
+    const imagesToFile = images.map(item => base64ToFile(item.filteredImg, nanoid()))
     const data = { files: imagesToFile }
 
     try {
@@ -65,7 +67,10 @@ export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageA
       handleError(e)
       setIsDisable(false)
     }
+
+    nextBtnAction([], 'initialImg', true)
   }
+  // TODO: img для UserAvatar брати з localstorage
 
   return (
     <div>
@@ -81,16 +86,12 @@ export const Publication = ({ imagesArr, backBtn, currentImage, setCurrentImageA
       }
       <div className={s.publicationWrapper}>
         <PhotoSlider setCurrentSlide={i => setCurrentImageAction(i)} currentSlide={currentImage}>
-          {imagesArr.map(item => {
-            if (!item.filteredImg) {
-              return
-            }
-
+          {images.map(item => {
             return (
               <div key={item.id} className={s.sliderItem}>
                 <Image
                   src={item.filteredImg}
-                  alt={'Empty photo'}
+                  alt={'Empty photo'} // TODO: Змінити alt
                   width={item.currentWidthImage}
                   height={item.currentHeightImage}
                 />
