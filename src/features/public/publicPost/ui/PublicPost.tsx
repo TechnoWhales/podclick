@@ -1,7 +1,9 @@
 'use client'
+import {useState} from 'react';
+
 import Image from 'next/image'
 
-import {CommentsPostResponse, LikesPostResponse, PostItemsResponse} from '@/features/public/publicPost/api';
+import {CommentsPostResponse, LikesPostResponse, PostItemsResponse,} from '@/features/public/publicPost/api';
 import {formatPostDate, formatRelativeTime} from '@/features/public/publicPost/dateUtils';
 import {ModalPost} from '@/features/public/publicPost/ModalPost';
 import PhotoSlider from '@/features/public/publicPost/PhotoSlider/PhotoSlider';
@@ -18,16 +20,24 @@ type Props = {
 
 }
 
-export const PublicPost = ({post, comments, likes}: Props) => {
 
+export const PublicPost = ({post, comments, likes}: Props) => {
+    const [visibleAnswers, setVisibleAnswers] = useState<{ [key: number]: boolean }>({});
 
     const answerLine = '/answer-line.svg'
     const defaultAva = '/defaultPhoto.png'
 
+    const toggleAnswersVisibility = (commentId: number) => {
+        setVisibleAnswers(prev => ({
+            ...prev,
+            [commentId]: !prev[commentId], // Переключаем видимость
+        }));
+    };
+
 
     return (
 
-        <ModalPost open onClose={() => {
+        <ModalPost open modalTitle={'view profile'} isShowTitle={false} onClose={() => {
         }}>
 
             <div className={s.container}>
@@ -71,11 +81,12 @@ export const PublicPost = ({post, comments, likes}: Props) => {
                                         className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
                                     />
                                 </div>
+
                                 <div className={s.commentWrapper}>
-                                    <Typography className={s.avatarWithComment}>
-                                        <Typography variant={'bold_text_14'}>{post.userName}</Typography>
-                                        <Typography variant={'regular_text_14'}>{post.description}</Typography>
-                                    </Typography>
+                                    <div className={s.avatarWithComment}>
+                                        <Typography variant={'regular_text_14'}>
+                                            <strong>{post.userName}</strong> {post.description}</Typography>
+                                    </div>
 
 
                                     <Typography variant={'small_text'} className={s.timeAgoText}>
@@ -112,10 +123,12 @@ export const PublicPost = ({post, comments, likes}: Props) => {
                                         />
                                     </div>
                                     <div className={s.commentWrapper}>
-                                        <Typography>
-                                            {comment.from.username} <span
-                                            className={s.commentText}>{comment.content}</span>
-                                        </Typography>
+                                        <div className={s.avatarWithComment}>
+                                            <Typography
+                                                variant={'regular_text_14'}><strong>{comment.from.username}</strong> {comment.content}
+                                            </Typography>
+                                        </div>
+
                                         <Typography variant={'small_text'} className={s.timeAgoText}>
                                             {formatRelativeTime(comment.createdAt)}
                                         </Typography>
@@ -128,11 +141,14 @@ export const PublicPost = ({post, comments, likes}: Props) => {
                                                     height={1}
                                                     className={s.answerLine}
                                                 />
-                                                <Typography variant={'bold_text_14'} className={s.ViewAnswer}>
+                                                <Typography variant={'bold_text_14'}
+                                                            className={s.ViewAnswer}
+                                                            onClick={() => toggleAnswersVisibility(comment.id)}>
                                                     View Answers ({comment.answerCount})
                                                 </Typography>
                                             </div>
                                         )}
+
                                     </div>
                                 </div>
                             ))
@@ -146,45 +162,12 @@ export const PublicPost = ({post, comments, likes}: Props) => {
                                 {post.avatarWhoLikes && post.likesCount > 0 && (
                                     <div
                                         className={s.likeAvatarsWrapper}
-                                        style={{width: '24px'}}
                                     >
                                         {likes && likes.items.slice(-3).map(item => {
+
                                             return <SmallAvatar key={item.id} data={item}/>
                                         })}
-                                        {/*<Image*/}
-                                        {/*    src={post.avatarOwner || defaultAva}*/}
-                                        {/*    alt={'User Avatar'}*/}
-                                        {/*    width={24}*/}
-                                        {/*    height={24}*/}
-                                        {/*    className={s.defaultFirstLikeAvatar}*/}
-                                        {/*/>*/}
-                                        {/* {post.likesCount >= 1 && (
-                                            <Image
-                                                src={post.avatarOwner || defaultAva}
-                                                alt={'User Avatar'}
-                                                width={24}
-                                                height={24}
-                                                className={s.defaultFirstLikeAvatar}
-                                            />
-                                        )}*/}
-                                        {/*{post.likesCount >= 2 && (
-                                            <Image
-                                                src={post.avatarOwner || defaultAva}
-                                                alt={'User Avatar'}
-                                                width={24}
-                                                height={24}
-                                                className={s.defaultSecondLikeAvatar}
-                                            />
-                                        )}*/}
-                                        {/*  {post && post.likesCount >= 3 && (
-                                            <Image
-                                                src={post.avatarOwner || defaultAva}
-                                                alt={'User Avatar'}
-                                                width={24}
-                                                height={24}
-                                                className={s.defaultThirdLikeAvatar}
-                                            />
-                                        )}*/}
+
                                     </div>
                                 )}
                                 <Typography variant={'bold_text_14'}>

@@ -1,5 +1,5 @@
 .defaultFirstLikeAvatar {
-  position: absolute;
+  // position: absolute;
   z-index: 3;
 
   overflow: hidden;
@@ -9,4 +9,8 @@
   object-fit: cover;
   background-color: var(--primary-100);
 
+}
+
+.imageWrapper{
+  flex-shrink: 0;
 }

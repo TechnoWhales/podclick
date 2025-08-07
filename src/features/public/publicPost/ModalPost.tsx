@@ -1,4 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import {VisuallyHidden} from '@radix-ui/react-visually-hidden';
 import {ComponentPropsWithoutRef} from 'react'
 
 import {Button, Icon} from '@/shared/components/ui'
@@ -9,13 +10,15 @@ import s from './ModalPost.module.scss'
 type Props = {
     open: boolean
     onClose: () => void
-    modalTitle?: string
+    modalTitle: string
+    isShowTitle?: boolean
 
 } & ComponentPropsWithoutRef<'div'>
 
 export const ModalPost = ({
 
                               modalTitle,
+                              isShowTitle = true,
                               onClose,
                               children,
                               className,
@@ -26,12 +29,22 @@ export const ModalPost = ({
         <Dialog.Portal>
             <Dialog.Overlay className={s.overlay}/>
             <Dialog.Content className={s.content}>
-                {modalTitle && <Dialog.Title
+                { isShowTitle ? <Dialog.Title
+                    className={s.title}>
+                    {modalTitle}
+
+                </Dialog.Title>
+                    : <VisuallyHidden>
+                    <Dialog.Title className={s.title}>
+                        {modalTitle}
+                    </Dialog.Title>
+                </VisuallyHidden> }
+               {/* {modalTitle && <Dialog.Title
 
                     className={s.title}>
                     {modalTitle}
 
-                </Dialog.Title>}
+                </Dialog.Title>}*/}
                 {children}
                 <Dialog.Close asChild>
                     <Button className={s.iconButton} variant={'icon'}>

@@ -1,33 +1,11 @@
 import {
     AllPublicPostsResponse,
-    CommentsPostResponse,
+    CommentsPostResponse, LikesPostResponse,
     PostItemsResponse,
     PublicPostsResponse
 } from '@/features/public/publicPost/api';
 import {PublicPost} from '@/features/public/publicPost/ui/PublicPost';
 
-
-/*const getPosts = async (userId: number, endCursorPostId?: number): Promise<AllPublicPostsResponse | null> => {
-
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/posts/user/${userId}/${endCursorPostId}`,
-        {
-            cache: 'no-store',
-        }
-    );
-
-
-    return response.json();
-}*/
-
-//    {
-//         userId: 114,
-//             endCursorPostId: 1,
-//         params: {
-//         pageSize: 7,
-//             sortBy: 'createdAt',
-//             sortDirection: 'desc',
-//     }
 
 type Params = {
     pageSize: number
@@ -116,7 +94,7 @@ const getPostCommentLikes = async (postId: number, commentId: number): Promise<C
     return response.json();
 }
 
-const getPostLikes = async (postId: number): Promise<PublicPostsResponse> => {
+const getPostLikes = async (postId: number): Promise<LikesPostResponse> => {
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/posts/${postId}/likes`, {
         cache: 'no-store',
@@ -126,52 +104,28 @@ const getPostLikes = async (postId: number): Promise<PublicPostsResponse> => {
     return response.json();
 }
 
-/*export const generateStaticParams = async () => {
-    //const userId = 1
-
-    const postsResponse = await getPosts({
-        userId: 114,
-        endCursorPostId: 1,
-        params: {
-            pageSize: 7,
-            sortBy: 'createdAt',
-            sortDirection: 'desc',
-        }
-    });
-
-    console.log(postsResponse)
-
-    if (!postsResponse || !postsResponse.items) {
-        return [];
-    }
-
-    return postsResponse.items.map(post => ({
-        postId: post.id,
-    }));
-};*/
 
 type ProfileRequest = {
-    params: { locale: string; postId: string };
+    params: { locale: string; postId: string, commentId: string };
 
 };
 
 export default async function PublicPage({params}: ProfileRequest) {
     const postId = parseInt(params.postId)
-    //const {postId} = await params;
     const postPromise = await getPost(postId);
     const commentsPromise = await getPostComments(postId);
     const likesPostPromise = await getPostLikes(postId);
 
-    const [post, comments, likes] = await Promise.all([
+    const [post, comments,likes] = await Promise.all([
         postPromise,
         commentsPromise,
-        likesPostPromise
+        likesPostPromise,
 
     ])
 
-    console.log('Post createdAt:', post);
+
 
     return <div>
-        <PublicPost post={post} comments={comments} likes={likes}/>
+        <PublicPost post={post} comments={comments} likes={likes}  />
     </div>
 }

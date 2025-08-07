@@ -1,6 +1,6 @@
 'use client'
 
-import {useRef} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import Slider from 'react-slick'
 
 import Image from 'next/image'
@@ -39,7 +39,6 @@ const PhotoSlider = ({
         return (
 
             <div
-                   /*className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow}*/
 
             >
                 {direction === 'prev'
@@ -71,6 +70,11 @@ const PhotoSlider = ({
 
     }
 
+    // useEffect(() => {
+    //     if(images.length > 0) {
+    //         setIsReady(true)
+    //     }
+    // }, [images])
 
     const settings = {
         dots: true,
@@ -85,9 +89,17 @@ const PhotoSlider = ({
     }
     const dots = images?.length > 1 ? s.publicPostDots : 'slick-dots'
 
+    useEffect(() => {
+        if (sliderRef.current && images.length > 0) {
+            sliderRef.current.slickGoTo(0);  // Сброс на первый слайд
+        }
+    }, [images]);
+
+
     return (
 
         <Slider
+            key={images.length}
             {...settings}
             className={className ? className : ''}
             dotsClass={dotClass ? dotClass : dots}
@@ -95,7 +107,8 @@ const PhotoSlider = ({
 
         >
             {images && images?.map((image, index) => (
-                <div key={index} className={s.slide}>
+
+                <div key={image.uploadId} className={s.slide} data-id={image.uploadId}>
                     <Image
                         src={image.url || defaultAva}
                         alt={'Post Image'}

@@ -13,17 +13,15 @@ export const SmallAvatar = ({data }: Props) => {
     const defaultAva = '/defaultPhoto.png'
     const avatarURL = data?.avatars[0]?.url
 
-    if (!avatarURL) {
-        return null
-    }
+
 
     return (
-        <div>
+        <div className={s.imageWrapper}>
             <Image
                 alt={'avatar'}
                 height={24}
                 width={24}
-                src={avatarURL}
+                src={avatarURL || defaultAva}
                 className={s.defaultFirstLikeAvatar}
             />
         </div>
