@@ -1,6 +1,6 @@
 import { ImageType, RatioType } from '@/features/profile/addPhoto/types/Image'
-import { calculateZoom } from '@/features/profile/addPhoto/utils/calculateZoom'
-import { getZoomBoost } from '@/features/profile/addPhoto/utils/getZoomBoost'
+import { calculateZoom } from '@/features/profile/addPhoto/utils/cropping/calculateZoom'
+import { getZoomBoost } from '@/features/profile/addPhoto/utils/cropping/getZoomBoost'
 
 type Props = {
   image: ImageType
