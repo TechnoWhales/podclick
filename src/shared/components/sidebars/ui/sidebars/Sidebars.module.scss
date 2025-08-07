@@ -9,5 +9,16 @@
   & > ul:last-child {
     margin-top: auto;
   }
+
+  & .button {
+    gap: 12px;
+    justify-content: start;
+    padding: 0;
+    color: var(--color-light-100);
+
+    &:focus-visible {
+      color: inherit;
+    }
+  }
 }
 

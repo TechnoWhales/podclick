@@ -7,9 +7,8 @@ import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
 import { LogoutModal } from '@/features/auth'
-import { ClientLayout } from '@/shared/layouts'
 import { ToastProvider } from '@/shared/components/ui'
-
+import { ClientLayout } from '@/shared/layouts'
 import { Providers } from '@/shared/providers/Providers'
 import { AuthInitializer } from '@/shared/utils/init'
 
@@ -53,7 +52,6 @@ export default async function RootLayout({
             <ClientLayout>{children}</ClientLayout>
             <LogoutModal />
             <ToastProvider />
-
           </NextIntlClientProvider>
         </Providers>
       </body>

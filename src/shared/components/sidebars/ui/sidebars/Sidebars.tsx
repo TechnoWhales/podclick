@@ -62,7 +62,7 @@ export const Sidebars = () => {
         <ul>
           <li>
             {/*TODO: решить вопрос с кнопкой*/}
-            <LogOutButton />
+            <LogOutButton className={s.button} />
           </li>
         </ul>
       </nav>
