@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Slider from 'react-slick'
 
 import Image from 'next/image'
@@ -93,7 +93,7 @@ const PhotoSlider = ({ images, className, dotClass }: Props) => {
       ref={sliderRef}
     >
       {images &&
-        images?.map((image, index) => (
+        images?.map(image => (
           <div key={image.uploadId} className={s.slide} data-id={image.uploadId}>
             <Image
               src={image.url || defaultAva}

@@ -28,7 +28,7 @@ export type ImagesType = {
   width: number
   height: number
   fileSize: number
-  createdAt: string //TODO
+  createdAt: string
   uploadId: string
 }
 
@@ -43,8 +43,8 @@ export type PostItemsResponse = {
   description: string
   location: string
   images: ImagesType[]
-  createdAt: string //TODO
-  updatedAt: string //TODO
+  createdAt: string
+  updatedAt: string
   ownerId: number
   avatarOwner: string
   owner: OwnerArgs

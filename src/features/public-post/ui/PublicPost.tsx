@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react'
 
 import Image from 'next/image'
 
@@ -20,17 +19,8 @@ type Props = {
 }
 
 export const PublicPost = ({ post, comments, likes }: Props) => {
-  const [visibleAnswers, setVisibleAnswers] = useState<{ [key: number]: boolean }>({})
-
   const answerLine = '/answer-line.svg'
   const defaultAva = '/defaultPhoto.png'
-
-  const toggleAnswersVisibility = (commentId: number) => {
-    setVisibleAnswers(prev => ({
-      ...prev,
-      [commentId]: !prev[commentId], // Переключаем видимость
-    }))
-  }
 
   return (
     <ModalPost open modalTitle={'view profile'} isShowTitle={false} onClose={() => {}}>
@@ -128,11 +118,7 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                             height={1}
                             className={s.answerLine}
                           />
-                          <Typography
-                            variant={'bold_text_14'}
-                            className={s.ViewAnswer}
-                            onClick={() => toggleAnswersVisibility(comment.id)}
-                          >
+                          <Typography variant={'bold_text_14'} className={s.ViewAnswer}>
                             View Answers ({comment.answerCount})
                           </Typography>
                         </div>

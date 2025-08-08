@@ -33,12 +33,6 @@ export const ModalPost = ({
             <Dialog.Title className={s.title}>{modalTitle}</Dialog.Title>
           </VisuallyHidden>
         )}
-        {/* {modalTitle && <Dialog.Title
-
-                    className={s.title}>
-                    {modalTitle}
-
-                </Dialog.Title>}*/}
         {children}
         <Dialog.Close asChild>
           <Button className={s.iconButton} variant={'icon'}>
