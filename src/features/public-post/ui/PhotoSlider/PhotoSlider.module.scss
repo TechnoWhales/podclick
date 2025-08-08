@@ -15,7 +15,6 @@
   opacity: 0.9;
   background-color: var(--color-accent-500);
 
-
   & li {
     cursor: pointer;
 
@@ -59,7 +58,6 @@
   color: var(--color-accent-500);
 }
 
-
 .imageLeftArrow {
   position: absolute;
   z-index: 10;
@@ -71,13 +69,11 @@
   height: 48px;
 
   opacity: 0.5;
-  background-color: var(--color-dark-300)
-
+  background-color: var(--color-dark-300);
 }
 
 .imageLeftArrow:hover {
   cursor: pointer;
-
 }
 
 .imageRightArrow {
@@ -90,7 +86,7 @@
   height: 48px;
 
   opacity: 0.5;
-  background-color: var(--color-dark-300)
+  background-color: var(--color-dark-300);
 }
 
 .imageRightArrow:hover {
@@ -101,7 +97,6 @@
   position: relative;
   max-width: 492px;
   height: 100%;
-
 }
 
 .slideWrapperOpacity {
@@ -114,7 +109,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .image {
@@ -124,8 +118,4 @@
   max-height: 562px;
 
   object-fit: cover;
-
 }
-
-
-
