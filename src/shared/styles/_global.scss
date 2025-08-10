@@ -1,6 +1,36 @@
+:root {
+  --header-height: 60px;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-300);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-light-900);
+}
+
 body {
   font-family: var(--font-family-primary), sans-serif;
   font-size: var(--font-size-s);
   color: var(--color-light-100);
   background-color: var(--color-dark-700);
+}
+
+.circularProgressContainer {
+  position: fixed;
+  top: 30%;
+  width: 100%;
+  text-align: center;
 }
