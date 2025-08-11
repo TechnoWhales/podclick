@@ -29,7 +29,7 @@ export const addPhotoApi = baseApi.injectEndpoints({
           body: body,
         }
       },
-      // invalidatesTags: ['Заменить'],
+      invalidatesTags: ['Posts'],
     }),
   }),
 })

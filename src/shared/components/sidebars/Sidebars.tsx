@@ -10,6 +10,7 @@ import type { IconsId } from '@/shared/types'
 
 import { LogOutButton } from '@/features/auth'
 import { usePathname } from '@/i18n/navigation'
+import { useMeQuery } from '@/shared/api'
 import { Button, Icon } from '@/shared/components/ui'
 import { ROUTES } from '@/shared/constants'
 
@@ -26,10 +27,19 @@ export const Sidebars = () => {
   const pathname = usePathname()
   const tSidebars = useTranslations('common.sidebars')
 
+  const { data } = useMeQuery()
+
+  if (!data?.userId) {
+    return null
+  }
+
+  const profileLink = ROUTES.PROFILE.MY_PAGE(data.userId)
+
   const main: SidebarLink[] = [
     { name: tSidebars('feed'), href: ROUTES.FEED, iconOutline: 'homeOutline', icon: 'home' },
-    { name: tSidebars('create'), href: `${ROUTES.PROFILE}/123/?action=create`, iconOutline: 'plusSquareOutline', icon: 'plusSquare' }, //TODO: 123 заменить на id из localstorage
-    { name: tSidebars('myProfile'), href: '#', iconOutline: 'personOutline', icon: 'person' },
+    //{ name: tSidebars('create'), href: `${ROUTES.PROFILE}/123/?action=create`, iconOutline: 'plusSquareOutline', icon: 'plusSquare' }, //TODO: 123 заменить на id из localstorage
+    { name: tSidebars('create'), href: `${profileLink}/?action=create`, iconOutline: 'plusSquareOutline', icon: 'plusSquare' }, //TODO: 123 заменить на id из localstorage
+    { name: tSidebars('myProfile'), href: profileLink, iconOutline: 'personOutline', icon: 'person' },
     {
       name: tSidebars('messenger'),
       href: ROUTES.MESSAGES,
