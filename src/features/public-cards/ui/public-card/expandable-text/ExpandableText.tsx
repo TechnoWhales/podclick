@@ -1,8 +1,10 @@
 'use client'
 
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useState } from 'react'
+import LinesEllipsis from 'react-lines-ellipsis'
 
 import clsx from 'clsx'
+import { useTranslations } from 'next-intl'
 
 import { Button, Typography } from '@/shared/components/ui'
 
@@ -11,47 +13,54 @@ import s from './ExpandableText.module.scss'
 type Props = {
   text: string
   className?: string
+  maxLine?: number
 }
 
-export const ExpandableText = ({ text, className }: Props) => {
-  const textRef = useRef<HTMLDivElement>(null)
+export const ExpandableText = ({ text, className, maxLine = 3 }: Props) => {
+  const tCommon = useTranslations('common')
   const [isExpanded, setIsExpanded] = useState(false)
-  const [isOverflowing, setIsOverflowing] = useState(false)
-
-  useLayoutEffect(() => {
-    const el = textRef.current
-
-    if (el) {
-      const lineHeight = parseFloat(getComputedStyle(el).lineHeight || '0')
-      const maxHeight = lineHeight * 3
-
-      setIsOverflowing(el.scrollHeight > maxHeight)
-    }
-  }, [text])
+  const [isClamped, setIsClamped] = useState(false)
 
   return (
-    <div className={clsx(s.wrapper, className)}>
-      <div
-        ref={textRef}
-        className={clsx(s.text, {
-          [s.clamped]: !isExpanded && isOverflowing,
-        })}
-      >
-        <Typography as={'p'} variant={'regular_text_14'}>
-          {text}
-        </Typography>
-      </div>
-
-      {isOverflowing && (
-        <Button
-          variant={'link'}
-          className={s.inlineButton}
-          onClick={() => setIsExpanded(prev => !prev)}
-        >
-          <Typography as={'span'} variant={'regular_link'}>
-            {isExpanded ? 'Hide' : 'Show more'}
+    <div className={clsx(s.expandableText, s.wrapper, className)}>
+      {isExpanded ? (
+        <>
+          <Typography as={'p'} variant={'regular_text_14'}>
+            {text}
           </Typography>
-        </Button>
+          <Button variant={'link'} className={s.inlineButton} onClick={() => setIsExpanded(false)}>
+            <Typography as={'span'} variant={'regular_link'}>
+              {tCommon('button.hide')}
+            </Typography>
+          </Button>
+        </>
+      ) : (
+        <LinesEllipsis
+          text={text}
+          maxLine={maxLine}
+          ellipsis={
+            <>
+              ...&nbsp;
+              <Button
+                variant={'link'}
+                className={s.inlineButton}
+                onClick={e => {
+                  e.stopPropagation()
+                  setIsExpanded(true)
+                }}
+              >
+                <Typography as={'span'} variant={'regular_link'}>
+                  {tCommon('button.showMore')}
+                </Typography>
+              </Button>
+            </>
+          }
+          onReflow={({ clamped }) => setIsClamped(clamped)}
+          component={'p'}
+          className={s.text}
+          trimRight
+          win={window}
+        />
       )}
     </div>
   )

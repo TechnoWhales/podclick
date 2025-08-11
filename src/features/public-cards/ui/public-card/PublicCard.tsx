@@ -30,15 +30,7 @@ export const PublicCard = ({ item }: Props) => {
       </div>
       <div>
         <TimeAgo date={item.createdAt} />
-        <ExpandableText
-          text={
-            'asldasda asd asd asd asd asd asldasda asd asd asd asd asdasldasda asd asd asd asd asdasldasda asd asd asd asd asdasldasda asd asd asd asd asd asldasda asd asd asd asd asd'
-          }
-        />
-        {/*<ExpandableText text={item.description} />*/}
-        {/*<Typography as={'p'} variant={'regular_text_14'}>*/}
-        {/*  {item.description}*/}
-        {/*</Typography>*/}
+        <ExpandableText text={item.description} />
       </div>
     </article>
   )

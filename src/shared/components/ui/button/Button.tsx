@@ -1,6 +1,11 @@
 'use client'
 
-import React, { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+import React, {
+  ComponentPropsWithoutRef,
+  ElementType,
+  type MouseEventHandler,
+  ReactNode,
+} from 'react'
 
 import clsx from 'clsx'
 
@@ -13,7 +18,7 @@ export type ButtonProps<T extends ElementType = 'button'> = {
   fullwidth?: boolean
   className?: string
   disabled?: boolean
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement>
 } & ComponentPropsWithoutRef<T>
 
 export const Button = <T extends ElementType = 'button'>(props: ButtonProps<T>) => {
