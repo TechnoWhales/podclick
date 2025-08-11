@@ -11,11 +11,14 @@ export const ROUTES = {
     EMAIL_VERIFIED: '/auth/email-verified',
     PASSWORD_RECOVERY_RESENDING: '/auth/password-recovery-resending',
   },
+  PROFILE: {
+    BASE: '/profile',
+    SETTINGS: '/profile/settings',
+    MY_PAGE: (userId: number) => `/profile/${userId}`
+  },
   FEED: '/feed',
   FAVORITES: '/favorites',
   MESSAGES: '/messages',
-  PROFILE: '/profile',
   SEARCH: '/search',
-  SETTINGS: '/settings',
   STATS: '/stats',
 }

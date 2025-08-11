@@ -30,10 +30,10 @@ export default function GithubOAuthRedirectPage() {
   }, [])
 
   return (
-    <main style={{ color: 'white', display: 'flex', justifyContent: 'center', marginTop: '20vh' }}>
+    <div style={{ color: 'white', display: 'flex', justifyContent: 'center', marginTop: '20vh' }}>
       <Container width={432}>
         <Typography style={{ textAlign: 'center' }}>Processing GitHub authentication...</Typography>
       </Container>
-    </main>
+    </div>
   )
 }

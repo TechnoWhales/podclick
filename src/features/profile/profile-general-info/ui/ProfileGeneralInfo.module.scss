@@ -1,0 +1,103 @@
+@use '@/shared/styles/mixins/line-clamp' as *;
+
+.hero {
+  padding-bottom: 48px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template: 36px 52px auto / 204px auto 1fr;
+  grid-template-areas:
+    'avatar username button'
+    'avatar stats stats'
+    'avatar aboutme aboutme';
+  gap: 19px 38px;
+}
+
+.gridItem1 {
+  grid-area: avatar;
+}
+
+.gridItem2 {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  grid-area: username;  
+}
+
+.gridItem3 {
+  grid-area: button;
+  justify-self: end;
+}
+
+.gridItem4 {
+  grid-area: stats;
+}
+
+.gridItem5 {
+  grid-area: aboutme;
+}
+
+.aboutMe {
+  @include line-clamp(3);
+}
+
+.stats {
+  display: flex;
+  gap: 94px;
+}
+
+@media only screen and (width <= 992px) {
+  .stats {
+    gap: 30px;
+  }
+}
+
+@media only screen and (width <= 480px) {
+  .hero {
+    padding-bottom: 36px;
+  }
+
+  .gridContainer {
+    grid-template: 72px auto auto / 72px auto;
+    grid-template-areas:
+      'avatar stats'
+      'username username'
+      'aboutme aboutme';
+    gap: 6px 27px;
+  }
+
+  .gridItem3 {
+    display: none;
+    visibility: hidden;
+  }
+
+  .gridItem4 {
+    align-self: center;
+  }
+
+  .stats {
+    gap: 21px;
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  .headingResponsive {
+    font-size: var(--font-size-s);
+    line-height: var(--line-height-l);
+  }
+
+  .aboutMe {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xl);
+  }
+
+  .textResponsive {
+    font-size: var(--font-size-xxs);
+    line-height: var(--line-height-s);
+  }
+
+  .fw600 {
+    font-weight: var(--font-weight-600);
+  }
+}

@@ -10,10 +10,14 @@ import s from './Modal.module.scss'
 type ModalSize = 'lg' | 'md' | 'sm'
 
 type Props = {
-  open: boolean
-  onClose: () => void
+  open?: boolean
+  onClose?: () => void
   modalTitle?: string
   size?: ModalSize
+  padding?: string
+  showCloseButton?: boolean
+  modalDescription?: string
+  offBackgroundAnimation?: boolean
 } & ComponentPropsWithoutRef<'div'>
 
 export const Modal = ({
@@ -23,20 +27,28 @@ export const Modal = ({
   children,
   className,
   open,
+  modalDescription,
+                        offBackgroundAnimation,
   ...rest
 }: Props) => (
   <Dialog.Root open={open} onOpenChange={onClose} {...rest}>
     <Dialog.Portal>
-      <Dialog.Overlay className={s.overlay} />
+      <Dialog.Overlay className={clsx(s.overlay, offBackgroundAnimation && s.offBackgroundAnimation)}/>
       <Dialog.Content className={clsx(s.content, s[size], className)}>
-        {modalTitle && <Dialog.Title className={s.title}>{modalTitle}</Dialog.Title>}
-        <hr />
+        <Dialog.Title className={clsx(s.title, !modalTitle && s.hideTitle)}>
+          {modalTitle && modalTitle}
+        </Dialog.Title>
+        {modalTitle && (
+          <>
+            <hr />
+            <Dialog.Close asChild>
+              <Button className={s.iconButton} variant={'icon'}>
+                <Icon iconId={'close'} />
+              </Button>
+            </Dialog.Close>
+          </>
+        )}
         {children}
-        <Dialog.Close asChild>
-          <Button className={s.iconButton} variant={'icon'}>
-            <Icon iconId={'close'} />
-          </Button>
-        </Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>
