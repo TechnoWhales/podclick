@@ -15,6 +15,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ...(await import(`../../messages/${locale}/auth/passwordRecovery.json`)).default,
     ...(await import(`../../messages/${locale}/auth/authZodError.json`)).default,
     ...(await import(`../../messages/${locale}/common.json`)).default,
+    ...(await import(`../../messages/${locale}/timeAgo.json`)).default,
   }
 
   return {
