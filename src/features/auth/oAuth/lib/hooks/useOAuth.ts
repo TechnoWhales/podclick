@@ -3,6 +3,7 @@ import { useGoogleLogin } from '@react-oauth/google'
 import { useRouter } from 'next/navigation'
 
 import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
+import { notify } from '@/shared/lib/notify'
 
 import { useGoogleLoginMutation } from '../../api/oAuthApi'
 
@@ -26,12 +27,12 @@ export const useOAuth = () => {
             router.replace(ROUTES.HOME)
           }
         } catch (error) {
-          console.error('Login failed:', error)
+          notify.error(`Login failed: ${(error as Error)?.message || 'Google error'}`)
         }
       }
     },
     onError: error => {
-      console.error('Google login failed:', error)
+      notify.error(`Google login failed: ${(error as Error)?.message || 'Google error'}`)
     },
   })
 

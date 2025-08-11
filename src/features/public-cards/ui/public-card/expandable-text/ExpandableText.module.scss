@@ -1,0 +1,19 @@
+@use '../../../../../shared/styles/mixins/line-clamp' as *;
+
+.wrapper {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.text {
+  position: relative;
+}
+
+.clamped {
+  @include line-clamp(3);
+}
+
+.inlineButton {
+  display: inline;
+  padding: 0;
+}

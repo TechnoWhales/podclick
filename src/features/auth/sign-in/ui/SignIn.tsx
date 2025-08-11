@@ -10,19 +10,23 @@ import { useRouter } from 'next/navigation'
 
 import { OAuth } from '@/features/auth'
 import { useLoginMutation } from '@/features/auth/sign-in/api/signInApi'
+import { baseApi } from '@/shared/api'
+import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
-import Ring from '@/shared/components/ui/loader/ring/Ring'
-import { ACCESS_TOKEN, COLORS, ROUTES } from '@/shared/constants'
-import { SignInType, useSignInSchema } from '@/shared/hooks'
+import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
+import { SignInType, useAppDispatch, useSignInSchema } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
 import s from './SignIn.module.scss'
+
+// TODO: Удалить защиту роута
 
 export const SignIn = () => {
   const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations('signIn')
   const tCommon = useTranslations('common')
   const loginSchema = useSignInSchema()
+  const dispatch = useAppDispatch()
 
   const [login] = useLoginMutation()
   const router = useRouter()
@@ -57,6 +61,7 @@ export const SignIn = () => {
       .then(res => {
         if ('accessToken' in res) {
           sessionStorage.setItem(ACCESS_TOKEN, res?.accessToken)
+          dispatch(baseApi.util.invalidateTags(['Me']))
           router.push(ROUTES.HOME)
         }
       })
@@ -71,11 +76,7 @@ export const SignIn = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className={'circularProgressContainer'}>
-        <Ring size={150} color={COLORS.accent['500']} />
-      </div>
-    )
+    return <CircleLoading />
   }
 
   return (
