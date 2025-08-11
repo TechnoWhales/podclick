@@ -6,8 +6,8 @@ import { GoogleLoginButton } from './GoogleLoginButton'
 export const OAuth = () => {
   return (
     <div className={s.oauthWrapper}>
-      {/*<GoogleLoginButton />*/}
-      {/*<GithubLoginButton />*/}
+      <GoogleLoginButton />
+      <GithubLoginButton />
     </div>
   )
 }

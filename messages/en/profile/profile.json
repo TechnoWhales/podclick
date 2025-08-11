@@ -1,0 +1,15 @@
+{
+  "profile": {
+    "button": {
+      "profileSettings": "Profile Settings",
+      "follow": "Follow",
+      "unfollow": "Unfollow",
+      "sendMessage": "Send Message"
+    },
+    "summary": {
+      "following": "Following",
+      "followers": "Followers",
+      "publications": "Publications"
+    }
+  }
+}

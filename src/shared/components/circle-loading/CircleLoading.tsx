@@ -3,10 +3,10 @@ import { COLORS } from '@/shared/constants'
 
 import s from './CircleLoading.module.scss'
 
-export const CircleLoading = () => {
+export const CircleLoading = ({size=150}: {size?: number}) => {
   return (
     <div className={s.container}>
-      <Ring size={150} color={COLORS.accent['500']} />
+      <Ring size={size} color={COLORS.accent['500']} />
     </div>
   )
 }

@@ -1,0 +1,15 @@
+{
+  "profile": {
+    "button": {
+      "profileSettings": "Настройки профиля",
+      "follow": "Подписаться",
+      "unfollow": "Отписаться",
+      "sendMessage": "Отправить сообщение"
+    }, 
+    "summary": {
+      "following": "Подписки", 
+      "followers": "Подписчики", 
+      "publications": "Публикации"
+    }
+  }
+}

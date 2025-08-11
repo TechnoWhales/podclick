@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  reactStrictMode: true,
 }
 
 const withNextIntl = createNextIntlPlugin()

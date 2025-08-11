@@ -91,3 +91,7 @@ export type IconsId =
   | 'trashOutline'
   | 'trendingUp'
   | 'trendingUpOutline'
+  | 'square'
+  | 'rectangleVertical'
+  | 'rectangleHorizontal'
+  | 'save'

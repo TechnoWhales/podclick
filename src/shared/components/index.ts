@@ -1,5 +1,5 @@
 export { LanguageSelect } from './lenguage-select/LenguageSelect'
 export { Header } from './header/Header'
-export { Sidebars } from './sidebars/ui/sidebars/Sidebars'
+export { Sidebars } from './sidebars/Sidebars'
 export { OnlyUnauthLayout } from './only-unauth-layout/OnlyUnauthLayout'
 export { ProtectedLayout } from './protected-layout/ProtectedLayout'
