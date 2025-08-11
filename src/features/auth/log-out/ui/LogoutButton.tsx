@@ -7,14 +7,16 @@ import { Button, Icon } from '@/shared/components/ui'
 import { useAppDispatch } from '@/shared/hooks'
 import { openLogoutModal } from '@/shared/model/appSlice'
 
-import s from './LogoutButton.module.scss'
+type Props = {
+  className?: string
+}
 
-export const LogOutButton = () => {
+export const LogOutButton = ({ className }: Props) => {
   const dispatch = useAppDispatch()
   const tSidebars = useTranslations('common.sidebars')
 
   return (
-    <Button className={s.button} variant={'link'} onClick={() => dispatch(openLogoutModal())}>
+    <Button className={className} variant={'link'} onClick={() => dispatch(openLogoutModal())}>
       <Icon iconId={'logOut'} />
       {tSidebars('logOut')}
     </Button>

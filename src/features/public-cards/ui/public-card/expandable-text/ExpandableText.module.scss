@@ -1,19 +1,18 @@
-@use '../../../../../shared/styles/mixins/line-clamp' as *;
+.expandableText {
+  & .wrapper {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
 
-.wrapper {
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
+  & .text {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-400);
+    line-height: var(--line-height-xl);
+    color: inherit;
+  }
 
-.text {
-  position: relative;
-}
-
-.clamped {
-  @include line-clamp(3);
-}
-
-.inlineButton {
-  display: inline;
-  padding: 0;
+  & .inlineButton {
+    display: inline;
+    padding: 0;
+  }
 }

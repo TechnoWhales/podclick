@@ -66,7 +66,7 @@ export const SignUp = () => {
       })
       .catch((err: RTKQueryError) => {
         if (err.data.statusCode === 400) {
-          setError(err.data.messages[0].field, {
+          setError(err.data.messages[0].field as 'userName' | 'email', {
             type: 'custom',
             message: err.data.messages[0].message,
           })

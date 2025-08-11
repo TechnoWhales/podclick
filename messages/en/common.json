@@ -3,7 +3,9 @@
     "button": {
       "signUp": "Sign Up",
       "logIn": "Log in",
-      "ok": "OK"
+      "ok": "OK",
+      "showMore": "Show more",
+      "hide": "Hide"
     },
     "form": {
       "username": {
@@ -33,21 +35,6 @@
       "favorites": "Favorites",
       "logOut": "Log Out"
     },
-    "registeredUsers": "Registered Users",
-    "timeAgo": {
-      "justNow": "just now",
-      "minute": "{count} minute ago",
-      "minutes": "{count} minutes ago",
-      "hour": "{count} hour ago",
-      "hours": "{count} hours ago",
-      "day": "{count} day ago",
-      "days": "{count} days ago",
-      "week": "{count} week ago",
-      "weeks": "{count} weeks ago",
-      "month": "{count} month ago",
-      "months": "{count} months ago",
-      "year": "{count} year ago",
-      "years": "{count} years ago"
-    }
+    "registeredUsers": "Registered Users"
   }
 }
