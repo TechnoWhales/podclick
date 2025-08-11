@@ -37,7 +37,7 @@ export const useOAuth = () => {
       }
     },
     onError: error => {
-      notify.error(`Google login failed: ${(error as Error)?.message || "Google error"}`)
+      notify.error(`Google login failed: ${(error as Error)?.message || 'Google error'}`)
     },
   })
 

@@ -1,4 +1,4 @@
-import { ErrorWithData } from "../types";
+import { ErrorWithData } from '../types'
 
 /**
  * Type guard для проверки, что объект имеет структуру ErrorWithData,

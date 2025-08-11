@@ -59,7 +59,7 @@ export const handleBaseApiError = (result: unknown) => {
 
     // 1.5. Массив ошибок error.data.messages
     if (Array.isArray((errorObj as any)?.data?.messages)) {
-      (errorObj as any).data.messages.forEach((m: any) => notify.error(m.message))
+      ;(errorObj as any).data.messages.forEach((m: any) => notify.error(m.message))
 
       return
     }

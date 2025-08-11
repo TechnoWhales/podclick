@@ -14,6 +14,7 @@ export type ButtonProps<T extends ElementType = 'button'> = {
   className?: string
   disabled?: boolean
   onClick?: () => void
+  iconId?: string
 } & ComponentPropsWithoutRef<T>
 
 export const Button = <T extends ElementType = 'button'>(props: ButtonProps<T>) => {
@@ -24,6 +25,7 @@ export const Button = <T extends ElementType = 'button'>(props: ButtonProps<T>) 
     className,
     children,
     onClick,
+
     as: Component = 'button',
     ...rest
   } = props
