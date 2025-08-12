@@ -19,6 +19,10 @@
     &:focus-visible {
       color: inherit;
     }
+
+    &:hover {
+      color: var(--color-accent-100);
+    }
   }
 }
 
