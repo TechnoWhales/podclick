@@ -16,7 +16,7 @@ type UserPostsRequest = {
 export const postsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getUserPosts: build.query<UserPostsResponse, UserPostsRequest>({
-      query: ({ userId, endCursorPostId = '', params }) => ({
+      query: ({ userId, endCursorPostId, params }) => ({
         url: `posts/user/${userId}/${endCursorPostId}`,
         params,
       }),

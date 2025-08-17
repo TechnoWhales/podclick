@@ -8,11 +8,11 @@ import type { SidebarLink } from '@/shared/components/sidebars/lib/types/Sidebar
 
 import { LogOutButton } from '@/features/auth'
 import { usePathname } from '@/i18n/navigation'
+import { useMeQuery } from '@/shared/api'
 import { SidebarsList } from '@/shared/components/sidebars/ui/sidebars-list/SidebarsList'
 import { ROUTES } from '@/shared/constants'
 
 import s from './Sidebars.module.scss'
-import { useMeQuery } from '@/shared/api'
 
 export const Sidebars = () => {
   const pathname = usePathname()

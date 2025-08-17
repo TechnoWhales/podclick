@@ -10,14 +10,18 @@ type Props = {
   className?: string
 }
 
-export const PublicUserCount = async ({ className }: Props) => {
+async function fetchPublicUser() {
   const res = await fetch(`${BASE_API}/public-user`)
 
   if (!res.ok) {
     throw new Error('Failed to fetch public user count')
   }
 
-  const data = await res.json()
+  return res.json()
+}
+
+export const PublicUserCount = async ({ className }: Props) => {
+  const data = await fetchPublicUser()
 
   return (
     <div className={clsx(s.wrapper, className)}>
