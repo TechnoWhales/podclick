@@ -14,11 +14,18 @@ type Props = {
   text: string
   className?: string
   maxLine?: number
+  isExpanded: boolean
+  setIsExpanded: (isExpanded: boolean) => void
 }
 
-export const ExpandableText = ({ text, className, maxLine = 3 }: Props) => {
+export const ExpandableText = ({
+  text,
+  className,
+  maxLine = 3,
+  setIsExpanded,
+  isExpanded,
+}: Props) => {
   const tCommon = useTranslations('common')
-  const [isExpanded, setIsExpanded] = useState(false)
   const [isClamped, setIsClamped] = useState(false)
 
   return (
