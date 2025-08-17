@@ -1,6 +1,20 @@
 .slider {
-  width: 490px;
-  height: 490px;
+  &.lg {
+    width: 490px;
+    height: 490px;
+  }
+  &.sm {
+    width: 234px;
+    height: 234px;
+    .dots {
+      height: 12px;
+      bottom: -12px;
+      li {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  }
 }
 .sliderItem {
   position: relative;
@@ -15,15 +29,27 @@
 }
 
 .sliderBtn {
-  top: 200px;
   z-index: 1;
   cursor: pointer;
   position: absolute;
-  width: 48px;
-  height: 48px;
+  &.lg {
+    top: 200px;
+    width: 48px;
+    height: 48px;
+  }
+  &.sm {
+    top: 108px;
+    width: 24px;
+    height: 24px;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
   background-color: var(--color-dark-with-opacity-300);
   &.nextBtn {
     right: 10px;
+
   }
 
   &.prevBtn {

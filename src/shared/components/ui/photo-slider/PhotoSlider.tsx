@@ -12,12 +12,16 @@ import 'slick-carousel/slick/slick-theme.css'
 
 import s from './PhotoSlider.module.scss'
 
+type Size = 'sm' | 'lg'
+
 type Props = {
   children?: ReactNode
   currentSlide?: number
   className?: string
   onAfterChange?: (index: number) => void
   setCurrentSlide?: (index: number) => void
+  size?: Size
+  totalCountSlider?: number
 } & Settings
 
 export const PhotoSlider = ({
@@ -26,58 +30,86 @@ export const PhotoSlider = ({
   onAfterChange,
   currentSlide,
   setCurrentSlide,
+  size = 'lg',
+  totalCountSlider,
   ...rest
 }: Props) => {
+  const [defaultCurrentSlide, setDefaultCurrentSlide] = useState(0)
   const sliderRef = useRef<Slider>(null)
 
+  let hideNext = false
+  let hidePrev = false
+
+  if (totalCountSlider) {
+    hideNext = (totalCountSlider - 1) === defaultCurrentSlide
+    hidePrev = (currentSlide === 0 || defaultCurrentSlide === 0 )
+  }
 
   useEffect(() => {
     if (currentSlide != null) {
       sliderRef.current?.slickGoTo(currentSlide)
       setCurrentSlide?.(currentSlide)
+    } else {
+      sliderRef.current?.slickGoTo(defaultCurrentSlide)
     }
   }, [currentSlide])
+
+
 
   const settings = {
     dots: true,
     dotsClass: s.dots,
     customPaging: (i: number) => (
-      <button className={clsx(s.dot, currentSlide === i && s.active)} type={'button'} />
+      <button className={clsx(s.dot, (currentSlide === i || defaultCurrentSlide === i) && s.active)} type={'button'} />
     ),
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    draggable: false,
     arrows: true,
     centerMode: true,
     centerPadding: '0',
     afterChange: (current: number) => {
-      onAfterChange?.(current)
-      setCurrentSlide?.(current)
+      if (onAfterChange && setCurrentSlide) {
+        onAfterChange?.(current)
+        setCurrentSlide?.(current)
+      } else {
+        setDefaultCurrentSlide(current)
+      }
+
     },
-    nextArrow: <Arrows typeBtn={'next'} />,
-    prevArrow: <Arrows typeBtn={'prev'} />,
+    nextArrow: <Arrows typeBtn={'next'} size={size} hideArrow={hideNext}/>,
+    prevArrow: <Arrows typeBtn={'prev'} size={size} hideArrow={hidePrev}/>,
     ...rest,
   }
 
+
   return (
-    <Slider ref={sliderRef} className={clsx(s.slider, className && className)} {...settings}>
+    <Slider ref={sliderRef} className={clsx(s.slider, s[size], className && className)} {...settings}>
       {children}
     </Slider>
   )
 }
 
-type ArrowProps = { style?: CSSProperties; onClick?: () => void; typeBtn: 'prev' | 'next' }
+type ArrowProps = {
+  style?: CSSProperties;
+  onClick?: () => void;
+  typeBtn: 'prev' | 'next'
+  size: Size
+  hideArrow?: boolean
+}
 
-function Arrows({ style, onClick, typeBtn }: ArrowProps) {
+function Arrows({ style, onClick, typeBtn, size, hideArrow = false }: ArrowProps) {
   return (
     <Button
       className={clsx(
         s.sliderBtn,
         typeBtn === 'next' && s.nextBtn,
-        typeBtn === 'prev' && s.prevBtn
+        typeBtn === 'prev' && s.prevBtn,
+        s[size]
       )}
-      style={{ ...style }}
+      style={{ ...style, display: hideArrow ? 'none' : 'block' }}
       variant={'icon'}
       onClick={onClick}
     >

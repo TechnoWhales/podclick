@@ -5,18 +5,19 @@ import Image from 'next/image'
 import { ExpandableText } from '@/features/public-cards/ui/public-card/expandable-text/ExpandableText'
 import { TimeAgo } from '@/shared/components/time-ago/TimeAgo'
 import { Avatar, Typography } from '@/shared/components/ui'
+import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from './PublicCard.module.scss'
-import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 type Props = {
   item: Card
 }
 
 export const PublicCard = ({ item }: Props) => {
+
   return (
     <article className={s.card}>
-      <PhotoSlider>
+      <PhotoSlider className={s.photoSlider} size={'sm'} totalCountSlider={item.images.length}>
         {item.images.map(image => (
           <Image key={image.createdAt} src={image.url} alt={''} width={234} height={240} />
         ))}
