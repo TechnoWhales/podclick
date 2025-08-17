@@ -60,6 +60,7 @@ export const AddPhoto = () => {
     setOpen(false)
     setCurrentPage('initialImg')
     setCurrentImage(0)
+    setOpenCloseModal(false)
   }
 
   const renderContent = () => {
@@ -120,6 +121,7 @@ export const AddPhoto = () => {
 
   return (
     <Modal
+
       className={clsx(
         s.addPhoto,
         currentPage === 'cropping' && s.cropping,

@@ -14,33 +14,24 @@ type Props = {
 }
 
 export const PublicCard = ({ item }: Props) => {
+
   return (
     <article className={s.card}>
-      {/*<PhotoSlider>*/}
-      {/*  {item.images.map(image => (*/}
-      {/*    <Image key={image.createdAt} src={image.url} alt={''} width={234} height={240} />*/}
-      {/*  ))}*/}
-      {/*</PhotoSlider>*/}
-      <div className={s.image}>
-        <Image src={item.images[0].url} alt={'placeholder'} fill style={{ objectFit: 'cover' }} />
+      <PhotoSlider className={s.photoSlider} size={'sm'} totalCountSlider={item.images.length}>
+        {item.images.map(image => (
+          <Image key={image.createdAt} src={image.url} alt={''} width={234} height={240} />
+        ))}
+      </PhotoSlider>
+      {/*<Image src={item.images[0].url} alt={'placeholder'} width={234} height={240} />*/}
+      <div className={s.postAuthor}>
+        <Avatar url={item.avatarOwner} title={`Avatar ${item.userName}`} />
+        <Typography as={'h3'} variant={'h3'}>
+          {item.userName}
+        </Typography>
       </div>
-      <div className={s.info}>
-        <div className={s.postAuthor}>
-          <Avatar url={item.avatarOwner} title={`Avatar ${item.userName}`} />
-          <Typography as={'h3'} variant={'h3'}>
-            {item.userName}
-          </Typography>
-        </div>
-        <div>
-          <TimeAgo date={item.createdAt} />
-          {/*<ExpandableText text={item.description} />*/}
-          <ExpandableText
-            text={
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus culpa cumque deleniti enim fugiat in odit officia repellat repellendus vitae.' +
-              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus culpa cumque deleniti enim fugiat in odit officia repellat repellendus vitae.'
-            }
-          />
-        </div>
+      <div>
+        <TimeAgo date={item.createdAt} />
+        <ExpandableText text={item.description} />
       </div>
     </article>
   )

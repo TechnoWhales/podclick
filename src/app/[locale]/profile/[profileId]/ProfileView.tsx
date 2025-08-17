@@ -18,6 +18,7 @@ export const ProfileView = ({ profileGeneralInfo, profileId }: Props) => {
 
   return (
     <>
+      <AddPhoto/>
       <ProfileGeneralInfo {...profileGeneralInfo} isOwner={myProfileId === profileId} />
       <Posts userId={profileId} />
       <AddPhoto />
