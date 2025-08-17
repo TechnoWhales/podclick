@@ -14,7 +14,6 @@ import { TitlePhotoPages } from '@/features/profile/addPhoto/ui/title/Title'
 import { base64ToFile } from '@/features/profile/addPhoto/utils/publication/base64ToFile'
 import { TextField } from '@/shared/components/ui'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
-import { UserAvatar } from '@/shared/components/user-avatar/UserAvatar'
 import { handleError } from '@/shared/utils/handleError'
 
 import s from '@/features/profile/addPhoto/ui/publication/Publication.module.scss'
@@ -27,7 +26,13 @@ type Props = {
   nextBtnAction: (images: ImageType[], pageName: PageType, closeModal: boolean) => void
 }
 
-export const Publication = ({ images, backBtn, currentImage, setCurrentImageAction, nextBtnAction }: Props) => {
+export const Publication = ({
+  images,
+  backBtn,
+  currentImage,
+  setCurrentImageAction,
+  nextBtnAction,
+}: Props) => {
   const [isDisable, setIsDisable] = useState(false)
   const [publicationText, setPublicationText] = useState('')
 
