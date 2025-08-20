@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { BASE_URL } from '@/shared/constants'
 
 export const passwordRecoveryResendingApi = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -8,7 +9,7 @@ export const passwordRecoveryResendingApi = baseApi.injectEndpoints({
         method: 'POST',
         body: {
           email: body.email,
-          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/new-password`,
+          baseUrl: `${BASE_URL}/auth/new-password`,
         },
       }),
     }),
