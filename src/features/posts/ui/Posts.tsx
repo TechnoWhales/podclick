@@ -9,12 +9,11 @@ import { Post } from '@/shared/types'
 import { useGetUserPostsQuery } from '../api/postsApi'
 import { PostsList } from './PostsList'
 
-
-export const Posts = ({ userId }: { userId: number }) => {
-  const [loadedPosts, setLoadedPosts] = useState<Post[]>([]);
-  const endCursorRef = useRef<number | null>(null);
-  const loaderRef = useRef<HTMLDivElement>(null);
-  const [hasMore, setHasMore] = useState(true);
+export const Posts = ({ userId, postId }: { userId: number; postId: number }) => {
+  const [loadedPosts, setLoadedPosts] = useState<Post[]>([])
+  const endCursorRef = useRef<number | null>(null)
+  const loaderRef = useRef<HTMLDivElement>(null)
+  const [hasMore, setHasMore] = useState(true)
 
   const {
     data: response,
@@ -27,48 +26,46 @@ export const Posts = ({ userId }: { userId: number }) => {
       params: { pageSize: 10 },
     },
     { skip: !userId }
-  );
+  )
 
   const { isInView } = useElementInView({
     targetRef: hasMore ? loaderRef : undefined,
     observerOptions: { threshold: 0.5 },
-  });
+  })
 
   // Обработка новых данных с защитой от undefined
   useEffect(() => {
-    const newItems = response?.items ?? [];
-    const receivedCount = newItems.length;
-    
+    const newItems = response?.items ?? []
+    const receivedCount = newItems.length
+
     if (receivedCount > 0) {
       setLoadedPosts(prev => {
         // Фильтруем дубликаты
-        const uniqueNewPosts = newItems.filter(
-          newPost => !prev.some(p => p.id === newPost.id)
-        );
+        const uniqueNewPosts = newItems.filter(newPost => !prev.some(p => p.id === newPost.id))
 
-        return [...prev, ...uniqueNewPosts];
-      });
-      
+        return [...prev, ...uniqueNewPosts]
+      })
+
       // Обновляем курсор последним ID
-      endCursorRef.current = newItems[newItems.length - 1].id;
-      
+      endCursorRef.current = newItems[newItems.length - 1].id
+
       // Определяем, есть ли еще данные
-      setHasMore(receivedCount >= PAGE_SIZE); // Если пришло 8+, вероятно есть еще
+      setHasMore(receivedCount >= PAGE_SIZE) // Если пришло 8+, вероятно есть еще
     } else {
-      setHasMore(false);
+      setHasMore(false)
     }
-  }, [response]);
+  }, [response])
 
   // Подгрузка при скролле
   useEffect(() => {
     if (isInView && !isFetching && hasMore) {
-      refetch();
+      refetch()
     }
-  }, [isInView, isFetching, hasMore, refetch]);
+  }, [isInView, isFetching, hasMore, refetch])
 
   return (
     <section>
-      <PostsList posts={loadedPosts} />
+      <PostsList posts={loadedPosts} postId={postId} />
 
       {hasMore && (
         <div ref={loaderRef} style={{ height: '50px', position: 'relative' }}>
