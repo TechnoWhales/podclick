@@ -22,6 +22,7 @@ import s from './SignIn.module.scss'
 // TODO: Удалить защиту роута
 
 export const SignIn = () => {
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations('signIn')
   const tCommon = useTranslations('common')
@@ -46,6 +47,8 @@ export const SignIn = () => {
     handleSubmit,
     formState: { errors, isValid },
     setError,
+    trigger,
+    watch
   } = useForm<SignInType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -74,6 +77,21 @@ export const SignIn = () => {
         }
       })
   }
+
+  const {email: watchEmail, password} = watch();
+
+  useEffect(() => {
+    if (isFirstLoading) {
+      setIsFirstLoading(false)
+
+      return
+    }
+
+    if (watchEmail !== '' && password !== '') {
+      trigger();
+    }
+
+  }, [watchEmail, password]);
 
   if (isLoading) {
     return <CircleLoading />

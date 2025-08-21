@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,6 +20,7 @@ import s from './SignUp.module.scss'
 const inputMargin = '0 0 24px'
 
 export const SignUp = () => {
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
 
@@ -36,6 +37,7 @@ export const SignUp = () => {
     reset,
     trigger,
     setError,
+    watch,
     formState: { errors, isValid },
   } = useForm<SignUpType>({
     resolver: zodResolver(signUnSchema),
@@ -73,6 +75,21 @@ export const SignUp = () => {
         }
       })
   }
+
+  const {email: watchEmail, password, confirmPassword, agreePolicy, userName} = watch();
+
+  useEffect(() => {
+    if (isFirstLoading) {
+      setIsFirstLoading(false)
+
+      return
+    }
+
+    if (userName !== '' && watchEmail !== '' && password !== '' && confirmPassword !== '' && agreePolicy) {
+      trigger();
+    }
+
+  }, [ watchEmail, password, confirmPassword, agreePolicy, userName]);
 
   return (
     <Card flex={'columnCenter'} className={s.card}>
