@@ -6,7 +6,7 @@ import { formatPostDate, formatRelativeTime } from '@/features/public-post/ui/da
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
 import PhotoSlider from '@/features/public-post/ui/PhotoSlider/PhotoSlider'
 import { SmallAvatar } from '@/features/public-post/ui/SmallAvatar/SmallAvatar'
-import { Typography } from '@/shared/components/ui'
+import { Avatar, Typography } from '@/shared/components/ui'
 
 import s from './PublicPost.module.scss'
 
@@ -20,7 +20,7 @@ type Props = {
 
 export const PublicPost = ({ post, comments, likes }: Props) => {
   const answerLine = '/answer-line.svg'
-  const defaultAva = '/defaultPhoto.png'
+  //const defaultAva = '/defaultPhoto.png'
 
   return (
     <ModalPost open modalTitle={'view profile'} isShowTitle={false} onClose={() => {}}>
@@ -33,13 +33,14 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
           <div className={s.avatarWithNameWrapper}>
             <div className={s.avatarWithName}>
               <div className={s.avatarWrapper}>
-                <Image
+                {/* <Image
                   src={post?.avatarOwner || defaultAva}
                   alt={'Post Creator Avatar'}
                   fill
                   sizes={'36px'}
                   className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
-                />
+                /> */}
+                <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
               </div>
 
               <Typography variant={'h3'}>{post?.userName}</Typography>
@@ -50,13 +51,14 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
             {post && post.description ? (
               <div className={s.avatarWithComment}>
                 <div className={s.commentAvatarWrapper}>
-                  <Image
+                  {/* <Image
                     src={post?.avatarOwner || defaultAva}
                     alt={'Post Description Avatar'}
                     fill
                     sizes={'36px'}
                     className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
-                  />
+                  /> */}
+                  <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
                 </div>
 
                 <div className={s.commentWrapper}>
@@ -71,7 +73,7 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                   </Typography>
                 </div>
 
-                {comments && comments.items[0].answerCount > 0 && (
+                {/* {comments && comments.items[0].answerCount > 0 && (
                   <div className={s.answersWrapper}>
                     <Image
                       src={answerLine}
@@ -84,20 +86,21 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                       View Answers ({comments?.items.map(el => el.answerCount)})
                     </Typography>
                   </div>
-                )}
+                )} */}
               </div>
             ) : null}
             {comments && comments?.items?.length
               ? comments.items.map(comment => (
                   <div key={comment.id} className={s.avatarWithComment}>
                     <div className={s.commentAvatarWrapper}>
-                      <Image
+                      {/* <Image
                         src={comment.from.avatars[0]?.url || defaultAva}
                         alt={'User Comment Avatar'}
                         fill
                         sizes={'36px'}
                         className={comment.from.avatars[0] ? s.avatar : s.defaultAvatar}
-                      />
+                      /> */}
+                      <Avatar url={comment.from.avatars[0]?.url} size={36} title={'User Comment Avatar'} />
                     </div>
                     <div className={s.commentWrapper}>
                       <div className={s.avatarWithComment}>
