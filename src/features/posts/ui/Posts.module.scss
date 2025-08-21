@@ -10,6 +10,10 @@
 .post {
   position: relative;
   aspect-ratio: 1 / 1;
+
+  button {
+    cursor: pointer;
+  }
 }
 
 @media only screen and (width <= 992px) {
