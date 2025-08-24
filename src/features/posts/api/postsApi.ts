@@ -25,4 +25,4 @@ export const postsApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetUserPostsQuery } = postsApi
+export const { useGetUserPostsQuery, useLazyGetUserPostsQuery } = postsApi
