@@ -22,15 +22,15 @@ export const Posts = ({ userId}: { userId: number }) => {
   } = useGetUserPostsQuery(
     {
       userId,
-      endCursorPostId: endCursorRef.current || undefined,
-      params: { pageSize: 10 },
+      endCursorPostId: endCursorRef.current || null,
+      params: { pageSize: PAGE_SIZE },
     },
     { skip: !userId }
   )
 
   const { isInView } = useElementInView({
     targetRef: hasMore ? loaderRef : undefined,
-    observerOptions: { threshold: 0.5 },
+    observerOptions: { threshold: 0.5, rootMargin: '200px'},
   })
 
   // Обработка новых данных с защитой от undefined
@@ -57,11 +57,17 @@ export const Posts = ({ userId}: { userId: number }) => {
   }, [response])
 
   // Подгрузка при скролле
+  // useEffect(() => {
+  //   if (isInView && !isFetching && hasMore) {
+  //     refetch()
+  //   }
+  // }, [isInView, isFetching, hasMore, refetch])
+
   useEffect(() => {
-    if (isInView && !isFetching && hasMore) {
-      refetch()
-    }
-  }, [isInView, isFetching, hasMore, refetch])
+  if (loadedPosts.length > 0 && isInView && !isFetching && hasMore) {
+    refetch()
+  }
+}, [isInView, isFetching, hasMore, refetch, loadedPosts.length])
 
   return (
     <section>

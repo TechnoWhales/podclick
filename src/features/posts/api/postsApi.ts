@@ -9,7 +9,7 @@ type Params = {
 
 type UserPostsRequest = {
   userId: number
-  endCursorPostId?: number
+  endCursorPostId?: number | null
   params?: Params
 }
 
@@ -17,7 +17,7 @@ export const postsApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getUserPosts: build.query<UserPostsResponse, UserPostsRequest>({
       query: ({ userId, endCursorPostId, params }) => ({
-        url: `posts/user/${userId}/${endCursorPostId}`,
+        url: endCursorPostId ? `posts/user/${userId}/${endCursorPostId}` : `posts/user/${userId}`,
         params,
       }),
       providesTags: ['Posts'],
