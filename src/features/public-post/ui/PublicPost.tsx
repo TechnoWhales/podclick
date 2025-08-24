@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { formatPostDate, formatRelativeTime } from '@/features/public-post/ui/dateUtils'
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
@@ -19,11 +20,28 @@ type Props = {
 }
 
 export const PublicPost = ({ post, comments, likes }: Props) => {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   const answerLine = '/answer-line.svg'
   //const defaultAva = '/defaultPhoto.png'
 
+
+  const handleClose = () => {
+    // создаём копию query без postId
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.delete('postId')
+
+    // если query пустой → оставляем только pathname
+    const newUrl = params.toString() ? `${pathname}?${params}` : pathname
+
+    router.replace(newUrl, { scroll: false })
+  }
+
   return (
-    <ModalPost open modalTitle={'view profile'} isShowTitle={false} onClose={() => {}}>
+    <ModalPost open modalTitle={'view post'} isShowTitle={false} onClose={handleClose}>
       <div className={s.container}>
         <div className={s.imageWrapper}>
           <PhotoSlider images={post?.images} />

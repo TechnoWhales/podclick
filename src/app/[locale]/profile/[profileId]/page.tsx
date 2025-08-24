@@ -43,15 +43,11 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
     likes = await fetchPublicPost.getPostLikes(postIdNum)
   }
 
-  //console.log(resolvedParams)
-  //console.log(postId)
-
   return (
     <>
       <ProfileView
         profileGeneralInfo={profileGeneralInfo}
         profileId={profileId}
-        postId={postIdNum}
       />
 
       {post && <PublicPost post={post} comments={comments} likes={likes} />}

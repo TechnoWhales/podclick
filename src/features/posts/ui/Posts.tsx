@@ -9,7 +9,7 @@ import { Post } from '@/shared/types'
 import { useGetUserPostsQuery } from '../api/postsApi'
 import { PostsList } from './PostsList'
 
-export const Posts = ({ userId, postId }: { userId: number; postId: number }) => {
+export const Posts = ({ userId}: { userId: number }) => {
   const [loadedPosts, setLoadedPosts] = useState<Post[]>([])
   const endCursorRef = useRef<number | null>(null)
   const loaderRef = useRef<HTMLDivElement>(null)
@@ -65,7 +65,7 @@ export const Posts = ({ userId, postId }: { userId: number; postId: number }) =>
 
   return (
     <section>
-      <PostsList posts={loadedPosts} postId={postId} />
+      <PostsList posts={loadedPosts}/>
 
       {hasMore && (
         <div ref={loaderRef} style={{ height: '50px', position: 'relative' }}>
