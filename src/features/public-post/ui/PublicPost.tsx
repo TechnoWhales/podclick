@@ -15,7 +15,7 @@ import { CommentsPostResponse, LikesPostResponse, PostItemsResponse } from '../a
 type Props = {
   post: PostItemsResponse
   comments?: CommentsPostResponse | null
-  likes?: LikesPostResponse
+  likes?: LikesPostResponse | null
 }
 
 export const PublicPost = ({ post, comments, likes }: Props) => {

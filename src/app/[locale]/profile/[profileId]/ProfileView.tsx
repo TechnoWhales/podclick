@@ -10,7 +10,7 @@ import { useMeQuery } from '@/shared/api'
 type Props = {
   profileGeneralInfo: PublicUser
   profileId: number
-  postId: number
+  postId: number | undefined
 }
 
 export const ProfileView = ({ profileGeneralInfo, profileId, postId }: Props) => {
@@ -20,8 +20,14 @@ export const ProfileView = ({ profileGeneralInfo, profileId, postId }: Props) =>
   return (
     <>
       <ProfileGeneralInfo {...profileGeneralInfo} isOwner={myProfileId === profileId} />
-      <Posts userId={profileId} postId={postId} />
-      <AddPhoto />
+      {postId ? (
+        <>
+          <Posts userId={profileId} postId={postId} />
+          <AddPhoto />
+        </>
+      ) : (
+        <p>Постов нет</p>
+      )}
     </>
   )
 }

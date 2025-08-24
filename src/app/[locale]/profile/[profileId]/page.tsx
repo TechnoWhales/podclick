@@ -1,4 +1,5 @@
 import { ProfileView } from '@/app/[locale]/profile/[profileId]/ProfileView'
+import { CommentsPostResponse, LikesPostResponse, PostItemsResponse } from '@/features/public-post/api'
 import { fetchPublicPost } from '@/features/public-post/api/publicPostApi'
 import { PublicPost } from '@/features/public-post/ui/PublicPost'
 import { BASE_API } from '@/shared/constants'
@@ -7,6 +8,8 @@ type PageProps = {
   params: Promise<{
     locale: string
     profileId: string
+  }>
+  searchParams: Promise<{
     postId?: string
   }>
 }
@@ -21,23 +24,37 @@ async function fetchPublicUserProfile(profileId: number) {
   return res.json()
 }
 
-export default async function ProfilePage({ params }: PageProps) {
+export default async function ProfilePage({ params, searchParams }: PageProps) {
   const resolvedParams = await params
   const profileId = parseInt(resolvedParams.profileId, 10)
-  const postId = Number(resolvedParams.postId)
 
   const profileGeneralInfo = await fetchPublicUserProfile(profileId)
-  const post = await fetchPublicPost.getPost(postId)
-  const comments = await fetchPublicPost.getPostComments(postId)
-  const likes = await fetchPublicPost.getPostLikes(postId)
 
-  console.log(postId)
+  const { postId } = await searchParams
+  const postIdNum = postId ? Number(postId) : undefined
+
+  let post: PostItemsResponse | null = null
+  let comments: CommentsPostResponse | null = null
+  let likes: LikesPostResponse | null = null
+
+  if (postIdNum) {
+    post = await fetchPublicPost.getPost(postIdNum)
+    comments = await fetchPublicPost.getPostComments(postIdNum)
+    likes = await fetchPublicPost.getPostLikes(postIdNum)
+  }
+
+  //console.log(resolvedParams)
+  //console.log(postId)
 
   return (
     <>
-      <ProfileView profileGeneralInfo={profileGeneralInfo} profileId={profileId} postId={postId} />
+      <ProfileView
+        profileGeneralInfo={profileGeneralInfo}
+        profileId={profileId}
+        postId={postIdNum}
+      />
 
-      {postId && <PublicPost post={post} comments={comments} likes={likes} />}
+      {post && <PublicPost post={post} comments={comments} likes={likes} />}
     </>
   )
 }
