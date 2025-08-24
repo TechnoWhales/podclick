@@ -27,7 +27,6 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
   const answerLine = '/answer-line.svg'
   //const defaultAva = '/defaultPhoto.png'
 
-
   const handleClose = () => {
     // создаём копию query без postId
     const params = new URLSearchParams(searchParams.toString())
@@ -44,20 +43,23 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
     <ModalPost open modalTitle={'view post'} isShowTitle={false} onClose={handleClose}>
       <div className={s.container}>
         <div className={s.imageWrapper}>
-          <PhotoSlider images={post?.images} />
+          {post?.images.length > 1 ? (
+            <PhotoSlider images={post?.images} />
+          ) : (
+            <Image
+              src={post.images[0].url}
+              alt={'Post Image'}
+              fill
+              style={{ objectFit: 'cover' }}
+              className={s.image}
+            />
+          )}
         </div>
 
         <div className={s.infoWrapper}>
           <div className={s.avatarWithNameWrapper}>
             <div className={s.avatarWithName}>
               <div className={s.avatarWrapper}>
-                {/* <Image
-                  src={post?.avatarOwner || defaultAva}
-                  alt={'Post Creator Avatar'}
-                  fill
-                  sizes={'36px'}
-                  className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
-                /> */}
                 <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
               </div>
 
@@ -69,13 +71,6 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
             {post && post.description ? (
               <div className={s.avatarWithComment}>
                 <div className={s.commentAvatarWrapper}>
-                  {/* <Image
-                    src={post?.avatarOwner || defaultAva}
-                    alt={'Post Description Avatar'}
-                    fill
-                    sizes={'36px'}
-                    className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
-                  /> */}
                   <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
                 </div>
 
@@ -91,7 +86,7 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                   </Typography>
                 </div>
 
-                {/* {comments && comments.items[0].answerCount > 0 && (
+                {/*{comments && comments.items[0].answerCount > 0 && (
                   <div className={s.answersWrapper}>
                     <Image
                       src={answerLine}
@@ -104,21 +99,18 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                       View Answers ({comments?.items.map(el => el.answerCount)})
                     </Typography>
                   </div>
-                )} */}
+                )}*/}
               </div>
             ) : null}
             {comments && comments?.items?.length
               ? comments.items.map(comment => (
                   <div key={comment.id} className={s.avatarWithComment}>
                     <div className={s.commentAvatarWrapper}>
-                      {/* <Image
-                        src={comment.from.avatars[0]?.url || defaultAva}
-                        alt={'User Comment Avatar'}
-                        fill
-                        sizes={'36px'}
-                        className={comment.from.avatars[0] ? s.avatar : s.defaultAvatar}
-                      /> */}
-                      <Avatar url={comment.from.avatars[0]?.url} size={36} title={'User Comment Avatar'} />
+                      <Avatar
+                        url={comment.from.avatars[0]?.url}
+                        size={36}
+                        title={'User Comment Avatar'}
+                      />
                     </div>
                     <div className={s.commentWrapper}>
                       <div className={s.avatarWithComment}>

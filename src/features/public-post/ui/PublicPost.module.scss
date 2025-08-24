@@ -10,6 +10,15 @@
    max-height: 562px; */
 }
 
+.image {
+  width: 100%;
+  max-width: 490px;
+  height: 100%;
+  max-height: 562px;
+
+  object-fit: cover;
+}
+
 .infoWrapper {
   display: flex;
   flex-direction: column;
