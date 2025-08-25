@@ -13,7 +13,7 @@ export const PostsList = ({ posts }: { posts: Post[] }) => {
 
   return (
     <ul className={s.posts} data-count={posts.length}>
-      {posts.length &&
+      {posts.length > 0 &&
         posts.map((post, index) => {
           return (
             <li key={post.id} className={s.post} data-index={index + 1} data-id={post.id}>
