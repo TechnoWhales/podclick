@@ -24,9 +24,14 @@ export const Posts = ({ userId }: { userId: number }) => {
     observerOptions: { threshold: 0.5, rootMargin: '0px' },
   })
 
-  // функция для запроса данных с защитой от дубликатов
+  /**
+   * функция для запроса данных с защитой от дубликатов
+   *
+   */
   const loadPosts = () => {
-    if (inFlightRef.current || !hasMore || !userId) {return}
+    if (inFlightRef.current || !hasMore || !userId) {
+      return
+    }
 
     inFlightRef.current = true
     trigger({
@@ -45,7 +50,9 @@ export const Posts = ({ userId }: { userId: number }) => {
 
   // обработка новых данных
   useEffect(() => {
-    if (!data) {return}
+    if (!data) {
+      return
+    }
 
     const newItems = data.items ?? []
 
@@ -56,20 +63,24 @@ export const Posts = ({ userId }: { userId: number }) => {
         return [...prev, ...newItems.filter(p => !seen.has(p.id))]
       })
 
-      // обновляем курсор
       endCursorRef.current = newItems[newItems.length - 1].id
 
-      setHasMore(true)
+      setHasMore(true) // так отображаются все посты, но виден лоадер после последней партии постов
+      //alert(newItems.length) // 8 7 - всего 15
+      //newItems.length >= PAGE_SIZE ? setHasMore(true) : setHasMore(false) // TODO: не работает из-за того, что со второго запроса приходят 7 постов, а не 8
+      //setHasMore(newItems.length >= PAGE_SIZE) // должно быть так
     } else {
       setHasMore(false)
     }
   }, [data])
 
-  // докачка, если контент не заполняет экран
+  // догрузка, если контент не заполняет экран
   useEffect(() => {
     const loaderEl = loaderRef.current
 
-    if (!loaderEl || !hasMore) {return}
+    if (!loaderEl || !hasMore) {
+      return
+    }
 
     const rect = loaderEl.getBoundingClientRect()
 
@@ -92,12 +103,9 @@ export const Posts = ({ userId }: { userId: number }) => {
       <div ref={loaderRef} style={{ height: '50px', position: 'relative' }}>
         {hasMore && inFlightRef.current && <CircleLoading size={40} />}
       </div>
-
-      {!hasMore && loadedPosts.length > 0 && (
-        <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-          Загружено {loadedPosts.length} постов
-        </p>
-      )}
     </section>
   )
 }
+
+//TODO: все запросы после 1-го возвращают максимум 7 постов
+//TODO: лоадер после последней загрузки убрать
