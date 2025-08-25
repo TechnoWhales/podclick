@@ -1,5 +1,12 @@
 .slider {
   &.lg {
+    height: 562px;
+    width: 490px;
+    .dots {
+      bottom: -4px;
+    }
+  }
+  &.md {
     width: 490px;
     height: 490px;
   }
@@ -33,6 +40,11 @@
   cursor: pointer;
   position: absolute;
   &.lg {
+    top: 260px;
+    width: 48px;
+    height: 48px;
+  }
+  &.md {
     top: 200px;
     width: 48px;
     height: 48px;

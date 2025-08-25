@@ -21,8 +21,6 @@ export const PublicCards = async ({ className }: Props) => {
   const data = await res.json()
   const items: Card[] = data.items
 
-  console.log(data)
-
   return (
     <div className={clsx(s.wrapper, className)}>
       {items.map(item => (

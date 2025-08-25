@@ -12,7 +12,7 @@ import 'slick-carousel/slick/slick-theme.css'
 
 import s from './PhotoSlider.module.scss'
 
-type Size = 'sm' | 'lg'
+type Size = 'sm' | 'md' | 'lg'
 
 type Props = {
   children?: ReactNode
@@ -30,7 +30,7 @@ export const PhotoSlider = ({
   onAfterChange,
   currentSlide,
   setCurrentSlide,
-  size = 'lg',
+  size = 'md',
   totalCountSlider,
   ...rest
 }: Props) => {

@@ -1,0 +1,21 @@
+.EditPostWrapper {
+  height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.textLengthWrapper {
+  display: flex;
+  justify-content: end;
+  color: var(--color-light-900);
+}
+
+.error {
+  color: var(--color-danger-500);
+}
+
+.saveBtn {
+  margin-left: auto;
+}

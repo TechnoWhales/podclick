@@ -16,6 +16,8 @@ export const ProfileView = ({ profileGeneralInfo, profileId}: Props) => {
   const { data: user } = useMeQuery()
   const myProfileId = user?.userId
 
+
+
   return (
     <>
       <ProfileGeneralInfo {...profileGeneralInfo} isOwner={myProfileId === profileId} />

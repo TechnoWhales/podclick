@@ -1,17 +1,23 @@
 'use client'
 
+import { useState } from 'react'
+
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
+import { useRemovePostMutation } from '@/features/public-post/api/publicPostApi'
+import { Comments } from '@/features/public-post/ui/comments/Comments'
 import { formatPostDate, formatRelativeTime } from '@/features/public-post/ui/dateUtils'
+import { EditPost } from '@/features/public-post/ui/edit-post/EditPost'
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
-import PhotoSlider from '@/features/public-post/ui/PhotoSlider/PhotoSlider'
 import { SmallAvatar } from '@/features/public-post/ui/SmallAvatar/SmallAvatar'
-import { Avatar, Typography } from '@/shared/components/ui'
+import { Avatar, Button, Icon, Popover, Typography } from '@/shared/components/ui'
+import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
 
 import s from './PublicPost.module.scss'
 
 import { CommentsPostResponse, LikesPostResponse, PostItemsResponse } from '../api'
+
 
 type Props = {
   post: PostItemsResponse
@@ -20,12 +26,13 @@ type Props = {
 }
 
 export const PublicPost = ({ post, comments, likes }: Props) => {
+  const [isOpenChangeDescription, setIsOpenChangeDescription] = useState(false)
+
+  const [removePost] = useRemovePostMutation()
+
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-
-  const answerLine = '/answer-line.svg'
-  //const defaultAva = '/defaultPhoto.png'
 
   const handleClose = () => {
     // создаём копию query без postId
@@ -39,130 +46,84 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
     router.replace(newUrl, { scroll: false })
   }
 
+  const removePostHandler = async () => {
+    try {
+      await removePost({postId: post.id})
+    } finally {
+      handleClose()
+    }
+  }
+
   return (
     <ModalPost open modalTitle={'view post'} isShowTitle={false} onClose={handleClose}>
       <div className={s.container}>
         <div className={s.imageWrapper}>
-          {post?.images.length > 1 ? (
-            <PhotoSlider images={post?.images} />
-          ) : (
-            <Image
-              src={post.images[0].url}
-              alt={'Post Image'}
-              fill
-              style={{ objectFit: 'cover' }}
-              className={s.image}
-            />
-          )}
+          <PhotoSlider className={s.slider} size={'lg'}>
+            {post?.images.map((item, i) => {
+              return (
+                <div key={i} className={s.sliderItem}>
+                  <Image
+                    src={item.url}
+                    alt={'slider photo'}
+                    width={562}
+                    height={562}
+                  />
+                </div>
+              )
+            })}
+          </PhotoSlider>
         </div>
 
         <div className={s.infoWrapper}>
           <div className={s.avatarWithNameWrapper}>
-            <div className={s.avatarWithName}>
-              <div className={s.avatarWrapper}>
-                <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
-              </div>
-
-              <Typography variant={'h3'}>{post?.userName}</Typography>
-            </div>
-          </div>
-
-          <div className={s.commentsWrapper}>
-            {post && post.description ? (
-              <div className={s.avatarWithComment}>
-                <div className={s.commentAvatarWrapper}>
+            <div className={s.avatarWrapper}>
+              <div className={s.avatarWithName}>
+                <div className={s.avatar}>
                   <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
                 </div>
-
-                <div className={s.commentWrapper}>
-                  <div className={s.avatarWithComment}>
-                    <Typography variant={'regular_text_14'}>
-                      <strong>{post.userName}</strong> {post.description}
-                    </Typography>
-                  </div>
-
-                  <Typography variant={'small_text'} className={s.timeAgoText}>
-                    {formatRelativeTime(post.createdAt)}
-                  </Typography>
-                </div>
-
-                {/*{comments && comments.items[0].answerCount > 0 && (
-                  <div className={s.answersWrapper}>
-                    <Image
-                      src={answerLine}
-                      alt={'Line Of Answers'}
-                      width={24}
-                      height={1}
-                      className={s.answerLine}
-                    />
-                    <Typography variant={'semibold_small_text'}>
-                      View Answers ({comments?.items.map(el => el.answerCount)})
-                    </Typography>
-                  </div>
-                )}*/}
+                <Typography className={s.avatarName} variant={'h3'}>{post?.userName}</Typography>
               </div>
-            ) : null}
-            {comments && comments?.items?.length
-              ? comments.items.map(comment => (
-                  <div key={comment.id} className={s.avatarWithComment}>
-                    <div className={s.commentAvatarWrapper}>
-                      <Avatar
-                        url={comment.from.avatars[0]?.url}
-                        size={36}
-                        title={'User Comment Avatar'}
-                      />
-                    </div>
-                    <div className={s.commentWrapper}>
-                      <div className={s.avatarWithComment}>
-                        <Typography variant={'regular_text_14'}>
-                          <strong>{comment.from.username}</strong> {comment.content}
-                        </Typography>
-                      </div>
-
-                      <Typography variant={'small_text'} className={s.timeAgoText}>
-                        {formatRelativeTime(comment.createdAt)}
-                      </Typography>
-                      {comment.answerCount > 0 && (
-                        <div className={s.answersWrapper}>
-                          <Image
-                            src={answerLine}
-                            alt={'Line Of Answers'}
-                            width={24}
-                            height={1}
-                            className={s.answerLine}
-                          />
-                          <Typography variant={'bold_text_14'} className={s.ViewAnswer}>
-                            View Answers ({comment.answerCount})
-                          </Typography>
-                        </div>
-                      )}
-                    </div>
+              {!isOpenChangeDescription && (
+                <Popover side={'bottom'} align={'end'} buttonText={<Icon iconId={'moreHorizontalOutline'}/>}>
+                  <div className={s.popoverWrapper}>
+                    <Button onClick={() => setIsOpenChangeDescription(true)} variant={'icon'} className={s.popoverItemWrapper}><Icon iconId={'editOutline'}/><Typography variant={'regular_text_14'}>Edit Post</Typography></Button>
+                    <Button onClick={removePostHandler} variant={'icon'} className={s.popoverItemWrapper}><Icon iconId={'trashOutline'}/><Typography variant={'regular_text_14'}>Delete Post</Typography></Button>
                   </div>
-                ))
-              : null}
-          </div>
+                </Popover>
+              )}
 
-          <div className={s.likesWrapper}>
-            <div className={s.likesWithDate}>
-              <div className={s.avatarsWithLikes}>
-                {post.avatarWhoLikes && post.likesCount > 0 && (
-                  <div className={s.likeAvatarsWrapper}>
-                    {likes &&
-                      likes.items.slice(-3).map(item => {
-                        return <SmallAvatar key={item.id} data={item} />
-                      })}
-                  </div>
-                )}
-                <Typography variant={'bold_text_14'}>
-                  {post && post.likesCount} &quot;
-                  <span className={s.likeText}>{post.likesCount > 1 ? 'Likes' : 'Like'}</span>&quot;
-                </Typography>
-              </div>
-              <Typography variant={'small_text'} className={s.timeAgoText}>
-                {post && formatPostDate(post.createdAt)}
-              </Typography>
             </div>
           </div>
+
+          {isOpenChangeDescription ? <EditPost closeModal={handleClose} postId={post.id} initDescription={post.description} /> : (
+            <>
+              <Comments post={post} comments={comments} />
+              <div className={s.likesWrapper}>
+                <div className={s.likesWithDate}>
+                  <div className={s.avatarsWithLikes}>
+                    {post.avatarWhoLikes && post.likesCount > 0 && (
+                      <div className={s.likeAvatarsWrapper}>
+                        {likes &&
+                          likes.items.slice(-3).map(item => {
+                            return <SmallAvatar key={item.id} data={item} />
+                          })}
+                      </div>
+                    )}
+                    <Typography variant={'bold_text_14'}>
+                      {post && post.likesCount} &quot;
+                      <span className={s.likeText}>{post.likesCount > 1 ? 'Likes' : 'Like'}</span>&quot;
+                    </Typography>
+                  </div>
+                  <Typography variant={'small_text'} className={s.timeAgoText}>
+                    {post && formatPostDate(post.createdAt)}
+                  </Typography>
+                </div>
+              </div>
+            </>
+
+          )}
+
+
         </div>
       </div>
     </ModalPost>
