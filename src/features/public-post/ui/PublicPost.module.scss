@@ -213,3 +213,16 @@
   color: var(--color-light-900);
 }
 
+.closePostModal {
+  max-width: 480px;
+}
+.closePostModalWrapper {
+  height: 130px;
+  margin-top: 24px;
+}
+.closePostModalBtns {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}

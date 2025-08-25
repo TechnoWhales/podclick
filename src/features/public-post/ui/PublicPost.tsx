@@ -12,7 +12,9 @@ import { EditPost } from '@/features/public-post/ui/edit-post/EditPost'
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
 import { SmallAvatar } from '@/features/public-post/ui/SmallAvatar/SmallAvatar'
 import { Avatar, Button, Icon, Popover, Typography } from '@/shared/components/ui'
+import { Modal } from '@/shared/components/ui/modal/Modal'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
+import { handleError } from '@/shared/utils/handleError'
 
 import s from './PublicPost.module.scss'
 
@@ -27,12 +29,23 @@ type Props = {
 
 export const PublicPost = ({ post, comments, likes }: Props) => {
   const [isOpenChangeDescription, setIsOpenChangeDescription] = useState(false)
+  const [isOpenConfirmExitModal, setIsOpenConfirmExitModal] = useState(false)
+  const [isOpenRemoveModal, setIsOpenRemoveModal] = useState(false)
 
   const [removePost] = useRemovePostMutation()
 
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  
+  const openConfirmExitModalHandler = () => {
+    if (isOpenChangeDescription) {
+      setIsOpenConfirmExitModal(true)
+
+      return
+    }
+    handleClose()
+  }
 
   const handleClose = () => {
     // создаём копию query без postId
@@ -49,13 +62,34 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
   const removePostHandler = async () => {
     try {
       await removePost({postId: post.id})
+    } catch (e) {
+      handleError(e)
     } finally {
       handleClose()
     }
   }
 
   return (
-    <ModalPost open modalTitle={'view post'} isShowTitle={false} onClose={handleClose}>
+    <ModalPost open modalTitle={'view post'} isShowTitle={false} onClose={openConfirmExitModalHandler}>
+      <Modal className={s.closePostModal} modalTitle={'Close Post'} size={'sm'} open={isOpenConfirmExitModal}>
+        <div className={s.closePostModalWrapper}>
+          <Typography variant={'regular_text_16'}>Do you really want to close the edition of the publication?</Typography>
+          <Typography variant={'regular_text_16'}>If you close changes won’t be saved</Typography>
+          <div className={s.closePostModalBtns}>
+            <Button variant={'outlined'} onClick={handleClose}>Yes</Button>
+            <Button onClick={() => setIsOpenConfirmExitModal(false)}>No</Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal className={s.removePostModal} modalTitle={'Delete Post'} size={'sm'} open={isOpenRemoveModal}>
+        <div className={s.closePostModalWrapper}>
+          <Typography variant={'regular_text_16'}>Are you sure you want to delete this post?</Typography>
+          <div className={s.closePostModalBtns}>
+            <Button variant={'outlined'} onClick={removePostHandler}>Yes</Button>
+            <Button onClick={() => setIsOpenConfirmExitModal(false)}>No</Button>
+          </div>
+        </div>
+      </Modal>
       <div className={s.container}>
         <div className={s.imageWrapper}>
           <PhotoSlider className={s.slider} size={'lg'}>
@@ -87,15 +121,14 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                 <Popover side={'bottom'} align={'end'} buttonText={<Icon iconId={'moreHorizontalOutline'}/>}>
                   <div className={s.popoverWrapper}>
                     <Button onClick={() => setIsOpenChangeDescription(true)} variant={'icon'} className={s.popoverItemWrapper}><Icon iconId={'editOutline'}/><Typography variant={'regular_text_14'}>Edit Post</Typography></Button>
-                    <Button onClick={removePostHandler} variant={'icon'} className={s.popoverItemWrapper}><Icon iconId={'trashOutline'}/><Typography variant={'regular_text_14'}>Delete Post</Typography></Button>
+                    <Button onClick={() => setIsOpenRemoveModal(true)} variant={'icon'} className={s.popoverItemWrapper}><Icon iconId={'trashOutline'}/><Typography variant={'regular_text_14'}>Delete Post</Typography></Button>
                   </div>
                 </Popover>
               )}
-
             </div>
           </div>
 
-          {isOpenChangeDescription ? <EditPost closeModal={handleClose} postId={post.id} initDescription={post.description} /> : (
+          {isOpenChangeDescription ? <EditPost handleClose={handleClose} postId={post.id} initDescription={post.description} /> : (
             <>
               <Comments post={post} comments={comments} />
               <div className={s.likesWrapper}>

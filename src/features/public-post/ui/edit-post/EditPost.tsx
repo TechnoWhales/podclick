@@ -7,16 +7,17 @@ import { useTranslations } from 'next-intl'
 
 import { useChangePostDescriptionMutation } from '@/features/public-post/api/publicPostApi'
 import { Button, TextField, Typography } from '@/shared/components/ui'
+import { handleError } from '@/shared/utils/handleError'
 
 import s from './EditPost.module.scss'
 
 type Props = {
   postId: number
   initDescription: string
-  closeModal: () => void
+  handleClose: () => void
 }
 
-export const EditPost = ({postId, initDescription, closeModal}: Props) => {
+export const EditPost = ({postId, initDescription, handleClose}: Props) => {
   const [isDisable, setIsDisable] = useState(false)
   const [description, setDescription] = useState(initDescription)
   const t = useTranslations('addPost.publication')
@@ -34,10 +35,10 @@ export const EditPost = ({postId, initDescription, closeModal}: Props) => {
       setIsDisable(true)
       await changePostDescription({description, postId})
     } catch (e) {
-
+      handleError(e)
     } finally {
       setIsDisable(false)
-      closeModal()
+      handleClose()
     }
   }
   
