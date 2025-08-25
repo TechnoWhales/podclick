@@ -11,6 +11,7 @@ import { formatPostDate, formatRelativeTime } from '@/features/public-post/ui/da
 import { EditPost } from '@/features/public-post/ui/edit-post/EditPost'
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
 import { SmallAvatar } from '@/features/public-post/ui/SmallAvatar/SmallAvatar'
+import { useMeQuery } from '@/shared/api'
 import { Avatar, Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
@@ -33,11 +34,12 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
   const [isOpenRemoveModal, setIsOpenRemoveModal] = useState(false)
 
   const [removePost] = useRemovePostMutation()
-
+  const { data: user } = useMeQuery()
+  const myProfileId = user?.userId
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  
+
   const openConfirmExitModalHandler = () => {
     if (isOpenChangeDescription) {
       setIsOpenConfirmExitModal(true)
@@ -71,7 +73,7 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
 
   return (
     <ModalPost open modalTitle={'view post'} isShowTitle={false} onClose={openConfirmExitModalHandler}>
-      <Modal className={s.closePostModal} modalTitle={'Close Post'} size={'sm'} open={isOpenConfirmExitModal}>
+      <Modal offBackgroundAnimation className={s.closePostModal} modalTitle={'Close Post'} size={'sm'} open={isOpenConfirmExitModal} onClose={() => setIsOpenConfirmExitModal(false)}>
         <div className={s.closePostModalWrapper}>
           <Typography variant={'regular_text_16'}>Do you really want to close the edition of the publication?</Typography>
           <Typography variant={'regular_text_16'}>If you close changes won’t be saved</Typography>
@@ -81,12 +83,12 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
           </div>
         </div>
       </Modal>
-      <Modal className={s.removePostModal} modalTitle={'Delete Post'} size={'sm'} open={isOpenRemoveModal}>
+      <Modal offBackgroundAnimation className={s.removePostModal} modalTitle={'Delete Post'} size={'sm'} open={isOpenRemoveModal}  onClose={() => setIsOpenRemoveModal(false)}>
         <div className={s.closePostModalWrapper}>
           <Typography variant={'regular_text_16'}>Are you sure you want to delete this post?</Typography>
           <div className={s.closePostModalBtns}>
             <Button variant={'outlined'} onClick={removePostHandler}>Yes</Button>
-            <Button onClick={() => setIsOpenConfirmExitModal(false)}>No</Button>
+            <Button onClick={() => setIsOpenRemoveModal(false)}>No</Button>
           </div>
         </div>
       </Modal>
@@ -117,7 +119,7 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
                 </div>
                 <Typography className={s.avatarName} variant={'h3'}>{post?.userName}</Typography>
               </div>
-              {!isOpenChangeDescription && (
+              {!isOpenChangeDescription && post?.ownerId === myProfileId && (
                 <Popover side={'bottom'} align={'end'} buttonText={<Icon iconId={'moreHorizontalOutline'}/>}>
                   <div className={s.popoverWrapper}>
                     <Button onClick={() => setIsOpenChangeDescription(true)} variant={'icon'} className={s.popoverItemWrapper}><Icon iconId={'editOutline'}/><Typography variant={'regular_text_14'}>Edit Post</Typography></Button>
