@@ -1,4 +1,5 @@
 import { beforeEach, vi } from 'vitest'
+import type { ReactNode } from 'react'
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -20,5 +21,5 @@ beforeEach(() => {
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
   useLocale: () => 'en',
-  NextIntlClientProvider: ({ children }: { children: React.ReactNode }) => children,
+  NextIntlClientProvider: ({ children }: { children: ReactNode }) => children,
 }))
