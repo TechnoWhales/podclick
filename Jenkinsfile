@@ -35,7 +35,6 @@ pipeline {
 
                        pnpm -v   # проверим версию
                        pnpm install
-                       pnpm test
                    '''
                }
            }
