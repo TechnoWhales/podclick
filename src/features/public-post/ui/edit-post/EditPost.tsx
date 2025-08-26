@@ -14,10 +14,10 @@ import s from './EditPost.module.scss'
 type Props = {
   postId: number
   initDescription: string
-  handleClose: () => void
+  handleCloseAction: () => void
 }
 
-export const EditPost = ({ postId, initDescription, handleClose }: Props) => {
+export const EditPost = ({ postId, initDescription, handleCloseAction }: Props) => {
   const [isDisable, setIsDisable] = useState(false)
   const [description, setDescription] = useState(initDescription)
   const t = useTranslations('addPost.publication')
@@ -38,7 +38,7 @@ export const EditPost = ({ postId, initDescription, handleClose }: Props) => {
       handleError(e)
     } finally {
       setIsDisable(false)
-      handleClose()
+      handleCloseAction()
     }
   }
 

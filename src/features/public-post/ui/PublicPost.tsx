@@ -11,6 +11,7 @@ import { EditPost } from '@/features/public-post/ui/edit-post/EditPost'
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
 import { SmallAvatar } from '@/features/public-post/ui/SmallAvatar/SmallAvatar'
 import { useMeQuery } from '@/shared/api'
+import { TimeAgo } from '@/shared/components/time-ago/TimeAgo'
 import { Avatar, Button, Icon, Popover, Typography } from '@/shared/components/ui'
 import { Modal } from '@/shared/components/ui/modal/Modal'
 import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
@@ -19,7 +20,6 @@ import { handleError } from '@/shared/utils/handleError'
 import s from './PublicPost.module.scss'
 
 import { CommentsPostResponse, LikesPostResponse, PostItemsResponse } from '../api'
-import { TimeAgo } from '@/shared/components/time-ago/TimeAgo'
 
 type Props = {
   post: PostItemsResponse
@@ -173,7 +173,7 @@ export const PublicPost = ({ post, comments, likes }: Props) => {
 
           {isOpenChangeDescription ? (
             <EditPost
-              handleClose={handleClose}
+              handleCloseAction={handleClose}
               postId={post.id}
               initDescription={post.description}
             />

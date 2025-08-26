@@ -15,14 +15,14 @@ type Props = {
   className?: string
   maxLine?: number
   isExpanded: boolean
-  setIsExpanded: (isExpanded: boolean) => void
+  setIsExpandedAction: (isExpanded: boolean) => void
 }
 
 export const ExpandableText = ({
   text,
   className,
   maxLine = 3,
-  setIsExpanded,
+  setIsExpandedAction,
   isExpanded,
 }: Props) => {
   const tCommon = useTranslations('common')
@@ -35,7 +35,11 @@ export const ExpandableText = ({
           <Typography as={'p'} variant={'regular_text_14'}>
             {text}
           </Typography>
-          <Button variant={'link'} className={s.inlineButton} onClick={() => setIsExpanded(false)}>
+          <Button
+            variant={'link'}
+            className={s.inlineButton}
+            onClick={() => setIsExpandedAction(false)}
+          >
             <Typography as={'span'} variant={'regular_link'}>
               {tCommon('button.hide')}
             </Typography>
@@ -53,7 +57,7 @@ export const ExpandableText = ({
                 className={s.inlineButton}
                 onClick={e => {
                   e.stopPropagation()
-                  setIsExpanded(true)
+                  setIsExpandedAction(true)
                 }}
               >
                 <Typography as={'span'} variant={'regular_link'}>

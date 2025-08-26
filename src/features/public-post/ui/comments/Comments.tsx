@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { CommentsPostResponse, PostItemsResponse } from '@/features/public-post/api'
-import { formatRelativeTime } from '@/features/public-post/ui/dateUtils'
+import { TimeAgo } from '@/shared/components/time-ago/TimeAgo'
 import { Avatar, Typography } from '@/shared/components/ui'
 
 import s from '@/features/public-post/ui/comments/Comments.module.scss'
@@ -29,9 +29,7 @@ export const Comments = ({ comments, post }: Props) => {
               </Typography>
             </div>
 
-            <Typography variant={'small_text'} className={s.timeAgoText}>
-              {formatRelativeTime(post.createdAt)}
-            </Typography>
+            <TimeAgo date={post.createdAt} />
           </div>
 
           {/*{comments && comments.items[0].answerCount > 0 && (
@@ -67,9 +65,7 @@ export const Comments = ({ comments, post }: Props) => {
                   </Typography>
                 </div>
 
-                <Typography variant={'small_text'} className={s.timeAgoText}>
-                  {formatRelativeTime(comment.createdAt)}
-                </Typography>
+                <TimeAgo date={post.createdAt} />
                 {comment.answerCount > 0 && (
                   <div className={s.answersWrapper}>
                     <Image

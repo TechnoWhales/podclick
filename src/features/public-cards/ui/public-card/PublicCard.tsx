@@ -46,7 +46,7 @@ export const PublicCard = ({ item }: Props) => {
           <TimeAgo date={item.createdAt} />
           <ExpandableText
             text={item.description}
-            setIsExpanded={setIsExpanded}
+            setIsExpandedAction={setIsExpanded}
             isExpanded={isExpanded}
           />
         </div>
