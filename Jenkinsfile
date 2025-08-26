@@ -29,7 +29,7 @@ pipeline {
                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                        nvm use --lts
 
-                       corepack enable
+                       corepack prepare pnpm@10.11.0 --activate
 
                        pnpm install
                        pnpm test
