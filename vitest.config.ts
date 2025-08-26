@@ -11,5 +11,8 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     setupFiles: ['./vitest.setup.ts'],
+    deps: {
+      inline: ['next-intl'], // 👈 помогает, если будут ошибки с ESM
+    },
   },
 })
