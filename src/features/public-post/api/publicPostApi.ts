@@ -19,27 +19,32 @@ export const publicPostApi = baseApi.injectEndpoints({
       query: ({ postId }) => `/posts/${postId}/comments`,
       // providesTags: ['Posts'],
     }),
-    changePostDescription: build.mutation<any, {description: string, postId: number}>({
+    changePostDescription: build.mutation<any, { description: string; postId: number }>({
       query: ({ description, postId }) => {
         return {
           url: `/posts/${postId}`,
           method: 'put',
-          body: {description},
+          body: { description },
         }
-      }
+      },
     }),
-    removePost: build.mutation<any, {postId: number}>({
+    removePost: build.mutation<any, { postId: number }>({
       query: ({ postId }) => {
         return {
           url: `/posts/${postId}`,
           method: 'delete',
         }
-      }
+      },
     }),
   }),
 })
 
-export const { useGetPostsQuery, useGetCommentsQuery, useChangePostDescriptionMutation, useRemovePostMutation } = publicPostApi
+export const {
+  useGetPostsQuery,
+  useGetCommentsQuery,
+  useChangePostDescriptionMutation,
+  useRemovePostMutation,
+} = publicPostApi
 
 export const fetchPublicPost = {
   getPost: async (postId: number): Promise<PostItemsResponse> => {

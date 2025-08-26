@@ -23,23 +23,22 @@ export type CreatePostRequest = {
 }
 
 export type OwnerType = {
-  firstName: string,
+  firstName: string
   lastName: string
 }
 
 export type CreatePostResponse = {
-  "id": number,
-  "userName": string,
-  "description": string,
-  "location": string,
-  "images": ImageType[],
-  "createdAt": string,
-  "updatedAt": string,
-  "ownerId": number,
-  "avatarOwner": string,
-  "owner": OwnerType,
-  "likesCount": number,
-  "isLiked": boolean,
-  "avatarWhoLikes": boolean
+  id: number
+  userName: string
+  description: string
+  location: string
+  images: ImageType[]
+  createdAt: string
+  updatedAt: string
+  ownerId: number
+  avatarOwner: string
+  owner: OwnerType
+  likesCount: number
+  isLiked: boolean
+  avatarWhoLikes: boolean
 }
-

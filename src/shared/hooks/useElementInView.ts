@@ -7,7 +7,7 @@ import { RefObject, useEffect, useRef, useState } from 'react'
  * @param {Object} [options] - Настройки хука
  * @param {IntersectionObserverInit} [options.observerOptions] - Опции для IntersectionObserver
  * @param {React.RefObject<HTMLElement | null>} [options.targetRef] - Ref целевого элемента для наблюдения
- * 
+ *
  * @returns {Object} Объект с состоянием видимости элемента
  * @returns {boolean} isInView - Флаг, указывающий находится ли элемент в зоне видимости
  *

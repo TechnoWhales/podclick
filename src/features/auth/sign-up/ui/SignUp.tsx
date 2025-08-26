@@ -76,7 +76,7 @@ export const SignUp = () => {
       })
   }
 
-  const {email: watchEmail, password, confirmPassword, agreePolicy, userName} = watch();
+  const { email: watchEmail, password, confirmPassword, agreePolicy, userName } = watch()
 
   useEffect(() => {
     if (isFirstLoading) {
@@ -85,11 +85,16 @@ export const SignUp = () => {
       return
     }
 
-    if (userName !== '' && watchEmail !== '' && password !== '' && confirmPassword !== '' && agreePolicy) {
-      trigger();
+    if (
+      userName !== '' &&
+      watchEmail !== '' &&
+      password !== '' &&
+      confirmPassword !== '' &&
+      agreePolicy
+    ) {
+      trigger()
     }
-
-  }, [ watchEmail, password, confirmPassword, agreePolicy, userName]);
+  }, [watchEmail, password, confirmPassword, agreePolicy, userName])
 
   return (
     <Card flex={'columnCenter'} className={s.card}>

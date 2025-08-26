@@ -17,7 +17,7 @@ type Props = {
   handleClose: () => void
 }
 
-export const EditPost = ({postId, initDescription, handleClose}: Props) => {
+export const EditPost = ({ postId, initDescription, handleClose }: Props) => {
   const [isDisable, setIsDisable] = useState(false)
   const [description, setDescription] = useState(initDescription)
   const t = useTranslations('addPost.publication')
@@ -33,7 +33,7 @@ export const EditPost = ({postId, initDescription, handleClose}: Props) => {
   const changePostDescriptionHandler = async () => {
     try {
       setIsDisable(true)
-      await changePostDescription({description, postId})
+      await changePostDescription({ description, postId })
     } catch (e) {
       handleError(e)
     } finally {
@@ -41,29 +41,31 @@ export const EditPost = ({postId, initDescription, handleClose}: Props) => {
       handleClose()
     }
   }
-  
+
   return (
     <div className={s.EditPostWrapper}>
-        <div className={s.textareaWrapper}>
-          <TextField
-            value={description}
-            onChange={e => setDescriptionHandler(e.target.value)}
-            label={t('descTitle')}
-            placeholder={t('placeholder')}
-            rows={5}
-            multiline
-            fullWidth
-            margin={'12px 0 0'}
-            disabled={isDisable}
-          />
-          <div className={s.textLengthWrapper}>
-            <Typography variant={'small_text'} className={clsx(description.length >= 500 && s.error)}>
-              {description.length}
-            </Typography>
-            <Typography variant={'small_text'}>/500</Typography>
-          </div>
+      <div className={s.textareaWrapper}>
+        <TextField
+          value={description}
+          onChange={e => setDescriptionHandler(e.target.value)}
+          label={t('descTitle')}
+          placeholder={t('placeholder')}
+          rows={5}
+          multiline
+          fullWidth
+          margin={'12px 0 0'}
+          disabled={isDisable}
+        />
+        <div className={s.textLengthWrapper}>
+          <Typography variant={'small_text'} className={clsx(description.length >= 500 && s.error)}>
+            {description.length}
+          </Typography>
+          <Typography variant={'small_text'}>/500</Typography>
         </div>
-      <Button className={s.saveBtn} disabled={isDisable} onClick={changePostDescriptionHandler}>Save Changes</Button>
+      </div>
+      <Button className={s.saveBtn} disabled={isDisable} onClick={changePostDescriptionHandler}>
+        Save Changes
+      </Button>
     </div>
   )
 }

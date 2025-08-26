@@ -1,21 +1,26 @@
 .slider {
   &.lg {
-    height: 562px;
     width: 490px;
+    height: 562px;
+
     .dots {
       bottom: -4px;
     }
   }
+
   &.md {
     width: 490px;
     height: 490px;
   }
+
   &.sm {
     width: 234px;
     height: 234px;
+
     .dots {
-      height: 12px;
       bottom: -12px;
+      height: 12px;
+
       li {
         width: 6px;
         height: 6px;
@@ -23,6 +28,7 @@
     }
   }
 }
+
 .sliderItem {
   position: relative;
   height: 490px;
@@ -36,32 +42,36 @@
 }
 
 .sliderBtn {
-  z-index: 1;
   cursor: pointer;
   position: absolute;
+  z-index: 1;
+  background-color: var(--color-dark-with-opacity-300);
+
   &.lg {
     top: 260px;
     width: 48px;
     height: 48px;
   }
+
   &.md {
     top: 200px;
     width: 48px;
     height: 48px;
   }
+
   &.sm {
     top: 108px;
     width: 24px;
     height: 24px;
+
     svg {
       width: 24px;
       height: 24px;
     }
   }
-  background-color: var(--color-dark-with-opacity-300);
+
   &.nextBtn {
     right: 10px;
-
   }
 
   &.prevBtn {
@@ -70,31 +80,38 @@
 }
 
 .dots {
-  height: 24px;
   position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
   bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+
   display: flex !important;
-  justify-content: center;
-  align-items: center;
   gap: 8px;
-  background-color: var(--color-dark-with-opacity-300);
+  align-items: center;
+  justify-content: center;
+
+  height: 24px;
   padding: 8px 12px;
   border-radius: 2px;
+
+  background-color: var(--color-dark-with-opacity-300);
 
   li {
     display: flex;
     width: 8px;
     height: 8px;
+
     button {
+      cursor: pointer;
+
       width: 100%;
       height: 100%;
       padding: 0;
       border: none;
       border-radius: 50%;
+
       background-color: var(--color-light-100);
-      cursor: pointer;
+
       &.active {
         background-color: var(--color-accent-500);
         transition: all 0.2s;

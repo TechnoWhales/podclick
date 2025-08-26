@@ -41,8 +41,8 @@ export const PhotoSlider = ({
   let hidePrev = false
 
   if (totalCountSlider) {
-    hideNext = (totalCountSlider - 1) === defaultCurrentSlide
-    hidePrev = (currentSlide === 0 || defaultCurrentSlide === 0 )
+    hideNext = totalCountSlider - 1 === defaultCurrentSlide
+    hidePrev = currentSlide === 0 || defaultCurrentSlide === 0
   }
 
   useEffect(() => {
@@ -54,13 +54,14 @@ export const PhotoSlider = ({
     }
   }, [currentSlide])
 
-
-
   const settings = {
     dots: true,
     dotsClass: s.dots,
     customPaging: (i: number) => (
-      <button className={clsx(s.dot, (currentSlide === i || defaultCurrentSlide === i) && s.active)} type={'button'} />
+      <button
+        className={clsx(s.dot, (currentSlide === i || defaultCurrentSlide === i) && s.active)}
+        type={'button'}
+      />
     ),
     infinite: false,
     speed: 500,
@@ -77,24 +78,26 @@ export const PhotoSlider = ({
       } else {
         setDefaultCurrentSlide(current)
       }
-
     },
-    nextArrow: <Arrows typeBtn={'next'} size={size} hideArrow={hideNext}/>,
-    prevArrow: <Arrows typeBtn={'prev'} size={size} hideArrow={hidePrev}/>,
+    nextArrow: <Arrows typeBtn={'next'} size={size} hideArrow={hideNext} />,
+    prevArrow: <Arrows typeBtn={'prev'} size={size} hideArrow={hidePrev} />,
     ...rest,
   }
 
-
   return (
-    <Slider ref={sliderRef} className={clsx(s.slider, s[size], className && className)} {...settings}>
+    <Slider
+      ref={sliderRef}
+      className={clsx(s.slider, s[size], className && className)}
+      {...settings}
+    >
       {children}
     </Slider>
   )
 }
 
 type ArrowProps = {
-  style?: CSSProperties;
-  onClick?: () => void;
+  style?: CSSProperties
+  onClick?: () => void
   typeBtn: 'prev' | 'next'
   size: Size
   hideArrow?: boolean

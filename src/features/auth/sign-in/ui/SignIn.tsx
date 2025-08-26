@@ -48,7 +48,7 @@ export const SignIn = () => {
     formState: { errors, isValid },
     setError,
     trigger,
-    watch
+    watch,
   } = useForm<SignInType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -78,7 +78,7 @@ export const SignIn = () => {
       })
   }
 
-  const {email: watchEmail, password} = watch();
+  const { email: watchEmail, password } = watch()
 
   useEffect(() => {
     if (isFirstLoading) {
@@ -88,10 +88,9 @@ export const SignIn = () => {
     }
 
     if (watchEmail !== '' && password !== '') {
-      trigger();
+      trigger()
     }
-
-  }, [watchEmail, password]);
+  }, [watchEmail, password])
 
   if (isLoading) {
     return <CircleLoading />

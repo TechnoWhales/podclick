@@ -7,7 +7,8 @@ import { useTranslations } from 'next-intl'
 
 import {
   CroppedAreaPixelsType,
-  ImageType, PageType,
+  ImageType,
+  PageType,
   RatioType,
 } from '@/features/profile/addPhoto/types/Image'
 import { PhotoItem } from '@/features/profile/addPhoto/ui/cropping/photo-item/PhotoItem'

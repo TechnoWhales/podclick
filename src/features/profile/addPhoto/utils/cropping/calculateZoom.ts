@@ -6,7 +6,13 @@ type Props = {
   zoomBoost?: number
 }
 
-export function calculateZoom({ containerWidth, containerHeight, imageWidth, imageHeight, zoomBoost = 1,}: Props) {
+export function calculateZoom({
+  containerWidth,
+  containerHeight,
+  imageWidth,
+  imageHeight,
+  zoomBoost = 1,
+}: Props) {
   const zoomW = containerWidth / imageWidth
   const zoomH = containerHeight / imageHeight
 

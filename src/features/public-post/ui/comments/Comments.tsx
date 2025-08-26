@@ -11,7 +11,7 @@ type Props = {
   comments?: CommentsPostResponse | null
 }
 
-export const Comments = ({comments, post}: Props) => {
+export const Comments = ({ comments, post }: Props) => {
   const answerLine = '/answer-line.svg'
 
   return (
@@ -52,41 +52,41 @@ export const Comments = ({comments, post}: Props) => {
       ) : null}
       {comments && comments?.items?.length
         ? comments.items.map(comment => (
-          <div key={comment.id} className={s.avatarWithComment}>
-            <div className={s.commentAvatarWrapper}>
-              <Avatar
-                url={comment.from.avatars[0]?.url}
-                size={36}
-                title={'User Comment Avatar'}
-              />
-            </div>
-            <div className={s.commentWrapper}>
-              <div className={s.avatarWithComment}>
-                <Typography variant={'regular_text_14'}>
-                  <strong>{comment.from.username}</strong> {comment.content}
-                </Typography>
+            <div key={comment.id} className={s.avatarWithComment}>
+              <div className={s.commentAvatarWrapper}>
+                <Avatar
+                  url={comment.from.avatars[0]?.url}
+                  size={36}
+                  title={'User Comment Avatar'}
+                />
               </div>
-
-              <Typography variant={'small_text'} className={s.timeAgoText}>
-                {formatRelativeTime(comment.createdAt)}
-              </Typography>
-              {comment.answerCount > 0 && (
-                <div className={s.answersWrapper}>
-                  <Image
-                    src={answerLine}
-                    alt={'Line Of Answers'}
-                    width={24}
-                    height={1}
-                    className={s.answerLine}
-                  />
-                  <Typography variant={'bold_text_14'} className={s.ViewAnswer}>
-                    View Answers ({comment.answerCount})
+              <div className={s.commentWrapper}>
+                <div className={s.avatarWithComment}>
+                  <Typography variant={'regular_text_14'}>
+                    <strong>{comment.from.username}</strong> {comment.content}
                   </Typography>
                 </div>
-              )}
+
+                <Typography variant={'small_text'} className={s.timeAgoText}>
+                  {formatRelativeTime(comment.createdAt)}
+                </Typography>
+                {comment.answerCount > 0 && (
+                  <div className={s.answersWrapper}>
+                    <Image
+                      src={answerLine}
+                      alt={'Line Of Answers'}
+                      width={24}
+                      height={1}
+                      className={s.answerLine}
+                    />
+                    <Typography variant={'bold_text_14'} className={s.ViewAnswer}>
+                      View Answers ({comment.answerCount})
+                    </Typography>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))
+          ))
         : null}
     </div>
   )

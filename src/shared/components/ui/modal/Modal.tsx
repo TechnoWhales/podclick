@@ -36,7 +36,9 @@ export const Modal = ({
 }: Props) => (
   <Dialog.Root open={open} onOpenChange={onClose} {...rest}>
     <Dialog.Portal>
-      <Dialog.Overlay className={clsx(s.overlay, offBackgroundAnimation && s.offBackgroundAnimation)}/>
+      <Dialog.Overlay
+        className={clsx(s.overlay, offBackgroundAnimation && s.offBackgroundAnimation)}
+      />
       <Dialog.Content className={clsx(s.content, s[size], className)}>
         {modalTitle ? (
           <Dialog.Title className={clsx(s.title)}>{modalTitle}</Dialog.Title>

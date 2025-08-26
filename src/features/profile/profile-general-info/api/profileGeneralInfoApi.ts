@@ -3,9 +3,9 @@ import { PublicUser } from '@/shared/types'
 
 export const ProfileGeneralInfoApi = baseApi.injectEndpoints({
   endpoints: build => ({
-    publicUser: build.query<PublicUser, {profileId: number}>({
-      query: ({profileId}) => `public-user/profile/${profileId}`
-    })
+    publicUser: build.query<PublicUser, { profileId: number }>({
+      query: ({ profileId }) => `public-user/profile/${profileId}`,
+    }),
   }),
 })
 

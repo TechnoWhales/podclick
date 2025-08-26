@@ -26,24 +26,12 @@ export const PublicCard = ({ item }: Props) => {
 
   return (
     <article className={s.card}>
-      {/*TODO исправить костыль со слайдером*/}
       <Link href={`${ROUTES.PROFILE.MY_PAGE(item.ownerId)}?postId=${item.id}`}>
-        <div className={s.image}>
-          {isExpanded ? (
-            <Image
-              src={item.images[0].url}
-              alt={'placeholder'}
-              fill
-              style={{ objectFit: 'cover' }}
-            />
-          ) : (
-            <PhotoSlider className={s.slider} size={'sm'} totalCountSlider={item.images.length}>
-              {item.images.map(image => (
-                <Image key={image.createdAt} src={image.url} alt={''} width={234} height={240} />
-              ))}
-            </PhotoSlider>
-          )}
-        </div>
+        <PhotoSlider className={s.slider} size={'sm'} totalCountSlider={item.images.length}>
+          {item.images.map(image => (
+            <Image key={image.createdAt} src={image.url} alt={''} width={234} height={240} />
+          ))}
+        </PhotoSlider>
       </Link>
       <div className={s.info}>
         <div className={s.postAuthor}>

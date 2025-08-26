@@ -8,18 +8,16 @@
   }
 
   &.filters {
-    padding: 0;
     width: 972px;
     height: 552px;
+    padding: 0;
   }
 
   &.publication {
-    padding: 0;
     width: 972px;
     height: 552px;
+    padding: 0;
   }
-
-
 }
 
 .textCloseModalWrapper {
@@ -28,15 +26,13 @@
   margin-bottom: 18px;
 }
 
-
 .btnCloseModalWrapper {
   display: flex;
   justify-content: space-between;
+
   button {
     &:lang(ru) {
       padding: 6px 12px;
-
     }
   }
-
 }

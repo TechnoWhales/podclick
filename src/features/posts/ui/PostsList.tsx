@@ -8,7 +8,6 @@ import { Post } from '@/shared/types'
 import s from './Posts.module.scss'
 
 export const PostsList = ({ posts }: { posts: Post[] }) => {
-
   const pathname = usePathname()
 
   return (

@@ -1,5 +1,9 @@
 import { ProfileView } from '@/app/[locale]/profile/[profileId]/ProfileView'
-import { CommentsPostResponse, LikesPostResponse, PostItemsResponse } from '@/features/public-post/api'
+import {
+  CommentsPostResponse,
+  LikesPostResponse,
+  PostItemsResponse,
+} from '@/features/public-post/api'
 import { fetchPublicPost } from '@/features/public-post/api/publicPostApi'
 import { PublicPost } from '@/features/public-post/ui/PublicPost'
 import { BASE_API } from '@/shared/constants'
@@ -45,10 +49,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
 
   return (
     <>
-      <ProfileView
-        profileGeneralInfo={profileGeneralInfo}
-        profileId={profileId}
-      />
+      <ProfileView profileGeneralInfo={profileGeneralInfo} profileId={profileId} />
 
       {post && <PublicPost post={post} comments={comments} likes={likes} />}
     </>

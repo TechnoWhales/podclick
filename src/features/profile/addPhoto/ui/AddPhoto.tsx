@@ -29,16 +29,17 @@ export const AddPhoto = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const path = usePathname()
-  
+
   useEffect(() => {
-    const action = searchParams.get("action");
-    
-    if (action !== 'create') {return;}
+    const action = searchParams.get('action')
+
+    if (action !== 'create') {
+      return
+    }
 
     setOpen(true)
-    
   }, [searchParams])
-  
+
   const saveDraftHandler = async () => {
     await clearAll()
     await saveImages('images', images)
@@ -77,11 +78,7 @@ export const AddPhoto = () => {
 
     switch (currentPage) {
       case 'initialImg':
-        return (
-          <InitialPhotoUpload
-            nextBtnAction={nextBtnHandler}
-          />
-        )
+        return <InitialPhotoUpload nextBtnAction={nextBtnHandler} />
       case 'cropping':
         return (
           <Cropping
@@ -121,7 +118,6 @@ export const AddPhoto = () => {
 
   return (
     <Modal
-
       className={clsx(
         s.addPhoto,
         currentPage === 'cropping' && s.cropping,
