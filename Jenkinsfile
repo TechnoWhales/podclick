@@ -25,11 +25,15 @@ pipeline {
                 echo "Preparing started..."
                   script {
                       sh '''
-                         export NVM_DIR="$HOME/.nvm"
-                         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                         nvm use --lts
-                         pnpm install
-                         pnpm test
+                          export NVM_DIR="$HOME/.nvm"
+                          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                          nvm use --lts
+
+                          corepack enable
+                          corepack prepare pnpm@10.11.0 --activate
+
+                           pnpm install
+                           pnpm test
                       '''
                   }
              }
