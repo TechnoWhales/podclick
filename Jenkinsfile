@@ -20,24 +20,23 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Unit tests') {
-             steps {
-                echo "Preparing started..."
-                  script {
-                      sh '''
-                          export NVM_DIR="$HOME/.nvm"
-                          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                          nvm use --lts
+       stage('Unit tests') {
+           steps {
+               echo "Preparing started..."
+               script {
+                   sh '''
+                       export NVM_DIR="$HOME/.nvm"
+                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                       nvm use --lts
 
-                          corepack enable
-                          corepack prepare pnpm@10.11.0 --activate
+                       corepack enable
 
-                           pnpm install
-                           pnpm test
-                      '''
-                  }
-             }
-        }
+                       pnpm install
+                       pnpm test
+                   '''
+               }
+           }
+       }
         stage('Build docker image') {
             steps {
                 echo "Build image started..."
