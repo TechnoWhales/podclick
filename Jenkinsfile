@@ -29,8 +29,11 @@ pipeline {
                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                        nvm use --lts
 
-                       corepack prepare pnpm@10.11.0 --activate
+                       # ставим pnpm 10.11.0 в локальный $HOME/.local
+                       npm install -g pnpm@10.11.0 --prefix=$HOME/.local
+                       export PATH=$HOME/.local/bin:$PATH
 
+                       pnpm -v   # проверим версию
                        pnpm install
                        pnpm test
                    '''
