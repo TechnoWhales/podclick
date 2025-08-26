@@ -6,81 +6,106 @@ import { PAGE_SIZE } from '@/shared/constants'
 import { useElementInView } from '@/shared/hooks/useElementInView'
 import { Post } from '@/shared/types'
 
-import { useGetUserPostsQuery } from '../api/postsApi'
+import { useLazyGetUserPostsQuery } from '../api/postsApi'
 import { PostsList } from './PostsList'
 
-
 export const Posts = ({ userId }: { userId: number }) => {
-  const [loadedPosts, setLoadedPosts] = useState<Post[]>([]);
-  const endCursorRef = useRef<number | null>(null);
-  const loaderRef = useRef<HTMLDivElement>(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [loadedPosts, setLoadedPosts] = useState<Post[]>([])
+  const [hasMore, setHasMore] = useState(true)
 
-  const {
-    data: response,
-    isFetching,
-    refetch,
-  } = useGetUserPostsQuery(
-    {
-      userId,
-      endCursorPostId: endCursorRef.current || undefined,
-      params: { pageSize: 10 },
-    },
-    { skip: !userId }
-  );
+  const endCursorRef = useRef<number | null>(null)
+  const loaderRef = useRef<HTMLDivElement>(null)
+  const inFlightRef = useRef(false)
+
+  const [trigger, { data }] = useLazyGetUserPostsQuery()
 
   const { isInView } = useElementInView({
-    targetRef: hasMore ? loaderRef : undefined,
-    observerOptions: { threshold: 0.5 },
-  });
+    targetRef: loaderRef,
+    observerOptions: { threshold: 0.5, rootMargin: '0px' },
+  })
 
-  // Обработка новых данных с защитой от undefined
+  /**
+   * функция для запроса данных с защитой от дубликатов
+   *
+   */
+  const loadPosts = () => {
+    if (inFlightRef.current || !hasMore || !userId) {
+      return
+    }
+
+    inFlightRef.current = true
+    trigger({
+      userId,
+      endCursorPostId: endCursorRef.current,
+      params: { pageSize: PAGE_SIZE },
+    }).finally(() => {
+      inFlightRef.current = false
+    })
+  }
+
+  // первый запрос при маунте
   useEffect(() => {
-    const newItems = response?.items ?? [];
-    const receivedCount = newItems.length;
-    
-    if (receivedCount > 0) {
+    loadPosts()
+  }, [userId])
+
+  // обработка новых данных
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+
+    const newItems = data.items ?? []
+
+    if (newItems.length > 0) {
       setLoadedPosts(prev => {
-        // Фильтруем дубликаты
-        const uniqueNewPosts = newItems.filter(
-          newPost => !prev.some(p => p.id === newPost.id)
-        );
+        const seen = new Set(prev.map(p => p.id))
 
-        return [...prev, ...uniqueNewPosts];
-      });
-      
-      // Обновляем курсор последним ID
-      endCursorRef.current = newItems[newItems.length - 1].id;
-      
-      // Определяем, есть ли еще данные
-      setHasMore(receivedCount >= PAGE_SIZE); // Если пришло 8+, вероятно есть еще
+        return [...prev, ...newItems.filter(p => !seen.has(p.id))]
+      })
+
+      endCursorRef.current = newItems[newItems.length - 1].id
+
+      setHasMore(true) // так отображаются все посты, но виден лоадер после последней партии постов
+      //alert(newItems.length) // 8 7 - всего 15
+      //newItems.length >= PAGE_SIZE ? setHasMore(true) : setHasMore(false) // TODO: не работает из-за того, что со второго запроса приходят 7 постов, а не 8
+      //setHasMore(newItems.length >= PAGE_SIZE) // должно быть так
     } else {
-      setHasMore(false);
+      setHasMore(false)
     }
-  }, [response]);
+  }, [data])
 
-  // Подгрузка при скролле
+  // догрузка, если контент не заполняет экран
   useEffect(() => {
-    if (isInView && !isFetching && hasMore) {
-      refetch();
+    const loaderEl = loaderRef.current
+
+    if (!loaderEl || !hasMore) {
+      return
     }
-  }, [isInView, isFetching, hasMore, refetch]);
+
+    const rect = loaderEl.getBoundingClientRect()
+
+    if (rect.top < window.innerHeight) {
+      loadPosts()
+    }
+  }, [loadedPosts, hasMore])
+
+  // догрузка по скроллу через IntersectionObserver
+  useEffect(() => {
+    if (isInView) {
+      loadPosts()
+    }
+  }, [isInView])
 
   return (
     <section>
       <PostsList posts={loadedPosts} />
 
-      {hasMore && (
-        <div ref={loaderRef} style={{ height: '50px', position: 'relative' }}>
-          {isFetching && <CircleLoading size={40} />}
-        </div>
-      )}
-
-      {!hasMore && loadedPosts.length > 0 && (
-        <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-          Загружено {loadedPosts.length} постов
-        </p>
-      )}
+      <div ref={loaderRef} style={{ height: '50px', position: 'relative' }}>
+        {hasMore && inFlightRef.current && <CircleLoading size={40} />}
+      </div>
     </section>
   )
 }
+
+//TODO: все запросы после 1-го возвращают максимум 7 постов
+//TODO: лоадер после последней загрузки убрать

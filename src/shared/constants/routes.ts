@@ -14,7 +14,7 @@ export const ROUTES = {
   PROFILE: {
     BASE: '/profile',
     SETTINGS: '/profile/settings',
-    MY_PAGE: (userId: number) => `/profile/${userId}`
+    MY_PAGE: (userId: number) => `/profile/${userId}`,
   },
   FEED: '/feed',
   FAVORITES: '/favorites',

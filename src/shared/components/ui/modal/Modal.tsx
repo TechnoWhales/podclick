@@ -1,4 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { ComponentPropsWithoutRef } from 'react'
 
 import clsx from 'clsx'
@@ -18,6 +19,7 @@ type Props = {
   showCloseButton?: boolean
   modalDescription?: string
   offBackgroundAnimation?: boolean
+  closePosition?: 'outside' | 'inside'
 } & ComponentPropsWithoutRef<'div'>
 
 export const Modal = ({
@@ -28,16 +30,23 @@ export const Modal = ({
   className,
   open,
   modalDescription,
-                        offBackgroundAnimation,
+  offBackgroundAnimation,
+  closePosition = 'inside',
   ...rest
 }: Props) => (
   <Dialog.Root open={open} onOpenChange={onClose} {...rest}>
     <Dialog.Portal>
-      <Dialog.Overlay className={clsx(s.overlay, offBackgroundAnimation && s.offBackgroundAnimation)}/>
+      <Dialog.Overlay
+        className={clsx(s.overlay, offBackgroundAnimation && s.offBackgroundAnimation)}
+      />
       <Dialog.Content className={clsx(s.content, s[size], className)}>
-        <Dialog.Title className={clsx(s.title, !modalTitle && s.hideTitle)}>
-          {modalTitle && modalTitle}
-        </Dialog.Title>
+        {modalTitle ? (
+          <Dialog.Title className={clsx(s.title)}>{modalTitle}</Dialog.Title>
+        ) : (
+          <VisuallyHidden>
+            <Dialog.Title className={s.title}>{modalTitle}</Dialog.Title>
+          </VisuallyHidden>
+        )}
         {modalTitle && (
           <>
             <hr />

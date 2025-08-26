@@ -20,9 +20,9 @@
 
 .gridItem2 {
   display: flex;
+  grid-area: username;
   gap: 12px;
   align-items: center;
-  grid-area: username;  
 }
 
 .gridItem3 {

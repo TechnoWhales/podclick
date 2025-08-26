@@ -22,7 +22,7 @@ export const EmailVerifiedSuccess = () => {
 
   const { isConfirmed } = useCheckCodeConfirm({
     confirmAction: confirmEmail,
-    urlPath: ROUTES.AUTH.EMAIL_VERIFIED,
+    urlPath: `${ROUTES.AUTH.EMAIL_VERIFIED}`,
   })
 
   if (!isConfirmed || !isChecked) {

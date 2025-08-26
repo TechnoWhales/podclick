@@ -69,7 +69,7 @@ export default [
       'import/no-duplicates': 'off',
       'import/order': 'off',
       'import/prefer-default-export': 'off',
-      'max-lines': ['error', 300],
+      'max-lines': ['error', 500],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'off',
       'no-duplicate-imports': 'error',

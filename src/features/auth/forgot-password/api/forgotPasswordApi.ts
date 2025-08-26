@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { BASE_URL } from '@/shared/constants'
 import { ForgotPasswordType } from '@/shared/types'
 
 export const forgotPasswordApi = baseApi.injectEndpoints({
@@ -10,7 +11,7 @@ export const forgotPasswordApi = baseApi.injectEndpoints({
         body: {
           email: body.email,
           recaptcha: body.recaptcha,
-          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/new-password`,
+          baseUrl: `${BASE_URL}/auth/new-password`,
         },
       }),
     }),

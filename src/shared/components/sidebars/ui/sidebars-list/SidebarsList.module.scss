@@ -3,7 +3,7 @@
     margin-bottom: 60px;
   }
 
- & li:not(:last-child) {
+  & li:not(:last-child) {
     margin-bottom: 24px;
   }
 
@@ -29,7 +29,4 @@
       color: var(--color-accent-500);
     }
   }
-
 }
-
-

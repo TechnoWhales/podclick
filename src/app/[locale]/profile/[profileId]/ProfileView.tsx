@@ -4,6 +4,7 @@ import type { PublicUser } from '@/shared/types'
 
 import { Posts } from '@/features/posts/ui/Posts'
 import { ProfileGeneralInfo } from '@/features/profile'
+import { AddPhoto } from '@/features/profile/addPhoto/ui/AddPhoto'
 import { useMeQuery } from '@/shared/api'
 
 type Props = {
@@ -19,6 +20,7 @@ export const ProfileView = ({ profileGeneralInfo, profileId }: Props) => {
     <>
       <ProfileGeneralInfo {...profileGeneralInfo} isOwner={myProfileId === profileId} />
       <Posts userId={profileId} />
+      <AddPhoto />
     </>
   )
 }

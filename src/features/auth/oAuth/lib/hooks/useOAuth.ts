@@ -31,7 +31,7 @@ export const useOAuth = () => {
             router.replace(ROUTES.HOME)
           }
         } catch (error) {
-          notify.error(`Login failed: ${(error as Error)?.message || "Google error"}`)
+          notify.error(`Login failed: ${(error as Error)?.message || 'Google error'}`)
           dispatch(setIsLoggedIn({ isLoggedIn: false }))
         }
       }
@@ -44,9 +44,7 @@ export const useOAuth = () => {
   const loginWithGithub = () => {
     const redirectUrl = encodeURIComponent(window.location.origin + '/auth/github')
 
-    window.location.assign(
-      `${BASE_API}/auth/github/login?redirect_url=${redirectUrl}`
-    )
+    window.location.assign(`${BASE_API}/auth/github/login?redirect_url=${redirectUrl}`)
   }
 
   return { loginWithGoogle, loginWithGithub }

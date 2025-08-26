@@ -21,7 +21,8 @@ export function handleError(error: unknown): void {
     return
   }
 
-  // 2) Ошибка RTK Query
+  // eslint-disable-next-line no-irregular-whitespace
+  // 2) Ошибка RTK   Query
   if (isFetchBaseQueryError(error)) {
     const fetchErr = error as FetchBaseQueryError
 
@@ -34,6 +35,7 @@ export function handleError(error: unknown): void {
     } else {
       notify.error('Ошибка сети. Попробуйте позже.')
     }
+
     return
   }
 
@@ -43,6 +45,7 @@ export function handleError(error: unknown): void {
     error.messages.forEach((msg: Message) => {
       notify.error(`${msg.field}: ${msg.message}`)
     })
+
     return
   }
 

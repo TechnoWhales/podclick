@@ -31,7 +31,7 @@ export const Filters = ({
   setCurrentImageAction,
 }: Props) => {
   const [isDisable, setIsDisable] = useState(false)
-  
+
   const t = useTranslations('addPost.filters')
 
   const setFilterHandler = (index: number, filter: FiltersType) => {
@@ -74,7 +74,11 @@ export const Filters = ({
   return (
     <div className={s.filters}>
       {
-        <TitlePhotoPages nextBtnAction={nextBtnHandler} backBtnAction={backBtnAction} disableNextBtn={isDisable}> 
+        <TitlePhotoPages
+          nextBtnAction={nextBtnHandler}
+          backBtnAction={backBtnAction}
+          disableNextBtn={isDisable}
+        >
           {t('title')}
         </TitlePhotoPages>
       }
@@ -125,7 +129,6 @@ export const Filters = ({
     </div>
   )
 }
-
 
 const filters: FiltersType[] = [
   { filter: 'normal', name: 'Normal', value: '' },

@@ -5,10 +5,7 @@ type PixelCrop = {
   height: number
 }
 
-export const getCroppedImg = (
-  imageSrc: string,
-  pixelCrop: PixelCrop
-): Promise<string> => {
+export const getCroppedImg = (imageSrc: string, pixelCrop: PixelCrop): Promise<string> => {
   return new Promise((resolve, reject) => {
     const image = new Image()
 
@@ -22,7 +19,7 @@ export const getCroppedImg = (
       canvas.height = pixelCrop.height
 
       const ctx = canvas.getContext('2d')
-      
+
       if (!ctx) {
         reject(new Error('Не удалось получить контекст canvas'))
 

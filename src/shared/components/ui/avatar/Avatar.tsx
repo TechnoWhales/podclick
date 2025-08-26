@@ -14,7 +14,14 @@ type Props = {
 
 export const Avatar = ({ url, title = 'avatar', size = 24, className }: Props) => {
   return url ? (
-    <Image src={url} alt={title} width={size} height={size} className={clsx(s.avatar, className)} quality={80} />
+    <Image
+      src={url}
+      alt={title}
+      width={size}
+      height={size}
+      className={clsx(s.avatar, className)}
+      quality={80}
+    />
   ) : (
     <AvatarPlaceholder size={size} />
   )

@@ -1,155 +1,207 @@
 'use client'
 
-import Image from 'next/image'
+import { useState } from 'react'
 
-import { formatPostDate, formatRelativeTime } from '@/features/public-post/ui/dateUtils'
+import Image from 'next/image'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+
+import { useRemovePostMutation } from '@/features/public-post/api/publicPostApi'
+import { Comments } from '@/features/public-post/ui/comments/Comments'
+import { EditPost } from '@/features/public-post/ui/edit-post/EditPost'
 import { ModalPost } from '@/features/public-post/ui/ModalPost/ModalPost'
-import PhotoSlider from '@/features/public-post/ui/PhotoSlider/PhotoSlider'
 import { SmallAvatar } from '@/features/public-post/ui/SmallAvatar/SmallAvatar'
-import { Typography } from '@/shared/components/ui'
+import { useMeQuery } from '@/shared/api'
+import { Avatar, Button, Icon, Popover, Typography } from '@/shared/components/ui'
+import { Modal } from '@/shared/components/ui/modal/Modal'
+import { PhotoSlider } from '@/shared/components/ui/photo-slider/PhotoSlider'
+import { handleError } from '@/shared/utils/handleError'
 
 import s from './PublicPost.module.scss'
 
 import { CommentsPostResponse, LikesPostResponse, PostItemsResponse } from '../api'
+import { TimeAgo } from '@/shared/components/time-ago/TimeAgo'
 
 type Props = {
   post: PostItemsResponse
   comments?: CommentsPostResponse | null
-  likes?: LikesPostResponse
+  likes?: LikesPostResponse | null
 }
 
 export const PublicPost = ({ post, comments, likes }: Props) => {
-  const answerLine = '/answer-line.svg'
-  const defaultAva = '/defaultPhoto.png'
+  const [isOpenChangeDescription, setIsOpenChangeDescription] = useState(false)
+  const [isOpenConfirmExitModal, setIsOpenConfirmExitModal] = useState(false)
+  const [isOpenRemoveModal, setIsOpenRemoveModal] = useState(false)
+
+  const [removePost] = useRemovePostMutation()
+  const { data: user } = useMeQuery()
+  const myProfileId = user?.userId
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const openConfirmExitModalHandler = () => {
+    if (isOpenChangeDescription) {
+      setIsOpenConfirmExitModal(true)
+
+      return
+    }
+    handleClose()
+  }
+
+  const handleClose = () => {
+    // создаём копию query без postId
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.delete('postId')
+
+    // если query пустой → оставляем только pathname
+    const newUrl = params.toString() ? `${pathname}?${params}` : pathname
+
+    router.replace(newUrl, { scroll: false })
+  }
+
+  const removePostHandler = async () => {
+    try {
+      await removePost({ postId: post.id })
+    } catch (e) {
+      handleError(e)
+    } finally {
+      handleClose()
+    }
+  }
 
   return (
-    <ModalPost open modalTitle={'view profile'} isShowTitle={false} onClose={() => {}}>
+    <ModalPost
+      open
+      modalTitle={'view post'}
+      isShowTitle={false}
+      onClose={openConfirmExitModalHandler}
+    >
+      <Modal
+        offBackgroundAnimation
+        className={s.closePostModal}
+        modalTitle={'Close Post'}
+        size={'sm'}
+        open={isOpenConfirmExitModal}
+        onClose={() => setIsOpenConfirmExitModal(false)}
+      >
+        <div className={s.closePostModalWrapper}>
+          <Typography variant={'regular_text_16'}>
+            Do you really want to close the edition of the publication?
+          </Typography>
+          <Typography variant={'regular_text_16'}>If you close changes won’t be saved</Typography>
+          <div className={s.closePostModalBtns}>
+            <Button variant={'outlined'} onClick={handleClose}>
+              Yes
+            </Button>
+            <Button onClick={() => setIsOpenConfirmExitModal(false)}>No</Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        offBackgroundAnimation
+        className={s.removePostModal}
+        modalTitle={'Delete Post'}
+        size={'sm'}
+        open={isOpenRemoveModal}
+        onClose={() => setIsOpenRemoveModal(false)}
+      >
+        <div className={s.closePostModalWrapper}>
+          <Typography variant={'regular_text_16'}>
+            Are you sure you want to delete this post?
+          </Typography>
+          <div className={s.closePostModalBtns}>
+            <Button variant={'outlined'} onClick={removePostHandler}>
+              Yes
+            </Button>
+            <Button onClick={() => setIsOpenRemoveModal(false)}>No</Button>
+          </div>
+        </div>
+      </Modal>
       <div className={s.container}>
         <div className={s.imageWrapper}>
-          <PhotoSlider images={post?.images} />
+          <PhotoSlider className={s.slider} size={'lg'}>
+            {post?.images.map(item => {
+              return (
+                <div key={item.uploadId} className={s.sliderItem}>
+                  <Image src={item.url} alt={'slider photo'} width={562} height={562} />
+                </div>
+              )
+            })}
+          </PhotoSlider>
         </div>
 
         <div className={s.infoWrapper}>
           <div className={s.avatarWithNameWrapper}>
-            <div className={s.avatarWithName}>
-              <div className={s.avatarWrapper}>
-                <Image
-                  src={post?.avatarOwner || defaultAva}
-                  alt={'Post Creator Avatar'}
-                  fill
-                  sizes={'36px'}
-                  className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
-                />
-              </div>
-
-              <Typography variant={'h3'}>{post?.userName}</Typography>
-            </div>
-          </div>
-
-          <div className={s.commentsWrapper}>
-            {post && post.description ? (
-              <div className={s.avatarWithComment}>
-                <div className={s.commentAvatarWrapper}>
-                  <Image
-                    src={post?.avatarOwner || defaultAva}
-                    alt={'Post Description Avatar'}
-                    fill
-                    sizes={'36px'}
-                    className={post?.avatarOwner ? s.avatar : s.defaultAvatar}
-                  />
+            <div className={s.avatarWrapper}>
+              <div className={s.avatarWithName}>
+                <div className={s.avatar}>
+                  <Avatar url={post?.avatarOwner} size={36} title={post?.userName} />
                 </div>
-
-                <div className={s.commentWrapper}>
-                  <div className={s.avatarWithComment}>
-                    <Typography variant={'regular_text_14'}>
-                      <strong>{post.userName}</strong> {post.description}
-                    </Typography>
-                  </div>
-
-                  <Typography variant={'small_text'} className={s.timeAgoText}>
-                    {formatRelativeTime(post.createdAt)}
-                  </Typography>
-                </div>
-
-                {comments && comments.items[0].answerCount > 0 && (
-                  <div className={s.answersWrapper}>
-                    <Image
-                      src={answerLine}
-                      alt={'Line Of Answers'}
-                      width={24}
-                      height={1}
-                      className={s.answerLine}
-                    />
-                    <Typography variant={'semibold_small_text'}>
-                      View Answers ({comments?.items.map(el => el.answerCount)})
-                    </Typography>
-                  </div>
-                )}
-              </div>
-            ) : null}
-            {comments && comments?.items?.length
-              ? comments.items.map(comment => (
-                  <div key={comment.id} className={s.avatarWithComment}>
-                    <div className={s.commentAvatarWrapper}>
-                      <Image
-                        src={comment.from.avatars[0]?.url || defaultAva}
-                        alt={'User Comment Avatar'}
-                        fill
-                        sizes={'36px'}
-                        className={comment.from.avatars[0] ? s.avatar : s.defaultAvatar}
-                      />
-                    </div>
-                    <div className={s.commentWrapper}>
-                      <div className={s.avatarWithComment}>
-                        <Typography variant={'regular_text_14'}>
-                          <strong>{comment.from.username}</strong> {comment.content}
-                        </Typography>
-                      </div>
-
-                      <Typography variant={'small_text'} className={s.timeAgoText}>
-                        {formatRelativeTime(comment.createdAt)}
-                      </Typography>
-                      {comment.answerCount > 0 && (
-                        <div className={s.answersWrapper}>
-                          <Image
-                            src={answerLine}
-                            alt={'Line Of Answers'}
-                            width={24}
-                            height={1}
-                            className={s.answerLine}
-                          />
-                          <Typography variant={'bold_text_14'} className={s.ViewAnswer}>
-                            View Answers ({comment.answerCount})
-                          </Typography>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))
-              : null}
-          </div>
-
-          <div className={s.likesWrapper}>
-            <div className={s.likesWithDate}>
-              <div className={s.avatarsWithLikes}>
-                {post.avatarWhoLikes && post.likesCount > 0 && (
-                  <div className={s.likeAvatarsWrapper}>
-                    {likes &&
-                      likes.items.slice(-3).map(item => {
-                        return <SmallAvatar key={item.id} data={item} />
-                      })}
-                  </div>
-                )}
-                <Typography variant={'bold_text_14'}>
-                  {post && post.likesCount} &quot;
-                  <span className={s.likeText}>{post.likesCount > 1 ? 'Likes' : 'Like'}</span>&quot;
+                <Typography className={s.avatarName} variant={'h3'}>
+                  {post?.userName}
                 </Typography>
               </div>
-              <Typography variant={'small_text'} className={s.timeAgoText}>
-                {post && formatPostDate(post.createdAt)}
-              </Typography>
+              {!isOpenChangeDescription && post?.ownerId === myProfileId && (
+                <Popover
+                  side={'bottom'}
+                  align={'end'}
+                  buttonText={<Icon iconId={'moreHorizontalOutline'} />}
+                >
+                  <div className={s.popoverWrapper}>
+                    <Button
+                      onClick={() => setIsOpenChangeDescription(true)}
+                      variant={'icon'}
+                      className={s.popoverItemWrapper}
+                    >
+                      <Icon iconId={'editOutline'} />
+                      <Typography variant={'regular_text_14'}>Edit Post</Typography>
+                    </Button>
+                    <Button
+                      onClick={() => setIsOpenRemoveModal(true)}
+                      variant={'icon'}
+                      className={s.popoverItemWrapper}
+                    >
+                      <Icon iconId={'trashOutline'} />
+                      <Typography variant={'regular_text_14'}>Delete Post</Typography>
+                    </Button>
+                  </div>
+                </Popover>
+              )}
             </div>
           </div>
+
+          {isOpenChangeDescription ? (
+            <EditPost
+              handleClose={handleClose}
+              postId={post.id}
+              initDescription={post.description}
+            />
+          ) : (
+            <>
+              <Comments post={post} comments={comments} />
+              <div className={s.likesWrapper}>
+                <div className={s.likesWithDate}>
+                  <div className={s.avatarsWithLikes}>
+                    {post.avatarWhoLikes && post.likesCount > 0 && (
+                      <div className={s.likeAvatarsWrapper}>
+                        {likes &&
+                          likes.items.slice(-3).map(item => {
+                            return <SmallAvatar key={item.id} data={item} />
+                          })}
+                      </div>
+                    )}
+                    <Typography variant={'bold_text_14'}>
+                      {post && post.likesCount} &quot;
+                      <span className={s.likeText}>{post.likesCount > 1 ? 'Likes' : 'Like'}</span>
+                      &quot;
+                    </Typography>
+                  </div>
+                  <TimeAgo date={post.createdAt} />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </ModalPost>
