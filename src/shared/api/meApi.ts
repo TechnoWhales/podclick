@@ -12,6 +12,7 @@ export const meApi = baseApi.injectEndpoints({
     me: build.query<MeResponse, void>({
       query: () => 'auth/me',
       providesTags: ['Me'],
+      keepUnusedDataFor: 300,
     }),
   }),
 })

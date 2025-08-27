@@ -7,10 +7,9 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 
 import { usePasswordRecoveryResendingMutation } from '@/features/auth/password-recovery-resending/api/emailVerefiedPasswordApi'
+import { CircleLoading } from '@/shared/components/circle-loading/CircleLoading'
 import { Button, Container, Typography } from '@/shared/components/ui'
-import Ring from '@/shared/components/ui/loader/ring/Ring'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { COLORS } from '@/shared/constants'
 import { useCheckQueryParams } from '@/shared/hooks/useCheckQueryParams'
 
 import s from './PasswordRecoveryResending.module.scss'
@@ -35,11 +34,7 @@ export const PasswordRecoveryResending = () => {
   }
 
   if (!isChecked) {
-    return (
-      <div className={s.circularProgressContainer}>
-        <Ring size={150} color={COLORS.accent['500']} />
-      </div>
-    )
+    return <CircleLoading />
   }
 
   return (

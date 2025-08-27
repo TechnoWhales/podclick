@@ -1,0 +1,22 @@
+.addPhotoWrapper {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: 502px;
+  margin-top: 72px;
+}
+
+.photoImg {
+  margin-bottom: 60px;
+}
+
+.selectBtn {
+  margin-bottom: 24px;
+}
+
+.draftBtn {
+  margin-bottom: 48px;
+}

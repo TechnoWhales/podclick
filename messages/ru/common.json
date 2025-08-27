@@ -3,7 +3,9 @@
     "button": {
       "signUp": "Регистрация",
       "logIn": "Войти",
-      "ok": "OK"
+      "ok": "OK",
+      "showMore": "Показать больше",
+      "hide": "Скрыть"
     },
     "form": {
       "username": {
@@ -22,6 +24,17 @@
         "label": "Подтверждение пароля",
         "placeholder": "Повторите пароль"
       }
-    }
+    },
+    "sidebars": {
+      "feed": "Лента",
+      "create": "Создать",
+      "myProfile": "Мой профиль",
+      "messenger": "Сообщения",
+      "search": "Поиск",
+      "statistics": "Статистика",
+      "favorites": "Избранное",
+      "logOut": "Выход"
+    },
+    "registeredUsers": "Зарегистрированных пользователей"
   }
 }

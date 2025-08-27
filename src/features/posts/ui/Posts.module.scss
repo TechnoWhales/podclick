@@ -1,0 +1,24 @@
+.posts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.post {
+  position: relative;
+  aspect-ratio: 1 / 1;
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@media only screen and (width <= 992px) {
+  .posts {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+}

@@ -3,7 +3,9 @@
     "button": {
       "signUp": "Sign Up",
       "logIn": "Log in",
-      "ok": "OK"
+      "ok": "OK",
+      "showMore": "Show more",
+      "hide": "Hide"
     },
     "form": {
       "username": {
@@ -22,6 +24,17 @@
         "label": "Confirm password",
         "placeholder": "Password confirmation"
       }
-    }
+    },
+    "sidebars": {
+      "feed": "Feed",
+      "create": "Create",
+      "myProfile": "My Profile",
+      "messenger": "Messenger",
+      "search": "Search",
+      "statistics": "Statistics",
+      "favorites": "Favorites",
+      "logOut": "Log Out"
+    },
+    "registeredUsers": "Registered Users"
   }
 }

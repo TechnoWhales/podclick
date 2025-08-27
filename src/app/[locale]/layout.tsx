@@ -6,9 +6,11 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 
-import { Header } from '@/shared/components'
+import { LogoutModal } from '@/features/auth'
 import { ToastProvider } from '@/shared/components/ui'
+import { ClientLayout } from '@/shared/layouts'
 import { Providers } from '@/shared/providers/Providers'
+import { AuthInitializer } from '@/shared/utils/init'
 
 import '@/shared/styles/index.scss'
 
@@ -35,17 +37,20 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }>) {
-  const messages = await getMessages()
+  const resolvedParams = await params
+  const locale = resolvedParams.locale
+  const messages = await getMessages({ locale })
 
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       <body className={`${inter.className}`}>
         <Providers>
-          <NextIntlClientProvider locale={params.locale} messages={messages}>
-            <Header />
-            {children}
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <AuthInitializer />
+            <ClientLayout>{children}</ClientLayout>
+            <LogoutModal />
             <ToastProvider />
           </NextIntlClientProvider>
         </Providers>

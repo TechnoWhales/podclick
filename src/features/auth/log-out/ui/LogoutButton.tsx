@@ -1,24 +1,24 @@
 'use client'
 import * as React from 'react'
 
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 import { Button, Icon } from '@/shared/components/ui'
-import { ROUTES } from '@/shared/constants'
+import { useAppDispatch } from '@/shared/hooks'
+import { openLogoutModal } from '@/shared/model/appSlice'
 
-import s from './LogoutButton.module.scss'
+type Props = {
+  className?: string
+}
 
-export const LogOutButton = () => {
+export const LogOutButton = ({ className }: Props) => {
+  const dispatch = useAppDispatch()
+  const tSidebars = useTranslations('common.sidebars')
+
   return (
-    <div>
-      <Link href={ROUTES.AUTH.LOG_OUT} passHref legacyBehavior>
-        <span className={s.container}>
-          <Icon iconId={'logOut'} />
-          <Button className={s.size} variant={'icon'}>
-            Log Out
-          </Button>
-        </span>
-      </Link>
-    </div>
+    <Button className={className} variant={'link'} onClick={() => dispatch(openLogoutModal())}>
+      <Icon iconId={'logOut'} />
+      {tSidebars('logOut')}
+    </Button>
   )
 }

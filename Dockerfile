@@ -2,7 +2,7 @@
 FROM node:20.11-alpine as dependencies
 WORKDIR /app
 COPY package*.json ./
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10.11.0
 RUN pnpm install
 
 #Билдим приложение
@@ -12,14 +12,14 @@ FROM node:20.11-alpine as builder
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10.11.0
 RUN pnpm run build:production
 
 #Стейдж запуска
 FROM node:20.11-alpine as runner
 WORKDIR /app
 ENV NODE_ENV production
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10.11.0
 COPY --from=builder /app/ ./
 EXPOSE 3000
 CMD ["pnpm", "start"]

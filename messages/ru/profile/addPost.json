@@ -1,0 +1,33 @@
+{
+  "addPost": {
+    "addPhoto": {
+      "title": "Добавить фото",
+      "uploadButton": "Выбрать с компьютера",
+      "openDraft": "Открыть черновик"
+    },
+    "cropping": {
+      "title": "Обрезка"
+    },
+    "filters": {
+      "title": "Фильтры",
+      "normal": "Обычный",
+      "clarendon": "Кларендон",
+      "lark": "Ларк",
+      "gingham": "Гингэм",
+      "moon": "Луна"
+    },
+    "publication": {
+      "title": "Публикация",
+      "publish": "Опубликовать",
+      "descTitle": "Добавьте описание публикации",
+      "placeholder": "Текстовая область"
+    },
+    "closeModal": {
+      "title": "Закрыть",
+      "description": "<part1>Вы действительно хотите закрыть создание публикации?</part1><part2>Если вы закроете, все будет удалено</part2>",
+      "discard": "Отменить",
+      "saveDraft": "Сохранить черновик"
+    },
+    "nextBtn": "Далее"
+  }
+}
