@@ -1,6 +1,13 @@
 'use client'
 
-import { ChangeEvent, ComponentPropsWithoutRef, useId, useState } from 'react'
+import {
+  ChangeEvent,
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  Ref,
+  useId,
+  useState,
+} from 'react'
 
 import clsx from 'clsx'
 
@@ -19,6 +26,7 @@ type BaseTextField = {
   error?: string
   margin?: string
   fullWidth?: boolean
+
   onChange?: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
 }
 
@@ -26,11 +34,11 @@ type InputProps = BaseTextField & {
   variant?: InputVariant
   mode?: InputMode
   multiline?: false
-} & ComponentPropsWithoutRef<'input'>
+} & ComponentPropsWithRef<'input'>
 
 type TextAreaProps = BaseTextField & {
   multiline: true
-} & ComponentPropsWithoutRef<'textarea'>
+} & ComponentPropsWithRef<'textarea'>
 
 type TextFieldProps = InputProps | TextAreaProps
 
@@ -56,7 +64,7 @@ export const TextField = (props: TextFieldProps) => {
   )
 
   if (props.multiline) {
-    const { value, rows = 4, fullWidth, margin, className, multiline, ...rest } = props
+    const { value, rows = 4, fullWidth, margin, className, multiline, ref, ...rest } = props
     const containerStyle = clsx(s.container, fullWidth && s.fullWidth, className && className)
     const marginContainer = margin ? { margin } : undefined
 
@@ -66,6 +74,7 @@ export const TextField = (props: TextFieldProps) => {
       <div className={containerStyle} style={marginContainer}>
         {labelComponent}
         <textarea
+          ref={ref}
           id={inputId}
           onChange={onChange}
           value={value}
@@ -86,6 +95,7 @@ export const TextField = (props: TextFieldProps) => {
     fullWidth,
     margin,
     className,
+    ref,
     ...rest
   } = props
   const containerStyle = clsx(s.container, fullWidth && s.fullWidth, className && className)
@@ -108,6 +118,7 @@ export const TextField = (props: TextFieldProps) => {
         </div>
       )}
       <input
+        ref={ref}
         id={inputId}
         type={mode === 'password' && !hidePassword ? 'password' : 'text'}
         onChange={onChange}
