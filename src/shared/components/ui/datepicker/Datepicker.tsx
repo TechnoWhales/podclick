@@ -1,6 +1,7 @@
-import { useRef, useEffect, useMemo, useState } from 'react'
+'use client'
+import { useRef, useEffect, useState } from 'react'
 
-import AirDatepicker, { AirDatepickerDate, AirDatepickerOptions } from 'air-datepicker'
+import AirDatepicker, {AirDatepickerDate, AirDatepickerOptions} from 'air-datepicker'
 import localeEn from 'air-datepicker/locale/en';
 import localeRu from 'air-datepicker/locale/ru';
 import clsx from 'clsx'
@@ -11,50 +12,35 @@ import { TextField } from '@/shared/components/ui'
 import 'air-datepicker/air-datepicker.css'
 import './Datepicker.scss'
 
-
 type Props = {
   label?: string
   fullWidth?: boolean
   error?: string
+  startDate?: Date
   onSelect: ({formattedDate, date}: SelectType) => void
 } &  AirDatepickerOptions<HTMLInputElement>
 
 export type SelectType = {
-  formattedDate: string | string[],
-  date: Date | Date[],
-  datepicker: AirDatepicker<HTMLInputElement>
+  date: Date | Date[];
+  formattedDate: string | string[];
+  datepicker: AirDatepicker<HTMLInputElement>;
 }
 
-export const Datepicker = ({ onSelect, label, fullWidth, error, ...rest }: Props) => {
-  const today = useMemo(() => {
-    const d = new Date();
-    const year  = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day   = String(d.getDate()).padStart(2, '0');
-
-    return `${year}/${month}/${day}`;
-  }, []);
-  const [dates, setDates] = useState<string[]>([today])
-  const [inputValueLength, setInputValueLength] = useState<number>(0)
+export const Datepicker = ({ onSelect, label, fullWidth, error, startDate, ...rest }: Props) => {
+  const today = startDate || new Date();
+  const [dates, setDates] = useState<AirDatepickerDate[]>([today])
   const dpRef = useRef<HTMLInputElement | null>(null)
   const instanceRef = useRef<AirDatepicker | null>(null)
 
   const locale = useLocale();
 
   const onSelectHandler = ({ formattedDate, datepicker, date }: SelectType) => {
+    if (Array.isArray(date)) {
+      setDates(date)
+    } else {
+      setDates([date])
+    }
     onSelect({formattedDate, date, datepicker})
-
-    if (formattedDate.length === 1) {
-      setInputValueLength(formattedDate[0].length - 3)
-
-      return
-    }
-    const sumLength = formattedDate[0].length - 1 + formattedDate[1].length - 1
-
-    if (Array.isArray(formattedDate)) {
-      setDates(formattedDate)
-    }
-    setInputValueLength(sumLength)
   }
 
   useEffect(() => {
@@ -62,20 +48,9 @@ export const Datepicker = ({ onSelect, label, fullWidth, error, ...rest }: Props
       return
     }
 
-    if (dates && dates.length === 1) {
-      setInputValueLength(today.length - 3)
-
-    } else if (dates && Array.isArray(dates)) {
-      const sumLength = dates[0].length - 1 + dates[1].length - 1
-
-      setInputValueLength(sumLength)
-    }
-
-
     instanceRef.current = new AirDatepicker(dpRef.current, {
       dateFormat: 'yyyy/MM/dd',
       view: 'days',
-      // inline: true,
       multipleDatesSeparator: ' - ',
       classes: 'air-datepicker--custom',
       selectedDates: dates,
@@ -96,7 +71,6 @@ export const Datepicker = ({ onSelect, label, fullWidth, error, ...rest }: Props
 
     pickerEl.addEventListener('mousedown', preventBlur);
 
-
     return () => {
       dpRef.current?.blur()
       instanceRef.current?.destroy()
@@ -105,7 +79,5 @@ export const Datepicker = ({ onSelect, label, fullWidth, error, ...rest }: Props
     }
   }, [onSelect])
 
-
-
-  return <TextField size={inputValueLength} className={clsx('air-datepicker--input', rest.range && 'range', error && 'error')} label={label} error={error ? 'error' : ''} ref={dpRef}  fullWidth={fullWidth}/>
+  return <TextField className={clsx('air-datepicker--input', dates.length > 1 && 'large', error && 'error')} label={label} error={error ? 'error' : ''} ref={dpRef}  fullWidth={fullWidth}/>
 }

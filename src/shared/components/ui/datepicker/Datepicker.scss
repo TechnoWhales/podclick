@@ -1,12 +1,10 @@
 .air-datepicker--input {
-  margin-left: 50px;
   position: relative;
-  width: max-content;
+  width: 170px;
   & input {
     padding-right: 60px;
     &:active {
       border-color: var(--color-dark-100);
-
     }
   }
   &::after {
@@ -32,7 +30,8 @@
       background-color: var(--color-danger-500);
     }
   }
-  &.range {
+  &.large {
+    width: 280px;
     input {
       background-color: var(--color-dark-500);
     }
