@@ -1,0 +1,38 @@
+.addPhoto {
+  width: 492px;
+  max-width: 100%;
+  height: 556px;
+
+  &.cropping {
+    padding: 0;
+  }
+
+  &.filters {
+    width: 972px;
+    height: 552px;
+    padding: 0;
+  }
+
+  &.publication {
+    width: 972px;
+    height: 552px;
+    padding: 0;
+  }
+}
+
+.textCloseModalWrapper {
+  width: 333px;
+  margin-top: 30px;
+  margin-bottom: 18px;
+}
+
+.btnCloseModalWrapper {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    &:lang(ru) {
+      padding: 6px 12px;
+    }
+  }
+}

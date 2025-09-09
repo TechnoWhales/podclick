@@ -1,3 +1,6 @@
 export * from './Icons'
 export * from './Response'
 export * from './Status'
+export * from './ErrorWithData'
+export * from './User'
+export * from './Posts'

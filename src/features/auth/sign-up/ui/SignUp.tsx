@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,7 +11,7 @@ import { useRegistrationMutation } from '@/features/auth/sign-up/api/signUpApi'
 import { Button, Card, TextField, Typography } from '@/shared/components/ui'
 import { Checkbox } from '@/shared/components/ui/checkbox/Checkbox'
 import { Modal } from '@/shared/components/ui/modal/Modal'
-import { ROUTES } from '@/shared/constants'
+import { BASE_URL, ROUTES } from '@/shared/constants'
 import { SignUpType, useSignUnSchema } from '@/shared/hooks'
 import { RTKQueryError } from '@/shared/types/Response'
 
@@ -20,6 +20,7 @@ import s from './SignUp.module.scss'
 const inputMargin = '0 0 24px'
 
 export const SignUp = () => {
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
   const [email, setEmail] = useState('')
   const [isOpened, setIsOpened] = useState(false)
 
@@ -36,6 +37,7 @@ export const SignUp = () => {
     reset,
     trigger,
     setError,
+    watch,
     formState: { errors, isValid },
   } = useForm<SignUpType>({
     resolver: zodResolver(signUnSchema),
@@ -54,7 +56,7 @@ export const SignUp = () => {
       userName: data.userName,
       email: data.email,
       password: data.password,
-      baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/email-verified-success`,
+      baseUrl: `${BASE_URL}/auth/email-verified-success`,
     }
 
     registration(body)
@@ -66,13 +68,33 @@ export const SignUp = () => {
       })
       .catch((err: RTKQueryError) => {
         if (err.data.statusCode === 400) {
-          setError(err.data.messages[0].field, {
+          setError(err.data.messages[0].field as 'userName' | 'email', {
             type: 'custom',
             message: err.data.messages[0].message,
           })
         }
       })
   }
+
+  const { email: watchEmail, password, confirmPassword, agreePolicy, userName } = watch()
+
+  useEffect(() => {
+    if (isFirstLoading) {
+      setIsFirstLoading(false)
+
+      return
+    }
+
+    if (
+      userName !== '' &&
+      watchEmail !== '' &&
+      password !== '' &&
+      confirmPassword !== '' &&
+      agreePolicy
+    ) {
+      trigger()
+    }
+  }, [watchEmail, password, confirmPassword, agreePolicy, userName])
 
   return (
     <Card flex={'columnCenter'} className={s.card}>

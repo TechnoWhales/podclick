@@ -12,17 +12,13 @@ import { useOAuth } from '../lib/hooks'
 export const GoogleLoginButton = () => {
   const { loginWithGoogle } = useOAuth()
 
-  const handleLogin = () => {
-    loginWithGoogle()
-  }
-
   return (
     <>
       <Button
         type={'button'}
         variant={'icon'}
         aria-label={'Войти через Google'}
-        onClick={handleLogin}
+        onClick={() => loginWithGoogle()}
       >
         <Icon iconId={'google'} width={'36px'} height={'36px'} />
       </Button>

@@ -2,13 +2,17 @@ import { useGoogleLogin } from '@react-oauth/google'
 
 import { useRouter } from 'next/navigation'
 
-import { ACCESS_TOKEN, ROUTES } from '@/shared/constants'
+import { ACCESS_TOKEN, BASE_API, ROUTES } from '@/shared/constants'
+import { useAppDispatch } from '@/shared/hooks'
+import { notify } from '@/shared/lib/notify'
+import { setIsLoggedIn } from '@/shared/model/appSlice'
 
 import { useGoogleLoginMutation } from '../../api/oAuthApi'
 
 export const useOAuth = () => {
   const router = useRouter()
   const [googleLogin] = useGoogleLoginMutation()
+  const dispatch = useAppDispatch()
 
   const loginWithGoogle = useGoogleLogin({
     flow: 'auth-code',
@@ -23,24 +27,24 @@ export const useOAuth = () => {
 
           if (result.accessToken) {
             sessionStorage.setItem(ACCESS_TOKEN, result.accessToken)
+            dispatch(setIsLoggedIn({ isLoggedIn: true }))
             router.replace(ROUTES.HOME)
           }
         } catch (error) {
-          console.error('Login failed:', error)
+          notify.error(`Login failed: ${(error as Error)?.message || 'Google error'}`)
+          dispatch(setIsLoggedIn({ isLoggedIn: false }))
         }
       }
     },
     onError: error => {
-      console.error('Google login failed:', error)
+      notify.error(`Google login failed: ${(error as Error)?.message || 'Google error'}`)
     },
   })
 
   const loginWithGithub = () => {
-    const redirectUrl = encodeURIComponent(window.location.origin + '/auth/')
+    const redirectUrl = encodeURIComponent(window.location.origin + '/auth/github')
 
-    window.location.assign(
-      `https://inctagram.work/api/v1/auth/github/login?redirect_url=${redirectUrl}`
-    )
+    window.location.assign(`${BASE_API}/auth/github/login?redirect_url=${redirectUrl}`)
   }
 
   return { loginWithGoogle, loginWithGithub }
