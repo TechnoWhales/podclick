@@ -42,7 +42,7 @@ export const ProfileGeneralInfo = ({
         </div>
         {isOwner && (
           <div className={s.gridItem3}>
-            <Link href={ROUTES.PROFILE.SETTINGS} passHref legacyBehavior>
+            <Link href={ROUTES.SETTINGS} passHref legacyBehavior>
               <Button variant={'secondary'} as={'a'}>
                 {t('button.profileSettings')}
               </Button>

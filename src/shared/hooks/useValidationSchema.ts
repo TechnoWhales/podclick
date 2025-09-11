@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl'
 import { z } from 'zod'
 
 import {
+  NAME_PATTERN,
   NUMBER_PATTERN,
   PASSWORD_PATTERN,
   SPECIAL_PATTERN,
@@ -129,3 +130,35 @@ export const useNewPasswordSchema = () => {
 }
 
 export type NewPasswordType = z.infer<ReturnType<typeof useNewPasswordSchema>>
+
+export const useUserNameSchema = () => {
+  const t = useTranslations('authZodError')
+
+  return z.object({
+    userName: z
+      .string()
+      .min(1, { message: t('userName.min1') })
+      .min(6, { message: t('userName.min6') })
+      .max(30, { message: t('userName.max30') })
+      .regex(USERNAME_PATTERN, {
+        message: t('userName.regex'),
+      }),
+  })
+}
+
+export const useNameSchema = () => {
+  const t = useTranslations('authZodError')
+
+  return z.object({
+    name: z
+      .string()
+      .min(1, { message: t('name.min1') })
+      .min(6, { message: t('name.min6') })
+      .max(30, { message: t('name.max30') })
+      .regex(NAME_PATTERN, {
+        message: t('name.regex'),
+      }),
+  })
+}
+
+export type NameType = z.infer<ReturnType<typeof useNameSchema>>

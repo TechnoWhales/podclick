@@ -54,6 +54,20 @@
   height: 348px;
   padding: 16px 24px 16px 24px;
 
+  .air-datepicker--content {
+    width: 240px;
+    height: 270px;
+    .air-datepicker-body .-months- {
+      grid-auto-rows: 66px;
+      justify-items: center;
+      align-items: center;
+      .-month- {
+        font-size: var(--font-size-m);
+      }
+
+    }
+  }
+
   .air-datepicker--pointer {
     display: none;
   }
@@ -67,7 +81,6 @@
       justify-content: normal;
       width: 100%;
       .air-datepicker-nav--title {
-        pointer-events: none;
         display: flex;
         justify-content: flex-start;
         max-width: 156px;

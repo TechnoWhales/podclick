@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.editProfile {
+  width: 740px;
+}
+
+.selectsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 24px;
+  div {
+    label {
+      padding-left: 0;
+    }
+  }
+}
+
+.select {
+  width: 350px;
+}
+
+.textfiled {
+  label {
+    position: relative;
+    color: var(--color-light-900);
+    &::after {
+      content: '*';
+      color: var(--color-danger-500);
+    }
+  }
+}
+
+.saveBtn {
+  margin-left: auto;
+}
