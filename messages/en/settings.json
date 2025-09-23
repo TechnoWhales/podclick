@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "tabs": {
+      "generalInformation": "General information",
+      "devices": "Devices",
+      "accountManagement": "Account Management",
+      "myPayments": "My payments"
+    },
+    "content": {
+      "devices": "Devices Content",
+      "accountManagement": "Account Management Content",
+      "myPayments": "My Payments Content"
+    }
+  }
+}

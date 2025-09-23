@@ -18,6 +18,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ...(await import(`../../messages/${locale}/profile/addPost.json`)).default,
     ...(await import(`../../messages/${locale}/profile/profile.json`)).default,
     ...(await import(`../../messages/${locale}/timeAgo.json`)).default,
+    ...(await import(`../../messages/${locale}/settings.json`)).default,
   }
 
   return {

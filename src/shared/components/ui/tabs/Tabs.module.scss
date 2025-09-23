@@ -1,11 +1,14 @@
 .root {
   display: flex;
   flex-direction: column;
+  width: 100%; // Добавлено - растягивает по ширине контейнера
+  margin-bottom: 20px; // Добавлено - отступ снизу 20px
 }
 
 .list {
   display: flex;
   flex-shrink: 0;
+  width: 100%; // Добавлено - растягивает список табов
   border-bottom: 2px solid var(--color-dark-100);
 
   &.secondary {
@@ -16,6 +19,7 @@
 .trigger {
   all: unset;
   cursor: pointer;
+  flex: 1; // Добавлено - равномерно распределяет табы по ширине
 
   &.primary {
     position: relative;
