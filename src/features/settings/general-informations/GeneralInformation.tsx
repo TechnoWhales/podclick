@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 
+import { ProfileAvatar } from '@/features/profile/profile-avatar/ui/ProfileAvatar'
 import {
   ProfileInformationType,
   useGetProfileInformationQuery,
@@ -197,9 +198,7 @@ export const GeneralInformation = () => {
 
   return (
     <div className={s.container}>
-      <div style={{ width: '196px', height: '256px', backgroundColor: 'rgba(23, 23, 23, 1)' }}>
-        UploadAvatar
-      </div>
+      <ProfileAvatar />
       <div className={s.editProfile}>
         <TextField
           margin={'0 0 24px'}

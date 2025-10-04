@@ -1,0 +1,28 @@
+.avatarWrapper {
+  flex-shrink: 0;
+}
+
+.avatar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 192px;
+  height: 192px;
+  margin-bottom: 24px;
+  border-radius: 100%;
+
+  background-color: var(--color-dark-500);
+
+  img {
+    pointer-events: none;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 13px;
+  right: 9px;
+}
