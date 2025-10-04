@@ -1,0 +1,27 @@
+{
+  "settings": {
+    "general": {
+      "photo": {
+        "selectPhotoButton": "Добавить фото профиля",
+        "addPhotoModalTitle": "Добавить фото профиля",
+        "addPhotoModalButton": "Сохранить",
+        "deletePhotoButton": "Удалить фото",
+        "deletePhotoModalTitle": "Удалить фото",
+        "deletePhotoModalMessage": "Вы уверены, что хотите удалить фото?",
+        "deletePhotoModalButtonConfirm": "Да",
+        "deletePhotoModalButtonCancel": "Нет"
+      },
+      "form": {
+        "userName": "Имя пользователя",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "birth": "Дата рождения",
+        "selectCountry": "Выберите страну",
+        "selectCity": "Выберите город",
+        "textAreaLabel": "Обо мне",
+        "textAreaPlaceholder": "Текстовое поле"
+      },
+      "button": "Сохранить изменения"
+    }
+  }
+}
