@@ -4,7 +4,8 @@
       "photo": {
         "selectPhotoButton": "Добавить фото профиля",
         "addPhotoModalTitle": "Добавить фото профиля",
-        "addPhotoModalButton": "Сохранить",
+        "addPhotoModalButton": "Загрузить с компьютера",
+        "savePhotoModalButton": "Сохранить",
         "deletePhotoButton": "Удалить фото",
         "deletePhotoModalTitle": "Удалить фото",
         "deletePhotoModalMessage": "Вы уверены, что хотите удалить фото?",

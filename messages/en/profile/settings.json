@@ -4,7 +4,8 @@
       "photo": {
         "selectPhotoButton": "Select Profile Photo",
         "addPhotoModalTitle": "Add a Profile Photo",
-        "addPhotoModalButton": "Save",
+        "addPhotoModalButton": "Select from Computer",
+        "savePhotoModalButton": "Save",
         "deletePhotoButton": "Delete Photo",
         "deletePhotoModalTitle": "Delete Photo",
         "deletePhotoModalMessage": "Are you sure you want to delete the photo?",
