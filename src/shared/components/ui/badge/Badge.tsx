@@ -22,13 +22,13 @@ export const Badge = <T extends ElementType = 'div'>(props: BadgeProps<T>) => {
 
   if (variant === 'action' && icon === 'close') {
     return (
-      <Button 
+      <Button
         variant={'icon'}
         className={clsx(s.button, s[icon], className)}
-        {...rest as ComponentPropsWithoutRef<'button'>}
+        {...(rest as ComponentPropsWithoutRef<'button'>)}
       >
         <span className={s.iconWrapper}>
-            <Icon iconId={'close'} width={'16'} height={"16"}/>
+          <Icon iconId={'close'} width={'16'} height={'16'} />
         </span>
       </Button>
     )
@@ -36,9 +36,7 @@ export const Badge = <T extends ElementType = 'div'>(props: BadgeProps<T>) => {
 
   return (
     <Component className={clsx(s[variant], className)} {...rest}>
-        <span className={s.textWrapper}>
-            {value > 99 ? '99+' : value}
-        </span>
+      <span className={s.textWrapper}>{value > 99 ? '99+' : value}</span>
     </Component>
   )
 }

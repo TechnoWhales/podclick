@@ -10,14 +10,19 @@ type Props = {
   className?: string
 }
 
-export const CoverPlaceholder = ({width=222, height=228, circle=false, className=''}: Props) => {
+export const CoverPlaceholder = ({
+  width = 222,
+  height = 228,
+  circle = false,
+  className = '',
+}: Props) => {
   return (
     <Image
-        className={clsx(s.img, className, { [s.circle]: circle })}
-        src={'/empty-photo.svg'}
-        alt={'Empty photo'}
-        width={width}
-        height={height}
+      className={clsx(s.img, className, { [s.circle]: circle })}
+      src={'/empty-photo.svg'}
+      alt={'Empty photo'}
+      width={width}
+      height={height}
     />
   )
 }
