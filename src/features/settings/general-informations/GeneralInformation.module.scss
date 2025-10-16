@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 31px;
 }
 
 .editProfile {
@@ -10,9 +10,10 @@
 
 .selectsContainer {
   display: flex;
+  gap: 24px;
   justify-content: space-between;
   width: 100%;
-  gap: 24px;
+
   div {
     label {
       padding-left: 0;
@@ -28,6 +29,7 @@
   label {
     position: relative;
     color: var(--color-light-900);
+
     &::after {
       content: '*';
       color: var(--color-danger-500);

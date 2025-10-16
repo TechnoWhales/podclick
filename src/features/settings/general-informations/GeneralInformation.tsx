@@ -1,8 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 
+import { ProfileAvatar } from '@/features/profile/profile-avatar/ui/avatar/ProfileAvatar'
 import {
-  ProfileInformationType,
   useGetProfileInformationQuery,
   useUploadProfileInformationMutation,
 } from '@/features/settings/general-informations/api/generalInformationApi'
@@ -12,6 +12,7 @@ import { Button, Select, type SelectOption, TextField } from '@/shared/component
 import { Datepicker, SelectType } from '@/shared/components/ui/datepicker/Datepicker'
 import { useNameSchema, useUserNameSchema } from '@/shared/hooks'
 import { notify } from '@/shared/lib/notify'
+import { ProfileInformationType } from '@/shared/types'
 import { handleError } from '@/shared/utils/handleError'
 
 import s from './GeneralInformation.module.scss'
@@ -80,6 +81,7 @@ export const GeneralInformation = () => {
 
   const [uploadProfileInformation] = useUploadProfileInformationMutation()
   const { data, isLoading, refetch } = useGetProfileInformationQuery()
+  const avatars = data?.avatars || []
   const userNameSchema = useUserNameSchema()
   const nameSchema = useNameSchema()
 
@@ -197,9 +199,7 @@ export const GeneralInformation = () => {
 
   return (
     <div className={s.container}>
-      <div style={{ width: '196px', height: '256px', backgroundColor: 'rgba(23, 23, 23, 1)' }}>
-        UploadAvatar
-      </div>
+      <ProfileAvatar avatars={avatars} />
       <div className={s.editProfile}>
         <TextField
           margin={'0 0 24px'}
