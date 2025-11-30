@@ -157,7 +157,7 @@ export const SignUp = () => {
             control={control}
             render={({ field }) => (
               <Checkbox
-                checked={field.value}
+                checked={!!field.value}
                 onCheckedChangeAction={value => {
                   field.onChange(value)
                   trigger('agreePolicy')

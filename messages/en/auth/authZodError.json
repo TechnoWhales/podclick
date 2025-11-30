@@ -1,5 +1,11 @@
 {
   "authZodError": {
+    "name": {
+      "min1": "Username is required",
+      "min6": "Minimum number of characters 6",
+      "max30": "Maximum number of characters 30",
+      "regex": "The field may contain only letters of the Latin and Cyrillic alphabets"
+    },
     "userName": {
       "min1": "Username is required",
       "min6": "Minimum number of characters 6",

@@ -1,0 +1,34 @@
+.modal {
+  width: 492px;
+  max-width: none;
+  padding: 12px 24px 36px;
+
+  h2 {
+    font-size: 20px;
+    line-height: 36px;
+  }
+}
+
+.wrapper {
+  padding: 24px 0 72px;
+}
+
+.message {
+  min-height: 36px;
+  margin-bottom: 24px;
+}
+
+.uploadLabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+
+  button {
+    align-self: center;
+  }
+}
+
+.imgWrapper {
+  margin: 0 auto 60px;
+}

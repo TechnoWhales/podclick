@@ -1,0 +1,28 @@
+{
+  "settings": {
+    "general": {
+      "photo": {
+        "selectPhotoButton": "Select Profile Photo",
+        "addPhotoModalTitle": "Add a Profile Photo",
+        "addPhotoModalButton": "Select from Computer",
+        "savePhotoModalButton": "Save",
+        "deletePhotoButton": "Delete Photo",
+        "deletePhotoModalTitle": "Delete Photo",
+        "deletePhotoModalMessage": "Are you sure you want to delete the photo?",
+        "deletePhotoModalButtonConfirm": "Yes",
+        "deletePhotoModalButtonCancel": "No"
+      },
+      "form": {
+        "userName": "Username",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "birth": "Date of birth",
+        "selectCountry": "Select your country",
+        "selectCity": "Select your city",
+        "textAreaLabel": "About Me",
+        "textAreaPlaceholder": "Text-area"
+      },
+      "button": "Save Changes"
+    }
+  }
+}
