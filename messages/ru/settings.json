@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "tabs": {
+      "generalInformation": "Общая информация",
+      "devices": "Устройства",
+      "accountManagement": "Управление аккаунтом",
+      "myPayments": "Мои платежи"
+    },
+    "content": {
+      "devices": "Контент устройств",
+      "accountManagement": "Контент управления аккаунтом",
+      "myPayments": "Контент моих платежей"
+    }
+  }
+}

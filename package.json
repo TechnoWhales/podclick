@@ -35,8 +35,8 @@
     "@radix-ui/react-visually-hidden": "^1.2.3",
     "@react-oauth/google": "^0.12.2",
     "@reduxjs/toolkit": "^2.8.2",
-    "air-datepicker": "^3.6.0",
     "@types/react-lines-ellipsis": "^0.15.6",
+    "air-datepicker": "^3.6.0",
     "async-mutex": "^0.5.0",
     "clsx": "^2.1.1",
     "globals": "^16.2.0",
@@ -96,5 +96,5 @@
     "typescript-eslint": "^8.33.1",
     "vitest": "^3.1.4"
   },
-  "packageManager": "pnpm@10.11.0"
+  "packageManager": "pnpm@10.17.1"
 }
